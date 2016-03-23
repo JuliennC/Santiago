@@ -1,0 +1,42 @@
+﻿title Phase 4 : Construction d'un canal
+
+Joueur->ConstructeurDeCanal:
+ConstructeurDeCanal->Plateau:
+Joueur->Système:
+
+loop Pour chaque joueur
+
+    Système->Joueur: Proposer choix
+
+    alt Proposer un pot de vin
+        Joueur->Plateau: Placer un canal temporaire
+        Système->Plateau: Vérifier le placement du canal
+        
+        Joueur->ConstructeurDeCanal: Proposer un pot de vin
+   
+    else Soutenir une proposition
+        Joueur->Joueur: Cumuler un pot de vin
+    else passer
+        Joueur->Système: Passer
+    end    
+end
+
+Système->ConstructeurDeCanal: Proposer choix
+
+alt Constructeur accepte proposition
+    ConstructeurDeCanal->Système: Indiquer la proposition acceptée
+    Joueur->ConstructeurDeCanal: Verser pot de vin
+    
+    ConstructeurDeCanal->Plateau: Placer le canal
+    
+else Constructeur construit son canal
+    Système->ConstructeurDeCanal: Indiquer le montant
+    ConstructeurDeCanal->Système: Verser le montant
+    
+    ConstructeurDeCanal->Plateau: Placer un canal
+    Système->Système: Vérifier le placement du canal
+else Constructeur passe (Sous condition)
+    ConstructeurDeCanal->Système: Passer
+end   
+
+Système->Plateau: Retirer les canaux temporaires

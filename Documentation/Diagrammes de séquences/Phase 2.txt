@@ -1,0 +1,14 @@
+﻿title Phase 2 : Changement du constructeur de canal
+
+Joueur->Système:
+Système->Système: Vérifier les offres
+
+
+Système->Joueur: Notifier joueurs du nouveau constructeur de canal
+
+note right of Joueur
+    Le joueur ayant
+    fait l'offre la plus basse
+end note
+
+Joueur->Joueur: Devient constructeur de canal

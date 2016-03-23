@@ -1,0 +1,21 @@
+﻿title Contrôle des cases (fin de partie)
+
+Joueur->Plateau:
+
+Système->Plateau: Contrôler le type de plantation
+Système->Système: Incrémenter la valeur du type de plantation
+
+Système->Plateau: Contrôler les marqueurs
+Système->Système: Incrémenter le nombre de marqueurs selon le joueur
+
+Système->Plateau: Vider la case
+
+alt Case Nord est du même type
+    Système->Système: Contrôle des cases 
+else Case Ouest est du même type
+    Système->Système: Contrôle des cases
+else Case Sud est du même type
+    Système->Système: Contrôle des cases
+else Case Est est du même type
+    Système->Système: Contrôle des cases
+end

@@ -1,0 +1,17 @@
+﻿title Phase 5 : Proposition de pose d'un canal personnel unique
+
+Joueur->Plateau:
+
+loop Pour chaque joueur
+
+    Système->Joueur: Proposer choix
+
+    alt Accepter de poser son canal personnel
+        Joueur->Plateau: Placer son canal unique
+        Système->Plateau: Vérifier le placement du canal
+    
+        Système->Système: Passer à la phase suivante
+    else Passer 
+        Joueur->Système: Refuser
+    end    
+end

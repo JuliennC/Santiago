@@ -1,0 +1,18 @@
+title Phase 6 : Contrôle de l'irrigation
+
+Plateau->Système:
+
+loop Pour chaque nouvelle tuile et chaque tuile non irriguée
+    Système->Plateau: Vérifier sa position par rapport à un canal
+
+    alt Tuile irriguée
+       Système->Système: Ajouter la tuile à la liste des tuiles irriguées
+    else Tuile non irriguée
+        alt Nombre de marqueur = 0
+            Système->Plateau: Retirer un marqueur sur la tuile
+        else Nombre de marqueur > 0
+            Système->Plateau: Transformer la tuile en désert
+        end
+    end
+    
+end

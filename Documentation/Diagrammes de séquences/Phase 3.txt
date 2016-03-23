@@ -1,0 +1,16 @@
+﻿title Phase 3 : Placement des tuiles
+
+Joueur->Plateau:
+
+loop Pour chaque joueur
+    Système->Joueur: Demander de choisir une tuile
+    Joueur->Système: Choisir une tuile
+    
+    Système->Joueur: Demander de placer une tuile
+    Joueur->Plateau: Placer une tuile
+    Système->Plateau: Vérifier le placement
+    
+    Système->Plateau: Placer les marqueurs
+
+    Système->Joueur: Récupérer l'offre
+end

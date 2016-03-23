@@ -1,0 +1,18 @@
+title Mise en place du plateau
+
+Joueur->Plateau:
+
+alt Si Nb Joueur < 5
+    Système->Système: Génération de 45 tuiles
+    Système->Système: Afficher une tuile et la retirer du jeu
+end
+
+loop Pour chaque joueur
+    Système->Joueur: Proposer une couleur
+    Joueur->Système: Choisir une couleur
+    Système->Système: Enregistrer la couleur
+end
+
+    Système->Joueur: Désigner aléatoirement un constructeur de canal
+    
+    Système->Plateau: Placer aléatoirement la source

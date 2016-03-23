@@ -1,0 +1,12 @@
+﻿title Phase 1 : Mise en vente des tuiles
+
+Joueur->Système:
+Système->Système: Afficher des tuiles plantation
+
+
+
+loop Pour chaque joueur
+    Système->Joueur: Demander offre
+    Joueur->Système: Proposer une offre
+    Système->Système: Vérifier l'offre
+end

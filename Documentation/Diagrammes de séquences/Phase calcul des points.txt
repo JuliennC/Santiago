@@ -1,0 +1,24 @@
+title Calcul des points
+
+Joueur->Plateau:
+
+loop Pour chaque nouvelle tuile et chaque tuile non irriguée
+    Système->Plateau: Vérifier sa position par rapport à un canal
+
+    alt Tuile non irriguée
+        Système->Plateau: Transformer la tuile en désert
+    end
+    
+end
+
+loop Pour chaque tuile non désert
+    note over Système: Voir diagramme contrôle des cases
+    Système->Système: Contrôle des cases
+    
+    loop Pour chaque joueur
+        Système->Système: Calculer Nb marqueur Joueur X Nb culture
+        Système->Joueur: Donne montant calculé
+    end
+    
+    Système->Système: Réinitialiser les valeurs Nb Marqueur et Nb culture
+end

@@ -1,0 +1,6 @@
+title Phase 7 : Revenu d'aide
+Joueur->Système:
+
+loop Pour chaque joueur
+    Système->Joueur: Distribuer 3 Escudos
+end
