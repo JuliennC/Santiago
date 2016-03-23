@@ -1,0 +1,18 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class JoueurImplTest {
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testPseudoEstValide() throws Exception{
+		
+	}
+}
