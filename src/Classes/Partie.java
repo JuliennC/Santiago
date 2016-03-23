@@ -21,8 +21,9 @@ public class Partie {
 	private boolean partieACommence;
 	
 	
-	public Partie() throws PartieException{
+	public Partie(int nbJoueurs) throws PartieException{
 		
+		nombreDeJoueurs = nbJoueurs;
 		partieACommence = false;
 		listeJoueurs = new ArrayList<Joueur>();
 		

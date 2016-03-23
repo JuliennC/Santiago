@@ -1,10 +1,13 @@
 package network;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+
+import Classes.Partie;
 
 
 public interface SantiagoInterface extends Remote{
 
-	public void setClient(SantiagoInterface b)	throws RemoteException;
-	public SantiagoInterface getClient() throws RemoteException;
+	public void addClient(SantiagoInterface s)	throws RemoteException;
+	public ArrayList<SantiagoInterface> getClients() throws RemoteException;
 }
