@@ -8,7 +8,7 @@ public class Joueur {
 
 	
 	public Joueur(String pseudo){
-		
+		this.pseudo = pseudo;
 	}
 	
 	

@@ -28,7 +28,7 @@ public class Partie {
 		
 		this.partieACommence = false;
 		this.listeJoueurs = new ArrayList<Joueur>();
-		
+		this.listeTuiles = new ArrayList<Tuile>();
 		//On lance la fabrication des tuiles
 		fabriqueTuiles();
 	}
@@ -67,70 +67,69 @@ public class Partie {
 		
 		if(partieACommence){
 			throw new PartieException("La partie a déjà commencé.");
+			
 		}
 		
 		//On fabrique les tuiles pomme de terre
 		for (int i=0 ; i < nombreDeTuile2Marqueur ; i++){
 			TuilePommeDeTerre tuile = new TuilePommeDeTerre(2);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 		
 		for (int i=0 ; i < nombreDeTuile1Marqueur ; i++){
 			TuilePommeDeTerre tuile = new TuilePommeDeTerre(1);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 		
 		
 		//On fabrique les tuiles piment
 		for (int i=0 ; i < nombreDeTuile2Marqueur ; i++){
 			TuilePiment tuile = new TuilePiment(2);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 				
 		for (int i=0 ; i < nombreDeTuile1Marqueur ; i++){
 			TuilePiment tuile = new TuilePiment(1);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 		
 		
 		//On fabrique les tuiles haricot
 		for (int i=0 ; i < nombreDeTuile2Marqueur ; i++){
 			TuileHaricot tuile = new TuileHaricot(2);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 						
 		for (int i=0 ; i < nombreDeTuile1Marqueur ; i++){
 			TuileHaricot tuile = new TuileHaricot(1);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 		
 		
 		//On fabrique les tuiles Cannes
 		for (int i=0 ; i < nombreDeTuile2Marqueur ; i++){
 			TuileCanne tuile = new TuileCanne(2);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 								
 		for (int i=0 ; i < nombreDeTuile1Marqueur ; i++){
 			TuileCanne tuile = new TuileCanne(1);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 		
 		
 		//On fabrique les tuiles Bananes
 		for (int i=0 ; i < nombreDeTuile2Marqueur ; i++){
 			TuileBanane tuile = new TuileBanane(2);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 										
 		for (int i=0 ; i < nombreDeTuile1Marqueur ; i++){
 			TuileBanane tuile = new TuileBanane(1);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
-		
-		
 		// On mélange la liste
-		Collections.shuffle(listeTuiles);
+		Collections.shuffle(this.listeTuiles);
 	}
 	
 	/**
@@ -139,7 +138,7 @@ public class Partie {
 	 * 
 	 * @return le nombre de tuile à retrouner lors de la mise aux enchères
 	 */
-	private int nbTuile(){
+	public int nbTuile(){
 		if(this.nombreDeJoueurs == 3){
 			return 4;
 		}
@@ -175,7 +174,7 @@ public class Partie {
 	 * @param list
 	 * @return un objet random contenu dans la liste
 	 */
-	private Object randomInList(ArrayList list){
+	public Object randomInList(ArrayList list){
 		int random = (int) Math.random()*list.size();
 		return list.get(random);
 	}
@@ -203,7 +202,7 @@ public class Partie {
 	 */
 	public void setNombreDeJoueurs(int nb) throws PartieException {
 	
-		if ( (nb < nombreDeJoueursMax) && (nb > nombreDeJoueursMin)){
+		if ( (nb <= nombreDeJoueursMax) && (nb >= nombreDeJoueursMin)){
 			
 			nombreDeJoueurs = nb;
 		
@@ -274,4 +273,18 @@ public class Partie {
 		 return partieACommence;
 	}
 	
+	/**
+	 * Fonction qui donne la liste des tuile en jeux
+	 * @return une liste de tuile
+	 */
+	public ArrayList<Tuile> getListTuiles(){
+		return this.listeTuiles;
+	}
+
+	/**
+	 * Fonction qui donne le constructeur de canal
+	 */
+	public Joueur getConstructeurDeCanal(){
+		return this.constructeurDeCanal;
+	}
 }
