@@ -14,31 +14,31 @@ public class Partie {
 	static int nombreDeTuile1Marqueur = 3;	
 	static int nombreDeTuile2Marqueur = 6;	
 	
-	
+	private Joueur constructeurDeCanal;
 	private ArrayList<Joueur> listeJoueurs;
 	private ArrayList<Tuile> listeTuiles;
 	private int nombreDeJoueurs;
 	private boolean partieACommence;
 	
-	
+	/**
+	 * CTOR
+	 * @throws PartieException
+	 */
 	public Partie() throws PartieException{
 		
-		partieACommence = false;
-		listeJoueurs = new ArrayList<Joueur>();
-		
+		this.partieACommence = false;
+		this.listeJoueurs = new ArrayList<Joueur>();
+		this.listeTuiles = new ArrayList<Tuile>();
 		//On lance la fabrication des tuiles
 		fabriqueTuiles();
 	}
 	
-	
-	
-	
-	/*
+	/**
 	 * Fonction qui ajoute un joueur à la partie
 	 * Ne peut être appelée qu'avant le début de la partie
 	 * 
-	 * Params : un Joueur
-	 * Return : void
+	 * @param : un Joueur
+	 * @return : void
 	 * 	
 	 * Si le joueur ne peut pas petre ajouté, on lève une exception
 	 */
@@ -54,16 +54,12 @@ public class Partie {
 		}
 	}
 	
-	
-	
-	
-	
-	/*
+	/**
 	 * Fonction qui fabrique les tuiles nécessaires à la partie
 	 * et qui les ajoute dans "listeTuiles"
 	 * 
-	 * Params : void
-	 * Return : void
+	 * @param : void
+	 * @return : void
 	 * 	
 	 * Si la partie a déjà commencée, on lève une exception
 	 */
@@ -71,80 +67,91 @@ public class Partie {
 		
 		if(partieACommence){
 			throw new PartieException("La partie a déjà commencé.");
+			
 		}
 		
 		//On fabrique les tuiles pomme de terre
 		for (int i=0 ; i < nombreDeTuile2Marqueur ; i++){
 			TuilePommeDeTerre tuile = new TuilePommeDeTerre(2);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 		
 		for (int i=0 ; i < nombreDeTuile1Marqueur ; i++){
 			TuilePommeDeTerre tuile = new TuilePommeDeTerre(1);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 		
 		
 		//On fabrique les tuiles piment
 		for (int i=0 ; i < nombreDeTuile2Marqueur ; i++){
 			TuilePiment tuile = new TuilePiment(2);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 				
 		for (int i=0 ; i < nombreDeTuile1Marqueur ; i++){
 			TuilePiment tuile = new TuilePiment(1);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 		
 		
 		//On fabrique les tuiles haricot
 		for (int i=0 ; i < nombreDeTuile2Marqueur ; i++){
 			TuileHaricot tuile = new TuileHaricot(2);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 						
 		for (int i=0 ; i < nombreDeTuile1Marqueur ; i++){
 			TuileHaricot tuile = new TuileHaricot(1);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 		
 		
 		//On fabrique les tuiles Cannes
 		for (int i=0 ; i < nombreDeTuile2Marqueur ; i++){
 			TuileCanne tuile = new TuileCanne(2);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 								
 		for (int i=0 ; i < nombreDeTuile1Marqueur ; i++){
 			TuileCanne tuile = new TuileCanne(1);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 		
 		
 		//On fabrique les tuiles Bananes
 		for (int i=0 ; i < nombreDeTuile2Marqueur ; i++){
 			TuileBanane tuile = new TuileBanane(2);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
 										
 		for (int i=0 ; i < nombreDeTuile1Marqueur ; i++){
 			TuileBanane tuile = new TuileBanane(1);
-			listeTuiles.add(tuile);
+			this.listeTuiles.add(tuile);
 		}
-		
-		
 		// On mélange la liste
-		Collections.shuffle(listeTuiles);
+		Collections.shuffle(this.listeTuiles);
 	}
 	
+	/**
+	 * Cette méthode permet de donner le nombre
+	 * de tuile à retourner en fontion des joueurs lors de la mise aux enchères
+	 * 
+	 * @return le nombre de tuile à retrouner lors de la mise aux enchères
+	 */
+	public int nbTuile(){
+		if(this.nombreDeJoueurs == 3){
+			return 4;
+		}
+		else{
+			return this.nombreDeJoueurs;
+		}
+	}
 	
-	
-	
-	/*
+	/**
 	 * Fonction qui tire les tuiles Tuiles (autant que de joueurs)
 	 * 
-	 * Params : void
-	 * Return : ArrayList<Tuile>
+	 * @param : void
+	 * @return : ArrayList<Tuile>
 	 * 	
 	 * S'il n'y a plus assez de tuiles, on renvoit une exception
 	 */
@@ -152,7 +159,7 @@ public class Partie {
 		
 		ArrayList<Tuile> tuiles = new ArrayList<Tuile>();
 		
-		for(int i = 0; i < nombreDeJoueurs ; i++){
+		for(int i = 0; i < nbTuile() ; i++){
 			tuiles.add(listeTuiles.get(i));
 			listeTuiles.remove(i);
 		}
@@ -160,25 +167,42 @@ public class Partie {
 		return tuiles;
 	}
 	
+	/**
+	 * Cette méthode permet de tirer un objet random 
+	 * contenu dans une liste
+	 * 
+	 * @param list
+	 * @return un objet random contenu dans la liste
+	 */
+	public Object randomInList(ArrayList list){
+		int random = (int) Math.random()*list.size();
+		return list.get(random);
+	}
 	
 	
-	
-	
+	// -------- Changement d'état d'une partie --------
+	/**
+	 * methode de lancement d'une partie
+	 */
+	public void start(){
+		this.partieACommence = true;
+		this.constructeurDeCanal = (Joueur) randomInList(this.listeJoueurs);
+	}
 	
 	// --------------- GETTER et SETTER ---------------
 	
-	/*
+	/**
 	 * Fonction qui met le nombde de joueurs pour la partie
 	 * Ne peut être appelée qu'avant le début de la partie
 	 * 
-	 * Params : int
-	 * Return : void
+	 * @param : int
+	 * @return : void
 	 * 	
 	 * Si le nombre de joueur ne convient pas, on lève une exception
 	 */
 	public void setNombreDeJoueurs(int nb) throws PartieException {
 	
-		if ( (nb < nombreDeJoueursMax) && (nb > nombreDeJoueursMin)){
+		if ( (nb <= nombreDeJoueursMax) && (nb >= nombreDeJoueursMin)){
 			
 			nombreDeJoueurs = nb;
 		
@@ -188,28 +212,23 @@ public class Partie {
 		}
 		
 	}
-	
-	
-	
-	/*
+
+	/**
 	 * Fonction qui retourne le nombre de joueurs de la partie
 	 * 
-	 * Params : void
-	 * Return : int
+	 * @param : void
+	 * @return : int
 	 * 	
 	 */
 	public int getNombreJoueurs() {
 		return nombreDeJoueurs;
 	}
 	
-	
-	
-	
-	/*
+	/**
 	 * Fonction qui retourne une liste qui contient les joueurs des joueurs
 	 * 
-	 * Params : void
-	 * Return : ArrayList<Joueur>
+	 * @param : void
+	 * @return : ArrayList<Joueur>
 	 * 	
 	 */
 	public ArrayList<Joueur> getListeJoueurs() {
@@ -219,16 +238,13 @@ public class Partie {
 		 
 		 return liste;
 	}
-	
 
-	
-	
-	/*
+	/**
 	 * Fonction qui indique que la partie a commencé
 	 * Ne peut être appelée qu'une seule fois
 	 * 
-	 * Params : void
-	 * Return : void
+	 * @param : void
+	 * @return : void
 	 * 	
 	 * Si la partie a déjà commencée, on lève une exception
 	 */
@@ -245,13 +261,11 @@ public class Partie {
 		
 	}
 	
-	
-	
-	/*
+	/**
 	 * Fonction qui dit si une partie a commencé ou nom
 	 * 
-	 * Params : void
-	 * Return : Boolean
+	 * @param : void
+	 * @return : Boolean
 	 * 	
 	 */
 	public boolean getPartieACommence() {
@@ -259,4 +273,18 @@ public class Partie {
 		 return partieACommence;
 	}
 	
+	/**
+	 * Fonction qui donne la liste des tuile en jeux
+	 * @return une liste de tuile
+	 */
+	public ArrayList<Tuile> getListTuiles(){
+		return this.listeTuiles;
+	}
+
+	/**
+	 * Fonction qui donne le constructeur de canal
+	 */
+	public Joueur getConstructeurDeCanal(){
+		return this.constructeurDeCanal;
+	}
 }
