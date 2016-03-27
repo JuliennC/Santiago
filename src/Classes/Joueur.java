@@ -1,5 +1,6 @@
 package Classes;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -7,21 +8,21 @@ import java.util.ArrayList;
 import Exception.JoueurException;
 import network.SantiagoInterface;
 
-public class Joueur extends UnicastRemoteObject implements SantiagoInterface{
-
+public class Joueur implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String pseudo;	
-
+	private boolean pret;
 	
-	public Joueur(String pseudo) throws RemoteException {
-		
+	public Joueur(String pseudo, boolean p) {
+		this.pseudo = pseudo;
+		this.pret = p;
 	}
 	
 	
-	public Joueur() throws RemoteException{
+	public Joueur() {
 		
 	}
 	
@@ -79,22 +80,5 @@ public class Joueur extends UnicastRemoteObject implements SantiagoInterface{
 	public String getPseudo(){
 		
 		return pseudo;
-	}
-
-
-
-
-
-	@Override
-	public void addClient(SantiagoInterface s) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public ArrayList<SantiagoInterface> getClients() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

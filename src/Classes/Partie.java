@@ -1,5 +1,6 @@
 package Classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -7,33 +8,31 @@ import Classes.Tuile.*;
 import Exception.PartieException;
 import Classes.Marqueurs.*;
 
-public class Partie {
+public class Partie implements Serializable{
 
 	static int nombreDeJoueursMin = 3;
 	static int nombreDeJoueursMax = 5;	
 	static int nombreDeTuile1Marqueur = 3;	
 	static int nombreDeTuile2Marqueur = 6;	
 	
-	
+	private String nomPartie;
 	private ArrayList<Joueur> listeJoueurs;
 	private ArrayList<Tuile> listeTuiles;
 	private int nombreDeJoueurs;
-	private boolean partieACommence;
+	private boolean partieACommence = false;
 	
 	
-	public Partie(int nbJoueurs) throws PartieException{
+	public Partie(String aNom, int nbJoueurs) throws PartieException{
 		
-		nombreDeJoueurs = nbJoueurs;
-		partieACommence = false;
-		listeJoueurs = new ArrayList<Joueur>();
+		this.nomPartie = aNom;
+		this.nombreDeJoueurs = nbJoueurs;
+		this.partieACommence = false;
+		this.listeJoueurs = new ArrayList<Joueur>();
 		
 		//On lance la fabrication des tuiles
-		fabriqueTuiles();
+		//fabriqueTuiles();
 	}
-	
-	
-	
-	
+
 	/*
 	 * Fonction qui ajoute un joueur à la partie
 	 * Ne peut être appelée qu'avant le début de la partie
@@ -258,6 +257,15 @@ public class Partie {
 	public boolean getPartieACommence() {
 	
 		 return partieACommence;
+	}
+	
+	/**
+	 * Fonction qui retourne le nom d'une partie
+	 * Le nom est définit par le Leader de la partie lors de la création
+	 * @return nomPartie
+	 */
+	public String getNomPartie() {
+		return nomPartie;
 	}
 	
 }
