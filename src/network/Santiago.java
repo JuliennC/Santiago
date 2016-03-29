@@ -23,6 +23,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	protected String name;
 	private String pseudo;
 	private SantiagoInterface client = null;
+	private static ArrayList<String>listePseudos = new ArrayList<>();
+
 	
 	public Santiago(String n) throws RemoteException {
 		super();
@@ -104,7 +106,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		
 		
-		
 		for(Partie p:listeParties) {
 			if(p.getNomPartie().equals(nom)) {
 				try {
@@ -121,6 +122,34 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			}
 		}
 		return false;
+	}
+	
+	
+	
+	
+	/**
+	 * Fonction qui enregitre le pseudo d'un utilisateur
+	 * @params : String pseudo
+	 * @return : void
+	 */
+	public void enregistrePseudo(String pseudo){
+		
+		//On enregistre également le pseudo pour que personne ne prenne le même pseudo
+		listePseudos.add(pseudo);
+	}
+	
+	
+	
+	
+	/**
+	 * Fonction qui dit si un pseudo est dispo ou non
+	 * @params : String pseudo
+	 * @return : boolean
+	 */
+	public boolean pseudoEstDisponible(String pseudo){
+		
+		//On enregistre également le pseudo pour que personne ne prenne le même pseudo
+		return !(listePseudos.contains(pseudo));
 	}
 	
 	

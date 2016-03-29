@@ -27,11 +27,26 @@ public class MainClient {
 		
 		System.out.println("Entrez votre pseudo de joueur: ");
 		pseudo = scString.nextLine().trim();
-
-		joueur = new Joueur(pseudo, false);
+		
 		
 		SantiagoInterface client = new Santiago(pseudo);
 		SantiagoInterface serveur =	(SantiagoInterface)Naming.lookup("rmi://127.0.0.1:42000/ABC");
+		
+		
+		//On vérifie que le pseudo est disponible
+		boolean pseudoEstDispo = serveur.pseudoEstDisponible(pseudo);
+		
+		while(! pseudoEstDispo){
+			
+			System.out.println("Le pseudo que vous avez choisi est déjà utilisé\n");
+			System.out.println("Entrez votre pseudo de joueur: ");
+			pseudo = scString.nextLine().trim();
+
+			pseudoEstDispo = serveur.pseudoEstDisponible(pseudo);
+		}
+
+		joueur = new Joueur(pseudo, false);
+		
 		
 		String	msg =	"["+client.getName()+"]	est connecté";
 		serveur.send(msg);

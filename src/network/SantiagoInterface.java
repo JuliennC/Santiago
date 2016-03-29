@@ -24,5 +24,7 @@ public interface SantiagoInterface extends Remote{
 	
 	public boolean rejoindrePartie(String nom, Joueur j) throws RemoteException, PartieException;
 
-	
+	public void enregistrePseudo(String pseudo);
+		
+	public boolean pseudoEstDisponible(String pseudo);
 }
