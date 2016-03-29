@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Classes.Joueur;
 import Classes.Partie;
+import Exception.PartieException;
 
 
 public interface SantiagoInterface extends Remote{
@@ -21,7 +22,7 @@ public interface SantiagoInterface extends Remote{
 	
 	public ArrayList<Partie> voirParties() throws RemoteException;
 	
-	public boolean rejoindrePartie(String nom, Joueur j) throws RemoteException;
+	public boolean rejoindrePartie(String nom, Joueur j) throws RemoteException, PartieException;
 
 	
 }

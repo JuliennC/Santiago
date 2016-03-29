@@ -32,7 +32,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	@Override
 	public String getName() throws RemoteException {
 		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 	
 	@Override
@@ -72,12 +72,15 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		Partie p = null;
 		try {
 			p = new Partie(nom, nbJoueur);
+
 		} catch (PartieException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		
+		
 		System.out.println("La partie a été créée");
+		
 		
 		return p;
 		
@@ -87,14 +90,29 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * Fonction appelée par le client pour rejoindre une partie
 	 * Le client renseigne le nom de la partie à rejoindre et son objet Joueur
 	 * @return: booléen de confirmation
+	 * @throws PartieException 
 	 */
 	@Override
-	public boolean rejoindrePartie(String nom, Joueur j) throws RemoteException {
-		// TODO Auto-generated method stub
+	public boolean rejoindrePartie(String nom, Joueur j) throws RemoteException, PartieException {
+		
+		/* On vérifie d'abord que la liste contient la partie demandée, 
+		*  Sinon, on lève une exception
+		*/
+		if (! listeContientPartie(listeParties, nom)){
+			throw new PartieException("Aucune partie contenant ce nom n'est enregistrée");
+		}
+		
+		
+		
+		
 		for(Partie p:listeParties) {
 			if(p.getNomPartie().equals(nom)) {
 				try {
 					p.addJoueur(j);
+					
+					//On test si la partie est complète
+					testPartieEstPrete(p);
+					
 				} catch (PartieException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -104,6 +122,57 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		}
 		return false;
 	}
+	
+	
+	
+	
+	
+	/**
+	 * Fonction qui test si une partie est prête à être lancée.
+	 * Si une partie est prête à être lancée, on lance la partie, 
+	 * Sinon on ne fait rien
+	 * @throws PartieException 
+	 */
+	public void testPartieEstPrete(Partie partie) throws PartieException{
+		
+		/*Pour qu'une partie soit prête, il faut : 
+		*
+		*	- Que le nombre de rejoueur requis soit atteint
+		*	- Qu'elle n'ait pas déjà commencé (bien évidemment)
+		*/
+		if(partie.getNombreJoueursRequis() == partie.getNombreJoueurDansLaPartie()){
+			
+			if(! partie.getPartieACommence()){
+				
+				//On lance la partie
+				partie.lancePartie();
+			}
+			
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Fonction qui vérifie si une partie est présente dans une liste de partie
+	 * @parameters : arraylist<Partie> , String nomPartie
+	 */
+	public boolean listeContientPartie(ArrayList<Partie> liste, String nomPartie){
+		
+		for(Partie p : liste){
+			
+			if(p.getNomPartie().equals(nomPartie)){
+				
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
 
 	
 	/**
@@ -116,6 +185,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		listeParties.add(p);
 	}
 
+	
+	
 	
 	/**
 	 * Fonction appelée par le client pour voir la liste des parties en cours sur le serveur

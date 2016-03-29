@@ -33,12 +33,12 @@ public class Partie implements Serializable{
 		//fabriqueTuiles();
 	}
 
-	/*
+	/**
 	 * Fonction qui ajoute un joueur à la partie
 	 * Ne peut être appelée qu'avant le début de la partie
 	 * 
-	 * Params : un Joueur
-	 * Return : void
+	 * @param : un Joueur
+	 * @return : void
 	 * 	
 	 * Si le joueur ne peut pas petre ajouté, on lève une exception
 	 */
@@ -58,12 +58,12 @@ public class Partie implements Serializable{
 	
 	
 	
-	/*
+	/**
 	 * Fonction qui fabrique les tuiles nécessaires à la partie
 	 * et qui les ajoute dans "listeTuiles"
 	 * 
-	 * Params : void
-	 * Return : void
+	 * @param : void
+	 * @return : void
 	 * 	
 	 * Si la partie a déjà commencée, on lève une exception
 	 */
@@ -140,11 +140,11 @@ public class Partie implements Serializable{
 	
 	
 	
-	/*
+	/**
 	 * Fonction qui tire les tuiles Tuiles (autant que de joueurs)
 	 * 
-	 * Params : void
-	 * Return : ArrayList<Tuile>
+	 * @param : void
+	 * @return : ArrayList<Tuile>
 	 * 	
 	 * S'il n'y a plus assez de tuiles, on renvoit une exception
 	 */
@@ -165,14 +165,32 @@ public class Partie implements Serializable{
 	
 	
 	
+	/**
+	 *  Fonction qui lance une partie
+	 *  @param : void
+	 *  @return : void
+	 * @throws PartieException 
+	 */
+	public void lancePartie() throws PartieException{
+		
+		System.out.println("On lance la partie");
+		
+		//On met que la partie a commencé
+		setPartieCommence();
+	}
+	
+	
+	
+	
+	
 	// --------------- GETTER et SETTER ---------------
 	
-	/*
+	/**
 	 * Fonction qui met le nombde de joueurs pour la partie
 	 * Ne peut être appelée qu'avant le début de la partie
 	 * 
-	 * Params : int
-	 * Return : void
+	 * @param : int
+	 * @return : void
 	 * 	
 	 * Si le nombre de joueur ne convient pas, on lève une exception
 	 */
@@ -191,25 +209,35 @@ public class Partie implements Serializable{
 	
 	
 	
-	/*
+	/**
 	 * Fonction qui retourne le nombre de joueurs de la partie
 	 * 
-	 * Params : void
-	 * Return : int
+	 * @param : void
+	 * @return : int
 	 * 	
 	 */
-	public int getNombreJoueurs() {
+	public int getNombreJoueursRequis() {
 		return nombreDeJoueurs;
 	}
 	
 	
 	
 	
-	/*
+	/**
+	 * Fonction qui retourne le nombre de joueurs qui ont déjà rejoins la partie
+	 * @param : void
+	 * @return : int 
+	 */
+	public int getNombreJoueurDansLaPartie(){
+		return listeJoueurs.size();
+	}
+	
+	
+	/**
 	 * Fonction qui retourne une liste qui contient les joueurs des joueurs
 	 * 
-	 * Params : void
-	 * Return : ArrayList<Joueur>
+	 * @param : void
+	 * @return : ArrayList<Joueur>
 	 * 	
 	 */
 	public ArrayList<Joueur> getListeJoueurs() {
@@ -223,12 +251,12 @@ public class Partie implements Serializable{
 
 	
 	
-	/*
+	/**
 	 * Fonction qui indique que la partie a commencé
 	 * Ne peut être appelée qu'une seule fois
 	 * 
-	 * Params : void
-	 * Return : void
+	 * @param : void
+	 * @return : void
 	 * 	
 	 * Si la partie a déjà commencée, on lève une exception
 	 */
@@ -247,17 +275,18 @@ public class Partie implements Serializable{
 	
 	
 	
-	/*
+	/**
 	 * Fonction qui dit si une partie a commencé ou nom
 	 * 
-	 * Params : void
-	 * Return : Boolean
+	 * @param : void
+	 * @return : Boolean
 	 * 	
 	 */
 	public boolean getPartieACommence() {
 	
 		 return partieACommence;
 	}
+	
 	
 	/**
 	 * Fonction qui retourne le nom d'une partie
