@@ -33,6 +33,7 @@ public class Source {
 		for (int i = 0; i<coordX.length; i++){
 			System.out.println("y["+ i +"]: "+coordY[i]);
 		}
+		
 	}
 	
 	public int[] placerSourceX(){
