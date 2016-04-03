@@ -16,7 +16,7 @@ import network.SantiagoInterface;
 public class MainServeur {
 	public static void main (String args[]) throws RemoteException, MalformedURLException
 	{
-		LocateRegistry.createRegistry(42000);
+		LocateRegistry.createRegistry(43000);
 		System.setProperty ("java.rmi.server.hostname",	"127.0.0.1");
 		
 		Santiago server	= new Santiago("serveur");

@@ -3,8 +3,11 @@ package Classes;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import Classes.Tuile.*;
+import Exception.JoueurException;
 import Exception.PartieException;
 import Classes.Marqueurs.*;
 
@@ -16,8 +19,8 @@ public class Partie implements Serializable{
 	static int nombreDeTuile2Marqueur = 6;	
 	
 	private String nomPartie;
-	private ArrayList<Joueur> listeJoueurs;
-	private ArrayList<Tuile> listeTuiles;
+	private ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>();
+	private ArrayList<Tuile> listeTuiles = new ArrayList<>();
 	private int nombreDeJoueurs;
 	private boolean partieACommence = false;
 	private Joueur constructeurDeCanal;
@@ -28,10 +31,9 @@ public class Partie implements Serializable{
 		this.nomPartie = aNom;
 		this.nombreDeJoueurs = nbJoueurs;
 		this.partieACommence = false;
-		this.listeJoueurs = new ArrayList<Joueur>();
 		
 		//On lance la fabrication des tuiles
-		//fabriqueTuiles();
+		fabriqueTuiles();
 	}
 
 	/**
@@ -48,6 +50,75 @@ public class Partie implements Serializable{
 		fabriqueTuiles();
 	}
 
+	
+	
+	
+	/**
+	 * methode de lancement d'une partie
+	 * @throws PartieException 
+	 * @throws JoueurException 
+	 */
+	public void lancePartie() throws PartieException {
+		
+		System.out.println("On lance la partie");
+
+		setPartieCommence();
+		this.constructeurDeCanal = (Joueur) randomInList(this.listeJoueurs);
+		
+		//On lance la phase1
+		
+		phase1();
+	}
+	
+	 
+	
+	// --------------- FONCTIONS QUI CORRESPONDENT AUX DIFFERENTES PHASES ---------------
+
+	
+		public void phase1() {
+			
+			//On retourne d'abord les tuiles
+			ArrayList<Tuile> tuilesRetournees = retourneTuiles();
+			
+			//On récupère le joueur à gauche
+			Joueur joueurGauche = getJoueurAGauche(constructeurDeCanal);
+			
+			Map<Joueur, Integer> listeOffres = new HashMap<>();
+
+			//On prend les offres des joueurs
+			while(! joueurGauche.equals(constructeurDeCanal)) {
+				
+				// Le joueur doit faire une offre
+				int offre = joueurGauche.joueurFaitUneOffre();
+				
+				//On stocke les offres
+				listeOffres.put(joueurGauche, offre);	
+				
+				//On change de joueur
+				joueurGauche = getJoueurAGauche(joueurGauche);
+			}
+			
+			//On affiche les offres
+			String str = "";
+			
+			for(Joueur joueur : listeOffres.keySet()){
+				
+				str += joueur.getPseudo()+" --> "+listeOffres.get(joueur)+"\n";
+			}
+			
+			System.out.println("Les enchères sont terminées : \n"+str);
+		}
+		
+		
+		
+		
+	
+	
+	
+	
+		// --------------- FIN PHASES ---------------
+	
+	
 	
 	
 	/**
@@ -149,6 +220,7 @@ public class Partie implements Serializable{
 		}
 		// On mélange la liste
 		Collections.shuffle(this.listeTuiles);
+		
 	}
 
 
@@ -158,7 +230,7 @@ public class Partie implements Serializable{
 	 * 
 	 * @return le nombre de tuile à retrouner lors de la mise aux enchères
 	 */
-	public int nbTuile() {
+	public int nbTuilesNecessaires() {
 		if (this.nombreDeJoueurs == 3) {
 			return 4;
 		} else {
@@ -180,7 +252,7 @@ public class Partie implements Serializable{
 
 		ArrayList<Tuile> tuiles = new ArrayList<Tuile>();
 
-		for (int i = 0; i < nbTuile(); i++) {
+		for (int i = 0; i < nbTuilesNecessaires(); i++) {
 			tuiles.add(listeTuiles.get(i));
 			listeTuiles.remove(i);
 		}
@@ -196,9 +268,7 @@ public class Partie implements Serializable{
 	
 	
 	
-	
-	// --------------- GETTER et SETTER ---------------
-	
+		
 	
 	/**
 	 * Fonction qui met le nombde de joueurs pour la partie Ne peut être appelée
@@ -253,24 +323,46 @@ public class Partie implements Serializable{
 	}
 
 	
+
 	
 
-	/**
-	 * methode de lancement d'une partie
-	 * @throws PartieException 
-	 */
-	public void lancePartie() throws PartieException {
-		
-		System.out.println("On lance la partie");
+	
+	
+	
+	
+	
+	
+	
+	
+	// --------------- GETTER et SETTER ---------------
 
-		setPartieCommence();
-		this.constructeurDeCanal = (Joueur) randomInList(this.listeJoueurs);
+	
+	
+	/**
+	 * Fonction qui retoune le joueur à gauche du joueur donné
+	 * 
+	 * @param : Joueur
+	 * @return : Joueur (le joueur à gauche)
+	 */
+	public Joueur getJoueurAGauche(Joueur j){
+		
+		//On récupère l'index du joueur donné
+		int i = listeJoueurs.indexOf(j);
+		
+		//On récupère le joueur d'après (ou le premier s'il n'y en a pas)
+		if (listeJoueurs.size()-1 == i){
+		
+			return listeJoueurs.get(0);
+		
+		} else {
+			
+			return listeJoueurs.get(i+1);
+		}
+		
 	}
 	
 	
-
-	// --------------- GETTER et SETTER ---------------
-
+	
 	
 
 	/**

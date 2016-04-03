@@ -1,10 +1,12 @@
 package Classes.Tuile;
 
+import java.io.Serializable;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import Classes.Marqueurs.*;
 import Exception.TuileException;
 
-public abstract class Tuile {
+public abstract class Tuile implements Serializable {
 	
 	private int nombreMarqueursNecessaires;
 	private ArrayList<MarqueurRendement> marqueursActuels;

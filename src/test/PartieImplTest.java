@@ -59,13 +59,13 @@ public class PartieImplTest {
 	public void testNbTuile() throws PartieException {
 		Partie p = new Partie();
 		p.setNombreDeJoueurs(3);
-		int nbTuile = p.nbTuile();
+		int nbTuile = p.nbTuilesNecessaires();
 		assertEquals(4, nbTuile);
 		p.setNombreDeJoueurs(4);
-		nbTuile = p.nbTuile();
+		nbTuile = p.nbTuilesNecessaires();
 		assertEquals(4, nbTuile);
 		p.setNombreDeJoueurs(5);
-		nbTuile = p.nbTuile();
+		nbTuile = p.nbTuilesNecessaires();
 		assertEquals(5, nbTuile);
 	}
 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import Exception.JoueurException;
 import network.SantiagoInterface;
@@ -20,6 +21,7 @@ public class Joueur implements Serializable{
 	public Joueur(String pseudo, boolean p) {
 		this.pseudo = pseudo;
 		this.pret = p;
+		solde = 3;
 	}
 		
 	public Joueur(String pseudo, int solde) {
@@ -60,12 +62,61 @@ public class Joueur implements Serializable{
 		solde = solde + 3;
 	}
 
+	
+	
+	
+	
+	/**
+	 * Fonction qui gère l'enchère du joueur
+	 * 
+	 * @param : void
+	 * @return : int : le montant de l'enchère
+	 * @throws JoueurException 
+	 */
+	public int joueurFaitUneOffre()  {
+
+		Scanner scInt = new Scanner(System.in);
+
+		
+		int offre = 0;
+
+		boolean offreOk = false;
+		
+		while(! offreOk) {
+
+			//On récupère l'offre
+			System.out.println("["+pseudo+"] : Vous devez faire une enchère : ");
+			offre = scInt.nextInt();
+			
+			//On regarde la conformité de l'offre
+			if (offre < 0) {
+				System.out.println("Vous ne pouvez pas faire une offre inférieur à 0");
+		
+			} else if (offre > solde) {
+
+				System.out.println("Vous ne pouvez pas faire une offre supérieur à votre solde : "+solde+".");
+			
+			} else {
+			
+				offreOk = true;
+			}
+		}
+		
+		
+		
+		return offre;
+	}
+	
+	
+	
+	
 	// --------------- GETTER et SETTER ---------------
 
-	/*
+	/**
 	 * Fonction qui met le pseudo du joueur
 	 * 
-	 * Params : String -> pseudo Return : void
+	 * @param : String -> pseudo 
+	 * @return : void
 	 */
 	public void setPseudo(String pseudo) throws JoueurException {
 
@@ -76,20 +127,22 @@ public class Joueur implements Serializable{
 		this.pseudo = pseudo;
 	}
 
-	/*
+	/**
 	 * Fonction qui retourne le pseudo du joueur
 	 * 
-	 * Params : void Return : String -> pseudo
+	 * @param : void 
+	 * @return : String -> pseudo
 	 */
 	public String getPseudo() {
 
 		return pseudo;
 	}
 
-	/*
+	/**
 	 * Fonction qui met le pseudo du joueur
 	 * 
-	 * Params : String -> pseudo Return : void
+	 * @param : String -> pseudo
+	 * @return : void
 	 */
 	public void setSolde(int solde) throws JoueurException {
 
@@ -100,10 +153,11 @@ public class Joueur implements Serializable{
 		this.solde = solde;
 	}
 
-	/*
+	/**
 	 * Fonction qui retourne le montant du portefeuille du joueur
 	 * 
-	 * Params : void Return : String -> solde
+	 * @param : void 
+	 * @return : String -> solde
 	 */
 	public int getSolde() {
 
