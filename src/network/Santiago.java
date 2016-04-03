@@ -11,6 +11,7 @@ import java.util.Scanner;
 import Classes.Joueur;
 import Classes.Partie;
 import Exception.PartieException;
+import main.MainClient;
 
 
 public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
@@ -21,16 +22,35 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	
 	
 	protected String name;
-	private String pseudo;
+	protected Joueur joueur;
 	private SantiagoInterface client = null;
 	private static ArrayList<String>listePseudos = new ArrayList<>();
 
 	
-	public Santiago(String n) throws RemoteException {
+
+	
+	
+	public Santiago(Joueur j) throws RemoteException {
+		super();
+		joueur = j;
+		this.name = j.getPseudo();
+	}
+
+	
+	public Santiago(String name) throws RemoteException {
 		super();
 
-		this.name = n;
+		this.name = name;
 	}
+	
+	
+	public Joueur getJoueur() throws RemoteException{
+		return joueur;
+	}
+	
+	
+	
+	
 	
 	@Override
 	public String getName() throws RemoteException {
@@ -96,7 +116,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws PartieException 
 	 */
 	@Override
-	public String rejoindrePartie(String nom, Joueur j) throws RemoteException, PartieException {
+	public String rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException {
 
 		String res = null;
 
@@ -122,7 +142,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 						return res;
 					} 
 					
-					p.addJoueur(j);
+					p.addClient(i);
 					
 					//On test si la partie est complète
 					testPartieEstPrete(p);
@@ -140,10 +160,26 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	
 	
 	
+	/**
+	 * Foncion qui demande à l'utilisateur d'entrer une offre
+	 * 
+	 * @param : void
+	 * @return : int --> l'offre
+	 */
+	public int joueurFaitUneOffre() throws RemoteException{
+	
+		int i = joueur.joueurFaitUneOffre();
+		System.out.println("test o : "+i);
+		return i;
+	}
+	
+	
+	
+	
 	
 	/**
 	 * Fonction qui enregitre le pseudo d'un utilisateur
-	 * @params : String pseudo
+	 * @param : String pseudo
 	 * @return : void
 	 */
 	public void enregistrePseudo(String pseudo) throws RemoteException{
@@ -176,8 +212,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * Sinon on ne fait rien
 	 * @param : Partie partie que l'on veut tester
 	 * @throws PartieException 
+	 * @throws RemoteException 
 	 */
-	public void testPartieEstPrete(Partie partie) throws PartieException{
+	public void testPartieEstPrete(Partie partie) throws PartieException, RemoteException{
 		
 		/*Pour qu'une partie soit prête, il faut : 
 		*
@@ -241,5 +278,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		// TODO Auto-generated method stub
 		return listeParties;
 	}
-
+	
+	
 }

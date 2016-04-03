@@ -86,7 +86,8 @@ public class Joueur implements Serializable{
 
 			//On récupère l'offre
 			System.out.println("["+pseudo+"] : Vous devez faire une enchère : ");
-			offre = scInt.nextInt();
+			String str = scInt.nextLine();
+			offre = Integer.parseInt(str);
 			
 			//On regarde la conformité de l'offre
 			if (offre < 0) {
@@ -100,9 +101,8 @@ public class Joueur implements Serializable{
 			
 				offreOk = true;
 			}
+			
 		}
-		
-		
 		
 		return offre;
 	}

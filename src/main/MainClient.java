@@ -15,6 +15,9 @@ import network.SantiagoInterface;
 
 
 public class MainClient {
+	
+	private static Joueur joueur;
+	
 	public static void main (String args[]) throws RemoteException, MalformedURLException, NotBoundException, PartieException{
 		System.setSecurityManager(new SecurityManager());
 		
@@ -23,13 +26,11 @@ public class MainClient {
 		
 		int choix = 0;
 		String	pseudo;
-		Joueur joueur;
 		
 		System.out.println("Entrez votre pseudo de joueur: ");
 		pseudo = scString.nextLine().trim();
 		
 		
-		SantiagoInterface client = new Santiago(pseudo);
 		SantiagoInterface serveur =	(SantiagoInterface)Naming.lookup("rmi://127.0.0.1:43000/ABC");
 		
 		
@@ -46,6 +47,9 @@ public class MainClient {
 		}
 
 		joueur = new Joueur(pseudo, false);
+
+		//
+		SantiagoInterface client = new Santiago(joueur);
 		
 		
 		String	msg =	"["+client.getName()+"]	est connecté";
@@ -64,7 +68,7 @@ public class MainClient {
 			serveur.ajouterPartieListe(partieCreee);
 
 			//On ajoute le joueur à la partie
-			serveur.rejoindrePartie(partieCreee.getNomPartie(), joueur);
+			serveur.rejoindrePartie(partieCreee.getNomPartie(), client);
 
 			
 		} else {
@@ -82,14 +86,14 @@ public class MainClient {
 			}
 			
 			
-			String aRejoint = null;
+			String aRejoint = "e";
 
-			while( aRejoint == null){
+			while( aRejoint != null){
 
 				System.out.println("Choisissez une partie à rejoindre :");
 				String choixPartie = scString.nextLine();				
 									
-				aRejoint = serveur.rejoindrePartie(choixPartie, joueur);
+				aRejoint = serveur.rejoindrePartie(choixPartie, client);
 				
 			}
 		}
@@ -102,6 +106,17 @@ public class MainClient {
 		//server.setClient(client);
 
 
+	}
+
+	
+	
+	
+	/**
+	 * Fonction qui retourne le Joueur
+	 * @return: Joueur
+	 */
+	public Joueur getJoueur(){
+		return joueur;
 	}
 
 }

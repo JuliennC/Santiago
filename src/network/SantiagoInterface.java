@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import Classes.Joueur;
 import Classes.Partie;
 import Exception.PartieException;
+import main.MainClient;
 
 
 public interface SantiagoInterface extends Remote{
@@ -22,9 +23,14 @@ public interface SantiagoInterface extends Remote{
 	
 	public ArrayList<Partie> voirParties() throws RemoteException;
 	
-	public String rejoindrePartie(String nom, Joueur j) throws RemoteException, PartieException;
+	public String rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException;
 
 	public void enregistrePseudo(String pseudo) throws RemoteException;
 
 	public boolean pseudoEstDisponible(String pseudo) throws RemoteException;
+	
+	public Joueur getJoueur() throws RemoteException;
+	
+	public int joueurFaitUneOffre() throws RemoteException;
+	
 }
