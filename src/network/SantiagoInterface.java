@@ -22,9 +22,9 @@ public interface SantiagoInterface extends Remote{
 	
 	public ArrayList<Partie> voirParties() throws RemoteException;
 	
-	public boolean rejoindrePartie(String nom, Joueur j) throws RemoteException, PartieException;
+	public String rejoindrePartie(String nom, Joueur j) throws RemoteException, PartieException;
 
-	public void enregistrePseudo(String pseudo);
-		
-	public boolean pseudoEstDisponible(String pseudo);
+	public void enregistrePseudo(String pseudo) throws RemoteException;
+
+	public boolean pseudoEstDisponible(String pseudo) throws RemoteException;
 }

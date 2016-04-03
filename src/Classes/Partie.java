@@ -48,6 +48,8 @@ public class Partie implements Serializable{
 		fabriqueTuiles();
 	}
 
+	
+	
 	/**
 	 * Fonction qui ajoute un joueur à la partie 
 	 * Ne peut être appelée qu'avant le début de la partie
@@ -191,20 +193,6 @@ public class Partie implements Serializable{
 	
 	
 	
-	/**
-	 *  Fonction qui lance une partie
-	 *  @param : void
-	 *  @return : void
-	 * @throws PartieException 
-	 */
-	public void lancePartie() throws PartieException{
-		
-		System.out.println("On lance la partie");
-		
-		//On met que la partie a commencé
-		setPartieCommence();
-	}
-	
 	
 	
 	
@@ -266,12 +254,16 @@ public class Partie implements Serializable{
 
 	
 	
-	// -------- Changement d'état d'une partie --------
+
 	/**
 	 * methode de lancement d'une partie
+	 * @throws PartieException 
 	 */
-	public void start() {
-		this.partieACommence = true;
+	public void lancePartie() throws PartieException {
+		
+		System.out.println("On lance la partie");
+
+		setPartieCommence();
 		this.constructeurDeCanal = (Joueur) randomInList(this.listeJoueurs);
 	}
 	

@@ -1,9 +1,17 @@
 package test;
 
 import static org.junit.Assert.*;
+
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
 import org.junit.Test;
 import Classes.Partie;
 import Exception.PartieException;
+import network.Santiago;
+import network.SantiagoInterface;
 import Classes.Joueur;
 
 public class PartieImplTest {
@@ -84,7 +92,7 @@ public class PartieImplTest {
 	}
 
 	/**
-	 * Test de la méthode start
+	 * Test de la méthode lancePartie
 	 * 
 	 * @throws PartieException
 	 */
@@ -97,7 +105,7 @@ public class PartieImplTest {
 		p.addJoueur(j1);
 		p.addJoueur(j2);
 		p.addJoueur(j3);
-		p.start();
+		p.lancePartie();
 		assertNotEquals(null, p.getConstructeurDeCanal());
 		assertEquals(true, p.getPartieACommence());
 	}
@@ -115,11 +123,48 @@ public class PartieImplTest {
 		p.addJoueur(j1);
 		p.addJoueur(j2);
 		p.addJoueur(j3);
-		p.start();
+		p.lancePartie();
 		p.AideAuDeveloppement();
 		assertEquals(3, j1.getSolde());
 		assertEquals(3, j2.getSolde());
 		assertEquals(3, j3.getSolde());
 	}
+
+
+
+	/**
+	 * Test de la méthode rejoindrePartie
+	 * @throws RemoteException 
+	 * @throws NotBoundException 
+	 * @throws MalformedURLException 
+	 * 
+	 */
+/*	@Test(expected = PartieException.class)
+	public void testAjout() throws PartieException, RemoteException, MalformedURLException, NotBoundException {
+		
+		int nombreJoueursDesires = 4;
+
+		Partie p = new Partie();
+		p.setNombreDeJoueurs(nombreJoueursDesires);
+
+		try{
+			SantiagoInterface s =	(SantiagoInterface)Naming.lookup("rmi://127.0.0.1:42000/ABC");
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		System.out.println("3");
+
+		//s.ajouterPartieListe(p);
+		for(int i = 0; i < 0; i++) {
+			
+			Joueur joueur = new Joueur("joueur"+i, 0);
+			//s.rejoindrePartie(p.getNomPartie(), joueur);
+		}
+
+		System.out.println(p.getNombreJoueurDansLaPartie());
+	}*/
+
+
 
 }

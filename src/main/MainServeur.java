@@ -21,7 +21,7 @@ public class MainServeur {
 		
 		Santiago server	= new Santiago("serveur");
 		
-		Naming.rebind("rmi://127.0.0.1:42000/ABC",server);
+		Naming.rebind("rmi://127.0.0.1:43000/ABC",server);
 		
 		System.out.println("[System] Santiago remote object is ready");
 		

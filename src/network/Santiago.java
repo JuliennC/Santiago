@@ -28,6 +28,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	
 	public Santiago(String n) throws RemoteException {
 		super();
+
 		this.name = n;
 	}
 	
@@ -95,33 +96,46 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws PartieException 
 	 */
 	@Override
-	public boolean rejoindrePartie(String nom, Joueur j) throws RemoteException, PartieException {
-		
+	public String rejoindrePartie(String nom, Joueur j) throws RemoteException, PartieException {
+
+		String res = null;
+
 		/* On vérifie d'abord que la liste contient la partie demandée, 
 		*  Sinon, on lève une exception
 		*/
 		if (! listeContientPartie(listeParties, nom)){
-			throw new PartieException("Aucune partie contenant ce nom n'est enregistrée");
+			res = ("Aucune partie contenant ce nom n'est enregistrée");
+			return res;
 		}
-		
 		
 		
 		for(Partie p:listeParties) {
 			if(p.getNomPartie().equals(nom)) {
 				try {
+					
+					/* On vérifie d'abord que la partie n'a pas déjà commencé, 
+					*  Sinon, on lève une exception
+					*/
+					if(p.getPartieACommence()){
+
+						res = ("Vous ne pouvez pas rejoindre la partie, elle a déjà commencé.");
+						return res;
+					} 
+					
 					p.addJoueur(j);
 					
 					//On test si la partie est complète
 					testPartieEstPrete(p);
 					
 				} catch (PartieException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}
-				return true;
+				return res;
 			}
 		}
-		return false;
+		
+		return ("Pas de chance : Une erreur inconnue est survenue");
 	}
 	
 	
@@ -132,7 +146,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @params : String pseudo
 	 * @return : void
 	 */
-	public void enregistrePseudo(String pseudo){
+	public void enregistrePseudo(String pseudo) throws RemoteException{
 		
 		//On enregistre également le pseudo pour que personne ne prenne le même pseudo
 		listePseudos.add(pseudo);
@@ -146,7 +160,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @params : String pseudo
 	 * @return : boolean
 	 */
-	public boolean pseudoEstDisponible(String pseudo){
+	public boolean pseudoEstDisponible(String pseudo) throws RemoteException{
 		
 		//On enregistre également le pseudo pour que personne ne prenne le même pseudo
 		return !(listePseudos.contains(pseudo));
@@ -160,6 +174,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * Fonction qui test si une partie est prête à être lancée.
 	 * Si une partie est prête à être lancée, on lance la partie, 
 	 * Sinon on ne fait rien
+	 * @param : Partie partie que l'on veut tester
 	 * @throws PartieException 
 	 */
 	public void testPartieEstPrete(Partie partie) throws PartieException{

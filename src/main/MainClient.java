@@ -30,7 +30,7 @@ public class MainClient {
 		
 		
 		SantiagoInterface client = new Santiago(pseudo);
-		SantiagoInterface serveur =	(SantiagoInterface)Naming.lookup("rmi://127.0.0.1:42000/ABC");
+		SantiagoInterface serveur =	(SantiagoInterface)Naming.lookup("rmi://127.0.0.1:43000/ABC");
 		
 		
 		//On vérifie que le pseudo est disponible
@@ -81,21 +81,16 @@ public class MainClient {
 				System.out.println("--> En cours : " +p.getPartieACommence());
 			}
 			
-			boolean partieRejoint = false;
 			
-			while(! partieRejoint){
+			String aRejoint = null;
+
+			while( aRejoint == null){
 
 				System.out.println("Choisissez une partie à rejoindre :");
-				String choixPartie = scString.nextLine();
+				String choixPartie = scString.nextLine();				
+									
+				aRejoint = serveur.rejoindrePartie(choixPartie, joueur);
 				
-				try {
-					serveur.rejoindrePartie(choixPartie, joueur);
-					partieRejoint = true;
-					
-				} catch(Exception e) {
-	
-					System.out.println("\n"+e.getMessage()+"\n");
-				}
 			}
 		}
 			
