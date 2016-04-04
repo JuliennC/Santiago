@@ -30,11 +30,12 @@ public class Joueur implements Serializable{
 	}
 
 
-	/*
-	 * Fonction Static qui vÃ©rifie la validitÃ© d'un pseudo du joueur Params :
-	 * String -> le pseudo Return : void
+	/**
+	 * Fonction Static qui vérifie la validité d'un pseudo du joueur
 	 * 
-	 * On lÃ¨ve une exception s'il y a une erreur dans le pseudo
+	 * @param pseudo: le pseudo a verifier
+	 * @return void
+	 * @throws JoueurException
 	 */
 	public static void pseudoEstValide(String pseudo) throws JoueurException {
 
@@ -46,14 +47,15 @@ public class Joueur implements Serializable{
 
 	}
 
-	/*
+	/**
 	 * Fonction Static qui vérifie que le solde du joueur est bien positif.
-	 * Params : Int -> le pseudo Return : void
-	 * 
-	 * On lève une exception s'il y a une erreur dans le solde
+	 *
+	 * @param solde: le solde a vérifier
+	 * @return void
+	 * @throws JoueurException
 	 */
-	public static void soldeEstPositif(int solde) throws JoueurException {
-		if (solde < 0) {
+	public static void EstPositif(int solde) throws JoueurException {
+		if (solde <= 0) {
 			throw new JoueurException("Votre solde ne peut pas etre négatif");
 		}
 	}
@@ -61,10 +63,6 @@ public class Joueur implements Serializable{
 	public void AugmenterSoldeParTour() {
 		solde = solde + 3;
 	}
-
-	
-	
-	
 	
 	/**
 	 * Fonction qui gère l'enchère du joueur
@@ -146,10 +144,10 @@ public class Joueur implements Serializable{
 	 */
 	public void setSolde(int solde) throws JoueurException {
 
-		// On test le pseudo
-		Joueur.soldeEstPositif(solde);
+		// On test le solde
+		Joueur.EstPositif(solde);
 
-		// On met le pseudo
+		// On met le solde
 		this.solde = solde;
 	}
 
@@ -163,4 +161,5 @@ public class Joueur implements Serializable{
 
 		return solde;
 	}
+
 }

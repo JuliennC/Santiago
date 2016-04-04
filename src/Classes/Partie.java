@@ -139,17 +139,11 @@ public class Partie implements Serializable{
 			return listeOffres;
 		}
 		
+		public void phase2(HashMap<SantiagoInterface, Integer> listeOffres){
+			
+		}
 		
-		
-		
-	
-	
-	
-	
 		// --------------- FIN PHASES ---------------
-	
-	
-	
 	
 	/**
 	 * Fonction qui ajoute un joueur à la partie 
@@ -172,12 +166,6 @@ public class Partie implements Serializable{
 		}
 	}
 	
-	
-	
-	
-	
-
-
 	/**
 	 * Fonction qui fabrique les tuiles nécessaires à la partie et qui les
 	 * ajoute dans "listeTuiles"
@@ -253,7 +241,6 @@ public class Partie implements Serializable{
 		
 	}
 
-
 	/**
 	 * Cette méthode permet de donner le nombre de tuile à retourner en fontion
 	 * des joueurs lors de la mise aux enchères
@@ -267,8 +254,6 @@ public class Partie implements Serializable{
 			return this.nombreDeJoueurs;
 		}
 	}
-
-
 	
 	/**
 	 * Fonction qui tire les tuiles Tuiles (autant que de joueurs)
@@ -289,16 +274,6 @@ public class Partie implements Serializable{
 
 		return tuiles;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
 	
 	/**
 	 * Fonction qui met le nombde de joueurs pour la partie Ne peut être appelée
@@ -323,7 +298,6 @@ public class Partie implements Serializable{
 
 	}
 	
-	
 	/**
 	 * Cette méthode permet de tirer un objet random contenu dans une liste
 	 * 
@@ -335,8 +309,6 @@ public class Partie implements Serializable{
 		return list.get(random);
 	}
 
-	
-	
 	/**
 	 * Cette méthode permet de donner a chaque joueur une aide au developpement
 	 * a chaque tour afin qu'ils puissent augmenter leur solde
@@ -352,21 +324,8 @@ public class Partie implements Serializable{
 		}
 	}
 
-	
-
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
 	// --------------- GETTER et SETTER ---------------
 
-	
 	
 	/**
 	 * Fonction qui retoune le client à gauche du joueur donné
@@ -390,10 +349,6 @@ public class Partie implements Serializable{
 		}
 		
 	}
-	
-	
-	
-	
 
 	/**
 	 * Fonction qui retourne le nombre de joueurs de la partie
@@ -405,9 +360,6 @@ public class Partie implements Serializable{
 		return nombreDeJoueurs;
 	}
 	
-	
-	
-	
 	/**
 	 * Fonction qui retourne le nombre de joueurs qui ont déjà rejoins la partie
 	 * @param : void
@@ -417,8 +369,6 @@ public class Partie implements Serializable{
 		return listeJoueurs().size();
 	}
 	
-	
-
 	/**
 	 * Fonction qui retourne une liste qui contient les joueurs des joueurs
 	 * 
@@ -434,8 +384,6 @@ public class Partie implements Serializable{
 		return liste;
 	}
 
-	
-	
 	/**
 	 * Fonction qui indique que la partie a commencé
 	 * Ne peut être appelée qu'une seule fois
@@ -458,8 +406,6 @@ public class Partie implements Serializable{
 
 	}
 	
-	
-	
 	/**
 	 * Fonction qui dit si une partie a commencé ou nom
 	 * 
@@ -471,8 +417,6 @@ public class Partie implements Serializable{
 		return partieACommence;
 	}
 	
-	
-
 	/**
 	 * Fonction qui donne la liste des tuile en jeux
 	 * 
@@ -482,8 +426,6 @@ public class Partie implements Serializable{
 		return this.listeTuiles;
 	}
 
-	
-	
 	/**
 	 * Fonction qui donne le constructeur de canal
 	 */
@@ -491,7 +433,15 @@ public class Partie implements Serializable{
 		return this.constructeurDeCanal;
 	}
 	
-	
+	/**
+	 * Fonction qui modifie le constructeur de canal
+	 * 
+	 * @param si un joueur.
+	 */
+	public void setConstructeurDeCanal(SantiagoInterface si){
+		this.constructeurDeCanal = si;
+	}
+
 	/**
 	 * Fonction qui retourne le nom d'une partie
 	 * Le nom est définit par le Leader de la partie lors de la création
