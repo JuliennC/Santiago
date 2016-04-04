@@ -81,11 +81,14 @@ public class Plateau {
 			//On test pour afficher la source
 			if( source.getCoordY()[0] == y ){
 				
-				for(int i=0; i< source.getCoordX()[0]; i++){
-				str += "   ";
+				str += " ";
+				
+				for(int i=0; i< source.getCoordX()[1]; i++){
+					str += "    ";
 				}
 			
-				str+=" . ";
+				str = suppChar(str);
+				str+=".";
 			}
 			
 			str += "\n";

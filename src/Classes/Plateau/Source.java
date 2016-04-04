@@ -5,6 +5,7 @@ public class Source {
 	// Ex : elle peut etre en X[1,2] Y[1,2] elle sera en entre la colonne 1,2 et la ligne 1,2
 	//liste des points possibles pour x : x[1,2] x[3,4] x[5,6] 
 	//liste des points possibles pour y : y[1,2] y[3,4]
+	//Les coordonnées commencent à 0 (pour faciliter le lien avec le tableau ?)
 	private int coordX[] = new int[2];
 	private int coordY[] = new int[2];
 	
