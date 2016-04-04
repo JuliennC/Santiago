@@ -193,21 +193,25 @@ public class PartieImplTest {
 		SantiagoInterface s1 = new Santiago(j1);
 		SantiagoInterface s2 = new Santiago(j2);
 		SantiagoInterface s3 = new Santiago(j3);
+		p.addClient(s1);
+		p.addClient(s2);
+		p.addClient(s3);
 		//Test pour etre sur que c'est bien le premier a avoir passer qui sera constructeur de canal
 		HashMap<SantiagoInterface, Integer> listeOffres1 = new HashMap<>();
 		listeOffres1.put(s1, 0);	
 		listeOffres1.put(s2, 0);	
 		listeOffres1.put(s3, 0);	
+		p.setConstructeurDeCanal(s1);
 		p.phase2(listeOffres1);
-		assertEquals(s1,p.getConstructeurDeCanal());
-		// Test pour etre sur que c'est bien l'offre la plus basse qui devient le constructeur de canal
-		/*HashMap<SantiagoInterface, Integer> listeOffres2 = new HashMap<>();
+		assertEquals(s2,p.getConstructeurDeCanal());
+		//Test pour etre sur que c'est bien l'offre la plus basse qui devient le constructeur de canal
+		HashMap<SantiagoInterface, Integer> listeOffres2 = new HashMap<>();
 		listeOffres2.put(s1, 10);	
 		listeOffres2.put(s2, 2);	
-		listeOffres2.put(s3, 70);	
+		listeOffres2.put(s3, 70);
+		p.setConstructeurDeCanal(s2);
 		p.phase2(listeOffres2);
-		assertEquals(s2,p.getConstructeurDeCanal());*/
+		assertEquals(s2,p.getConstructeurDeCanal());
 	}
-
 
 }

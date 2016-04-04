@@ -144,22 +144,45 @@ public class Partie implements Serializable{
 		}
 		
 		public void phase2(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
+			ArrayList <SantiagoInterface> ordre = ordreDesAiguilles();
 			int offreMin = -1;
-			for (Entry<SantiagoInterface, Integer> entry  : listeOffres.entrySet()){
-				if(entry.getValue() == 0){
-					this.constructeurDeCanal = entry.getKey();
+			for(SantiagoInterface si : ordre){
+				if(listeOffres.get(si) == 0){
+					this.constructeurDeCanal = si;
 					break;
 				}
-				else if(offreMin < 0 || entry.getValue()<offreMin){
-					offreMin = entry.getValue();
-					this.constructeurDeCanal = entry.getKey();
+				else if(offreMin < 0 || listeOffres.get(si)<offreMin){
+					offreMin = listeOffres.get(si);
+					this.constructeurDeCanal = si;
 				}
 			}
 			System.out.println("Le nouveau constructeur de canal est: "+this.constructeurDeCanal.getName());
 		}
 		
+		
+		
+		
 		// --------------- FIN PHASES ---------------
 	
+	
+	/**
+	 * Cette méthode permet d'avoir la liste des joueurs en 
+	 * partant de la gauche du constructeur de canal
+	 * 
+	 * @return la liste des joueurs en partant de la gauche du constructeur de canal
+	 */
+	public ArrayList<SantiagoInterface>	ordreDesAiguilles(){
+		ArrayList<SantiagoInterface> dansLOrdre = new ArrayList();
+		SantiagoInterface client = getClientAGauche(this.constructeurDeCanal);
+		while(! client.equals(constructeurDeCanal)){
+			dansLOrdre.add(client);
+			client = getClientAGauche(client);
+		}
+		dansLOrdre.add(client);
+		return dansLOrdre;
+	}
+		
+		
 	/**
 	 * Fonction qui ajoute un joueur à la partie 
 	 * Ne peut être appelée qu'avant le début de la partie
