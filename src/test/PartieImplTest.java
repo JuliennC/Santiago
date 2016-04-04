@@ -1,8 +1,13 @@
 package test;
 
 import static org.junit.Assert.*;
+
+
 import org.junit.Test;
 import Classes.Partie;
+import Classes.Plateau.Case;
+import Classes.Plateau.Plateau;
+import Classes.Plateau.Source;
 import Exception.PartieException;
 import Classes.Joueur;
 
@@ -122,4 +127,34 @@ public class PartieImplTest {
 		assertEquals(3, j3.getSolde());
 	}
 
+	
+	
+	/**
+	 * Test du plateau
+	 * 
+	 */
+	@Test
+	public void testTaillePlateau() throws PartieException {
+		
+		Plateau plateau = new Plateau();
+		Source source = plateau.getSource();
+		
+		//On test que chaque case du tableau contienne bien une CASE
+		for(int i=0 ; i < plateau.getTabPlateau().length ; i++){
+			
+			for(int j=0 ; j < plateau.getTabPlateau()[i].length ; j++){
+				
+				Object o = plateau.getTabPlateau()[i][j];
+				
+				assertTrue(o instanceof Case);
+			}
+			
+		}
+		
+		
+		//On affiche le tableau
+		System.out.println(plateau.toString());
+	}
+	
+	
 }
