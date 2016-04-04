@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import Classes.Tuile.*;
 import Exception.JoueurException;
@@ -53,9 +54,6 @@ public class Partie implements Serializable{
 		// On lance la fabrication des tuiles
 		fabriqueTuiles();
 	}
-
-	
-	
 	
 	public ArrayList<Joueur> listeJoueurs() {
 		
@@ -95,6 +93,7 @@ public class Partie implements Serializable{
 		HashMap<SantiagoInterface, Integer> offres = phase1();
 		
 		//Maintenant on peut gérer les offres
+		phase2(offres);
 	}
 	
 	 
@@ -126,6 +125,11 @@ public class Partie implements Serializable{
 
 			}
 			
+			int offre = client.joueurFaitUneOffre();
+			
+			//On stocke les offres
+			listeOffres.put(client, offre);	
+			
 			//On affiche les offres
 			String str = "";
 			
@@ -139,8 +143,19 @@ public class Partie implements Serializable{
 			return listeOffres;
 		}
 		
-		public void phase2(HashMap<SantiagoInterface, Integer> listeOffres){
-			
+		public void phase2(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
+			int offreMin = -1;
+			for (Entry<SantiagoInterface, Integer> entry  : listeOffres.entrySet()){
+				if(entry.getValue() == 0){
+					this.constructeurDeCanal = entry.getKey();
+					break;
+				}
+				else if(offreMin < 0 || entry.getValue()<offreMin){
+					offreMin = entry.getValue();
+					this.constructeurDeCanal = entry.getKey();
+				}
+			}
+			System.out.println("Le nouveau constructeur de canal est: "+this.constructeurDeCanal.getName());
 		}
 		
 		// --------------- FIN PHASES ---------------
@@ -305,7 +320,7 @@ public class Partie implements Serializable{
 	 * @return un objet random contenu dans la liste
 	 */
 	public Object randomInList(ArrayList list) {
-		int random = (int) Math.random() * list.size();
+		int random = (int) (Math.random() * list.size());
 		return list.get(random);
 	}
 
