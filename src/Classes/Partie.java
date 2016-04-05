@@ -27,6 +27,7 @@ public class Partie implements Serializable{
 	private ArrayList<SantiagoInterface> listeClients = new ArrayList<>();
 	
 	private ArrayList<Tuile> listeTuiles = new ArrayList<>();
+	private ArrayList<Tuile> tuilesRetournees;
 	private int nombreDeJoueurs;
 	private boolean partieACommence = false;
 	private SantiagoInterface constructeurDeCanal;
@@ -104,7 +105,7 @@ public class Partie implements Serializable{
 		public HashMap<SantiagoInterface, Integer> phase1() throws RemoteException {
 			
 			//On retourne d'abord les tuiles
-			ArrayList<Tuile> tuilesRetournees = retourneTuiles();
+			this.tuilesRetournees = retourneTuiles();
 			
 			//On récupère le joueur à gauche
 			SantiagoInterface client = getClientAGauche(constructeurDeCanal);
@@ -159,7 +160,9 @@ public class Partie implements Serializable{
 			System.out.println("Le nouveau constructeur de canal est: "+this.constructeurDeCanal.getName());
 		}
 		
-		
+		public void phase3(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
+			
+		}
 		
 		
 		// --------------- FIN PHASES ---------------
@@ -181,7 +184,43 @@ public class Partie implements Serializable{
 		dansLOrdre.add(client);
 		return dansLOrdre;
 	}
-		
+	
+	/**
+	 * Cette methode retourne les joueurs (client) dans l'orde décroissant de leurs offres
+	 * 
+	 * @param listeOffres
+	 * @return liste de client dans l'ordre
+	 * @throws RemoteException 
+	 */
+	public ArrayList<SantiagoInterface> ordreDecroissantOffre(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
+		ArrayList<SantiagoInterface> dansLOrdre = new ArrayList();
+		while(!listeOffres.isEmpty()){
+			SantiagoInterface si = plusGrandeOffre(listeOffres);
+			dansLOrdre.add(si);
+			listeOffres.remove(si);
+		}
+		return dansLOrdre;
+	}
+	
+	/**
+	 * Cette méthode retourne la plus grande offre contenue dans un Hashmap
+	 * 
+	 * @param listeOffres
+	 * @return la plus grande offre
+	 * @throws RemoteException 
+	 */
+	public SantiagoInterface plusGrandeOffre(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
+		int offreMax = 0;
+		SantiagoInterface plusGrandOffre = null;
+		for(Entry<SantiagoInterface, Integer> entry : listeOffres.entrySet()){
+			if(entry.getValue() >= offreMax){
+				plusGrandOffre = entry.getKey();
+				offreMax = entry.getValue();
+			}
+		}
+		return plusGrandOffre;
+	}
+	
 		
 	/**
 	 * Fonction qui ajoute un joueur à la partie 
