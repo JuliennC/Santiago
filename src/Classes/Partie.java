@@ -161,12 +161,55 @@ public class Partie implements Serializable{
 		}
 		
 		public void phase3(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
-			
+			ArrayList <SantiagoInterface> listeClients = ordreDecroissantOffre(listeOffres);
+			phase3point1(listeClients);
+			phase2point2(listeClients);
 		}
 		
 		
 		// --------------- FIN PHASES ---------------
 	
+	/**
+	 * Methode qui permet aux joueurs de choisir leurs tuiles
+	 * 	
+	 * @param listeClients
+	 */
+	public void phase3point1(ArrayList <SantiagoInterface> listeClients){
+		for (SantiagoInterface client : listeClients){
+			
+			//On presente les tuiles
+			presentationTuile();
+			
+			// le client choisit sa tuile
+			int indexTuileChoisie = client.choisirTuile();
+			
+			// on cree le HashMap qui accueil les couple client tuile
+			HashMap<SantiagoInterface, Tuile> listeTuilesChoisies = new HashMap<>();
+			
+			// on insert le couple dans le hashmap
+			listeTuilesChoisies.put(client, this.tuilesRetournees.get(indexTuileChoisie));
+		}
+	}
+	
+	/**
+	 * Methode qui permet aux joueurs de poser leurs tuiles
+	 * 
+	 * @param listeClients
+	 */
+	public void phase3point2(ArrayList <SantiagoInterface> listeClients){
+		
+	}
+	
+	/**
+	 * Methode qui permet de présenter les tuiles
+	 */
+	public void presentationTuile(){
+		int i = 0;
+		for(Tuile t: this.tuilesRetournees){
+			System.out.println(i + " : " + t.getIntitule() + " : " + t.getNombreMarqueursNecessaires());
+			i++;
+		}
+	}
 	
 	/**
 	 * Cette méthode permet d'avoir la liste des joueurs en 
