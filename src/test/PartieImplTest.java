@@ -4,9 +4,11 @@ import static org.junit.Assert.*;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
-
 import org.junit.Test;
 import Classes.Partie;
+import Classes.Plateau.Case;
+import Classes.Plateau.Plateau;
+import Classes.Plateau.Source;
 import Exception.PartieException;
 import network.Santiago;
 import network.SantiagoInterface;
@@ -178,6 +180,8 @@ public class PartieImplTest {
 
 		System.out.println(p.getNombreJoueurDansLaPartie());
 	}*/
+	
+	
 	/**
 	 * Test de la méthode Phase2
 	 * 
@@ -214,4 +218,34 @@ public class PartieImplTest {
 		assertEquals(s2,p.getConstructeurDeCanal());
 	}
 
+	
+	
+	/**
+	 * Test du plateau
+	 * 
+	 */
+	@Test
+	public void testTaillePlateau() throws PartieException {
+		
+		Plateau plateau = new Plateau();
+		Source source = plateau.getSource();
+		
+		//On test que chaque case du tableau contienne bien une CASE
+		for(int i=0 ; i < plateau.getTabPlateau().length ; i++){
+			
+			for(int j=0 ; j < plateau.getTabPlateau()[i].length ; j++){
+				
+				Object o = plateau.getTabPlateau()[i][j];
+				
+				assertTrue(o instanceof Case);
+			}
+			
+		}
+		
+		
+		//On affiche le tableau
+		System.out.println(plateau.toString());
+	}
+	
+	
 }

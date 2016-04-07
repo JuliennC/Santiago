@@ -36,6 +36,7 @@ public class Joueur implements Serializable{
 	 * @param pseudo: le pseudo a verifier
 	 * @return void
 	 * @throws JoueurException
+	 * On lève une exception s'il y a une erreur dans le pseudo
 	 */
 	public static void pseudoEstValide(String pseudo) throws JoueurException {
 
