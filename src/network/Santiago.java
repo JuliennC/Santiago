@@ -166,11 +166,38 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @param : void
 	 * @return : int --> l'offre
 	 */
-	public int joueurFaitUneOffre() throws RemoteException{
-	
-		int i = joueur.joueurFaitUneOffre();
-		System.out.println("test o : "+i);
-		return i;
+	public int joueurFaitUneOffre() throws RemoteException{		
+		
+		Scanner scInt = new Scanner(System.in);
+
+		int offre = 0;
+
+		boolean offreOk = false;
+		
+		while(! offreOk) {
+
+			//On récupère l'offre
+			System.out.println("["+joueur.getPseudo()+"] : Vous devez faire une enchère : ");
+			String str = scInt.nextLine();
+			offre = Integer.parseInt(str);
+			
+			//On regarde la conformité de l'offre
+			if (offre < 0) {
+				System.out.println("Vous ne pouvez pas faire une offre inférieur à 0");
+		
+			} else if (offre > joueur.getSolde()) {
+
+				System.out.println("Vous ne pouvez pas faire une offre supérieur à votre solde : "+joueur.getSolde()+".");
+			
+			} else {
+			
+				offreOk = true;
+			}
+			
+		}
+		
+		
+		return offre;
 	}
 
 	

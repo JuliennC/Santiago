@@ -66,47 +66,7 @@ public class Joueur implements Serializable{
 	
 	
 	
-	/**
-	 * Fonction qui gère l'enchère du joueur
-	 * 
-	 * @param : void
-	 * @return : int : le montant de l'enchère
-	 * @throws JoueurException 
-	 */
-	public int joueurFaitUneOffre()  {
 
-		Scanner scInt = new Scanner(System.in);
-
-		
-		int offre = 0;
-
-		boolean offreOk = false;
-		
-		while(! offreOk) {
-
-			//On récupère l'offre
-			System.out.println("["+pseudo+"] : Vous devez faire une enchère : ");
-			String str = scInt.nextLine();
-			offre = Integer.parseInt(str);
-			
-			//On regarde la conformité de l'offre
-			if (offre < 0) {
-				System.out.println("Vous ne pouvez pas faire une offre inférieur à 0");
-		
-			} else if (offre > solde) {
-
-				System.out.println("Vous ne pouvez pas faire une offre supérieur à votre solde : "+solde+".");
-			
-			} else {
-			
-				offreOk = true;
-			}
-			
-		}
-		
-		return offre;
-	}
-	
 	
 	
 	
