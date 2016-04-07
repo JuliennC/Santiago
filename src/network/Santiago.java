@@ -172,7 +172,19 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		System.out.println("test o : "+i);
 		return i;
 	}
+
 	
+	
+	/**
+	 * Fonction qui affiche une erreur
+	 * @param : String message
+	 * @return : void
+	 */
+	public void afficheErreur(String message) throws RemoteException{
+		
+		//On enregistre également le pseudo pour que personne ne prenne le même pseudo
+		System.out.println(message);
+	}
 	
 	
 	
@@ -187,6 +199,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		//On enregistre également le pseudo pour que personne ne prenne le même pseudo
 		listePseudos.add(pseudo);
 	}
+	
+	
+
 	
 	
 	

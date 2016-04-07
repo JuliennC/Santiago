@@ -118,6 +118,22 @@ public class Partie implements Serializable{
 				// Le joueur doit faire une offre
 				int offre = client.joueurFaitUneOffre();
 				
+				//On vérifie que l'offre est valide 
+				boolean offreValide = ! (listeOffres.containsValue(offre)); 
+				
+				while(! offreValide){
+					
+					//On affiche une erreur
+					client.afficheErreur("Erreur : vous devez entrer une offre qui différentes des autres joueurs");
+					
+					//On redemande une offre
+					offre = client.joueurFaitUneOffre();
+					
+					//On véruifie la nouvelle offre
+					offreValide = ! (listeOffres.containsValue(offre));
+					
+				}
+				
 				//On stocke les offres
 				listeOffres.put(client, offre);	
 				
