@@ -17,10 +17,10 @@ public class Joueur {
 	}
 
 	/*
-	 * Fonction Static qui vÃ©rifie la validitÃ© d'un pseudo du joueur Params :
+	 * Fonction Static qui vÃ©rifie la validité d'un pseudo du joueur Params :
 	 * String -> le pseudo Return : void
 	 * 
-	 * On lÃ¨ve une exception s'il y a une erreur dans le pseudo
+	 * On lève une exception s'il y a une erreur dans le pseudo
 	 */
 	public static void pseudoEstValide(String pseudo) throws JoueurException {
 

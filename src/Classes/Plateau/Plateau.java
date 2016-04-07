@@ -1,6 +1,5 @@
 package Classes.Plateau;
 
-import static org.junit.Assert.assertTrue;
 
 public class Plateau {
 	//plateau de 8 cases de largeur et 6 cases de hauteur
@@ -29,12 +28,26 @@ public class Plateau {
 		source = new Source();
 		
 		//on irrigue les cases où la source est placée
-		/*int coordX[] = new int[2];
-		int coordY[] = new int[2];
-		coordX = source.getCoordX();
-		coordY = source.getCoordY();
-		Case.get*/
+		
+		//Première case
+		Case case1 = tabPlateau[source.getCoordY()[0]][source.getCoordX()[0]];
+		case1.setIrriguee(true);
+	
+		//Deuxième case
+		Case case2 = tabPlateau[source.getCoordY()[0]][source.getCoordX()[1]];
+		case2.setIrriguee(true);
+				
+		//Troisieme case
+		Case case3 = tabPlateau[source.getCoordY()[1]][source.getCoordX()[0]];
+		case3.setIrriguee(true);
+	
+		//Quatrième case
+		Case case4 = tabPlateau[source.getCoordY()[1]][source.getCoordX()[1]];
+		case4.setIrriguee(true);
+	
 	}
+	
+	
 	
 	
 	
