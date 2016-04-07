@@ -82,18 +82,22 @@ public class Partie implements Serializable{
 	public void lancePartie() throws PartieException, RemoteException {
 		
 		System.out.println("On lance la partie");
-
+		
 		setPartieCommence();
 		this.constructeurDeCanal = (SantiagoInterface) randomInList(listeClients);
 
 		System.out.println("Constructeur de canal : "+constructeurDeCanal.getJoueur().getPseudo());
-		
+		demanderPotDeVin();
 		//On lance la phase1
 		
 		HashMap<SantiagoInterface, Integer> offres = phase1();
 		
 		//Maintenant on peut gérer les offres
 		phase2(offres);
+		
+		
+		//Phase 4: Soudoyer le constructeur de canal :
+		
 	}
 	
 	 
@@ -175,8 +179,77 @@ public class Partie implements Serializable{
 			System.out.println("Le nouveau constructeur de canal est: "+this.constructeurDeCanal.getName());
 		}
 		
-		
-		
+		/**
+		 * Correspond à la phase 4 d'un tour de jeu.
+		 * @throws RemoteException
+		 */
+		public void demanderPotDeVin() throws RemoteException {
+			SantiagoInterface propositionChoisie;
+			//On récupère le joueur à gauche
+			SantiagoInterface client = getClientAGauche(constructeurDeCanal);
+			
+			//HashMap des pots de vin de CHAQUE joueur (Même si le joueur soutien un autre joueur)
+			HashMap<SantiagoInterface, Integer> listePotsDeVin = new HashMap<>();
+			//HashMap des soutiens entre les joueurs
+			HashMap<SantiagoInterface, SantiagoInterface> listeSoutiens = new HashMap<>();
+			//HashMap des propositions de pot de vin (Avec le cumul des pots de vin lors des soutiens)
+			HashMap<SantiagoInterface, Integer> listePropositions = new HashMap<>();
+			
+
+			//Pour chaque client
+			while(! client.equals(constructeurDeCanal)) {	
+				int choix = 0;
+				int potDeVin;
+				SantiagoInterface joueurSoutenu;
+
+				
+				//Etape 1: On demande un choix [Pot de vin ; Soutenir joueur ; Passer]
+				choix = client.propositionPhase4();
+				
+				//Etape 2: Selon le choix du joueur:
+				switch(choix) {
+					case 1:	
+						//On demande le montant du pot de vin
+						potDeVin = client.joueurFaitPotDeVin();
+						
+						//On retient la somme proposée par le client
+						listePotsDeVin.put(client, potDeVin);
+						//On la met dans la liste des propositions (Ici la somme pourra être augmentée par un soutien d'un joueur)
+						listePropositions.put(client, potDeVin);
+						
+						//poserCanalTemporaire();
+						break;
+					case 2:
+						//On demande le joueur soutenu.
+						joueurSoutenu = client.soutenirJoueur(listePotsDeVin);
+						
+						//On demande le montant du pot de vin
+						potDeVin = client.joueurFaitPotDeVin();
+						
+						//On retient la somme proposée par le client
+						listePotsDeVin.put(client, potDeVin);	
+						//On retient que cette somme est liée au pot de vin d'un autre joueur
+						listeSoutiens.put(client, joueurSoutenu);
+						
+						//On cumule ce pot de vin au pot de vin de l'autre joueur
+						client.cumulerPotDeVin(listePropositions, joueurSoutenu, potDeVin);
+						break;
+
+					case 3:
+						break;
+				}
+				
+				
+				//On change de joueur
+				client = getClientAGauche(client);
+			}
+			
+			//Une fois que tous les joueurs ont déposés un pot de vin (ou passer), on passe à la seconde partie de la phase 4:
+			propositionChoisie = constructeurDeCanal.choisirPotDeVin(listePropositions);
+			
+			//Informer les joueurs
+			propositionChoisie.deduirePotDeVin(listePropositions, listeSoutiens, listePotsDeVin, constructeurDeCanal);
+		}
 		
 
 		// --------------- FIN PHASES ---------------
