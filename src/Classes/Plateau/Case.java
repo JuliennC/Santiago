@@ -1,6 +1,10 @@
 package Classes.Plateau;
 import Classes.Tuile.Tuile;
 
+/**
+ * Classe Case
+ */
+
 public class Case {
 	
 	private int coordX;
