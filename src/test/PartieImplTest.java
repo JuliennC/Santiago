@@ -4,8 +4,11 @@ import static org.junit.Assert.*;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import Classes.Partie;
+import Classes.Plateau.Canal;
 import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
 import Classes.Plateau.Source;
@@ -49,9 +52,10 @@ public class PartieImplTest {
 	@Test(expected = PartieException.class)
 	public void testFabriqueTuile() throws PartieException {
 		Partie p = new Partie();
-		assertEquals(45, p.getListTuiles().size());
+		assertEquals(45, p.getPlateau().getListeTuiles().size());
 		p.setPartieCommence();
-		p.fabriqueTuiles();
+		p.getPlateau().fabriqueTuiles();
+		
 	}
 
 	/**
@@ -226,7 +230,7 @@ public class PartieImplTest {
 	 */
 	@Test
 	public void testTaillePlateau() throws PartieException {
-		
+
 		Plateau plateau = new Plateau();
 		Source source = plateau.getSource();
 		
@@ -239,13 +243,37 @@ public class PartieImplTest {
 				
 				assertTrue(o instanceof Case);
 			}
+		}
 			
+	}
+	
+	
+	/**
+	 * Test de l'affichage plateau
+	 * 
+	 */
+	@Test
+	public void testAffichePlateau() throws PartieException {
+		
+		Plateau plateau = new Plateau();
+		Source source = plateau.getSource();
+		plateau.afficheCanaux();
+		
+		System.out.println("On irrigue les canaux au dessus et à droite de la source X : ("+source.getCoordX()[0]+","+source.getCoordX()[1]+") Y : ("+source.getCoordY()[0]+","+source.getCoordY()[1]+")");
+		
+		for(Canal canal : plateau.getListeCanaux()){
+
+			//On test le canal du haut
+			if( (canal.getCoordFin().x == source.getCoordX()[0]) && (canal.getCoordFin().y == source.getCoordY()[1])){
+				System.out.println("Canal : ("+canal.getCoordFin().x+","+canal.getCoordFin().y+")");
+				
+				canal.metEnEau();
+			}
 		}
 		
 		
 		//On affiche le tableau
 		System.out.println(plateau.toString());
+		
 	}
-	
-	
 }

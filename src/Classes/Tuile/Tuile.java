@@ -13,6 +13,7 @@ public abstract class Tuile implements Serializable {
 	private boolean tuileEstPosee;
 	
 	protected String intituleDuChamps;
+	protected boolean estDesert;
 		
 	
 	public Tuile(int nbMarqueurs) {
@@ -25,11 +26,11 @@ public abstract class Tuile implements Serializable {
 
 	
 	
-	/*
+	/**
 	 * Fonction qui enlève un marqueur de rendement de la tuile
 	 * 
-	 * Params : void
-	 * Return : void
+	 * @param : void
+	 * @return : void
 	 * 			
 	 * Si la tuile ne contient déjà plus de marqueurs, on lève une exception
 	 */
@@ -49,11 +50,35 @@ public abstract class Tuile implements Serializable {
 
 	
 	
-	/*
+	/**
+	 * Fonction qui met une tuile en désert
+	 * 
+	 * @param : void
+	 * @return : void
+	 */
+	public void setDesert(){
+		estDesert = true;
+	}
+	
+	
+	
+	/**
+	 * Fonction qui dit si une tuile est désert ou non
+	 * 
+	 * @param : void
+	 * @return : boolean
+	 */
+	public boolean estDesert(){
+		return estDesert;
+	}
+	
+	
+	
+	/**
 	 * Fonction qui retourne le nombre de marqueurs de rendement actuellement posés sur la tuile
 	 * 
-	 * Params : void
-	 * Return : int
+	 * @param : void
+	 * @return : int
 	 * 			
 	 */
 	public int getNombreMarqueursActuels(){
@@ -64,11 +89,11 @@ public abstract class Tuile implements Serializable {
 	
 	
 	
-	/*
+	/**
 	 * Fonction qui retourne le nombre de marqueurs necessaires
 	 * 
-	 * Params : void
-	 * Return : int
+	 * @param : void
+	 * @return : int
 	 * 			
 	 */
 	public int getNombreMarqueursNecessaires(){
@@ -78,11 +103,11 @@ public abstract class Tuile implements Serializable {
 	
 	
 	
-	/*
+	/**
 	 * Fonction qui retourne l'intitulé du champs
 	 * 
-	 * Params : void
-	 * Return : String
+	 * @param : void
+	 * @return : String
 	 * 			
 	 */
 	public String getIntitule(){

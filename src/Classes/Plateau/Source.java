@@ -26,14 +26,14 @@ public class Source {
 		super();
 		coordX = placerSourceX();
 		coordY = placerSourceY();
-		System.out.println("La source a pour coordonnees X :");
+		/*System.out.println("La source a pour coordonnees X :");
 		for (int i = 0; i<coordX.length; i++){
 			System.out.println("x["+ i +"]: "+coordX[i]);
 		}
 		System.out.println("La source a pour coordonnees Y :");
 		for (int i = 0; i<coordX.length; i++){
 			System.out.println("y["+ i +"]: "+coordY[i]);
-		}
+		}*/
 		
 	}
 	
