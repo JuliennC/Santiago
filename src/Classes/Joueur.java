@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Exception.JoueurException;
@@ -15,18 +16,13 @@ public class Joueur implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String pseudo;	
-	private boolean pret;
 	private int solde;
-	
-	public Joueur(String pseudo, boolean p) {
-		this.pseudo = pseudo;
-		this.pret = p;
-		solde = 3;
-	}
+	private String couleur;
 		
 	public Joueur(String pseudo, int solde) {
 		this.pseudo = pseudo;
 		this.solde = solde;
+		this.couleur = "blue";
 	}
 
 
@@ -104,10 +100,7 @@ public class Joueur implements Serializable{
 		
 		return offre;
 	}
-	
-	
-	
-	
+
 	// --------------- GETTER et SETTER ---------------
 
 	/**
@@ -161,5 +154,12 @@ public class Joueur implements Serializable{
 
 		return solde;
 	}
+
+
+	public String getCouleur() {
+		return couleur;
+	}
+	
+	
 
 }
