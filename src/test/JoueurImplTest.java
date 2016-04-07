@@ -4,12 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class JoueurImplTest {
+import Classes.Joueur;
+import Exception.JoueurException;
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
+public class JoueurImplTest {
 
 	@Test
 	public void testPseudoEstValide() throws Exception{

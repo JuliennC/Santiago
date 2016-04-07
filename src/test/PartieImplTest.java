@@ -2,10 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 
 import org.junit.Test;
 import Classes.Partie;
@@ -20,20 +18,24 @@ public class PartieImplTest {
 	 * Test de la méthode addJoueur
 	 * 
 	 * @throws PartieException
+	 * @throws RemoteException 
 	 */
 	@Test(expected = PartieException.class)
-	public void testAddJoueur() throws PartieException {
+	public void testAddJoueur() throws PartieException, RemoteException {
 		Joueur j1 = new Joueur("Joueur1", 0);
 		Joueur j2 = new Joueur("Joueur2", 0);
 		Joueur j3 = new Joueur("Joueur3", 0);
+		SantiagoInterface s1 = new Santiago(j1);
+		SantiagoInterface s2 = new Santiago(j2);
+		SantiagoInterface s3 = new Santiago(j3);
 		Partie p = new Partie();
-		p.addJoueur(j1);
+		p.addClient(s1);
 		assertEquals(1, p.getListeJoueurs().size());
-		p.addJoueur(j2);
+		p.addClient(s2);
 		assertEquals(2, p.getListeJoueurs().size());
-		p.addJoueur(j3);
+		p.addClient(s3);
 		assertEquals(3, p.getListeJoueurs().size());
-		p.addJoueur(j2);
+		p.addClient(s2);
 		assertEquals(3, p.getListeJoueurs().size());
 	}
 
@@ -73,20 +75,24 @@ public class PartieImplTest {
 	 * Test de la méthode randomInList
 	 * 
 	 * @throws PartieException
+	 * @throws RemoteException 
 	 */
 	@Test
-	public void testRandomInList() throws PartieException {
+	public void testRandomInList() throws PartieException, RemoteException {
 		Joueur j1 = new Joueur("Joueur1", 0);
 		Joueur j2 = new Joueur("Joueur2", 0);
 		Joueur j3 = new Joueur("Joueur3", 0);
+		SantiagoInterface s1 = new Santiago(j1);
+		SantiagoInterface s2 = new Santiago(j2);
+		SantiagoInterface s3 = new Santiago(j3);
 		Partie p = new Partie();
-		p.addJoueur(j1);
+		p.addClient(s1);
 		Joueur jRandom = (Joueur) p.randomInList(p.getListeJoueurs());
 		assertTrue(j1 == jRandom || j2 == jRandom || j3 == jRandom);
-		p.addJoueur(j2);
+		p.addClient(s2);
 		jRandom = (Joueur) p.randomInList(p.getListeJoueurs());
 		assertTrue(j1 == jRandom || j2 == jRandom || j3 == jRandom);
-		p.addJoueur(j3);
+		p.addClient(s3);;
 		jRandom = (Joueur) p.randomInList(p.getListeJoueurs());
 		assertTrue(j1 == jRandom || j2 == jRandom || j3 == jRandom);
 	}
@@ -95,16 +101,20 @@ public class PartieImplTest {
 	 * Test de la méthode lancePartie
 	 * 
 	 * @throws PartieException
+	 * @throws RemoteException 
 	 */
 	@Test
-	public void testStart() throws PartieException {
-		Partie p = new Partie();
+	public void testStart() throws PartieException, RemoteException {
 		Joueur j1 = new Joueur("Joueur1", 0);
 		Joueur j2 = new Joueur("Joueur2", 0);
 		Joueur j3 = new Joueur("Joueur3", 0);
-		p.addJoueur(j1);
-		p.addJoueur(j2);
-		p.addJoueur(j3);
+		SantiagoInterface s1 = new Santiago(j1);
+		SantiagoInterface s2 = new Santiago(j2);
+		SantiagoInterface s3 = new Santiago(j3);
+		Partie p = new Partie();
+		p.addClient(s1);
+		p.addClient(s2);
+		p.addClient(s3);
 		p.lancePartie();
 		assertNotEquals(null, p.getConstructeurDeCanal());
 		assertEquals(true, p.getPartieACommence());
@@ -112,17 +122,21 @@ public class PartieImplTest {
 
 	/**
 	 * Test de la méthode AideAuDeveloppement
+	 * @throws RemoteException 
 	 * 
 	 */
 	@Test
-	public void testAideAuDeveloppement() throws PartieException {
+	public void testAideAuDeveloppement() throws PartieException, RemoteException {
 		Joueur j1 = new Joueur("Joueur1", 0);
 		Joueur j2 = new Joueur("Joueur2", 0);
 		Joueur j3 = new Joueur("Joueur3", 0);
+		SantiagoInterface s1 = new Santiago(j1);
+		SantiagoInterface s2 = new Santiago(j2);
+		SantiagoInterface s3 = new Santiago(j3);
 		Partie p = new Partie();
-		p.addJoueur(j1);
-		p.addJoueur(j2);
-		p.addJoueur(j3);
+		p.addClient(s1);
+		p.addClient(s2);
+		p.addClient(s3);
 		p.lancePartie();
 		p.AideAuDeveloppement();
 		assertEquals(3, j1.getSolde());
@@ -164,7 +178,40 @@ public class PartieImplTest {
 
 		System.out.println(p.getNombreJoueurDansLaPartie());
 	}*/
-
-
+	/**
+	 * Test de la méthode Phase2
+	 * 
+	 * @throws PartieException 
+	 * @throws RemoteException 
+	 */
+	@Test
+	public void testPhase2() throws PartieException, RemoteException{
+		Partie p = new Partie();
+		Joueur j1 = new Joueur("Joueur1", 0);
+		Joueur j2 = new Joueur("Joueur2", 0);
+		Joueur j3 = new Joueur("Joueur3", 0);
+		SantiagoInterface s1 = new Santiago(j1);
+		SantiagoInterface s2 = new Santiago(j2);
+		SantiagoInterface s3 = new Santiago(j3);
+		p.addClient(s1);
+		p.addClient(s2);
+		p.addClient(s3);
+		//Test pour etre sur que c'est bien le premier a avoir passer qui sera constructeur de canal
+		HashMap<SantiagoInterface, Integer> listeOffres1 = new HashMap<>();
+		listeOffres1.put(s1, 0);	
+		listeOffres1.put(s2, 0);	
+		listeOffres1.put(s3, 0);	
+		p.setConstructeurDeCanal(s1);
+		p.phase2(listeOffres1);
+		assertEquals(s2,p.getConstructeurDeCanal());
+		//Test pour etre sur que c'est bien l'offre la plus basse qui devient le constructeur de canal
+		HashMap<SantiagoInterface, Integer> listeOffres2 = new HashMap<>();
+		listeOffres2.put(s1, 10);	
+		listeOffres2.put(s2, 2);	
+		listeOffres2.put(s3, 70);
+		p.setConstructeurDeCanal(s2);
+		p.phase2(listeOffres2);
+		assertEquals(s2,p.getConstructeurDeCanal());
+	}
 
 }
