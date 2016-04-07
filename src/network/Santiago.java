@@ -320,6 +320,29 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		// TODO Auto-generated method stub
 		return listeParties;
 	}
+
+	/**
+	 * Fonction qui demande au client s'il veut poser son canal bleu
+	 * @return booleen (oui ou non il veut apposer son canal)
+	 */
+	public boolean irrigationSupp() {
+		System.out.println("Voulez vous poser votre unique canal recu en début de partie ? o / n");
+		String choix = scString.nextLine();
+		boolean reponse = false;
+		switch (choix) {
+		case "o" :
+			reponse = true;
+			break;
+		case "n" :
+			reponse = false;
+			break;
+		default:
+			System.out.println("Entrez le charactère o ou n");
+			irrigationSupp();
+			break;
+		}
+		return reponse;
+	}
 	
 	
 }

@@ -175,6 +175,36 @@ public class Partie implements Serializable{
 			System.out.println("Le nouveau constructeur de canal est: "+this.constructeurDeCanal.getName());
 		}
 		
+		/**
+		 * Phase 5
+		 * Irriguation complémentaire
+		 * @throws RemoteException 
+		 */
+		public void phase5() throws RemoteException{
+			SantiagoInterface client = getClientAGauche(constructeurDeCanal);
+			boolean choix = false;
+			
+			//tant que client n'est pas un constructeur de canal
+			//OU que le choix du joueur est de poser un canal
+			
+			while((!client.equals(constructeurDeCanal)) || choix==true){
+				
+				//on pose la question au client
+				choix = client.irrigationSupp();
+				
+				//Si il veut le poser on lui demande où (A FAIRE)
+				if (choix==true){
+					client.placerCanal();	
+				}
+				
+				//On change de client
+				client = getClientAGauche(client);
+				
+			}
+			
+			
+		}
+		
 		
 		
 		
