@@ -66,5 +66,14 @@ public class Canal {
 	public Point getCoordFin(){
 		return coordFin;
 	}
+
 	
+	/**
+	 * Fonction qui indique si le canal est vertical (ou horizontal)
+	 *	@param : void
+	 *	@return : boolean (true si vertical)
+	 */
+	public boolean canalEstVertical(){
+		return (coordDebut.x == coordFin.x);
+	}
 }

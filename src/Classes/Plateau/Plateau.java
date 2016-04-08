@@ -135,6 +135,85 @@ public class Plateau {
 	
 	
 	/**
+	 * Fonction qui met un canal
+	 * 
+	 * @param : Canal
+	 * @return void
+	 */
+	public void metCanal(Canal canal){
+		
+		//On indique que le canal est en eau
+		canal.metEnEau();
+		
+		//On récup les coordonées du canal
+		int x = canal.getCoordDebut().x;
+		int y = canal.getCoordDebut().y;
+		
+		if(canal.canalEstVertical()){
+			
+			//On met les cases irriguées
+			try{
+				
+				Case c = tabPlateau[y][x-1];
+				c.setIrriguee(true);
+			
+				c = tabPlateau[y+1][x-1];
+				c.setIrriguee(true);
+				
+			//Si on rentre dans le catch c'est que le canal est tout à gauche
+			} catch(Exception e){}
+			
+			
+			try{
+				
+				Case c = tabPlateau[y][x];
+				c.setIrriguee(true);
+			
+				c = tabPlateau[y+1][x];
+				c.setIrriguee(true);
+				
+			//Si on rentre dans le catch c'est que le canal est tout à droite
+			} catch(Exception e){}
+			
+			
+			
+		} else {
+			
+			//On met les cases irriguées
+			try{
+				
+				Case c = tabPlateau[y-1][x];
+				c.setIrriguee(true);
+			
+				c = tabPlateau[y][x];
+				c.setIrriguee(true);
+				
+			//Si on rentre dans le catch c'est que le canal est tout à gauche
+			} catch(Exception e){}
+			
+			
+			try{
+				
+				Case c = tabPlateau[y-1][x+1];
+				c.setIrriguee(true);
+			
+				c = tabPlateau[y][x+1];
+				c.setIrriguee(true);
+				
+			//Si on rentre dans le catch c'est que le canal est tout à droite
+			} catch(Exception e){}
+			
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	/**
 	 * Fonction qui fabrique les tuiles nécessaires à la partie et qui les
 	 * ajoute dans "listeTuiles"
 	 * 

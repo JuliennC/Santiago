@@ -281,7 +281,8 @@ public class PartieImplTest {
 			if( (canal.getCoordFin().x == source.getCoordX()[1]) && (canal.getCoordFin().y == source.getCoordY()[0])){
 				System.out.println("2 Canal haut : Debut : ("+canal.getCoordFin().x+","+canal.getCoordFin().y+") Fin :("+canal.getCoordFin().x+","+canal.getCoordFin().y+")");
 				
-				canal.metEnEau();
+				plateau.metCanal(canal);
+				//canal.metEnEau();
 			}
 			
 			
@@ -289,7 +290,8 @@ public class PartieImplTest {
 			if((canal.getCoordDebut().y == canal.getCoordFin().y) && (canal.getCoordDebut().x == source.getCoordX()[0]+1) && (canal.getCoordDebut().y == source.getCoordY()[1])){
 				System.out.println("2 Canal Droite : Debut : ("+canal.getCoordDebut().x+","+canal.getCoordDebut().y+") Fin :("+canal.getCoordFin().x+","+canal.getCoordFin().y+")");
 				
-				canal.metEnEau();
+				plateau.metCanal(canal);
+				//canal.metEnEau();
 			}
 		}
 		
