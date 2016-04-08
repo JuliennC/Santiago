@@ -248,6 +248,20 @@ public class PartieImplTest {
 	}
 	
 	
+	
+	/**
+	 * Test du nombre de canaux
+	 * @throws PartieException 
+	 */
+	@Test
+	public void testNombreCanaux() throws PartieException {
+		
+		Plateau plateau = new Plateau();
+		System.out.println("Nombre canaux : "+plateau.getListeCanaux().size());
+		assertEquals(24, plateau.getListeCanaux().size());
+	}
+	
+	
 	/**
 	 * Test de l'affichage plateau
 	 * 
@@ -264,8 +278,16 @@ public class PartieImplTest {
 		for(Canal canal : plateau.getListeCanaux()){
 
 			//On test le canal du haut
-			if( (canal.getCoordFin().x == source.getCoordX()[0]) && (canal.getCoordFin().y == source.getCoordY()[1])){
-				System.out.println("Canal : ("+canal.getCoordFin().x+","+canal.getCoordFin().y+")");
+			if( (canal.getCoordFin().x == source.getCoordX()[1]) && (canal.getCoordFin().y == source.getCoordY()[0])){
+				System.out.println("2 Canal haut : Debut : ("+canal.getCoordFin().x+","+canal.getCoordFin().y+") Fin :("+canal.getCoordFin().x+","+canal.getCoordFin().y+")");
+				
+				canal.metEnEau();
+			}
+			
+			
+			//On test le canal de droite
+			if((canal.getCoordDebut().y == canal.getCoordFin().y) && (canal.getCoordDebut().x == source.getCoordX()[0]+1) && (canal.getCoordDebut().y == source.getCoordY()[1])){
+				System.out.println("2 Canal Droite : Debut : ("+canal.getCoordDebut().x+","+canal.getCoordDebut().y+") Fin :("+canal.getCoordFin().x+","+canal.getCoordFin().y+")");
 				
 				canal.metEnEau();
 			}

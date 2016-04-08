@@ -86,65 +86,46 @@ public class Plateau {
 	 */
 	public void fabriqueCanaux(){
 		
-		//On dit qu'il y a 2 cases entre les canaux
-		int nombreDeCasesEntreCanaux = 2;
-	
 		//On compte le nombre de canaux nécéssaires
 		int nombreDeColonnes = tabPlateau[0].length;
 
 		int nombreDeLignes = tabPlateau.length;
 		
-		//On met les canaux verticaux
-		for(int i = 0; i < nombreDeColonnes; i+=2){
-			
-			
-			//On parcours le nombre de ligne
-			//On va jusque -1 pour ne pas qu'il y ai un canal en dehors du terrin
-			for(int j = 0; j < nombreDeLignes; j++) {
-			
-				//On ajoute un canal tous les X cases
-				if(j % nombreDeCasesEntreCanaux == 0){
 
-					//On crée le canal
-					Canal canal = new Canal();
-					
-					//On peut donc les coordonnées de début
-					canal.setCoordDebut(i, j);
-					
-					//Et on met les coordonnées de fin
-					canal.setCoordFin(i, j+2);
-					
-					//on ajoute la canal à la liste
-					listeCanaux.add(canal);
-				}	
-			}	
+
+		
+		// Il faudra voir si ce n'est pas possible de les généraux dynamiquement (début plus haut)
+		
+		//Les canaux horyiontaux
+		for (int i=0 ; i<=nombreDeLignes ; i+=2){
+			
+			for(int j=0 ; j<nombreDeColonnes-2 ; j+=2){
+				
+				Canal c1 = new Canal();
+				c1.setCoordDebut(j, i);
+				c1.setCoordFin(j+1, i);
+				listeCanaux.add(c1);
+				//c1.metEnEau();
+			}
 		}
-	
-
-		//On met les canaux Horizontaux
-		for(int i = 0; i < nombreDeLignes; i+=2){
+		
+		
+		
+		//Les canaux verticaux
+		for (int i=0 ; i<nombreDeColonnes ; i+=2){
 					
-			//On parcours le nombre de ligne
-			//On va jusque -1 pour ne pas qu'il y ai un canal en dehors du terrin
-			for(int j = 0; j < nombreDeColonnes; j++) {
-						
-				//On ajoute un canal tous les X cases
-				if(j % nombreDeCasesEntreCanaux == 0){
-					
-					//On crée le canal
-					Canal canal = new Canal();
-					
-					//On peut donc les coordonnées de début
-					canal.setCoordDebut(j, i);
-							
-					//Et on met les coordonnées de fin
-					canal.setCoordFin(j+2, i);
-
-					//on ajoute la canal à la liste
-					listeCanaux.add(canal);
-				}			
-			}					
+			for(int j=0 ; j< nombreDeLignes ; j+=2){
+				
+				Canal c1 = new Canal();
+				c1.setCoordDebut(i, j);
+				c1.setCoordFin(i, j+1);
+				listeCanaux.add(c1);
+				//c1.metEnEau();
+			}
+			
 		}
+		
+		
 		
 		
 	}
@@ -267,24 +248,65 @@ public class Plateau {
 	
 	public String toString(){
 
-		String str = "";
+		String str = "\n\n";
+		
 		
 		//On test que chaque case du tableau contienne bien une CASE
-		for(int y=0 ; y < getTabPlateau().length ; y++){
+		for(int y=0 ; y <= getTabPlateau().length ; y++){
 				
-			str += "[   ";
-			
-			for(int x=0 ; x < getTabPlateau()[y].length ; x++){
+			str += "  ";
+			for (int x=0; x < tabPlateau[0].length; x++){
+				
+				boolean canalTrouve = false;
+				
+				//on test s'il y a un canal à cet endroit
+				for(Canal canal : listeCanaux){
+
+					//Si c'est un canal horizontal
+					if( (canal.getCoordDebut().y == canal.getCoordFin().y) && (canal.getCoordFin().y == y) ){
+					
+						if( (canal.getCoordDebut().x <= x) && (canal.getCoordFin().x >= x)){
+											
+							//On affiche que si le canal est irigué
+							if(canal.estEnEau()){
+								canalTrouve = true;
+							}
 						
-				Case c = getTabPlateau()[y][x];
+						} 
+						
+					}
+					
+				}
+				
+				if(canalTrouve){
+					str+="----";
+					
+				} else {
+					str+="    ";
+				}
+				
+				//On test pour afficher la source
+				if( (source.getCoordY()[1] == y) && (source.getCoordX()[0] == x) ){
+					
+					str+=".";
+				}
+}
+
+			
+			if(y<tabPlateau.length){
+				
+				str += "\n[   ";
+			
+			for(int x=0 ; x <= getTabPlateau()[y].length ; x++){
+				
 
 				//on test s'il y a un canal à cet endroit
 				for(Canal canal : listeCanaux){
 
 					//Si c'est un canal vertical
-					if(canal.getCoordDebut().x == canal.getCoordFin().x){
+					if((canal.getCoordDebut().x == canal.getCoordFin().x) && (canal.getCoordFin().x == x)){
 					
-						if( (canal.getCoordDebut().x <= x) && (canal.getCoordFin().x >= x)){
+						if( (canal.getCoordDebut().y <= y) && (canal.getCoordFin().y >= y)){
 									
 							if(canal.estEnEau()){
 								str = suppChar(str);
@@ -297,6 +319,12 @@ public class Plateau {
 					
 				}
 				
+			
+			if(x < tabPlateau.length){
+
+				Case c = getTabPlateau()[y][x];
+
+				
 				//Si la case est irriguée on l'affiche en maj
 				if(c.isIrriguee()){
 					
@@ -307,13 +335,13 @@ public class Plateau {
 					str += "x   ";
 				}
 				
-				
+			}
 			}
 			
-			str += "]\n  ";
+			str += "]  ";
+			}
 			
-			
-			for (int x=0; x < tabPlateau[0].length; x++){
+			/*for (int x=0; x < tabPlateau[0].length; x++){
 				
 				boolean canalTrouve = false;
 				
@@ -321,9 +349,9 @@ public class Plateau {
 				for(Canal canal : listeCanaux){
 
 					//Si c'est un canal horizontal
-					if(canal.getCoordDebut().y == canal.getCoordFin().y){
+					if( (canal.getCoordDebut().y == canal.getCoordFin().y) && (canal.getCoordFin().y-1 == y) ){
 					
-						if( (canal.getCoordDebut().y <= y) && (canal.getCoordFin().y >= y)){
+						if( (canal.getCoordDebut().x <= x) && (canal.getCoordFin().x >= x)){
 											
 							//On affiche que si le canal est irigué
 							if(canal.estEnEau()){
@@ -349,7 +377,7 @@ public class Plateau {
 					str+=".";
 				}
 				
-			}			
+			}			*/
 			
 			str += "\n";
 					
@@ -367,7 +395,7 @@ public class Plateau {
 	public void afficheCanaux(){
 		
 		for(Canal canal : listeCanaux){
-			System.out.println("Canal début : ("+canal.getCoordDebut().x+","+canal.getCoordFin().y+")  Fin : ("+canal.getCoordFin().x+","+canal.getCoordDebut().y+")");
+			System.out.println("Canal début : ("+canal.getCoordDebut().x+","+canal.getCoordDebut().y+")  Fin : ("+canal.getCoordFin().x+","+canal.getCoordFin().y+")");
 		}
 	}
 
