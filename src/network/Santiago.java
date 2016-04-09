@@ -173,8 +173,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		return i;
 	}
 	
-	
-	
+	public int joueurChoisitTuile(int nbTuile){
+		return this.joueur.joueurChoisitTuile(nbTuile);
+	}
 	
 	
 	/**

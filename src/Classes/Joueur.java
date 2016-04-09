@@ -105,7 +105,29 @@ public class Joueur implements Serializable{
 		return offre;
 	}
 	
-	
+	public int joueurChoisitTuile(int nbTuile){
+		
+		Scanner scInt = new Scanner(System.in);
+		int tuile = 0;
+		boolean tuileOk = false;
+		
+		while(! tuileOk) {
+			//On récupère l'offre
+			System.out.println("["+pseudo+"] : Vous devez choisir une tuile : ");
+			String str = scInt.nextLine();
+			tuile = Integer.parseInt(str);
+			
+			//On regarde la conformité de la demande de tuile
+			if (tuile < 0 || tuile >= nbTuile) {
+				System.out.println("Le chiffre que vous donnez ne correspond a aucune tuile.");
+			} else {
+				tuileOk = true;
+			}
+			
+		}
+		
+		return tuile;
+	}
 	
 	
 	// --------------- GETTER et SETTER ---------------

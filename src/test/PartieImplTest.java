@@ -254,4 +254,35 @@ public class PartieImplTest {
 		assertEquals(listeComparative.get(1),liste.get(1));
 		assertEquals(listeComparative.get(2),liste.get(2));
 	}
+    
+	@Test
+	public void testPhase3() throws PartieException, RemoteException{
+		Joueur j1 = new Joueur("Joueur1", 0);
+		Joueur j2 = new Joueur("Joueur2", 0);
+		Joueur j3 = new Joueur("Joueur3", 0);
+		SantiagoInterface s1 = new Santiago(j1);
+		SantiagoInterface s2 = new Santiago(j2);
+		SantiagoInterface s3 = new Santiago(j3);
+		Partie p = new Partie();
+		p.addClient(s1);
+		p.addClient(s2);
+		p.addClient(s3);
+		p.lancePartie();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -93,8 +93,8 @@ public class Partie implements Serializable{
 		
 		HashMap<SantiagoInterface, Integer> offres = phase1();
 		
-		//Maintenant on peut gérer les offres
 		phase2(offres);
+		phase3(offres);
 	}
 	
 	 
@@ -162,8 +162,8 @@ public class Partie implements Serializable{
 		
 		public void phase3(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
 			ArrayList <SantiagoInterface> listeClients = ordreDecroissantOffre(listeOffres);
-			phase3point1(listeClients);
-			phase2point2(listeClients);
+			HashMap<SantiagoInterface, Tuile> listeTuilesChoisies = phase3point1(listeClients);
+			phase3point2(listeTuilesChoisies, listeClients);
 		}
 		
 		
@@ -174,21 +174,22 @@ public class Partie implements Serializable{
 	 * 	
 	 * @param listeClients
 	 */
-	public void phase3point1(ArrayList <SantiagoInterface> listeClients){
+	public HashMap<SantiagoInterface, Tuile> phase3point1(ArrayList <SantiagoInterface> listeClients){
+		
+		//On presente les tuiles
+		presentationTuile();
+		
+		// on cree le HashMap qui accueil les couple client tuile
+		HashMap<SantiagoInterface, Tuile> listeTuilesChoisies = new HashMap<>();
 		for (SantiagoInterface client : listeClients){
 			
-			//On presente les tuiles
-			presentationTuile();
-			
 			// le client choisit sa tuile
-			int indexTuileChoisie = client.choisirTuile();
-			
-			// on cree le HashMap qui accueil les couple client tuile
-			HashMap<SantiagoInterface, Tuile> listeTuilesChoisies = new HashMap<>();
+			int indexTuileChoisie = client.joueurChoisitTuile(this.tuilesRetournees.size());
 			
 			// on insert le couple dans le hashmap
 			listeTuilesChoisies.put(client, this.tuilesRetournees.get(indexTuileChoisie));
 		}
+		return listeTuilesChoisies;
 	}
 	
 	/**
@@ -196,7 +197,7 @@ public class Partie implements Serializable{
 	 * 
 	 * @param listeClients
 	 */
-	public void phase3point2(ArrayList <SantiagoInterface> listeClients){
+	public void phase3point2(HashMap<SantiagoInterface, Tuile> listeTuilesChoisies, ArrayList <SantiagoInterface> listeClients){
 		
 	}
 	
@@ -569,5 +570,9 @@ public class Partie implements Serializable{
 	 */
 	public String getNomPartie() {
 		return nomPartie;
+	}
+	
+	public void setTuileRetournee(ArrayList<Tuile> tuiles){
+		this.tuilesRetournees = tuiles;
 	}
 }
