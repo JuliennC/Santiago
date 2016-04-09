@@ -11,13 +11,27 @@ import Classes.Tuile.TuilePiment;
 import Classes.Tuile.TuilePommeDeTerre;
 import Exception.PartieException;
 
+import Exception.PartieException;
+
+/**
+ * Classe Plateau
+ * 
+ */
+
+
 public class Plateau {
-	//plateau de 8 cases de largeur et 6 cases de hauteur
-	
-	//Passer par une array list serait peut être plus simple ...(?)
-	// ATTENTION : dans un tableau à double dimension, c'est tab[y][x] !
+	/**
+	 * Initialisation du Plateau
+	 * C'est un tableau de Case
+	 * Plateau de 8 cases de largeur et 6 cases de hauteur
+	 * ATTENTION : dans un tableau à double dimension, c'est tab[y][x] !
+	 * 
+	 */
 	private Case tabPlateau[][] = new Case[6][8] ;
 	
+	/**
+	 * Initialisation de la source
+	 */
 	private Source source;
 	private ArrayList<Canal> listeCanaux = new ArrayList<>();
 	private ArrayList<Tuile> listeTuiles = new ArrayList<>();
@@ -26,7 +40,15 @@ public class Plateau {
 	static int nombreDeTuile2Marqueur = 6;	
 	
 	
+	
+	/**
+	 * Constructeur du plateau
+	 * 1. Il crée les Cases (toutes non irriguées et sans Tuiles)
+	 * 2. Crée une source @see Source
+	 * 3. Irrigue les case où la source a été créee
+	 */
 	public Plateau() throws PartieException {
+
 		super();
 		
 		//On parcours d'abord les lignes
@@ -290,6 +312,7 @@ public class Plateau {
 	
 	
 	
+
 	
 	//--------------- GETTER / SETTER ----------
 	
@@ -313,18 +336,27 @@ public class Plateau {
 	}
 	
 	
+
+	/**
+	 * Retourne la source du plateau
+	 * @return l'objet source du plateau
+	 */
 	public Source getSource(){
 		return source;
 	}
 	
 	
-
+	/**
+	 * @return le tableau du Plateau
+	 */
 	public Case[][] getTabPlateau(){
 		return tabPlateau;
 	}
 	
 	
-	
+	/**
+	 * Méthode d'affichage du plateau
+	 */
 	public String toString(){
 
 		String str = "\n\n";

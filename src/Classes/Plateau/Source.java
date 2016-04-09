@@ -1,11 +1,17 @@
 package Classes.Plateau;
 
+/**
+ * Classe Source
+ */
 public class Source {
-	//la source est un couple de coordonées
-	// Ex : elle peut etre en X[1,2] Y[1,2] elle sera en entre la colonne 1,2 et la ligne 1,2
-	//liste des points possibles pour x : x[1,2] x[3,4] x[5,6] 
-	//liste des points possibles pour y : y[1,2] y[3,4]
-	//Les coordonnées commencent à 0 (pour faciliter le lien avec le tableau ?)
+	/**
+	 * La source est un couple de coordonées
+	 * Ex : elle peut etre en X[1,2] Y[1,2] elle sera en entre la colonne 1,2 et la ligne 1,2
+	 * liste des points possibles pour x : x[1,2] x[3,4] x[5,6] 
+	 * liste des points possibles pour y : y[1,2] y[3,4]
+	 * Les coordonnées commencent à 0
+	 */
+
 	private int coordX[] = new int[2];
 	private int coordY[] = new int[2];
 	
@@ -22,7 +28,14 @@ public class Source {
 		this.coordY = coordY;
 	}
 	
+	/**
+	 * Constructeur de Source
+	 * placement aléatoire en X @see placerSourceX()
+	 * placement aléatoire en Y @see placerSourceY()
+	 * @return Affichage des coordonnées de la source
+	 */
 	public Source() {
+		
 		super();
 		coordX = placerSourceX();
 		coordY = placerSourceY();
@@ -37,6 +50,11 @@ public class Source {
 		
 	}
 	
+	/**
+	 * Méthode de placement aléatoire de la source en X
+	 * 
+	 * @return Un tableau de coordonnées en X
+	 */
 	public int[] placerSourceX(){
 		int l = 0;
 		int h = 3;
@@ -63,6 +81,12 @@ public class Source {
 		}
 		return coordX;
 	}
+	
+	/**
+	 * Méthode de placement aléatoire de la source en Y
+	 * 
+	 * @return Un tableau de coordonnées en Y
+	 */
 	public int[] placerSourceY(){
 		int l = 0;
 		int h2 = 2;
@@ -85,9 +109,5 @@ public class Source {
 		}
 		return coordY;
 	}
-	
-	/*public static void main(String[] args) {
-		Source s = new Source();
-	}*/
 	
 }
