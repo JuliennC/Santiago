@@ -2,6 +2,7 @@ package network;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Classes.Joueur;
 import Classes.Partie;
@@ -34,5 +35,21 @@ public interface SantiagoInterface extends Remote{
 	public int joueurFaitUneOffre() throws RemoteException;
 	
 	public int joueurChoisitTuile(int nbTuile);
-	
+
+	public void afficheErreur(String message) throws RemoteException;
+
+	public int propositionPhase4() throws RemoteException;
+		
+	public int joueurFaitPotDeVin() throws RemoteException;
+		
+	public void afficherPropositionsPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException;
+		
+	public SantiagoInterface soutenirJoueur(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException;
+		
+	public void cumulerPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions, SantiagoInterface joueurSoutenu, int potDeVin) throws RemoteException;
+		
+	public SantiagoInterface choisirPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException;
+		
+	public void deduirePotDeVin(HashMap<SantiagoInterface, Integer> listePropositions, HashMap<SantiagoInterface, SantiagoInterface> listeSoutiens, HashMap<SantiagoInterface, Integer> listePotDeVin, SantiagoInterface constructeur) throws RemoteException;
+
 }

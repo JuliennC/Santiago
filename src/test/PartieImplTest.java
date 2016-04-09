@@ -5,9 +5,11 @@ import static org.junit.Assert.*;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import org.junit.Test;
 import Classes.Partie;
+import Classes.Plateau.Case;
+import Classes.Plateau.Plateau;
+import Classes.Plateau.Source;
 import Exception.PartieException;
 import network.Santiago;
 import network.SantiagoInterface;
@@ -179,6 +181,72 @@ public class PartieImplTest {
 
 		System.out.println(p.getNombreJoueurDansLaPartie());
 	}*/
+	
+	@Test
+	public void testDemanderPotDeVin() throws PartieException, RemoteException {
+		Partie p = new Partie();
+		Joueur j1 = new Joueur("Joueur1", 10);
+		Joueur j2 = new Joueur("Joueur2", 10);
+		Joueur j3 = new Joueur("Joueur3", 10);
+		Joueur j4 = new Joueur("Joueur2", 10);
+		Joueur j5 = new Joueur("Joueur3", 10);
+		
+		SantiagoInterface s1 = new Santiago(j1);
+		SantiagoInterface s2 = new Santiago(j2);
+		SantiagoInterface s3 = new Santiago(j3);
+		SantiagoInterface s4 = new Santiago(j4);
+		SantiagoInterface s5 = new Santiago(j5);
+		
+		p.addClient(s1);
+		p.addClient(s2);
+		p.addClient(s3);
+		p.addClient(s4);
+		p.addClient(s5); p.setConstructeurDeCanal(s5);
+		
+		HashMap<SantiagoInterface, Integer> listePotsDeVin = new HashMap<>();
+		HashMap<SantiagoInterface, SantiagoInterface> listeSoutiens = new HashMap<>();
+		HashMap<SantiagoInterface, Integer> listePropositions = new HashMap<>();
+		
+		//Construction du canal du joueur2:
+//		listePotsDeVin.put(s1, 5); listePropositions.put(s1, 5);
+//		listePotsDeVin.put(s2, 8); listePropositions.put(s2, 8);
+//		listePotsDeVin.put(s3, 5); listeSoutiens.put(s3, s1); s3.cumulerPotDeVin(listePropositions, s1, 5);
+//		listePotsDeVin.put(s4, 5); listeSoutiens.put(s4, s2); s4.cumulerPotDeVin(listePropositions, s2, 5);
+		//Construction de son propre canal:
+		listePotsDeVin.put(s1, 1); listePropositions.put(s1, 1);
+		listePotsDeVin.put(s2, 1); listePropositions.put(s2, 1);
+		listePotsDeVin.put(s3, 1); listeSoutiens.put(s3, s1); s3.cumulerPotDeVin(listePropositions, s1, 1);
+		listePotsDeVin.put(s4, 1); listeSoutiens.put(s4, s2); s4.cumulerPotDeVin(listePropositions, s2, 1);
+		
+		//Test du cumul des pots de vin :
+		int potDeVinJ1 = listePropositions.get(s1);
+		int resAttenduJ1 = 2;
+		assertEquals(potDeVinJ1, resAttenduJ1);
+		
+		int potDeVinJ2 = listePropositions.get(s2);
+		int resAttenduJ2 = 2;
+		assertEquals(potDeVinJ2, resAttenduJ2);
+		System.out.println(s5.getJoueur().getSolde());
+		//--------------------------------------------------
+		//Choix du constructeur de canal:
+		s5.choisirPotDeVin(listePropositions);
+		s5.deduirePotDeVin(listePropositions, listeSoutiens, listePotsDeVin, s5);
+		System.out.println(s5.getJoueur().getSolde());
+		//Construction du canal du joueur2
+//		int resAttenduSoldeS5 = 23; int resAttenduSoldeS1 = 10; int resAttenduSoldeS2 = 2; int resAttenduSoldeS4 = 5;
+		
+		//Construction de son propre canal:
+		int resAttenduSoldeS5 = 7; int resAttenduSoldeS1 = 10; int resAttenduSoldeS2 = 10; int resAttenduSoldeS4 = 10;
+		
+		assertEquals(j1.getSolde(), resAttenduSoldeS1); 
+		assertEquals(j2.getSolde(), resAttenduSoldeS2);
+		assertEquals(j4.getSolde(), resAttenduSoldeS4); 
+		assertEquals(j5.getSolde(), resAttenduSoldeS5);
+		
+	}
+
+	
+	
 	/**
 	 * Test de la méthode Phase2
 	 * 
@@ -269,20 +337,31 @@ public class PartieImplTest {
 		p.addClient(s3);
 		p.lancePartie();
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
+	/**
+	 * Test du plateau
+	 * 
+	 */
+	@Test
+	public void testTaillePlateau() throws PartieException {
+		
+		Plateau plateau = new Plateau();
+		Source source = plateau.getSource();
+		
+		//On test que chaque case du tableau contienne bien une CASE
+		for(int i=0 ; i < plateau.getTabPlateau().length ; i++){
+			
+			for(int j=0 ; j < plateau.getTabPlateau()[i].length ; j++){
+				
+				Object o = plateau.getTabPlateau()[i][j];
+				
+				assertTrue(o instanceof Case);
+			}
+			
+		}
+		
+		
+		//On affiche le tableau
+		System.out.println(plateau.toString());
+	}
 }

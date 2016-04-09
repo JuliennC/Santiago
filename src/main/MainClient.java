@@ -46,7 +46,7 @@ public class MainClient {
 			pseudoEstDispo = serveur.pseudoEstDisponible(pseudo);
 		}
 
-		joueur = new Joueur(pseudo, false);
+		joueur = new Joueur(pseudo, 10);
 
 		//
 		SantiagoInterface client = new Santiago(joueur);
@@ -63,7 +63,7 @@ public class MainClient {
 
 			//On récupère la partie créée
 			Partie partieCreee = client.creerPartie();
-			
+
 			//On l'ajoute au serveur
 			serveur.ajouterPartieListe(partieCreee);
 
@@ -73,7 +73,7 @@ public class MainClient {
 			
 		} else {
 			
-			for(Partie p:serveur.voirParties()) {
+			for(Partie p : serveur.voirParties()) {
 			
 				System.out.println("Parties en cours :" +p.getNomPartie());
 				System.out.println("--> Nombre de joueurs max: " +p.getNombreJoueursRequis());
@@ -98,8 +98,8 @@ public class MainClient {
 			}
 		}
 			
-			
-			
+		
+		
 		
 		
 		System.out.println("[System] Bataille Remote Object	is ready:");
