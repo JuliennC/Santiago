@@ -1,5 +1,7 @@
 package Classes;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -14,23 +16,24 @@ import Exception.PartieException;
 import main.MainClient;
 import network.SantiagoInterface;
 import Classes.Marqueurs.*;
+import Classes.Plateau.Canal;
+import Classes.Plateau.Case;
+import Classes.Plateau.Plateau;
 
 public class Partie implements Serializable{
 
 	static int nombreDeJoueursMin = 3;
 	static int nombreDeJoueursMax = 5;	
-	static int nombreDeTuile1Marqueur = 3;	
-	static int nombreDeTuile2Marqueur = 6;	
+
 	
-	private String nomPartie;
+	private String nomPartie = null;
 	//private ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>();
 	private ArrayList<SantiagoInterface> listeClients = new ArrayList<>();
 	
-	private ArrayList<Tuile> listeTuiles = new ArrayList<>();
-	private ArrayList<Tuile> tuilesRetournees;
 	private int nombreDeJoueurs;
 	private boolean partieACommence = false;
 	private SantiagoInterface constructeurDeCanal;
+	private Plateau plateau;
 	
 	
 	public Partie(String aNom, int nbJoueurs) throws PartieException{
@@ -38,11 +41,13 @@ public class Partie implements Serializable{
 		this.nomPartie = aNom;
 		this.nombreDeJoueurs = nbJoueurs;
 		this.partieACommence = false;
-		
-		//On lance la fabrication des tuiles
-		fabriqueTuiles();
+	
+		plateau = new Plateau();
 	}
 
+	
+	
+	
 	/**
 	 * CTOR
 	 * 
@@ -51,9 +56,8 @@ public class Partie implements Serializable{
 	public Partie() throws PartieException {
 
 		this.partieACommence = false;
-		this.listeTuiles = new ArrayList<Tuile>();
-		// On lance la fabrication des tuiles
-		fabriqueTuiles();
+		plateau = new Plateau();
+
 	}
 	
 	public ArrayList<Joueur> listeJoueurs() {
@@ -88,6 +92,20 @@ public class Partie implements Serializable{
 		this.constructeurDeCanal = (SantiagoInterface) randomInList(listeClients);
 
 		System.out.println("Constructeur de canal : "+constructeurDeCanal.getJoueur().getPseudo());
+
+
+		// ATTENTION : ON LANCE LES PHASES UNIQUEMENT SI LA PARTIE A UN NOM
+		// POUR NE PAS QUE CA SE LANCE POUR LES TESTS
+		if(nomPartie != null){
+		
+			//On lance la phase1
+
+			HashMap<SantiagoInterface, Integer> offres = phase1();
+		
+			//Maintenant on peut gérer les offres
+			phase2(offres);
+		}
+
 		demanderPotDeVin();
 		//On lance la phase1
 		
@@ -105,9 +123,6 @@ public class Partie implements Serializable{
 
 	
 		public HashMap<SantiagoInterface, Integer> phase1() throws RemoteException {
-			
-			//On retourne d'abord les tuiles
-			this.tuilesRetournees = retourneTuiles();
 			
 			//On récupère le joueur à gauche
 			SantiagoInterface client = getClientAGauche(constructeurDeCanal);
@@ -161,6 +176,74 @@ public class Partie implements Serializable{
 			
 			return listeOffres;
 		}
+		
+		
+		
+		
+		
+		/**
+		 * Fonction qui règle la sécheresse
+		 * 
+		 * @param : void
+		 * @return : void
+		 */
+		public void phase6() {
+
+			//On parcours toutes les cases
+			for(int i=0 ; i < plateau.getTabPlateau().length ; i++){
+				
+				for(int j=0 ; j < plateau.getTabPlateau()[i].length ; j++){
+					
+					//On récupère la case
+					Case c = plateau.getTabPlateau()[i][j];
+					
+					//On récupère la tuile
+					Tuile tuile = c.getContientTuile();
+						
+					//Si la case contient bien une tuile
+					if(c.getContientTuile() != null){
+						
+						//Si la tuile ne contient plus de marqueur, alors elle devient desert
+						if(tuile.getNombreMarqueursActuels() == 0){
+							tuile.setDesert();
+						
+							
+						//Sinon, on poursuit le traitement
+						} else {
+							
+							
+							//Si la case n'est pas irriguée, il faut enlever un marqueur
+							if(! c.isIrriguee()){
+								
+								//On enleve un marqueur
+								try {
+									tuile.supprimeUnMarqueur();
+									
+								}catch(Exception e){
+								
+									System.out.println(e.getMessage());
+								
+								}
+							}
+							
+						}
+						
+					}
+					
+				}
+				
+			}
+			
+			
+			
+			
+		}
+		
+		
+		
+		
+		
+		
 		
 		public void phase2(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
 			ArrayList <SantiagoInterface> ordre = ordreDesAiguilles();
@@ -376,80 +459,15 @@ public class Partie implements Serializable{
 		}
 	}
 	
-	/**
-	 * Fonction qui fabrique les tuiles nécessaires à la partie et qui les
-	 * ajoute dans "listeTuiles"
-	 * 
-	 * @param : void
-	 * @return : void
-	 * 
-	 *         Si la partie a déjà commencée, on lève une exception
-	 */
-	public void fabriqueTuiles() throws PartieException {
-
-		if (partieACommence) {
-			throw new PartieException("La partie a déjà commencé.");
-
-		}
-
-		// On fabrique les tuiles pomme de terre
-		for (int i = 0; i < nombreDeTuile2Marqueur; i++) {
-			TuilePommeDeTerre tuile = new TuilePommeDeTerre(2);
-			this.listeTuiles.add(tuile);
-		}
-
-		for (int i = 0; i < nombreDeTuile1Marqueur; i++) {
-			TuilePommeDeTerre tuile = new TuilePommeDeTerre(1);
-			this.listeTuiles.add(tuile);
-		}
-
-		// On fabrique les tuiles piment
-		for (int i = 0; i < nombreDeTuile2Marqueur; i++) {
-			TuilePiment tuile = new TuilePiment(2);
-			this.listeTuiles.add(tuile);
-		}
-
-		for (int i = 0; i < nombreDeTuile1Marqueur; i++) {
-			TuilePiment tuile = new TuilePiment(1);
-			this.listeTuiles.add(tuile);
-		}
-
-		// On fabrique les tuiles haricot
-		for (int i = 0; i < nombreDeTuile2Marqueur; i++) {
-			TuileHaricot tuile = new TuileHaricot(2);
-			this.listeTuiles.add(tuile);
-		}
-
-		for (int i = 0; i < nombreDeTuile1Marqueur; i++) {
-			TuileHaricot tuile = new TuileHaricot(1);
-			this.listeTuiles.add(tuile);
-		}
-
-		// On fabrique les tuiles Cannes
-		for (int i = 0; i < nombreDeTuile2Marqueur; i++) {
-			TuileCanne tuile = new TuileCanne(2);
-			this.listeTuiles.add(tuile);
-		}
-
-		for (int i = 0; i < nombreDeTuile1Marqueur; i++) {
-			TuileCanne tuile = new TuileCanne(1);
-			this.listeTuiles.add(tuile);
-		}
-
-		// On fabrique les tuiles Bananes
-		for (int i = 0; i < nombreDeTuile2Marqueur; i++) {
-			TuileBanane tuile = new TuileBanane(2);
-			this.listeTuiles.add(tuile);
-		}
-
-		for (int i = 0; i < nombreDeTuile1Marqueur; i++) {
-			TuileBanane tuile = new TuileBanane(1);
-			this.listeTuiles.add(tuile);
-		}
-		// On mélange la liste
-		Collections.shuffle(this.listeTuiles);
-		
-	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * Cette méthode permet de donner le nombre de tuile à retourner en fontion
@@ -478,8 +496,8 @@ public class Partie implements Serializable{
 		ArrayList<Tuile> tuiles = new ArrayList<Tuile>();
 
 		for (int i = 0; i < nbTuilesNecessaires(); i++) {
-			tuiles.add(listeTuiles.get(i));
-			listeTuiles.remove(i);
+			tuiles.add(plateau.getListeTuiles().get(i));
+			plateau.getListeTuiles().remove(i);
 		}
 
 		return tuiles;
@@ -627,14 +645,8 @@ public class Partie implements Serializable{
 		return partieACommence;
 	}
 	
-	/**
-	 * Fonction qui donne la liste des tuile en jeux
-	 * 
-	 * @return une liste de tuile
-	 */
-	public ArrayList<Tuile> getListTuiles() {
-		return this.listeTuiles;
-	}
+	
+	
 
 	/**
 	 * Fonction qui donne le constructeur de canal
@@ -661,7 +673,21 @@ public class Partie implements Serializable{
 		return nomPartie;
 	}
 	
+<<<<<<< HEAD
 	public void setTuileRetournee(ArrayList<Tuile> tuiles){
 		this.tuilesRetournees = tuiles;
 	}
+=======
+	
+	/**
+	 * Fonction qui retourne le plateau d'une partie
+
+	 * @return Plateau
+	 */
+	public Plateau getPlateau() {
+		return plateau;
+	}
+	
+	
+>>>>>>> origin/master
 }
