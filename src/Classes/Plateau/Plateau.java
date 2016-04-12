@@ -2,6 +2,8 @@ package Classes.Plateau;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import Classes.Tuile.Tuile;
 import Classes.Tuile.TuileBanane;
@@ -27,7 +29,7 @@ public class Plateau {
 	 * ATTENTION : dans un tableau à double dimension, c'est tab[y][x] !
 	 * 
 	 */
-	private Case tabPlateau[][] = new Case[6][8] ;
+	private Case tabPlateau[][] = new Case[6][8];
 	
 	/**
 	 * Initialisation de la source
@@ -52,12 +54,12 @@ public class Plateau {
 		super();
 		
 		//On parcours d'abord les lignes
-		for (int i = 0; i<tabPlateau.length; i++){
+		for (int y = 0; y<tabPlateau.length; y++){
 			
 			//On parcours ensuite les colonnes
-			for (int j = 0; j<tabPlateau[i].length; j++){
+			for (int x = 0; x<tabPlateau[y].length; x++){
 				
-				tabPlateau[i][j]=new Case(i, j, false, null);
+				tabPlateau[y][x]=new Case(x, y, false, null);
 				//System.out.println(tabPlateau[i][j].toString());
 			}
 		}
@@ -312,6 +314,64 @@ public class Plateau {
 	
 	
 	
+	
+	
+	/**
+	 * Fonction qui return le champs lorsqu'elle recoit un case
+	 * 
+	 * @param : Tuile
+	 * @return : HashSet<Case>
+	 */
+	public HashSet<Tuile> getChampsAvecCase(Case c){
+
+		Tuile tuile = c.getContientTuile();
+		
+		//Si la case ne contient pas de tuile, on retourn un ensemble vide
+		HashSet<Tuile> res = new HashSet<>();
+
+		if(tuile == null){
+			return res;
+		}
+		
+		//Il faut parcourir les cases autour
+		res.add(tuile);
+		c.setContientTuile(null);
+		
+		//On test les cases à côté
+		for(int y = c.getCoorY()-1 ; y <= c.getCoorY()+1 ; y++){
+			
+			for(int x = c.getCoorX()-1 ; x <= c.getCoorX()+1 ; x++){
+			
+
+				
+				//Si on ne sort pas du tableau
+				if( (y < tabPlateau.length) && (x < tabPlateau[0].length) ){
+				
+					//On test si la case contient une tuile de la même sorte que celle donnée
+					//En sachant qu'une tuile ne peut être ajoutée qu'une seule fois dans la liste
+					Case caseATester = tabPlateau[y][x];
+					Tuile tuileATester = caseATester.getContientTuile();
+
+					if(tuileATester != null){
+
+						if(! tuileATester.estDesert()){
+
+							//On ajoute toutes les tuiles
+							res.addAll(getChampsAvecCase(caseATester));
+						}
+					}
+				}
+				
+			}
+		}
+		
+		return res;
+	}
+	
+	
+	
+	
+	
 
 	
 	//--------------- GETTER / SETTER ----------
@@ -431,19 +491,27 @@ public class Plateau {
 				}
 				
 			
-			if(x < tabPlateau.length){
+			if(x < tabPlateau[0].length){
 
 				Case c = getTabPlateau()[y][x];
-
+				Tuile tuile = c.getContientTuile();
 				
 				//Si la case est irriguée on l'affiche en maj
 				if(c.isIrriguee()){
 					
-					str += "X   ";
+					if(tuile == null){
+						str += "X   ";
+					}else{
+						str += "Y   ";
+					}
 					
 				} else {
 					
-					str += "x   ";
+					if(tuile == null){
+						str += "x   ";
+					}else{
+						str += "y   ";
+					}
 				}
 				
 			}

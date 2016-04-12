@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -98,24 +99,27 @@ public class Partie implements Serializable{
 		// POUR NE PAS QUE CA SE LANCE POUR LES TESTS
 		if(nomPartie != null){
 		
-			//On lance la phase1
-
-			HashMap<SantiagoInterface, Integer> offres = phase1();
 		
-			//Maintenant on peut gérer les offres
-			phase2(offres);
+			
+			while(! partiEstTerminee() ){
+				
+				//On lance la phase1		
+				HashMap<SantiagoInterface, Integer> offres = phase1();
+			
+				//Maintenant on peut gérer les offres
+				phase2(offres);
+			
+			
+				//Phase 4: Soudoyer le constructeur de canal :
+				demanderPotDeVin();	
+			}
+			
+			
+			//C'est donc la fin de la partie
+			finDePartie();
 		}
 
-		demanderPotDeVin();
-		//On lance la phase1
 		
-		HashMap<SantiagoInterface, Integer> offres = phase1();
-		
-		//Maintenant on peut gérer les offres
-		phase2(offres);
-		
-		
-		//Phase 4: Soudoyer le constructeur de canal :
 		
 	}
 	
@@ -123,8 +127,29 @@ public class Partie implements Serializable{
 	
 	// --------------- FONCTIONS QUI CORRESPONDENT AUX DIFFERENTES PHASES ---------------
 
+
+	/**
+	 * Fonction qui indique si une partie est terminée
+	 * Une partie est terminée lorsque toutes les tuiles sont posées
+	 * 
+	 * @return boolean
+	 */
 	
-		public HashMap<SantiagoInterface, Integer> phase1() throws RemoteException {
+	public boolean partiEstTerminee(){
+		
+		return (plateau.getListeTuiles().size() == 0);
+	}
+	
+	
+	
+	/**
+	 * Fonction qui correspond à la phase1 : On retourne les tuiles et les joueurs doivent faire des offres
+	 * 
+	 * @return HashMap(SantiagoInterface, Integer)
+	 * @throws RemoteException
+	 */
+	
+	public HashMap<SantiagoInterface, Integer> phase1() throws RemoteException {
 			
 			//On retourne d'abord les tuiles
 			ArrayList<Tuile> tuilesRetournees = retourneTuiles();
@@ -239,9 +264,6 @@ public class Partie implements Serializable{
 				
 			}
 			
-			
-			
-			
 		}
 		
 		
@@ -265,6 +287,9 @@ public class Partie implements Serializable{
 			}
 			System.out.println("Le nouveau constructeur de canal est: "+this.constructeurDeCanal.getName());
 		}
+
+		
+		
 		
 		/**
 		 * Correspond à la phase 4 d'un tour de jeu.
@@ -338,9 +363,166 @@ public class Partie implements Serializable{
 			propositionChoisie.deduirePotDeVin(listePropositions, listeSoutiens, listePotsDeVin, constructeurDeCanal);
 		}
 		
+		
+		
+		
+		
+		
+		
+		/**
+		 * Fonction qui fait la fin d'une partie et qui compte les scores
+		 * 
+		 */
+		public void finDePartie(){
+			
+			//On doit mettre toutes les tuiles en désert
+			
+			//On parcours toutes les cases
+			for(int y=0 ; y < plateau.getTabPlateau().length ; y++){
+				
+				for(int x=0 ; x < plateau.getTabPlateau()[0].length ; x++){
+					
+					//On récupère la case
+					Case c = plateau.getTabPlateau()[y][x];
+					
+					if(! c.isIrriguee()) {
+					
+						//On récupère la tuile
+						Tuile tuile = c.getContientTuile();
+						
+						//Si la case contient bien une tuile
+						if(c.getContientTuile() != null){
+						
+							//On met en désert qu'il y ai des marqueurs ou non
+							tuile.setDesert();
+							//int id = 0;							
+						}
+						
+					}
+					
+				}
+			}
+			
+			
+			//On compte les scores
+			compteScores();
+			
+			
+		}
+		
+		
+		
+		/**
+		 * Fonction qui compte les scores
+		 */
+		public void compteScores(){
+			
+			//On parcours toutes les cases
+			for(int y=0 ; y < plateau.getTabPlateau().length ; y++){
+				
+				for(int x=0 ; x < plateau.getTabPlateau()[0].length ; x++){
+					
+					//On récupère la case
+					Case c = plateau.getTabPlateau()[y][x];
+											
+					if(c.getContientTuile() == null){
+						continue;
+					}
+						
+					if(c.getContientTuile().estDesert()){
+						continue;
+					}
+
+
+
+					HashSet<Tuile> champs = plateau.getChampsAvecCase(c);
+						
+					//On fait un dictionnaire pour stocker les couleurs avec le nombre de marqueurs
+					HashMap<String, Integer> dictionaire = new HashMap<>();
+					
+					//On parcours les champs trouvés
+					for(Tuile tuile : champs){
+						
+						//On récupere la couleur
+						String couleur = tuile.getMarqueursActuels().get(0).getCouleur();
+						
+						//On récupère le nombre de marqueurs de cette couleur déjà compté
+						int nb = tuile.getMarqueursActuels().size();
+						
+						if(dictionaire.keySet().contains(couleur)){
+							nb += dictionaire.get(couleur);
+						}
+						
+						dictionaire.put(couleur, nb);
+					}
+					
+					//On doit ensuite récupérer le joueur correspondant à chaque couleur de tuile et lui augmenter son score
+					for(String couleur : dictionaire.keySet()){
+						
+						try{
+
+							//On récupère le joueur
+							Joueur joueur = getJoueurAvecCouleurMarqueur(couleur);
+							
+							//On lui augmente son score
+							int nbMarqueur = dictionaire.get(couleur);
+							int nombreCase = champs.size();
+							
+							int nouveauScore = nbMarqueur * nombreCase;
+							
+							joueur.setSolde(joueur.getSolde() + nouveauScore);
+							
+						} catch(Exception e){
+							e.printStackTrace();
+						}
+						
+						
+						
+					}
+				}
+			}
+			
+		}
+		
+		
+	
 
 		// --------------- FIN PHASES ---------------
 	
+		
+		
+		/**
+		 * Fonction qui retourne un joueur en fonction de la couleur de marqueur
+		 * 
+		 * @param : String couleur
+		 * @return : Joueur
+		 * @throws RemoteException 
+		 * @throws PartieException 
+		 */
+		public Joueur getJoueurAvecCouleurMarqueur(String couleur) throws RemoteException, PartieException{
+			
+			Joueur j = null;
+			
+			for(SantiagoInterface client : listeClients){
+				
+				if(client.getJoueur().getCouleur().equals(couleur)){
+							
+					//Si on trouve un deuxieme joueur avec la même couleur de marqueur
+					if(j != null){
+						throw new PartieException("Attention, deux joueurs trouvés avec la même couleur de marqueur.");
+					}
+					
+					//On sauvegarde le joueur
+					j = client.getJoueur();
+
+				}
+				
+			}
+			
+			return j;
+		}
+		
+		
 	
 	/**
 	 * Cette méthode permet d'avoir la liste des joueurs en 

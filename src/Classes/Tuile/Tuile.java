@@ -9,7 +9,7 @@ import Exception.TuileException;
 public abstract class Tuile implements Serializable {
 	
 	private int nombreMarqueursNecessaires;
-	private ArrayList<MarqueurRendement> marqueursActuels;
+	private ArrayList<MarqueurRendement> marqueursActuels = new ArrayList<>();
 	private boolean tuileEstPosee;
 	
 	protected String intituleDuChamps;
@@ -51,12 +51,33 @@ public abstract class Tuile implements Serializable {
 	
 	
 	/**
+	 * Fonction qui ajoute un marqueur de rendement
+	 * 
+	 * @param : MarqueurRendement
+	 */
+	public void addMarqueur(MarqueurRendement m){
+		marqueursActuels.add(m);
+	}
+	
+	
+	
+	
+	/**
 	 * Fonction qui met une tuile en désert
 	 * 
 	 * @param : void
 	 * @return : void
 	 */
 	public void setDesert(){
+
+		while(marqueursActuels.size() > 0){
+			try {
+				supprimeUnMarqueur();
+			}catch(Exception e){
+				
+			}
+		}
+		
 		estDesert = true;
 	}
 	
@@ -116,6 +137,14 @@ public abstract class Tuile implements Serializable {
 	}
 	
 	
-
+	
+	/**
+	 * Fonction qui retourne la liste des marqueurs actuellement sur la tuile
+	 * 
+	 * @return : ArrayList<MarqueurActuel>
+	 */
+	public ArrayList<MarqueurRendement> getMarqueursActuels(){
+		return marqueursActuels;
+	}
 	
 }

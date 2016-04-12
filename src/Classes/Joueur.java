@@ -115,8 +115,14 @@ public class Joueur implements Serializable{
 		return solde;
 	}
 
-
-	public String getCouleur() {
+	
+	
+	public void setCouleur(String couleur){
+		this.couleur = couleur;
+	}
+	
+	
+	public String getCouleur(){
 		return couleur;
 	}
 	

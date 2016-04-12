@@ -34,5 +34,14 @@ public abstract class MarqueurRendement {
 			
 		joueurProprietaire = joueur;
 	}
-
+	
+	
+	/**
+	 * Fonction qui retourn la couleur d'un marqueur de rendement
+	 * 
+	 * @return String : la couleur
+	 */
+	public String getCouleur(){
+		return couleur;
+	}
 }

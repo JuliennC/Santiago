@@ -8,6 +8,8 @@ import java.util.HashMap;
 import org.junit.Ignore;
 import org.junit.Test;
 import Classes.Partie;
+import Classes.Marqueurs.MarqueurRendement;
+import Classes.Marqueurs.*;
 import Classes.Plateau.Canal;
 import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
@@ -16,6 +18,7 @@ import Exception.PartieException;
 import network.Santiago;
 import network.SantiagoInterface;
 import Classes.Joueur;
+import Classes.Tuile.*;
 
 public class PartieImplTest {
 
@@ -184,7 +187,7 @@ public class PartieImplTest {
 
 		System.out.println(p.getNombreJoueurDansLaPartie());
 	}*/
-	
+	@Ignore
 	@Test
 	public void testDemanderPotDeVin() throws PartieException, RemoteException {
 		Partie p = new Partie();
@@ -339,6 +342,7 @@ public class PartieImplTest {
 	 * Test de l'affichage plateau
 	 * 
 	 */
+	@Ignore
 	@Test
 	public void testAffichePlateau() throws PartieException {
 		
@@ -373,4 +377,96 @@ public class PartieImplTest {
 		System.out.println(plateau.toString());
 		
 	}
+
+
+
+	/**
+	 * Test du compte de point en fin de partie
+	 * @throws RemoteException 
+	 * 
+	 */
+	@Test
+	public void testScore() throws PartieException, RemoteException {
+		try{
+		Partie p = new Partie();
+		Plateau plateau = p.getPlateau();
+		Source source = plateau.getSource();
+				
+		//on ajoute les joueurs
+		Joueur j1 = new Joueur("Joueur1", 0);
+		j1.setCouleur("Rouge");
+		Joueur j2 = new Joueur("Joueur2", 0);
+		j2.setCouleur("Blanc");
+		Joueur j3 = new Joueur("Joueur3", 0);
+		j3.setCouleur("Orange");
+		
+		SantiagoInterface s1 = new Santiago(j1);
+		SantiagoInterface s2 = new Santiago(j2);
+		SantiagoInterface s3 = new Santiago(j3);
+		p.addClient(s1);
+		p.addClient(s2);
+		p.addClient(s3);
+		
+		//On crée des marqueur de rendement
+		MarqueurRendement m1 = new MarqueurRouge();
+		MarqueurRendement m2 = new MarqueurBlanc();		
+		MarqueurRendement m3 = new MarqueurOrange();
+		
+		//On ajoute les tuiles
+		
+		/*
+		 * 1 - Score 
+		 * 		j1 = 6;
+		 * 		j2 = 3;
+		 * 		j3 = 3;
+		 */
+		Tuile t1 = new TuileBanane(2);
+		t1.addMarqueur(m1);
+		t1.addMarqueur(m1);
+
+		Tuile t2 = new TuileBanane(1);
+		t2.addMarqueur(m2);
+		
+		Tuile t3 = new TuileBanane(2);
+		t3.addMarqueur(m3);
+		t3.addMarqueur(m3);
+
+		//On pose les tuiles
+		
+		/*plateau.getTabPlateau()[0][1].setContientTuile(t1);
+		plateau.getTabPlateau()[1][2].setContientTuile(t2);
+		plateau.getTabPlateau()[2][3].setContientTuile(t3);*/
+
+		plateau.getTabPlateau()[source.getCoordY()[0]][source.getCoordX()[0]].setContientTuile(t1);
+		plateau.getTabPlateau()[source.getCoordY()[0]][source.getCoordX()[1]].setContientTuile(t2);
+		plateau.getTabPlateau()[source.getCoordY()[1]][source.getCoordX()[0]].setContientTuile(t3);
+
+		int i1 = j1.getSolde();
+		int i2 = j2.getSolde();
+		int i3 = j3.getSolde();
+	
+		
+		/*System.out.println("T1 : "+t1+" : "+t1.getNombreMarqueursActuels());
+		System.out.println("T2 : "+t2+" : "+t2.getNombreMarqueursActuels());
+		System.out.println("T3 : "+t3+" : "+t3.getNombreMarqueursActuels());*/
+
+		System.out.println(plateau.toString());
+
+		//On calcule
+		p.finDePartie();
+
+
+		System.out.println("J1 : "+j1.getSolde());
+		System.out.println("J2 : "+j2.getSolde());
+		System.out.println("J3 : "+j3.getSolde());
+		
+		assertEquals(6+i1 , j1.getSolde());
+		assertEquals(3+i2 , j2.getSolde());
+		assertEquals(6+i3 , j3.getSolde());
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
 }
