@@ -106,7 +106,6 @@ public class Partie implements Serializable{
 			phase2(offres);
 		}
 
-		demanderPotDeVin();
 		//On lance la phase1
 		
 		HashMap<SantiagoInterface, Integer> offres = phase1();
@@ -116,7 +115,7 @@ public class Partie implements Serializable{
 		
 		
 		//Phase 4: Soudoyer le constructeur de canal :
-		
+		phase4();
 	}
 	
 	 
@@ -270,7 +269,7 @@ public class Partie implements Serializable{
 		 * Correspond à la phase 4 d'un tour de jeu.
 		 * @throws RemoteException
 		 */
-		public void demanderPotDeVin() throws RemoteException {
+		public void phase4() throws RemoteException {
 			SantiagoInterface propositionChoisie;
 			//On récupère le joueur à gauche
 			SantiagoInterface client = getClientAGauche(constructeurDeCanal);
@@ -282,7 +281,10 @@ public class Partie implements Serializable{
 			//HashMap des propositions de pot de vin (Avec le cumul des pots de vin lors des soutiens)
 			HashMap<SantiagoInterface, Integer> listePropositions = new HashMap<>();
 			
-
+			//ArrayList des canaux temporaires
+			ArrayList<Canal> listeCanauxTemp = new ArrayList<>();
+			
+			
 			//Pour chaque client
 			while(! client.equals(constructeurDeCanal)) {	
 				int choix = 0;
@@ -304,7 +306,8 @@ public class Partie implements Serializable{
 						//On la met dans la liste des propositions (Ici la somme pourra être augmentée par un soutien d'un joueur)
 						listePropositions.put(client, potDeVin);
 						
-						//poserCanalTemporaire();
+						//poserCanalTemporaire
+						listeCanauxTemp.add(client.poserCanalTemporaire(plateau, listeCanauxTemp));
 						break;
 					case 2:
 						//On demande le joueur soutenu.
@@ -332,7 +335,7 @@ public class Partie implements Serializable{
 			}
 			
 			//Une fois que tous les joueurs ont déposés un pot de vin (ou passer), on passe à la seconde partie de la phase 4:
-			propositionChoisie = constructeurDeCanal.choisirPotDeVin(listePropositions);
+			propositionChoisie = constructeurDeCanal.choisirPotDeVin(plateau, listePropositions, listeCanauxTemp);
 			
 			//Informer les joueurs
 			propositionChoisie.deduirePotDeVin(listePropositions, listeSoutiens, listePotsDeVin, constructeurDeCanal);

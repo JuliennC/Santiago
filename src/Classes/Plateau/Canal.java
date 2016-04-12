@@ -26,14 +26,19 @@ public class Canal {
 	private Point coordFin;
 	
 	private boolean estEnEau;
+	private String couleur;
 	
 	
 	public Canal(){
-		
+
 		estEnEau = false;
 	}
 	
-	
+	public Canal(String couleur){
+
+		estEnEau = false;
+		this.couleur = couleur;
+	}
 	
 	
 	// ---------------- GETTER / SETTER ---------------
@@ -66,8 +71,15 @@ public class Canal {
 	public Point getCoordFin(){
 		return coordFin;
 	}
-
 	
+	public String getCouleur() {
+		return couleur;
+	}
+
+	public void setCouleur(String couleur) {
+		this.couleur = couleur;
+	}
+
 	/**
 	 * Fonction qui indique si le canal est vertical (ou horizontal)
 	 *	@param : void

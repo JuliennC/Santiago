@@ -1,4 +1,5 @@
 package network;
+import java.awt.Point;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -16,6 +17,8 @@ import java.util.Set;
 
 import Classes.Joueur;
 import Classes.Partie;
+import Classes.Plateau.Canal;
+import Classes.Plateau.Plateau;
 import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
@@ -342,7 +345,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @return SantiagoInterface joueurChoisi: Le joueur choisi
 	 */
 	@Override
-	public SantiagoInterface choisirPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException {
+	public SantiagoInterface choisirPotDeVin(Plateau plateau, HashMap<SantiagoInterface, Integer> listePropositions, ArrayList<Canal> listeCanauxTemp) throws RemoteException {
 		int coutCanalPerso;
 		boolean choixOk = false;
 		int choixProposition = 0;
@@ -379,6 +382,13 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 						if(si.equals(joueurChoisi)) {
 							try {
 								joueur.setSolde(joueur.getSolde() + listePropositions.get(si));
+								
+								//on met le canal en eau:
+								for(Canal c:plateau.getListeCanaux()) {
+									if(c.getCouleur().equals(joueurChoisi.getJoueur().getCouleur())) {
+										plateau.metCanal(c);
+									}
+								}
 							} catch (JoueurException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -395,6 +405,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					
 					try {
 						joueur.setSolde(joueur.getSolde() - coutCanalPerso - 1);
+						
+						Canal c = poserCanalTemporaire(plateau, listeCanauxTemp);
+						plateau.metCanal(c);
 					} catch (JoueurException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -464,6 +477,60 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		}
 		
 		return propositionMax;
+	}
+	
+	/**
+	 * Permet aux joueurs de poser un canal temporaire
+	 * Canal : Couleur du joueur
+	 * 		   Mise en eau = false
+	 */
+	@Override
+	public Canal poserCanalTemporaire(Plateau plateau, ArrayList<Canal> listeCanauxTemp) throws RemoteException {
+		// TODO Auto-generated method stub
+		System.out.println("Positionnez votre canal temporaire sur le plateau...");
+		Canal canal = new Canal(joueur.getCouleur());
+		Point coordDebut = new Point();
+		Point coordFin = new Point();
+		boolean canalValide = false;
+		
+		while(!canalValide) {
+			//Wait listener 
+			//On récupère les coordonnéés au clic sur le plateau
+			int xDeb = 2;
+			int yDeb = 1;
+			int xFin = 2;
+			int yFin = 2;
+
+			coordDebut.setLocation(xDeb, yDeb);
+			coordFin.setLocation(xFin, yFin);
+			
+
+			for(Canal c:plateau.getListeCanaux()) {
+				if(c.getCoordDebut().equals(canal.getCoordDebut())) {
+					if(c.getCoordFin().equals(canal.getCoordFin())) {
+						//La position est valide, on vérifie que le canal n'existe pas déjà (!!! Pas sur que ça serve, à avoir avec l'interface)
+						canalValide = true;
+						
+						for(Canal c2:listeCanauxTemp) {
+							if(c2.getCoordDebut().equals(canal.getCoordDebut())) {
+								if(c2.getCoordFin().equals(canal.getCoordFin())) {
+									canalValide = false;
+									break;
+								}
+							}
+						}
+						break;
+					}
+				}
+			}
+			
+			if(canalValide == true) {
+				System.out.println("Canal validé. Au tour des autres joueurs...");
+			} else {
+				System.out.println("Position invalide, réessayez...");
+			}
+		}
+		return canal;
 	}
 	
 	
@@ -576,6 +643,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		// TODO Auto-generated method stub
 		return listeParties;
 	}
+
+
+
 	
 	
 }
