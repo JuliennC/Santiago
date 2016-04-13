@@ -124,6 +124,8 @@ public class Partie implements Serializable{
 	
 		public HashMap<SantiagoInterface, Integer> phase1() throws RemoteException {
 			
+			retourneTuiles();
+			
 			//On récupère le joueur à gauche
 			SantiagoInterface client = getClientAGauche(constructeurDeCanal);
 			
@@ -356,10 +358,10 @@ public class Partie implements Serializable{
 		for (SantiagoInterface client : listeClients){
 			
 			// le client choisit sa tuile
-			int indexTuileChoisie = client.joueurChoisitTuile(this.tuilesRetournees.size());
+			int indexTuileChoisie = client.joueurChoisitTuile(this.plateau.getListeTuilesRetournees().size());
 			
 			// on insert le couple dans le hashmap
-			listeTuilesChoisies.put(client, this.tuilesRetournees.get(indexTuileChoisie));
+			listeTuilesChoisies.put(client, this.plateau.getListeTuilesRetournees().get(indexTuileChoisie));
 		}
 		return listeTuilesChoisies;
 	}
@@ -378,7 +380,7 @@ public class Partie implements Serializable{
 	 */
 	public void presentationTuile(){
 		int i = 0;
-		for(Tuile t: this.tuilesRetournees){
+		for(Tuile t: this.plateau.getListeTuilesRetournees()){
 			System.out.println(i + " : " + t.getIntitule() + " : " + t.getNombreMarqueursNecessaires());
 			i++;
 		}
@@ -491,7 +493,7 @@ public class Partie implements Serializable{
 	 * 	
 	 * S'il n'y a plus assez de tuiles, on renvoit une exception
 	 */
-	public ArrayList<Tuile> retourneTuiles() {
+	public void retourneTuiles() {
 
 		ArrayList<Tuile> tuiles = new ArrayList<Tuile>();
 
@@ -500,7 +502,7 @@ public class Partie implements Serializable{
 			plateau.getListeTuiles().remove(i);
 		}
 
-		return tuiles;
+		plateau.setListeTuilesRetournees(tuiles);
 	}
 	
 	/**
@@ -673,12 +675,6 @@ public class Partie implements Serializable{
 		return nomPartie;
 	}
 	
-<<<<<<< HEAD
-	public void setTuileRetournee(ArrayList<Tuile> tuiles){
-		this.tuilesRetournees = tuiles;
-	}
-=======
-	
 	/**
 	 * Fonction qui retourne le plateau d'une partie
 
@@ -687,7 +683,4 @@ public class Partie implements Serializable{
 	public Plateau getPlateau() {
 		return plateau;
 	}
-	
-	
->>>>>>> origin/master
 }

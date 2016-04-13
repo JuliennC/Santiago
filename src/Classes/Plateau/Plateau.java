@@ -35,6 +35,7 @@ public class Plateau {
 	private Source source;
 	private ArrayList<Canal> listeCanaux = new ArrayList<>();
 	private ArrayList<Tuile> listeTuiles = new ArrayList<>();
+	private ArrayList<Tuile> tuilesRetournees = new ArrayList<>();
 
 	static int nombreDeTuile1Marqueur = 3;	
 	static int nombreDeTuile2Marqueur = 6;	
@@ -335,7 +336,13 @@ public class Plateau {
 		return listeCanaux;
 	}
 	
+	public ArrayList<Tuile> getListeTuilesRetournees(){
+		return this.tuilesRetournees;
+	}
 	
+	public void setListeTuilesRetournees(ArrayList<Tuile> tuiles){
+		this.tuilesRetournees = tuiles;
+	}
 
 	/**
 	 * Retourne la source du plateau
