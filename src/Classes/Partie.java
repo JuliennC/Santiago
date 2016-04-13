@@ -455,6 +455,8 @@ public class Partie implements Serializable{
 						
 						dictionaire.put(couleur, nb);
 					}
+
+					System.out.println(dictionaire);
 					
 					//On doit ensuite récupérer le joueur correspondant à chaque couleur de tuile et lui augmenter son score
 					for(String couleur : dictionaire.keySet()){

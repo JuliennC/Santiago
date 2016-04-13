@@ -342,7 +342,12 @@ public class Plateau {
 			
 			for(int x = c.getCoorX()-1 ; x <= c.getCoorX()+1 ; x++){
 			
-
+				//On doit passer les diagonales
+				if( ((x==c.getCoorX()-1) && (y==c.getCoorY()-1)) || ((x==c.getCoorX()-1) && (y==c.getCoorY()+1))
+						|| ((x==c.getCoorX()+1) && (y==c.getCoorY()-1)) || ((x==c.getCoorX()+1) && (y==c.getCoorY()+1))){
+					continue;
+				}
+					
 				
 				//Si on ne sort pas du tableau
 				if( (y < tabPlateau.length) && (x < tabPlateau[0].length) ){
@@ -356,8 +361,12 @@ public class Plateau {
 
 						if(! tuileATester.estDesert()){
 
-							//On ajoute toutes les tuiles
-							res.addAll(getChampsAvecCase(caseATester));
+							//On regarde si la tuile est de la même sorte que celle que l'on a
+							if(tuile.getClass().equals(tuileATester.getClass())){
+							
+								//On ajoute toutes les tuiles
+								res.addAll(getChampsAvecCase(caseATester));
+							}
 						}
 					}
 				}

@@ -420,7 +420,7 @@ public class PartieImplTest {
 		 * 		j2 = 3;
 		 * 		j3 = 3;
 		 */
-		Tuile t1 = new TuileBanane(2);
+		Tuile t1 = new TuilePiment(2);
 		t1.addMarqueur(m1);
 		t1.addMarqueur(m1);
 
