@@ -92,29 +92,17 @@ public class Partie implements Serializable{
 		this.constructeurDeCanal = (SantiagoInterface) randomInList(listeClients);
 
 		System.out.println("Constructeur de canal : "+constructeurDeCanal.getJoueur().getPseudo());
-
-
-		// ATTENTION : ON LANCE LES PHASES UNIQUEMENT SI LA PARTIE A UN NOM
-		// POUR NE PAS QUE CA SE LANCE POUR LES TESTS
-		if(nomPartie != null){
 		
-			//On lance la phase1
-
-			HashMap<SantiagoInterface, Integer> offres = phase1();
-		
-			//Maintenant on peut gérer les offres
-			phase2(offres);
-		}
-
-		demanderPotDeVin();
-		//On lance la phase1
-		
+		// retourner les plantation et les mettre aux enchere
 		HashMap<SantiagoInterface, Integer> offres = phase1();
 		
+		//changement du constructeur de canal
 		phase2(offres);
+		
+		//Choisir une plantation et la placer
 		phase3(offres);
 		//Phase 4: Soudoyer le constructeur de canal :
-
+		demanderPotDeVin();
 	}
 	
 	 
@@ -125,7 +113,7 @@ public class Partie implements Serializable{
 		public HashMap<SantiagoInterface, Integer> phase1() throws RemoteException {
 			
 			retourneTuiles();
-			
+			presentationTuile();
 			//On récupère le joueur à gauche
 			SantiagoInterface client = getClientAGauche(constructeurDeCanal);
 			
@@ -178,11 +166,7 @@ public class Partie implements Serializable{
 			
 			return listeOffres;
 		}
-		
-		
-		
-		
-		
+				
 		/**
 		 * Fonction qui règle la sécheresse
 		 * 
@@ -240,12 +224,6 @@ public class Partie implements Serializable{
 			
 			
 		}
-		
-		
-		
-		
-		
-		
 		
 		public void phase2(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
 			ArrayList <SantiagoInterface> ordre = ordreDesAiguilles();
@@ -347,22 +325,22 @@ public class Partie implements Serializable{
 	 * Methode qui permet aux joueurs de choisir leurs tuiles
 	 * 	
 	 * @param listeClients
+	 * @throws RemoteException 
 	 */
-	public HashMap<SantiagoInterface, Tuile> phase3point1(ArrayList <SantiagoInterface> listeClients){
-		
-		//On presente les tuiles
-		presentationTuile();
+	public HashMap<SantiagoInterface, Tuile> phase3point1(ArrayList <SantiagoInterface> listeClients) throws RemoteException{
 		
 		// on cree le HashMap qui accueil les couple client tuile
 		HashMap<SantiagoInterface, Tuile> listeTuilesChoisies = new HashMap<>();
 		for (SantiagoInterface client : listeClients){
-			
+			presentationTuile();
 			// le client choisit sa tuile
 			int indexTuileChoisie = client.joueurChoisitTuile(this.plateau.getListeTuilesRetournees().size());
 			
 			// on insert le couple dans le hashmap
 			listeTuilesChoisies.put(client, this.plateau.getListeTuilesRetournees().get(indexTuileChoisie));
+			this.plateau.getListeTuilesRetournees().remove(indexTuileChoisie);
 		}
+		// si le nombre de joueur est de 3 on ajjoute la derniere tuile au joueur ayant fait la plus grande offre
 		return listeTuilesChoisies;
 	}
 	
@@ -370,8 +348,18 @@ public class Partie implements Serializable{
 	 * Methode qui permet aux joueurs de poser leurs tuiles
 	 * 
 	 * @param listeClients
+	 * @throws RemoteException 
 	 */
-	public void phase3point2(HashMap<SantiagoInterface, Tuile> listeTuilesChoisies, ArrayList <SantiagoInterface> listeClients){
+	public void phase3point2(HashMap<SantiagoInterface, Tuile> listeTuilesChoisies, ArrayList <SantiagoInterface> listeClients) throws RemoteException{
+		
+	}
+	
+	/**Cette methode permet le placement de la derniere tuile 
+	 * quand la partie se déroule a 3 joueurs
+	 * 
+	 * @param client : le client qui a fait la meilleur offre
+	 */
+	public void finPhase3(SantiagoInterface client){
 		
 	}
 	
@@ -380,6 +368,7 @@ public class Partie implements Serializable{
 	 */
 	public void presentationTuile(){
 		int i = 0;
+		System.out.println("Les tuiles retournées sont:");
 		for(Tuile t: this.plateau.getListeTuilesRetournees()){
 			System.out.println(i + " : " + t.getIntitule() + " : " + t.getNombreMarqueursNecessaires());
 			i++;
@@ -454,6 +443,7 @@ public class Partie implements Serializable{
 		if (!listeClients.contains(client)) {
 
 			listeClients.add(client);
+			this.nombreDeJoueurs++;
 
 		} else {
 
@@ -496,9 +486,9 @@ public class Partie implements Serializable{
 	public void retourneTuiles() {
 
 		ArrayList<Tuile> tuiles = new ArrayList<Tuile>();
-
 		for (int i = 0; i < nbTuilesNecessaires(); i++) {
-			tuiles.add(plateau.getListeTuiles().get(i));
+			Tuile t = plateau.getListeTuiles().get(i);
+			tuiles.add(t);
 			plateau.getListeTuiles().remove(i);
 		}
 
@@ -647,9 +637,6 @@ public class Partie implements Serializable{
 		return partieACommence;
 	}
 	
-	
-	
-
 	/**
 	 * Fonction qui donne le constructeur de canal
 	 */
