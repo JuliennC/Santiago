@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import Classes.Joueur;
 import Classes.Partie;
+import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
 
@@ -24,7 +25,7 @@ public interface SantiagoInterface extends Remote{
 	
 	public ArrayList<Partie> voirParties() throws RemoteException;
 	
-	public String rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException;
+	public String rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException;
 
 	public void enregistrePseudo(String pseudo) throws RemoteException;
 

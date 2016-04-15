@@ -15,6 +15,7 @@ import Classes.Plateau.Plateau;
 import Classes.Plateau.Source;
 import Classes.Tuile.Tuile;
 import Classes.Tuile.TuileBanane;
+import Exception.JoueurException;
 import Exception.PartieException;
 import network.Santiago;
 import network.SantiagoInterface;
@@ -258,6 +259,7 @@ public class PartieImplTest {
 	 * 
 	 * @throws PartieException 
 	 * @throws RemoteException 
+	 * @throws JoueurException 
 	 */
 	/*@Test
 	public void testPhase2() throws PartieException, RemoteException{
@@ -330,7 +332,7 @@ public class PartieImplTest {
 	}*/
     
 	@Test
-	public void testPhase3() throws PartieException, RemoteException{
+	public void testPhase3() throws PartieException, RemoteException, JoueurException{
 		Joueur j1 = new Joueur("Joueur1", 10, "Blanc");
 		assertEquals(22, j1.getListeMarqueurs().size());
 		Joueur j2 = new Joueur("Joueur2", 10, "Orange");

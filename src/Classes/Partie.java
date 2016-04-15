@@ -83,8 +83,9 @@ public class Partie implements Serializable{
 	 * methode de lancement d'une partie
 	 * @throws PartieException 
 	 * @throws RemoteException 
+	 * @throws JoueurException 
 	 */
-	public void lancePartie() throws PartieException, RemoteException {
+	public void lancePartie() throws PartieException, RemoteException, JoueurException {
 		
 		System.out.println("On lance la partie");
 		
@@ -101,10 +102,8 @@ public class Partie implements Serializable{
 		
 		//Choisir une plantation et la placer
 		phase3(offres);
-		if(this.nomPartie == null){
-			//Phase 4: Soudoyer le constructeur de canal :
-			demanderPotDeVin();
-		}
+		//Phase 4: Soudoyer le constructeur de canal :
+		demanderPotDeVin();
 	}
 	
 	 
@@ -243,10 +242,11 @@ public class Partie implements Serializable{
 			System.out.println("Le nouveau constructeur de canal est: "+this.constructeurDeCanal.getName());
 		}
 		
-		public void phase3(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
+		public void phase3(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException, JoueurException{
 			ArrayList <SantiagoInterface> listeClients = ordreDecroissantOffre(listeOffres);
 			HashMap<SantiagoInterface, Tuile> listeTuilesChoisies = phase3point1(listeClients);
 			phase3point2(listeTuilesChoisies, listeClients);
+			phase3point3(listeOffres);
 		}
 		
 		/**
@@ -369,6 +369,14 @@ public class Partie implements Serializable{
 		}
 	}
 	
+	
+	public void phase3point3(HashMap<SantiagoInterface,Integer> listeOffres) throws RemoteException, JoueurException{
+		for(SantiagoInterface client : this.listeClients){
+			int solde = client.getJoueur().getSolde() - listeOffres.get(client);
+			client.getJoueur().setSolde(solde);
+		}
+	}
+	
 	/**
 	 * Cette fonction permet de placer la tuile d'un client
 	 * 
@@ -443,10 +451,14 @@ public class Partie implements Serializable{
 	 */
 	public ArrayList<SantiagoInterface> ordreDecroissantOffre(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
 		ArrayList<SantiagoInterface> dansLOrdre = new ArrayList();
-		while(!listeOffres.isEmpty()){
-			SantiagoInterface si = plusGrandeOffre(listeOffres);
+		HashMap<SantiagoInterface, Integer> listeOffres2 = new HashMap<SantiagoInterface, Integer>();
+		for(Entry<SantiagoInterface, Integer> e : listeOffres.entrySet()){
+			listeOffres2.put(e.getKey(),e.getValue());
+		}
+		while(!listeOffres2.isEmpty()){
+			SantiagoInterface si = plusGrandeOffre(listeOffres2);
 			dansLOrdre.add(si);
-			listeOffres.remove(si);
+			listeOffres2.remove(si);
 		}
 		return dansLOrdre;
 	}
