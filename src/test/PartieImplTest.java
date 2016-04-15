@@ -330,8 +330,11 @@ public class PartieImplTest {
 	@Test
 	public void testPhase3() throws PartieException, RemoteException{
 		Joueur j1 = new Joueur("Joueur1", 10, "Blanc");
+		assertEquals(22, j1.getListeMarqueurs().size());
 		Joueur j2 = new Joueur("Joueur2", 10, "Orange");
+		assertEquals(22, j2.getListeMarqueurs().size());
 		Joueur j3 = new Joueur("Joueur3", 10, "Rouge");
+		assertEquals(22, j3.getListeMarqueurs().size());
 		SantiagoInterface s1 = new Santiago(j1);
 		SantiagoInterface s2 = new Santiago(j2);
 		SantiagoInterface s3 = new Santiago(j3);

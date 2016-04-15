@@ -101,8 +101,10 @@ public class Partie implements Serializable{
 		
 		//Choisir une plantation et la placer
 		phase3(offres);
-		//Phase 4: Soudoyer le constructeur de canal :
-		demanderPotDeVin();
+		if(this.nomPartie == null){
+			//Phase 4: Soudoyer le constructeur de canal :
+			demanderPotDeVin();
+		}
 	}
 	
 	 
@@ -353,6 +355,13 @@ public class Partie implements Serializable{
 	public void phase3point2(HashMap<SantiagoInterface, Tuile> listeTuilesChoisies, ArrayList <SantiagoInterface> listeClients) throws RemoteException{
 		for(SantiagoInterface client : listeClients){
 			Tuile tuile = listeTuilesChoisies.get(client);
+			ArrayList<MarqueurRendement>listeMarqueurs = new ArrayList <MarqueurRendement>();
+			for(int i = 0; i< tuile.getNombreMarqueursNecessaires();i++){
+				if(client.getJoueur().getListeMarqueurs().size()!= 0){
+					listeMarqueurs.add(client.getJoueur().getMarqueur());
+				}
+			}
+			tuile.setMarqueursActuels(listeMarqueurs);
 			setPositionTuile(client,tuile);
 		}
 		if(this.nombreDeJoueurs == 3){
@@ -360,9 +369,17 @@ public class Partie implements Serializable{
 		}
 	}
 	
+	/**
+	 * Cette fonction permet de placer la tuile d'un client
+	 * 
+	 * @param client : le client qui doit placer sa tuile
+	 * @param tuile : la tuile a placer
+	 * @throws RemoteException
+	 */
 	public void setPositionTuile(SantiagoInterface client, Tuile tuile) throws RemoteException{
 		boolean placementOk = false;
 		while(!placementOk){
+			System.out.println("["+client.getName()+"] : "+tuile.getIntitule() + " : " + tuile.getNombreMarqueursNecessaires());
 			int coord[]=client.joueurChoisitPlacement();
 			if(this.plateau.getTabPlateau()[coord[0]][coord[1]].getContientTuile()== null){
 				placementOk = true;
@@ -373,6 +390,7 @@ public class Partie implements Serializable{
 			}
 		}
 	}
+	
 	
 	/**
 	 * Methode qui permet de présenter les tuiles

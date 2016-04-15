@@ -36,6 +36,7 @@ public class Joueur implements Serializable{
 		this.pseudo = pseudo;
 		this.solde = solde;
 		this.couleur = couleur;
+		this.marqueurRestant = new ArrayList<MarqueurRendement>();
 		for(int i =0 ; i<22; i++){
 			switch(this.couleur){
 			case "Blanc" :
@@ -241,5 +242,13 @@ public class Joueur implements Serializable{
 		return couleur;
 	}
 	
-
+	public ArrayList<MarqueurRendement> getListeMarqueurs(){
+		return this.marqueurRestant;
+	}
+	
+	public MarqueurRendement getMarqueur(){
+		MarqueurRendement marqueur = this.marqueurRestant.get(0);
+		this.marqueurRestant.remove(marqueur);
+		return marqueur;
+	}
 }
