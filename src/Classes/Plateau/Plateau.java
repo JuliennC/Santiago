@@ -138,6 +138,21 @@ public class Plateau {
 		return listeCase;
 	}
 	
+	 /** fonction qui dit si une case est adjacente a un champ
+	 * 
+	 * @param coordY
+	 * @param coordX
+	 * @return
+	 */
+	public boolean estCaseAdjacente(int coordY, int coordX){
+		ArrayList<Case> listeCase = chercheCaseAdjacente();
+		for(Case c : listeCase){
+			if(coordX == c.getCoorX() && coordY == c.getCoorY()){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 * Fonction qui fabrique les cannaux et les mets en relation avec les cases qu'ils touchent

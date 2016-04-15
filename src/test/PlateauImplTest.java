@@ -46,4 +46,13 @@ public class PlateauImplTest {
 		assertEquals(14,p.chercheCaseAdjacente().size());
 	}
 
+	@Test
+	public void testEstCaseAdjacente() throws PartieException{
+		Plateau p = new Plateau();
+		TuileBanane t1 = new TuileBanane(1);
+		p.getTabPlateau()[0][0].setContientTuile(t1);
+		assertEquals(true,p.estCaseAdjacente(0,1));
+		assertEquals(true,p.estCaseAdjacente(1,0));
+		assertEquals(false,p.estCaseAdjacente(1,1));
+	}
 }

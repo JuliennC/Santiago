@@ -347,6 +347,11 @@ public class PartieImplTest {
 		p.lancePartie();
 	}
 
+	@Test
+	public void testEstCaseAdjacente(){
+		
+	}
+	
 	/**
 	 * Test du plateau
 	 * 

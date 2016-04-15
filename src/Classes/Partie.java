@@ -381,18 +381,31 @@ public class Partie implements Serializable{
 		while(!placementOk){
 			System.out.println("["+client.getName()+"] : "+tuile.getIntitule() + " : " + tuile.getNombreMarqueursNecessaires());
 			int coord[]=client.joueurChoisitPlacement();
-			if(this.plateau.getTabPlateau()[coord[0]][coord[1]].getContientTuile()== null){
-				placementOk = true;
-				this.plateau.getTabPlateau()[coord[0]][coord[1]].setContientTuile(tuile);
+			if(this.plateau.getListeTuilesRetournees().size()!=0 
+					&& tuile == this.plateau.getListeTuilesRetournees().get(0)
+					&& this.plateau.chercheCaseAdjacente().size() != 0){
+				
+				if(this.plateau.estCaseAdjacente(coord[0],coord[1])){
+					placementOk = true;
+					this.plateau.getTabPlateau()[coord[0]][coord[1]].setContientTuile(tuile);
+				}
+				else{
+					System.out.println("Il faut poser votre tuile à côté d'un champ");
+				}
 			}
 			else{
-				System.out.println("Il y a déjà une tuile sur cette case");
+				if(this.plateau.getTabPlateau()[coord[0]][coord[1]].getContientTuile()== null){
+					placementOk = true;
+					this.plateau.getTabPlateau()[coord[0]][coord[1]].setContientTuile(tuile);
+				}
+				else{
+					System.out.println("Il y a déjà une tuile sur cette case");
+				}
 			}
 		}
 	}
 	
-	
-	/**
+	/**	 
 	 * Methode qui permet de présenter les tuiles
 	 */
 	public void presentationTuile(){
