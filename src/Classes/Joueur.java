@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import Classes.Marqueurs.MarqueurBlanc;
+import Classes.Marqueurs.MarqueurGris;
+import Classes.Marqueurs.MarqueurNoir;
+import Classes.Marqueurs.MarqueurOrange;
+import Classes.Marqueurs.MarqueurRendement;
+import Classes.Marqueurs.MarqueurRouge;
 import Exception.JoueurException;
 import network.SantiagoInterface;
 
@@ -18,11 +24,39 @@ public class Joueur implements Serializable{
 	private String pseudo;	
 	private int solde;
 	private String couleur;
+	private ArrayList<MarqueurRendement> marqueurRestant;
 		
 	public Joueur(String pseudo, int solde) {
 		this.pseudo = pseudo;
 		this.solde = solde;
-		this.couleur = "blue";
+		this.couleur = "Blanc";
+	}
+	
+	public Joueur(String pseudo, int solde,String couleur) {
+		this.pseudo = pseudo;
+		this.solde = solde;
+		this.couleur = couleur;
+		for(int i =0 ; i<22; i++){
+			switch(this.couleur){
+			case "Blanc" :
+				this.marqueurRestant.add(new MarqueurBlanc());
+				break;
+			case "Gris" :
+				this.marqueurRestant.add(new MarqueurGris());
+				break;
+			case "Noir" :
+				this.marqueurRestant.add(new MarqueurNoir());
+				break;
+			case "Orange" :
+				this.marqueurRestant.add(new MarqueurOrange());
+				break;
+			case "Rouge" :
+				this.marqueurRestant.add(new MarqueurRouge());
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 
@@ -126,6 +160,29 @@ public class Joueur implements Serializable{
 		return tuile;
 	}
 
+	public int[] joueurChoisitPlacement(){
+		int[] coord = new int[2];
+		Scanner scInt = new Scanner(System.in);
+		boolean placementOk = false;
+		
+		while(!placementOk){
+			System.out.println("["+pseudo+"] : Où voulez vous placez votre tuile ? ");
+			System.out.println("["+pseudo+"] : Position en Y : ");
+			String str = scInt.nextLine();
+			coord[0] = (int) Integer.parseInt(str);
+			System.out.println("["+pseudo+"] : Position en X : ");
+			str = scInt.nextLine();
+			coord[1] = (int) Integer.parseInt(str);
+			if(coord[0]<6 && coord[1]<8){
+				placementOk = true;
+			}
+			else{
+				System.out.println("Les positions que vous avez choisit ne font pas partie du plateau");
+			}
+		}
+		return coord;
+	}
+	
 	// --------------- GETTER et SETTER ---------------
 
 	/**
@@ -180,11 +237,9 @@ public class Joueur implements Serializable{
 		return solde;
 	}
 
-
 	public String getCouleur() {
 		return couleur;
 	}
-	
 	
 
 }

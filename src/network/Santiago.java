@@ -238,6 +238,10 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	public int joueurChoisitTuile(int nbTuile){
 		return this.joueur.joueurChoisitTuile(nbTuile);
 	}
+	
+	public int[] joueurChoisitPlacement(){
+		return this.joueur.joueurChoisitPlacement();
+	}
 		
 	/**
 	 * Fonction appelée pour le choix 1

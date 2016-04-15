@@ -35,6 +35,8 @@ public interface SantiagoInterface extends Remote{
 	public int joueurFaitUneOffre() throws RemoteException;
 	
 	public int joueurChoisitTuile(int nbTuile) throws RemoteException;
+	
+	public int[] joueurChoisitPlacement() throws RemoteException;
 
 	public void afficheErreur(String message) throws RemoteException;
 

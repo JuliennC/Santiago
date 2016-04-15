@@ -351,16 +351,27 @@ public class Partie implements Serializable{
 	 * @throws RemoteException 
 	 */
 	public void phase3point2(HashMap<SantiagoInterface, Tuile> listeTuilesChoisies, ArrayList <SantiagoInterface> listeClients) throws RemoteException{
-		
+		for(SantiagoInterface client : listeClients){
+			Tuile tuile = listeTuilesChoisies.get(client);
+			setPositionTuile(client,tuile);
+		}
+		if(this.nombreDeJoueurs == 3){
+			setPositionTuile(listeClients.get(0),this.plateau.getListeTuilesRetournees().get(0));
+		}
 	}
 	
-	/**Cette methode permet le placement de la derniere tuile 
-	 * quand la partie se déroule a 3 joueurs
-	 * 
-	 * @param client : le client qui a fait la meilleur offre
-	 */
-	public void finPhase3(SantiagoInterface client){
-		
+	public void setPositionTuile(SantiagoInterface client, Tuile tuile) throws RemoteException{
+		boolean placementOk = false;
+		while(!placementOk){
+			int coord[]=client.joueurChoisitPlacement();
+			if(this.plateau.getTabPlateau()[coord[0]][coord[1]].getContientTuile()== null){
+				placementOk = true;
+				this.plateau.getTabPlateau()[coord[0]][coord[1]].setContientTuile(tuile);
+			}
+			else{
+				System.out.println("Il y a déjà une tuile sur cette case");
+			}
+		}
 	}
 	
 	/**
@@ -443,7 +454,6 @@ public class Partie implements Serializable{
 		if (!listeClients.contains(client)) {
 
 			listeClients.add(client);
-			this.nombreDeJoueurs++;
 
 		} else {
 

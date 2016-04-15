@@ -329,13 +329,13 @@ public class PartieImplTest {
     
 	@Test
 	public void testPhase3() throws PartieException, RemoteException{
-		Joueur j1 = new Joueur("Joueur1", 10);
-		Joueur j2 = new Joueur("Joueur2", 10);
-		Joueur j3 = new Joueur("Joueur3", 10);
+		Joueur j1 = new Joueur("Joueur1", 10, "Blanc");
+		Joueur j2 = new Joueur("Joueur2", 10, "Orange");
+		Joueur j3 = new Joueur("Joueur3", 10, "Rouge");
 		SantiagoInterface s1 = new Santiago(j1);
 		SantiagoInterface s2 = new Santiago(j2);
 		SantiagoInterface s3 = new Santiago(j3);
-		Partie p = new Partie();
+		Partie p = new Partie("Test",3);
 		p.addClient(s1);
 		p.addClient(s2);
 		p.addClient(s3);
