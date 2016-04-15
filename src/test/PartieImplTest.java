@@ -13,6 +13,8 @@ import Classes.Plateau.Canal;
 import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
 import Classes.Plateau.Source;
+import Classes.Tuile.Tuile;
+import Classes.Tuile.TuileBanane;
 import Exception.PartieException;
 import network.Santiago;
 import network.SantiagoInterface;
@@ -345,7 +347,6 @@ public class PartieImplTest {
 		p.lancePartie();
 	}
 
-	
 	/**
 	 * Test du plateau
 	 * 
