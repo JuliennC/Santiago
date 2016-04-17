@@ -107,7 +107,9 @@ public abstract class Tuile implements Serializable {
 		return marqueursActuels.size();
 	}
 	
-	
+	public void setMarqueursActuels(ArrayList <MarqueurRendement> listeMarqueurs){
+		this.marqueursActuels = listeMarqueurs;
+	}
 	
 	
 	/**

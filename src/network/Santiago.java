@@ -121,9 +121,10 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * Le client renseigne le nom de la partie à rejoindre et son objet Joueur
 	 * @return: booléen de confirmation
 	 * @throws PartieException 
+	 * @throws JoueurException 
 	 */
 	@Override
-	public String rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException {
+	public String rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException {
 
 		String res = null;
 
@@ -234,6 +235,15 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		return choix;
 	}
 	
+
+	public int joueurChoisitTuile(int nbTuile){
+		return this.joueur.joueurChoisitTuile(nbTuile);
+	}
+	
+	public int[] joueurChoisitPlacement(){
+		return this.joueur.joueurChoisitPlacement();
+	}
+		
 	/**
 	 * Fonction appelée pour le choix 1
 	 * Demande un pot de vin et vérifier si le pot de vin est possible
@@ -511,8 +521,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @param : Partie partie que l'on veut tester
 	 * @throws PartieException 
 	 * @throws RemoteException 
+	 * @throws JoueurException 
 	 */
-	public void testPartieEstPrete(Partie partie) throws PartieException, RemoteException{
+	public void testPartieEstPrete(Partie partie) throws PartieException, RemoteException, JoueurException{
 		
 		/*Pour qu'une partie soit prête, il faut : 
 		*

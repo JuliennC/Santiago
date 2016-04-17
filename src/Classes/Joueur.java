@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import Classes.Marqueurs.MarqueurBlanc;
+import Classes.Marqueurs.MarqueurGris;
+import Classes.Marqueurs.MarqueurNoir;
+import Classes.Marqueurs.MarqueurOrange;
+import Classes.Marqueurs.MarqueurRendement;
+import Classes.Marqueurs.MarqueurRouge;
 import Exception.JoueurException;
 import network.SantiagoInterface;
 
@@ -18,11 +24,40 @@ public class Joueur implements Serializable{
 	private String pseudo;	
 	private int solde;
 	private String couleur;
+	private ArrayList<MarqueurRendement> marqueurRestant;
 		
 	public Joueur(String pseudo, int solde) {
 		this.pseudo = pseudo;
 		this.solde = solde;
-		this.couleur = "blue";
+		this.couleur = "Blanc";
+	}
+	
+	public Joueur(String pseudo, int solde,String couleur) {
+		this.pseudo = pseudo;
+		this.solde = solde;
+		this.couleur = couleur;
+		this.marqueurRestant = new ArrayList<MarqueurRendement>();
+		for(int i =0 ; i<22; i++){
+			switch(this.couleur){
+			case "Blanc" :
+				this.marqueurRestant.add(new MarqueurBlanc());
+				break;
+			case "Gris" :
+				this.marqueurRestant.add(new MarqueurGris());
+				break;
+			case "Noir" :
+				this.marqueurRestant.add(new MarqueurNoir());
+				break;
+			case "Orange" :
+				this.marqueurRestant.add(new MarqueurOrange());
+				break;
+			case "Rouge" :
+				this.marqueurRestant.add(new MarqueurRouge());
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 
@@ -59,6 +94,94 @@ public class Joueur implements Serializable{
 
 	public void AugmenterSoldeParTour() {
 		solde = solde + 3;
+	}
+	
+	/**
+	 * Fonction qui gère l'enchère du joueur
+	 * 
+	 * @param : void
+	 * @return : int : le montant de l'enchère
+	 * @throws JoueurException 
+	 */
+	public int joueurFaitUneOffre()  {
+
+		Scanner scInt = new Scanner(System.in);
+
+		
+		int offre = 0;
+
+		boolean offreOk = false;
+		
+		while(! offreOk) {
+
+			//On récupère l'offre
+			System.out.println("["+pseudo+"] : Vous devez faire une enchère : ");
+			String str = scInt.nextLine();
+			offre = Integer.parseInt(str);
+			
+			//On regarde la conformité de l'offre
+			if (offre < 0) {
+				System.out.println("Vous ne pouvez pas faire une offre inférieur à 0");
+		
+			} else if (offre > solde) {
+
+				System.out.println("Vous ne pouvez pas faire une offre supérieur à votre solde : "+solde+".");
+			
+			} else {
+			
+				offreOk = true;
+			}
+			
+		}
+		
+		return offre;
+	}
+	
+	public int joueurChoisitTuile(int nbTuile){
+		
+		Scanner scInt = new Scanner(System.in);
+		int tuile = 0;
+		boolean tuileOk = false;
+		
+		while(! tuileOk) {
+			//On récupère l'offre
+			System.out.println("["+pseudo+"] : Vous devez choisir une tuile : ");
+			String str = scInt.nextLine();
+			tuile = Integer.parseInt(str);
+			
+			//On regarde la conformité de la demande de tuile
+			if (tuile < 0 || tuile >= nbTuile) {
+				System.out.println("Le chiffre que vous donnez ne correspond a aucune tuile.");
+			} else {
+				tuileOk = true;
+			}
+			
+		}
+		
+		return tuile;
+	}
+
+	public int[] joueurChoisitPlacement(){
+		int[] coord = new int[2];
+		Scanner scInt = new Scanner(System.in);
+		boolean placementOk = false;
+		
+		while(!placementOk){
+			System.out.println("["+pseudo+"] : Où voulez vous placez votre tuile ? ");
+			System.out.println("["+pseudo+"] : Position en Y : ");
+			String str = scInt.nextLine();
+			coord[0] = (int) Integer.parseInt(str);
+			System.out.println("["+pseudo+"] : Position en X : ");
+			str = scInt.nextLine();
+			coord[1] = (int) Integer.parseInt(str);
+			if(coord[0]<6 && coord[1]<8){
+				placementOk = true;
+			}
+			else{
+				System.out.println("Les positions que vous avez choisit ne font pas partie du plateau");
+			}
+		}
+		return coord;
 	}
 	
 	// --------------- GETTER et SETTER ---------------
@@ -115,6 +238,7 @@ public class Joueur implements Serializable{
 		return solde;
 	}
 
+
 	
 	
 	public void setCouleur(String couleur){
@@ -122,10 +246,18 @@ public class Joueur implements Serializable{
 	}
 	
 	
-	public String getCouleur(){
+	public String getCouleur() {
 		return couleur;
 	}
 	
 	
-
+	public ArrayList<MarqueurRendement> getListeMarqueurs(){
+		return this.marqueurRestant;
+	}
+	
+	public MarqueurRendement getMarqueur(){
+		MarqueurRendement marqueur = this.marqueurRestant.get(0);
+		this.marqueurRestant.remove(marqueur);
+		return marqueur;
+	}
 }

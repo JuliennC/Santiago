@@ -2,7 +2,11 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.Ignore;
@@ -14,6 +18,9 @@ import Classes.Plateau.Canal;
 import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
 import Classes.Plateau.Source;
+import Classes.Tuile.Tuile;
+import Classes.Tuile.TuileBanane;
+import Exception.JoueurException;
 import Exception.PartieException;
 import network.Santiago;
 import network.SantiagoInterface;
@@ -111,9 +118,10 @@ public class PartieImplTest {
 	 * 
 	 * @throws PartieException
 	 * @throws RemoteException 
+	 * @throws JoueurException 
 	 */
 	@Test
-	public void testStart() throws PartieException, RemoteException {
+	public void testStart() throws PartieException, RemoteException, JoueurException {
 		Joueur j1 = new Joueur("Joueur1", 0);
 		Joueur j2 = new Joueur("Joueur2", 0);
 		Joueur j3 = new Joueur("Joueur3", 0);
@@ -132,10 +140,11 @@ public class PartieImplTest {
 	/**
 	 * Test de la méthode AideAuDeveloppement
 	 * @throws RemoteException 
+	 * @throws JoueurException 
 	 * 
 	 */
 	@Test
-	public void testAideAuDeveloppement() throws PartieException, RemoteException {
+	public void testAideAuDeveloppement() throws PartieException, RemoteException, JoueurException {
 		Joueur j1 = new Joueur("Joueur1", 0);
 		Joueur j2 = new Joueur("Joueur2", 0);
 		Joueur j3 = new Joueur("Joueur3", 0);
@@ -162,7 +171,7 @@ public class PartieImplTest {
 	 * @throws MalformedURLException 
 	 * 
 	 */
-/*	@Test(expected = PartieException.class)
+	@Test(expected = PartieException.class)
 	public void testAjout() throws PartieException, RemoteException, MalformedURLException, NotBoundException {
 		
 		int nombreJoueursDesires = 4;
@@ -186,8 +195,10 @@ public class PartieImplTest {
 		}
 
 		System.out.println(p.getNombreJoueurDansLaPartie());
-	}*/
-	@Ignore
+	}
+
+
+	
 	@Test
 	public void testDemanderPotDeVin() throws PartieException, RemoteException {
 		Partie p = new Partie();
@@ -258,6 +269,7 @@ public class PartieImplTest {
 	 * 
 	 * @throws PartieException 
 	 * @throws RemoteException 
+	 * @throws JoueurException 
 	 */
 	@Test
 	public void testPhase2() throws PartieException, RemoteException{
@@ -287,18 +299,68 @@ public class PartieImplTest {
 		p.setConstructeurDeCanal(s2);
 		p.phase2(listeOffres2);
 		assertEquals(s2,p.getConstructeurDeCanal());
-		
-		System.out.println("3");
-
-		//s.ajouterPartieListe(p);
-		for(int i = 0; i < 0; i++) {
-			
-			Joueur joueur = new Joueur("joueur"+i, 0);
-			//s.rejoindrePartie(p.getNomPartie(), joueur);
-		}
-
-		System.out.println(p.getNombreJoueurDansLaPartie());
 	}
+
+	
+	@Test
+	public void testPlusGrandeOffre() throws RemoteException, PartieException{
+		Joueur j1 = new Joueur("Joueur1", 0);
+		Joueur j2 = new Joueur("Joueur2", 0);
+		Joueur j3 = new Joueur("Joueur3", 0);
+		SantiagoInterface s1 = new Santiago(j1);
+		SantiagoInterface s2 = new Santiago(j2);
+		SantiagoInterface s3 = new Santiago(j3);
+		Partie p = new Partie();
+		HashMap<SantiagoInterface, Integer> listeOffres = new HashMap<>();
+		listeOffres.put(s1, 10);
+		listeOffres.put(s2, 15);
+		listeOffres.put(s3, 20);
+		assertEquals(s3,p.plusGrandeOffre(listeOffres));
+	}
+	
+	@Test
+	public void testOrdreDecroissantOffre() throws RemoteException, PartieException{
+		Joueur j1 = new Joueur("Joueur1", 0);
+		Joueur j2 = new Joueur("Joueur2", 0);
+		Joueur j3 = new Joueur("Joueur3", 0);
+		SantiagoInterface s1 = new Santiago(j1);
+		SantiagoInterface s2 = new Santiago(j2);
+		SantiagoInterface s3 = new Santiago(j3);
+		Partie p = new Partie();
+		HashMap<SantiagoInterface, Integer> listeOffres = new HashMap<>();
+		listeOffres.put(s1, 10);
+		listeOffres.put(s2, 15);
+		listeOffres.put(s3, 20);
+		ArrayList<SantiagoInterface> listeComparative = new ArrayList<SantiagoInterface>();
+		listeComparative.add(s3);
+		listeComparative.add(s2);
+		listeComparative.add(s1);
+		ArrayList<SantiagoInterface> liste = p.ordreDecroissantOffre(listeOffres);
+		assertEquals(listeComparative.get(0),liste.get(0));
+		assertEquals(listeComparative.get(1),liste.get(1));
+		assertEquals(listeComparative.get(2),liste.get(2));
+	}
+    
+	@Test
+	public void testPhase3() throws PartieException, RemoteException, JoueurException{
+		Joueur j1 = new Joueur("Joueur1", 10, "Blanc");
+		assertEquals(22, j1.getListeMarqueurs().size());
+		Joueur j2 = new Joueur("Joueur2", 10, "Orange");
+		assertEquals(22, j2.getListeMarqueurs().size());
+		Joueur j3 = new Joueur("Joueur3", 10, "Rouge");
+		assertEquals(22, j3.getListeMarqueurs().size());
+		SantiagoInterface s1 = new Santiago(j1);
+		SantiagoInterface s2 = new Santiago(j2);
+		SantiagoInterface s3 = new Santiago(j3);
+		Partie p = new Partie("Test",3);
+		p.addClient(s1);
+		p.addClient(s2);
+		p.addClient(s3);
+		p.lancePartie();
+	}
+
+	
+
 	
 	/**
 	 * Test du plateau
@@ -342,9 +404,10 @@ public class PartieImplTest {
 	 * Test de l'affichage plateau
 	 * 
 	 */
-	@Ignore
+
 	@Test
 	public void testAffichePlateau() throws PartieException {
+
 		
 		Plateau plateau = new Plateau();
 		Source source = plateau.getSource();
@@ -470,3 +533,4 @@ public class PartieImplTest {
 	}
 
 }
+

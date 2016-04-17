@@ -37,6 +37,7 @@ public class Plateau {
 	private Source source;
 	private ArrayList<Canal> listeCanaux = new ArrayList<>();
 	private ArrayList<Tuile> listeTuiles = new ArrayList<>();
+	private ArrayList<Tuile> tuilesRetournees = new ArrayList<>();
 
 	static int nombreDeTuile1Marqueur = 3;	
 	static int nombreDeTuile2Marqueur = 6;	
@@ -99,8 +100,61 @@ public class Plateau {
 	}
 	
 	
+	public ArrayList<Case> chercheCaseAdjacente(){
+		// on initialise la liste des cases vides adjacente aux tuiles qui ne sont pas des deserts
+		ArrayList<Case> listeCase = new ArrayList<Case>();
+		// parcours du tableau les colones d'abord ([0][0] / [0][1] / ...)
+		for(int y = 0 ; y < 6; y++){
+			for(int x = 0; x < 8; x++){
+				if(this.tabPlateau[y][x].getContientTuile() != null){
+					if(!this.tabPlateau[y][x].getContientTuile().estDesert()){
+						//pour la case du dessus
+						if(y != 0){
+							if(this.tabPlateau[y-1][x].getContientTuile() == null){
+								listeCase.add(this.tabPlateau[y-1][x]);
+							}
+						}
+						//pour la case de droite
+						if(x != 7){
+							if(this.tabPlateau[y][x+1].getContientTuile() == null){
+								listeCase.add(this.tabPlateau[y][x+1]);
+							}
+						}
+						//pour la case du bas
+						if(y != 5){
+							if(this.tabPlateau[y+1][x].getContientTuile() == null){
+								listeCase.add(this.tabPlateau[y+1][x]);
+							}
+						}
+						//pour la case de gauche
+						if(x != 0){
+							if(this.tabPlateau[y][x-1].getContientTuile() == null){
+								listeCase.add(this.tabPlateau[y][x-1]);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return listeCase;
+	}
 	
-	
+	 /** fonction qui dit si une case est adjacente a un champ
+	 * 
+	 * @param coordY
+	 * @param coordX
+	 * @return
+	 */
+	public boolean estCaseAdjacente(int coordY, int coordX){
+		ArrayList<Case> listeCase = chercheCaseAdjacente();
+		for(Case c : listeCase){
+			if(coordX == c.getCoorX() && coordY == c.getCoorY()){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 * Fonction qui fabrique les cannaux et les mets en relation avec les cases qu'ils touchent
@@ -404,7 +458,13 @@ public class Plateau {
 		return listeCanaux;
 	}
 	
+	public ArrayList<Tuile> getListeTuilesRetournees(){
+		return this.tuilesRetournees;
+	}
 	
+	public void setListeTuilesRetournees(ArrayList<Tuile> tuiles){
+		this.tuilesRetournees = tuiles;
+	}
 
 	/**
 	 * Retourne la source du plateau
