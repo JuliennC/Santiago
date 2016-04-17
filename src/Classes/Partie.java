@@ -166,7 +166,7 @@ public class Partie implements Serializable{
 				int offre = client.joueurFaitUneOffre();
 				
 				//On vérifie que l'offre est valide 
-				boolean offreValide = ! (listeOffres.containsValue(offre)); 
+				boolean offreValide =  (! (listeOffres.containsValue(offre))) || (offre == 0); 
 				
 				while(! offreValide){
 					
