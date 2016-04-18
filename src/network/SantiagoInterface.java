@@ -2,9 +2,11 @@ package network;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Classes.Joueur;
 import Classes.Partie;
+import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
 
@@ -23,7 +25,7 @@ public interface SantiagoInterface extends Remote{
 	
 	public ArrayList<Partie> voirParties() throws RemoteException;
 	
-	public String rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException;
+	public String rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException;
 
 	public void enregistrePseudo(String pseudo) throws RemoteException;
 
@@ -33,9 +35,27 @@ public interface SantiagoInterface extends Remote{
 	
 	public int joueurFaitUneOffre() throws RemoteException;
 	
+	public int joueurChoisitTuile(int nbTuile) throws RemoteException;
+	
+	public int[] joueurChoisitPlacement() throws RemoteException;
+
 	public void afficheErreur(String message) throws RemoteException;
 	
 	public boolean irrigationSupp() throws RemoteException;
 	
+
+	public int propositionPhase4() throws RemoteException;
+		
+	public int joueurFaitPotDeVin() throws RemoteException;
+		
+	public void afficherPropositionsPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException;
+		
+	public SantiagoInterface soutenirJoueur(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException;
+		
+	public void cumulerPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions, SantiagoInterface joueurSoutenu, int potDeVin) throws RemoteException;
+		
+	public SantiagoInterface choisirPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException;
+		
+	public void deduirePotDeVin(HashMap<SantiagoInterface, Integer> listePropositions, HashMap<SantiagoInterface, SantiagoInterface> listeSoutiens, HashMap<SantiagoInterface, Integer> listePotDeVin, SantiagoInterface constructeur) throws RemoteException;
 
 }
