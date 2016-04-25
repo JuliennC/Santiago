@@ -3,6 +3,8 @@ package Classes.Plateau;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import Classes.Tuile.Tuile;
 import Classes.Tuile.TuileBanane;
@@ -28,7 +30,7 @@ public class Plateau implements Serializable{
 	 * ATTENTION : dans un tableau à double dimension, c'est tab[y][x] !
 	 * 
 	 */
-	private Case tabPlateau[][] = new Case[6][8] ;
+	private Case tabPlateau[][] = new Case[6][8];
 	
 	/**
 	 * Initialisation de la source
@@ -36,6 +38,7 @@ public class Plateau implements Serializable{
 	private Source source;
 	private ArrayList<Canal> listeCanaux = new ArrayList<>();
 	private ArrayList<Tuile> listeTuiles = new ArrayList<>();
+	private ArrayList<Tuile> tuilesRetournees = new ArrayList<>();
 
 	static int nombreDeTuile1Marqueur = 3;	
 	static int nombreDeTuile2Marqueur = 6;	
@@ -52,12 +55,12 @@ public class Plateau implements Serializable{
 		super();
 		
 		//On parcours d'abord les lignes
-		for (int i = 0; i<tabPlateau.length; i++){
+		for (int y = 0; y<tabPlateau.length; y++){
 			
 			//On parcours ensuite les colonnes
-			for (int j = 0; j<tabPlateau[i].length; j++){
+			for (int x = 0; x<tabPlateau[y].length; x++){
 				
-				tabPlateau[i][j]=new Case(i, j, false, null);
+				tabPlateau[y][x]=new Case(x, y, false, null);
 				//System.out.println(tabPlateau[i][j].toString());
 			}
 		}
@@ -97,8 +100,61 @@ public class Plateau implements Serializable{
 	}
 	
 	
+	public ArrayList<Case> chercheCaseAdjacente(){
+		// on initialise la liste des cases vides adjacente aux tuiles qui ne sont pas des deserts
+		ArrayList<Case> listeCase = new ArrayList<Case>();
+		// parcours du tableau les colones d'abord ([0][0] / [0][1] / ...)
+		for(int y = 0 ; y < 6; y++){
+			for(int x = 0; x < 8; x++){
+				if(this.tabPlateau[y][x].getContientTuile() != null){
+					if(!this.tabPlateau[y][x].getContientTuile().estDesert()){
+						//pour la case du dessus
+						if(y != 0){
+							if(this.tabPlateau[y-1][x].getContientTuile() == null){
+								listeCase.add(this.tabPlateau[y-1][x]);
+							}
+						}
+						//pour la case de droite
+						if(x != 7){
+							if(this.tabPlateau[y][x+1].getContientTuile() == null){
+								listeCase.add(this.tabPlateau[y][x+1]);
+							}
+						}
+						//pour la case du bas
+						if(y != 5){
+							if(this.tabPlateau[y+1][x].getContientTuile() == null){
+								listeCase.add(this.tabPlateau[y+1][x]);
+							}
+						}
+						//pour la case de gauche
+						if(x != 0){
+							if(this.tabPlateau[y][x-1].getContientTuile() == null){
+								listeCase.add(this.tabPlateau[y][x-1]);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return listeCase;
+	}
 	
-	
+	 /** fonction qui dit si une case est adjacente a un champ
+	 * 
+	 * @param coordY
+	 * @param coordX
+	 * @return
+	 */
+	public boolean estCaseAdjacente(int coordY, int coordX){
+		ArrayList<Case> listeCase = chercheCaseAdjacente();
+		for(Case c : listeCase){
+			if(coordX == c.getCoorX() && coordY == c.getCoorY()){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 * Fonction qui fabrique les cannaux et les mets en relation avec les cases qu'ils touchent
@@ -312,6 +368,73 @@ public class Plateau implements Serializable{
 	
 	
 	
+	
+	
+	/**
+	 * Fonction qui return le champs lorsqu'elle recoit un case
+	 * 
+	 * @param : Tuile
+	 * @return : HashSet<Case>
+	 */
+	public HashSet<Tuile> getChampsAvecCase(Case c){
+
+		Tuile tuile = c.getContientTuile();
+		
+		//Si la case ne contient pas de tuile, on retourn un ensemble vide
+		HashSet<Tuile> res = new HashSet<>();
+
+		if(tuile == null){
+			return res;
+		}
+		
+		//Il faut parcourir les cases autour
+		res.add(tuile);
+		c.setContientTuile(null);
+		
+		//On test les cases à côté
+		for(int y = c.getCoorY()-1 ; y <= c.getCoorY()+1 ; y++){
+			
+			for(int x = c.getCoorX()-1 ; x <= c.getCoorX()+1 ; x++){
+			
+				//On doit passer les diagonales
+				if( ((x==c.getCoorX()-1) && (y==c.getCoorY()-1)) || ((x==c.getCoorX()-1) && (y==c.getCoorY()+1))
+						|| ((x==c.getCoorX()+1) && (y==c.getCoorY()-1)) || ((x==c.getCoorX()+1) && (y==c.getCoorY()+1))){
+					continue;
+				}
+					
+				
+				//Si on ne sort pas du tableau
+				if( (y < tabPlateau.length) && (x < tabPlateau[0].length) ){
+				
+					//On test si la case contient une tuile de la même sorte que celle donnée
+					//En sachant qu'une tuile ne peut être ajoutée qu'une seule fois dans la liste
+					Case caseATester = tabPlateau[y][x];
+					Tuile tuileATester = caseATester.getContientTuile();
+
+					if(tuileATester != null){
+
+						if(! tuileATester.estDesert()){
+
+							//On regarde si la tuile est de la même sorte que celle que l'on a
+							if(tuile.getClass().equals(tuileATester.getClass())){
+							
+								//On ajoute toutes les tuiles
+								res.addAll(getChampsAvecCase(caseATester));
+							}
+						}
+					}
+				}
+				
+			}
+		}
+		
+		return res;
+	}
+	
+	
+	
+	
+	
 
 	
 	//--------------- GETTER / SETTER ----------
@@ -335,7 +458,13 @@ public class Plateau implements Serializable{
 		return listeCanaux;
 	}
 	
+	public ArrayList<Tuile> getListeTuilesRetournees(){
+		return this.tuilesRetournees;
+	}
 	
+	public void setListeTuilesRetournees(ArrayList<Tuile> tuiles){
+		this.tuilesRetournees = tuiles;
+	}
 
 	/**
 	 * Retourne la source du plateau
@@ -431,19 +560,27 @@ public class Plateau implements Serializable{
 				}
 				
 			
-			if(x < tabPlateau.length){
+			if(x < tabPlateau[0].length){
 
 				Case c = getTabPlateau()[y][x];
-
+				Tuile tuile = c.getContientTuile();
 				
 				//Si la case est irriguée on l'affiche en maj
 				if(c.isIrriguee()){
 					
-					str += "X   ";
+					if(tuile == null){
+						str += "X   ";
+					}else{
+						str += "Y   ";
+					}
 					
 				} else {
 					
-					str += "x   ";
+					if(tuile == null){
+						str += "x   ";
+					}else{
+						str += "y   ";
+					}
 				}
 				
 			}
