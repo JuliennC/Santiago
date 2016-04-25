@@ -15,6 +15,7 @@ import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
 import network.SantiagoInterface;
+import serialisationXML.XMLTools;
 import Classes.Marqueurs.*;
 import Classes.Plateau.Canal;
 import Classes.Plateau.Case;
@@ -34,6 +35,7 @@ public class Partie implements Serializable{
 	private boolean partieACommence = false;
 	private SantiagoInterface constructeurDeCanal;
 	private Plateau plateau;
+	private int tourEnCours = 1;
 	
 	
 	public Partie(String aNom, int nbJoueurs) throws PartieException{
@@ -116,6 +118,8 @@ public class Partie implements Serializable{
 		
 		//Phase 4: Soudoyer le constructeur de canal :
 		phase4();
+		
+		tourEnCours++;
 	}
 	
 	 
@@ -340,8 +344,9 @@ public class Partie implements Serializable{
 			//Informer les joueurs
 			propositionChoisie.deduirePotDeVin(listePropositions, listeSoutiens, listePotsDeVin, constructeurDeCanal);
 		}
-		
 
+		
+		
 		// --------------- FIN PHASES ---------------
 	
 	

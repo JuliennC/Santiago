@@ -1,9 +1,11 @@
 package Classes.Plateau;
 
+import java.io.Serializable;
+
 /**
  * Classe Source
  */
-public class Source {
+public class Source implements Serializable{
 	/**
 	 * La source est un couple de coordonées
 	 * Ex : elle peut etre en X[1,2] Y[1,2] elle sera en entre la colonne 1,2 et la ligne 1,2
@@ -109,5 +111,7 @@ public class Source {
 		}
 		return coordY;
 	}
+	
+	
 	
 }

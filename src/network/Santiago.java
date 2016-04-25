@@ -1,5 +1,7 @@
 package network;
 import java.awt.Point;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -22,6 +24,7 @@ import Classes.Plateau.Plateau;
 import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
+import serialisationXML.XMLTools;
 
 
 public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
@@ -35,7 +38,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	protected Joueur joueur;
 	private SantiagoInterface client = null;
 	private static ArrayList<String>listePseudos = new ArrayList<>();
-
+	Partie p = null;
 	
 
 	
@@ -102,7 +105,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		System.out.println("Insérez le nombre de joueur:");
 		int nbJoueur = scInt.nextInt();
 		
-		Partie p = null;
+		
 		try {
 			p = new Partie(nom, nbJoueur);
 
@@ -644,7 +647,26 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		return listeParties;
 	}
 
-
+	/**
+	 * Fonction appelée par le client qui a créé la partie pour sauvegarder la partie en cours 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 */
+	public void sauvegarder(Partie p) throws RemoteException, FileNotFoundException, IOException {
+		/*try {
+			sauvegarder(p);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		XMLTools.encodeToFile(p, p.getNomPartie());
+		
+		for(Joueur j:p.getListeJoueurs()) {
+			XMLTools.encodeToFile(j, p.getNomPartie());
+		}
+		
+		System.out.println("Partie sauvegardée ! :D");
+	}
 
 	
 	

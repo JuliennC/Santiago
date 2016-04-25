@@ -1,5 +1,6 @@
 package Classes.Plateau;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -19,7 +20,7 @@ import Exception.PartieException;
  */
 
 
-public class Plateau {
+public class Plateau implements Serializable{
 	/**
 	 * Initialisation du Plateau
 	 * C'est un tableau de Case
@@ -38,7 +39,6 @@ public class Plateau {
 
 	static int nombreDeTuile1Marqueur = 3;	
 	static int nombreDeTuile2Marqueur = 6;	
-	
 	
 	
 	/**
@@ -509,6 +509,72 @@ public class Plateau {
 			System.out.println("Canal début : ("+canal.getCoordDebut().x+","+canal.getCoordDebut().y+")  Fin : ("+canal.getCoordFin().x+","+canal.getCoordFin().y+")");
 		}
 	}
+
+
+
+
+
+	public static int getNombreDeTuile1Marqueur() {
+		return nombreDeTuile1Marqueur;
+	}
+
+
+
+
+
+	public static void setNombreDeTuile1Marqueur(int nombreDeTuile1Marqueur) {
+		Plateau.nombreDeTuile1Marqueur = nombreDeTuile1Marqueur;
+	}
+
+
+
+
+
+	public static int getNombreDeTuile2Marqueur() {
+		return nombreDeTuile2Marqueur;
+	}
+
+
+
+
+
+	public static void setNombreDeTuile2Marqueur(int nombreDeTuile2Marqueur) {
+		Plateau.nombreDeTuile2Marqueur = nombreDeTuile2Marqueur;
+	}
+
+
+
+
+
+	public void setTabPlateau(Case[][] tabPlateau) {
+		this.tabPlateau = tabPlateau;
+	}
+
+
+
+
+
+	public void setSource(Source source) {
+		this.source = source;
+	}
+
+
+
+
+
+	public void setListeCanaux(ArrayList<Canal> listeCanaux) {
+		this.listeCanaux = listeCanaux;
+	}
+
+
+
+
+
+	public void setListeTuiles(ArrayList<Tuile> listeTuiles) {
+		this.listeTuiles = listeTuiles;
+	}
+	
+	
 
 }
 
