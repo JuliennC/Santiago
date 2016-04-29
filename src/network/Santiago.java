@@ -38,7 +38,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	protected Joueur joueur;
 	private SantiagoInterface client = null;
 	private static ArrayList<String>listePseudos = new ArrayList<>();
-	Partie p = null;
+	Partie p;
 	
 
 	
@@ -121,6 +121,20 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		return p;
 		
 	}
+	
+	/**
+	 * Créé une partie à partir des données contenues dans le fichier XML
+	 * @param aPartie
+	 * @return
+	 * @throws RemoteException
+	 */
+	public Partie creerPartie(Partie aPartie) throws RemoteException {
+		p = aPartie;
+		
+		System.out.println("La partie a été chargée correctement !");
+
+		return p;	
+	}
 
 	/**
 	 * Fonction appelée par le client pour rejoindre une partie
@@ -130,16 +144,14 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws JoueurException 
 	 */
 	@Override
-	public String rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException {
-
-		String res = null;
+	public Partie rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException {
 
 		/* On vérifie d'abord que la liste contient la partie demandée, 
 		*  Sinon, on lève une exception
 		*/
 		if (! listeContientPartie(listeParties, nom)){
-			res = ("Aucune partie contenant ce nom n'est enregistrée");
-			return res;
+			System.out.println("Aucune partie contenant ce nom n'est enregistrée");
+			return null;
 		}
 		
 		
@@ -151,28 +163,60 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					*  Sinon, on lève une exception
 					*/
 					if(p.getPartieACommence()){
-
-						res = ("Vous ne pouvez pas rejoindre la partie, elle a déjà commencé.");
-						return res;
+						System.out.println("Vous ne pouvez pas rejoindre la partie, elle a déjà commencé.");
+						return null;
 					} 
 					
 					p.addClient(i);
-					
-					//On test si la partie est complète
-					testPartieEstPrete(p);
 					
 				} catch (PartieException e) {
 
 					e.printStackTrace();
 				}
-				return res;
+				return p;
 			}
 		}
 		
-		return ("Pas de chance : Une erreur inconnue est survenue");
+		return null;
 	}
 	
+	/**
+	 * Rejoindre une partie chargée à partir d'un fichier XML
+	 * @param aPartie
+	 * @param si
+	 * @return
+	 * @throws RemoteException
+	 * @throws PartieException
+	 * @throws JoueurException
+	 */
+	public Partie rejoindrePartie(Partie aPartie, SantiagoInterface si) throws RemoteException, PartieException, JoueurException {
+		for(Joueur j: aPartie.getListeJoueurs()) {
+			if(j.getPseudo().equals(si.getJoueur().getPseudo())) {
+				si.getJoueur().setCouleur(j.getCouleur());
+				si.getJoueur().setSolde(j.getSolde());
+				si.getJoueur().setMarqueurRestant(j.getMarqueurRestant());
+				
+				//On remplace le joueur:
+				aPartie.getListeJoueurs().remove(j);
+				aPartie.getListeJoueurs().add(si.getJoueur());
+				
+				aPartie.addClient(si);
+				
+				break;
+			}
+		}
+		System.out.println("La partie a été rejointe !");
+		return aPartie;
+	}
 	
+	public void initialiserPartie(Partie aPartie) throws RemoteException {
+		this.p = aPartie;
+	}
+	
+	public void testPartiePrete(Partie aPartie) throws RemoteException, PartieException, JoueurException {
+		//On test si la partie est complète
+		testPartieEstPrete(aPartie);
+	}
 	
 	/**
 	 * Foncion qui demande à l'utilisateur d'entrer une offre
@@ -663,20 +707,49 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
-	public void sauvegarder(Partie p) throws RemoteException, FileNotFoundException, IOException {
-		/*try {
-			sauvegarder(p);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+	public void sauvegarder() throws RemoteException, FileNotFoundException, IOException {
+		System.out.println("Sauvegarde");
+		System.out.println("Sauvegarde de la partie " +p.getNomPartie());
 		XMLTools.encodeToFile(p, p.getNomPartie());
 		
-		for(Joueur j:p.getListeJoueurs()) {
-			XMLTools.encodeToFile(j, p.getNomPartie());
+		System.out.println("Partie sauvegardée ! :D");
+		charger(p.getNomPartie());
+	}
+	
+	/**
+	 * Charge un fichier XML contenant une partie
+	 */
+	public Partie charger(String fileName) throws RemoteException, FileNotFoundException, IOException {
+		Partie pChargee = (Partie) XMLTools.decodeFromFile(fileName);
+		
+		if(pChargee != null) {
+			System.out.println("Chargement de la partie " +pChargee.getNomPartie());
+			//A enlever par la suite :
+			System.out.println("Listes des joueurs :");
+			for(Joueur j: pChargee.getListeJoueurs()) {
+				System.out.println(j.getPseudo());
+				
+			}
+			return pChargee;
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param partieRejointe
+	 * @return true si la partie existe déjà ; false sinon
+	 */
+	public boolean reprendrePartie(Partie partieRejointe) throws RemoteException {
+		for(Partie p:listeParties) {
+			if(p.getNomPartie().equals(partieRejointe.getNomPartie())) {
+				return true;
+			}
 		}
 		
-		System.out.println("Partie sauvegardée ! :D");
+		return false;
+
 	}
 
 	

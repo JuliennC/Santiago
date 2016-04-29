@@ -4,7 +4,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class TuileBanane extends Tuile  {
 
-	
+	public TuileBanane() {}
 	
 	public TuileBanane(int nbMarqueurs){
 		

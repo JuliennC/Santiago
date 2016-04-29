@@ -89,4 +89,22 @@ public class Canal implements Serializable{
 	public boolean canalEstVertical(){
 		return (coordDebut.x == coordFin.x);
 	}
+
+	public boolean isEstEnEau() {
+		return estEnEau;
+	}
+
+	public void setEstEnEau(boolean estEnEau) {
+		this.estEnEau = estEnEau;
+	}
+
+	public void setCoordDebut(Point coordDebut) {
+		this.coordDebut = coordDebut;
+	}
+
+	public void setCoordFin(Point coordFin) {
+		this.coordFin = coordFin;
+	}
+	
+	
 }

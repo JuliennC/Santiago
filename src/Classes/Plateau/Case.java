@@ -13,6 +13,8 @@ public class Case implements Serializable{
 	private int coordY;
 	private boolean irriguee;
 	private Tuile contientTuile;
+	
+	public Case() {}
 
 	public Case(int coordX, int coordY, boolean irriguee, Tuile contientTuile) {
 		super();
@@ -51,6 +53,22 @@ public class Case implements Serializable{
 	public String toString() {
 		return "Case [coordX=" + coordX + ", coordY=" + coordY + ", irriguee=" + irriguee + ", contientTuile="
 				+ contientTuile + "]";
+	}
+
+	public int getCoordX() {
+		return coordX;
+	}
+
+	public void setCoordX(int coordX) {
+		this.coordX = coordX;
+	}
+
+	public int getCoordY() {
+		return coordY;
+	}
+
+	public void setCoordY(int coordY) {
+		this.coordY = coordY;
 	}
 	
 	

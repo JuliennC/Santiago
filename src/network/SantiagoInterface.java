@@ -1,4 +1,6 @@
 package network;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -23,12 +25,19 @@ public interface SantiagoInterface extends Remote{
 	public void send(String msg) throws RemoteException;
 	
 	public Partie creerPartie() throws RemoteException;
+	public Partie creerPartie(Partie aPartie) throws RemoteException;
+	
 	public void ajouterPartieListe(Partie p) throws RemoteException;
+	
+	public void initialiserPartie(Partie aPartie) throws RemoteException;
+	
+	public void testPartiePrete(Partie aPartie) throws RemoteException, PartieException, JoueurException;
 	
 	public ArrayList<Partie> voirParties() throws RemoteException;
 	
-	public String rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException;
-
+	public Partie rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException;
+	public Partie rejoindrePartie(Partie aPartie, SantiagoInterface si) throws RemoteException, PartieException, JoueurException;
+	
 	public void enregistrePseudo(String pseudo) throws RemoteException;
 
 	public boolean pseudoEstDisponible(String pseudo) throws RemoteException;
@@ -42,6 +51,11 @@ public interface SantiagoInterface extends Remote{
 	public int[] joueurChoisitPlacement() throws RemoteException;
 
 	public void afficheErreur(String message) throws RemoteException;
+	
+	public void sauvegarder() throws RemoteException, FileNotFoundException, IOException;
+	public Partie charger(String fileName) throws RemoteException, FileNotFoundException, IOException;
+	
+	public boolean reprendrePartie(Partie partieRejointe) throws RemoteException;
 
 	public int propositionPhase4() throws RemoteException;
 
