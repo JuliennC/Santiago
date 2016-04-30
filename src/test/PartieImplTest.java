@@ -2,6 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -246,7 +248,7 @@ public class PartieImplTest {
 		System.out.println(s5.getJoueur().getSolde());
 		//--------------------------------------------------
 		//Choix du constructeur de canal:
-		s5.choisirPotDeVin(listePropositions);
+		//s5.choisirPotDeVin(listePropositions);
 		s5.deduirePotDeVin(listePropositions, listeSoutiens, listePotsDeVin, s5);
 		System.out.println(s5.getJoueur().getSolde());
 		//Construction du canal du joueur2
@@ -531,6 +533,32 @@ public class PartieImplTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testSauvegarder() throws PartieException, FileNotFoundException, IOException {
+		Partie p = new Partie("coucou", 3);
+		Joueur j1 = new Joueur("Joueur1", 0);
+		Joueur j2 = new Joueur("Joueur2", 20);
+		Joueur j3 = new Joueur("Joueur3", 0);
+		SantiagoInterface s1 = new Santiago(j1);
+		SantiagoInterface s2 = new Santiago(j2);
+		SantiagoInterface s3 = new Santiago(j3);
+		p.addClient(s1);
+		p.addClient(s2);
+		p.addClient(s3);
+		
+		//Test pour etre sur que c'est bien le premier a avoir passer qui sera constructeur de canal
+		HashMap<SantiagoInterface, Integer> listeOffres1 = new HashMap<>();
+		listeOffres1.put(s1, 0);	
+		listeOffres1.put(s2, 0);	
+		listeOffres1.put(s3, 0);	
+		p.setConstructeurDeCanal(s1);
+		
+		s1.sauvegarder();
+		
+		//serveur.rejoindrePartie
+	}
+
 
 }
 

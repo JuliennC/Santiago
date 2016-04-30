@@ -15,6 +15,7 @@ public abstract class Tuile implements Serializable {
 	protected String intituleDuChamps;
 	protected boolean estDesert;
 		
+	public Tuile() {}
 	
 	public Tuile(int nbMarqueurs) {
 		
@@ -148,5 +149,34 @@ public abstract class Tuile implements Serializable {
 	public ArrayList<MarqueurRendement> getMarqueursActuels(){
 		return marqueursActuels;
 	}
+
+	public boolean isTuileEstPosee() {
+		return tuileEstPosee;
+	}
+
+	public void setTuileEstPosee(boolean tuileEstPosee) {
+		this.tuileEstPosee = tuileEstPosee;
+	}
+
+	public String getIntituleDuChamps() {
+		return intituleDuChamps;
+	}
+
+	public void setIntituleDuChamps(String intituleDuChamps) {
+		this.intituleDuChamps = intituleDuChamps;
+	}
+
+	public boolean isEstDesert() {
+		return estDesert;
+	}
+
+	public void setEstDesert(boolean estDesert) {
+		this.estDesert = estDesert;
+	}
+
+	public void setNombreMarqueursNecessaires(int nombreMarqueursNecessaires) {
+		this.nombreMarqueursNecessaires = nombreMarqueursNecessaires;
+	}
+	
 	
 }

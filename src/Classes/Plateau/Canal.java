@@ -27,14 +27,19 @@ public class Canal implements Serializable{
 	private Point coordFin;
 	
 	private boolean estEnEau;
+	private String couleur;
 	
 	
 	public Canal(){
-		
+
 		estEnEau = false;
 	}
 	
-	
+	public Canal(String couleur){
+
+		estEnEau = false;
+		this.couleur = couleur;
+	}
 	
 	
 	// ---------------- GETTER / SETTER ---------------
@@ -67,8 +72,15 @@ public class Canal implements Serializable{
 	public Point getCoordFin(){
 		return coordFin;
 	}
-
 	
+	public String getCouleur() {
+		return couleur;
+	}
+
+	public void setCouleur(String couleur) {
+		this.couleur = couleur;
+	}
+
 	/**
 	 * Fonction qui indique si le canal est vertical (ou horizontal)
 	 *	@param : void
@@ -77,4 +89,22 @@ public class Canal implements Serializable{
 	public boolean canalEstVertical(){
 		return (coordDebut.x == coordFin.x);
 	}
+
+	public boolean isEstEnEau() {
+		return estEnEau;
+	}
+
+	public void setEstEnEau(boolean estEnEau) {
+		this.estEnEau = estEnEau;
+	}
+
+	public void setCoordDebut(Point coordDebut) {
+		this.coordDebut = coordDebut;
+	}
+
+	public void setCoordFin(Point coordFin) {
+		this.coordFin = coordFin;
+	}
+	
+	
 }

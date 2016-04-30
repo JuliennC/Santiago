@@ -1,5 +1,6 @@
 package main;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -71,10 +72,10 @@ public class MainClient {
 			serveur.rejoindrePartie(partieCreee.getNomPartie(), client);
 
 			
-		} else {
+		} else if(choix == 2){
 			
 			for(Partie p : serveur.voirParties()) {
-			
+				System.out.println("Afficher que les parties non commencées (A la fin des tests)");
 				System.out.println("Parties en cours :" +p.getNomPartie());
 				System.out.println("--> Nombre de joueurs max: " +p.getNombreJoueursRequis());
 				System.out.println("--> Liste des joueurs :");
@@ -86,25 +87,61 @@ public class MainClient {
 			}
 			
 			
-			String aRejoint = "e";
+			Partie pRejoint = null;
 
-			while( aRejoint != null){
-
+			while( pRejoint == null){
 				System.out.println("Choisissez une partie à rejoindre :");
-				String choixPartie = scString.nextLine();				
-									
-				aRejoint = serveur.rejoindrePartie(choixPartie, client);
+				String choixPartie = scString.nextLine();
 				
+								
+				pRejoint = serveur.rejoindrePartie(choixPartie, client);	
 			}
-		}
 			
-		
-		
-		
-		
+			client.initialiserPartie(pRejoint);
+			serveur.testPartieEstPrete(pRejoint);
+		} else {
+			// Chargement d'une partie
+			Partie pChargee = null;
+
+			while( pChargee == null){
+				System.out.println("Saisissez le nom de la partie à charger :");
+				String nomPartie = scString.nextLine();
+				
+				try {
+					pChargee = client.charger(nomPartie);
+					
+					//On ajoute le joueur à la partie
+					boolean existe = serveur.reprendrePartie(pChargee);
+					
+					if(!existe) {
+						Partie partieCreee = client.creerPartie(pChargee);
+						
+						//On l'ajoute au serveur
+						serveur.ajouterPartieListe(partieCreee);
+
+						//On ajoute le joueur à la partie
+						serveur.rejoindrePartie(partieCreee.getNomPartie(), client);
+					} else {
+						Partie pRejoint = serveur.rejoindrePartie(pChargee, client);
+						
+						client.initialiserPartie(pRejoint);
+						serveur.testPartieEstPrete(pRejoint);
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+				
+
+			}
+
+		}
+
 		System.out.println("[System] Bataille Remote Object	is ready:");
 		//server.setClient(client);
+		while(true) {
 
+		}
 
 	}
 

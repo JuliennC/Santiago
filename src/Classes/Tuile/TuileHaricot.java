@@ -3,7 +3,7 @@ package Classes.Tuile;
 
 public class TuileHaricot extends Tuile {
 
-	
+	public TuileHaricot() {}
 	
 	public TuileHaricot(int nbMarqueurs){
 		

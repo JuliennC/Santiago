@@ -1,4 +1,7 @@
 package network;
+import java.awt.Point;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -16,9 +19,12 @@ import java.util.Set;
 
 import Classes.Joueur;
 import Classes.Partie;
+import Classes.Plateau.Canal;
+import Classes.Plateau.Plateau;
 import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
+import serialisationXML.XMLTools;
 
 
 public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
@@ -32,10 +38,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	protected Joueur joueur;
 	private SantiagoInterface client = null;
 	private static ArrayList<String>listePseudos = new ArrayList<>();
-
-	
-
-	
+	Partie p;
 	
 	public Santiago(Joueur j) throws RemoteException {
 		super();
@@ -94,8 +97,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * 
 	 * @return p
 	 */
+
 	public Partie creerPartie(String nom, int nbJoueur) throws RemoteException {
-		Partie p = null;
 		try {
 			p = new Partie(nom, nbJoueur);
 
@@ -104,6 +107,20 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			e.printStackTrace();
 		}
 		return p;
+	}
+	
+	/**
+	 * Créé une partie à partir des données contenues dans le fichier XML
+	 * @param aPartie
+	 * @return
+	 * @throws RemoteException
+	 */
+	public Partie creerPartie(Partie aPartie) throws RemoteException {
+		p = aPartie;
+		
+		System.out.println("La partie a été chargée correctement !");
+
+		return p;	
 	}
 
 	/**
@@ -114,16 +131,14 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws JoueurException 
 	 */
 	@Override
-	public String rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException {
-
-		String res = null;
+	public Partie rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException {
 
 		/* On vérifie d'abord que la liste contient la partie demandée, 
 		*  Sinon, on lève une exception
 		*/
 		if (! listeContientPartie(listeParties, nom)){
-			res = ("Aucune partie contenant ce nom n'est enregistrée");
-			return res;
+			System.out.println("Aucune partie contenant ce nom n'est enregistrée");
+			return null;
 		}
 		
 		
@@ -135,25 +150,21 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					*  Sinon, on lève une exception
 					*/
 					if(p.getPartieACommence()){
-
-						res = ("Vous ne pouvez pas rejoindre la partie, elle a déjà commencé.");
-						return res;
+						System.out.println("Vous ne pouvez pas rejoindre la partie, elle a déjà commencé.");
+						return null;
 					} 
 					
 					p.addClient(i);
-					
-					//On test si la partie est complète
-					testPartieEstPrete(p);
 					
 				} catch (PartieException e) {
 
 					e.printStackTrace();
 				}
-				return res;
+				return p;
 			}
 		}
 		
-		return ("Pas de chance : Une erreur inconnue est survenue");
+		return null;
 	}
 	
 	/**
@@ -169,6 +180,37 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			}
 		}
 		return null;
+	}
+	 /** Rejoindre une partie chargée à partir d'un fichier XML
+	 * @param aPartie
+	 * @param si
+	 * @return
+	 * @throws RemoteException
+	 * @throws PartieException
+	 * @throws JoueurException
+	 */
+	public Partie rejoindrePartie(Partie aPartie, SantiagoInterface si) throws RemoteException, PartieException, JoueurException {
+		for(Joueur j: aPartie.getListeJoueurs()) {
+			if(j.getPseudo().equals(si.getJoueur().getPseudo())) {
+				si.getJoueur().setCouleur(j.getCouleur());
+				si.getJoueur().setSolde(j.getSolde());
+				si.getJoueur().setMarqueurRestant(j.getMarqueurRestant());
+				
+				//On remplace le joueur:
+				aPartie.getListeJoueurs().remove(j);
+				aPartie.getListeJoueurs().add(si.getJoueur());
+				
+				aPartie.addClient(si);
+				
+				break;
+			}
+		}
+		System.out.println("La partie a été rejointe !");
+		return aPartie;
+	}
+	
+	public void initialiserPartie(Partie aPartie) throws RemoteException {
+		this.p = aPartie;
 	}
 	
 	/**
@@ -189,8 +231,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 
 			//On récupère l'offre
 			System.out.println("["+joueur.getPseudo()+"] : Vous devez faire une enchère : ");
-			String str = scInt.nextLine();
-			offre = Integer.parseInt(str);
+			offre = scInt.nextInt();
 			
 			//On regarde la conformité de l'offre
 			if (offre < 0) {
@@ -355,7 +396,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @return SantiagoInterface joueurChoisi: Le joueur choisi
 	 */
 	@Override
-	public SantiagoInterface choisirPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException {
+	public SantiagoInterface choisirPotDeVin(Plateau plateau, HashMap<SantiagoInterface, Integer> listePropositions, ArrayList<Canal> listeCanauxTemp) throws RemoteException {
 		int coutCanalPerso;
 		boolean choixOk = false;
 		int choixProposition = 0;
@@ -392,6 +433,13 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 						if(si.equals(joueurChoisi)) {
 							try {
 								joueur.setSolde(joueur.getSolde() + listePropositions.get(si));
+								
+								//on met le canal en eau:
+								for(Canal c:plateau.getListeCanaux()) {
+									if(c.getCouleur().equals(joueurChoisi.getJoueur().getCouleur())) {
+										plateau.metCanal(c);
+									}
+								}
 							} catch (JoueurException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -408,6 +456,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					
 					try {
 						joueur.setSolde(joueur.getSolde() - coutCanalPerso - 1);
+						
+						Canal c = poserCanalTemporaire(plateau, listeCanauxTemp);
+						plateau.metCanal(c);
 					} catch (JoueurException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -479,6 +530,60 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		return propositionMax;
 	}
 	
+	/**
+	 * Permet aux joueurs de poser un canal temporaire
+	 * Canal : Couleur du joueur
+	 * 		   Mise en eau = false
+	 */
+	@Override
+	public Canal poserCanalTemporaire(Plateau plateau, ArrayList<Canal> listeCanauxTemp) throws RemoteException {
+		// TODO Auto-generated method stub
+		System.out.println("Positionnez votre canal temporaire sur le plateau...");
+		Canal canal = new Canal(joueur.getCouleur());
+		Point coordDebut = new Point();
+		Point coordFin = new Point();
+		boolean canalValide = false;
+		
+		while(!canalValide) {
+			//Wait listener 
+			//On récupère les coordonnéés au clic sur le plateau
+			int xDeb = 2;
+			int yDeb = 1;
+			int xFin = 2;
+			int yFin = 2;
+
+			coordDebut.setLocation(xDeb, yDeb);
+			coordFin.setLocation(xFin, yFin);
+			
+
+			for(Canal c:plateau.getListeCanaux()) {
+				if(c.getCoordDebut().equals(canal.getCoordDebut())) {
+					if(c.getCoordFin().equals(canal.getCoordFin())) {
+						//La position est valide, on vérifie que le canal n'existe pas déjà (!!! Pas sur que ça serve, à avoir avec l'interface)
+						canalValide = true;
+						
+						for(Canal c2:listeCanauxTemp) {
+							if(c2.getCoordDebut().equals(canal.getCoordDebut())) {
+								if(c2.getCoordFin().equals(canal.getCoordFin())) {
+									canalValide = false;
+									break;
+								}
+							}
+						}
+						break;
+					}
+				}
+			}
+			
+			if(canalValide == true) {
+				System.out.println("Canal validé. Au tour des autres joueurs...");
+			} else {
+				System.out.println("Position invalide, réessayez...");
+			}
+		}
+		return canal;
+	}
+	
 	
 	/**
 	 * Fonction qui affiche une erreur
@@ -536,8 +641,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		if(partie.getNombreJoueursRequis() == partie.getNombreJoueurDansLaPartie()){
 			
 			if(! partie.getPartieACommence()){
-				
-				//On lance la partie
 				partie.lancePartie();
 			}
 			
@@ -589,6 +692,48 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		// TODO Auto-generated method stub
 		return listeParties;
 	}
+
+	/**
+	 * Fonction appelée par le client qui a créé la partie pour sauvegarder la partie en cours 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 */
+	public void sauvegarder() throws RemoteException, FileNotFoundException, IOException {
+		System.out.println("Sauvegarde");
+		System.out.println("Sauvegarde de la partie " +p.getNomPartie());
+		XMLTools.encodeToFile(p, p.getNomPartie());
+		
+		System.out.println("Partie sauvegardée ! :D");
+	}
 	
+	/**
+	 * Charge un fichier XML contenant une partie
+	 */
+	public Partie charger(String fileName) throws RemoteException, FileNotFoundException, IOException {
+		Partie pChargee = (Partie) XMLTools.decodeFromFile(fileName);
+		
+		if(pChargee != null) {
+			System.out.println("Chargement de la partie " +pChargee.getNomPartie());
+			return pChargee;
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param partieRejointe
+	 * @return true si la partie existe déjà ; false sinon
+	 */
+	public boolean reprendrePartie(Partie partieRejointe) throws RemoteException {
+		for(Partie p:listeParties) {
+			if(p.getNomPartie().equals(partieRejointe.getNomPartie())) {
+				return true;
+			}
+		}
+		
+		return false;
+
+	}
 	
 }
