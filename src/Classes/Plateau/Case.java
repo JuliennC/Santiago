@@ -1,11 +1,13 @@
 package Classes.Plateau;
+import java.io.Serializable;
+
 import Classes.Tuile.Tuile;
 
 /**
  * Classe Case
  */
 
-public class Case {
+public class Case implements Serializable{
 	
 	private int coordX;
 	private int coordY;

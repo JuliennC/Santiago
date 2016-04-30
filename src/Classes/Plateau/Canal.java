@@ -1,9 +1,10 @@
 package Classes.Plateau;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Canal {
+public class Canal implements Serializable{
 
 	//Les coordonnées sont les coordonnées des cases AVANT le canal
 	/*

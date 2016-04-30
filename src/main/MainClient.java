@@ -63,9 +63,8 @@ public class MainClient {
 		if(choix == 1) {
 
 			//On récupère la partie créée
-			Partie partieCreee = client.creerPartie();
+			Partie partieCreee = client.creerPartie("coucou",3);
 
-			//On l'ajoute au serveur
 			serveur.ajouterPartieListe(partieCreee);
 
 			//On ajoute le joueur à la partie

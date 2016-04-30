@@ -17,10 +17,10 @@ public interface SantiagoInterface extends Remote{
 	
 	public SantiagoInterface getClient() throws RemoteException;
 	public void setClient(SantiagoInterface s)	throws RemoteException;
-	
+	public void addPseudo(String pseudo)throws RemoteException;
 	public void send(String msg) throws RemoteException;
-	
-	public Partie creerPartie() throws RemoteException;
+	public Partie getPartieByName(String name) throws RemoteException;
+	public Partie creerPartie(String nom, int nbJoueur) throws RemoteException;
 	public void ajouterPartieListe(Partie p) throws RemoteException;
 	
 	public ArrayList<Partie> voirParties() throws RemoteException;

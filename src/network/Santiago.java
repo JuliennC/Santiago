@@ -56,8 +56,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	}
 	
 	
-	
-	
+	public void addPseudo(String pseudo){
+		this.listePseudos.add(pseudo);
+	}
 	
 	@Override
 	public String getName() throws RemoteException {
@@ -86,19 +87,14 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	/* ------------------------------------------------------------------------------- */
 
 	/**
-	 * Fonction appelée par le client afin de créer une partie
-	 * Retourne une Partie qui sera transmise sur le serveur par la suite
-	 * @return: Partie p
+	 * Cette méthode permet au joueur de creer une partie
+	 * 
+	 * @param nom
+	 * @param nbJoueur
+	 * 
+	 * @return p
 	 */
-	@Override
-	public Partie creerPartie() throws RemoteException {
-		// TODO Auto-generated method stub
-		System.out.println("Insérez le nom de votre partie:");
-		String nom = scString.nextLine();
-		
-		System.out.println("Insérez le nombre de joueur:");
-		int nbJoueur = scInt.nextInt();
-		
+	public Partie creerPartie(String nom, int nbJoueur) throws RemoteException {
 		Partie p = null;
 		try {
 			p = new Partie(nom, nbJoueur);
@@ -107,13 +103,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 
 			e.printStackTrace();
 		}
-		
-		
-		System.out.println("La partie a été créée");
-		
-		
 		return p;
-		
 	}
 
 	/**
@@ -166,7 +156,20 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		return ("Pas de chance : Une erreur inconnue est survenue");
 	}
 	
-	
+	/**
+	 * Cette méthode permet de trouver la partie correspondant a un nom.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Partie getPartieByName(String name){
+		for(Partie p : this.listeParties){
+			if(p.getNomPartie().equals(name)){
+				return p;
+			}
+		}
+		return null;
+	}
 	
 	/**
 	 * Foncion qui demande à l'utilisateur d'entrer une offre
@@ -571,8 +574,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 */
 	@Override
 	public void ajouterPartieListe(Partie p) throws RemoteException {
-		// TODO Auto-generated method stub
-		listeParties.add(p);
+		this.listeParties.add(p);
 	}
 
 	
