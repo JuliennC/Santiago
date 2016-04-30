@@ -38,8 +38,8 @@ public class Partie implements Serializable{
 	private SantiagoInterface constructeurDeCanal;
 	private Plateau plateau;
 	private int tourEnCours = 1;
-	private int phaseEnCours = 1;
 	
+	private boolean tousConnectes = true;
 	
 	public Partie(String aNom, int nbJoueurs) throws PartieException{
 		
@@ -95,39 +95,49 @@ public class Partie implements Serializable{
 		this.constructeurDeCanal = (SantiagoInterface) randomInList(listeClients);
 
 		System.out.println("Constructeur de canal : "+constructeurDeCanal.getJoueur().getPseudo());
-
-		
-		SantiagoInterface client = getClientAGauche(constructeurDeCanal);
-		
-		
-		for(SantiagoInterface si : listeClients) {
-			try {
-				System.out.println("Sauvegarde pour le joueur : " + client.getJoueur().getPseudo());
-				client.sauvegarder();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		
 		// ATTENTION : ON LANCE LES PHASES UNIQUEMENT SI LA PARTIE A UN NOM
 		// POUR NE PAS QUE CA SE LANCE POUR LES TESTS
 		if(nomPartie != null){
 			while(! partiEstTerminee() ){
-
+				lancerSauvegarde();
+				
+				HashMap<SantiagoInterface, Integer> offres;
+				
 				// retourner les plantation et les mettre aux enchere
-				HashMap<SantiagoInterface, Integer> offres = phase1();
+				if(tousConnectes) {		
+					offres = phase1();					
+				} else {
+					break;
+				}
 				
 				//changement du constructeur de canal
-				phase2(offres);
+				if(tousConnectes) {
+					phase2(offres);					
+				} else {
+					break;
+				}
 				
 				//Choisir une plantation et la placer
-				phase3(offres);
+				if(tousConnectes) {
+					phase3(offres);				
+				} else {
+					break;
+				}
 				
-				//Phase 4: Soudoyer le constructeur de canal :
-				phase4();
-				
-				tourEnCours++;
+				//Phase 4: Soudoyer le constructeur de canal
+				if(tousConnectes) {
+					phase4();					
+				} else {
+					break;
+				}
+
+				if(tousConnectes) {
+					tourEnCours++;					
+				} else {
+					break;
+				}
+
 				
 			}
 
@@ -175,7 +185,6 @@ public class Partie implements Serializable{
 	 */
 	
 	public HashMap<SantiagoInterface, Integer> phase1() throws RemoteException {
-			phaseEnCours = 1;
 			retourneTuiles();
 			presentationTuile();
 			//On récupère le joueur à gauche
@@ -188,7 +197,7 @@ public class Partie implements Serializable{
 
 				// Le joueur doit faire une offre
 				int offre = client.joueurFaitUneOffre();
-				
+
 				//On vérifie que l'offre est valide 
 				boolean offreValide =  (! (listeOffres.containsValue(offre))) || (offre == 0); 
 				
@@ -197,8 +206,10 @@ public class Partie implements Serializable{
 					//On affiche une erreur
 					client.afficheErreur("Erreur : vous devez entrer une offre qui différentes des autres joueurs");
 					
+					
 					//On redemande une offre
 					offre = client.joueurFaitUneOffre();
+
 					
 					//On véruifie la nouvelle offre
 					offreValide = ! (listeOffres.containsValue(offre));
@@ -238,7 +249,6 @@ public class Partie implements Serializable{
 		 * @return : void
 		 */
 		public void phase6() {
-			phaseEnCours = 6;
 			//On parcours toutes les cases
 			for(int i=0 ; i < plateau.getTabPlateau().length ; i++){
 				
@@ -286,9 +296,7 @@ public class Partie implements Serializable{
 			
 		}
 		
-		public void phase2(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
-			phaseEnCours = 2;
-			
+		public void phase2(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{			
 			ArrayList <SantiagoInterface> ordre = ordreDesAiguilles();
 			int offreMin = -1;
 			for(SantiagoInterface si : ordre){
@@ -308,7 +316,6 @@ public class Partie implements Serializable{
 		
 		
 		public void phase3(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException, JoueurException{
-			phaseEnCours = 3;
 			
 			ArrayList <SantiagoInterface> listeClients = ordreDecroissantOffre(listeOffres);
 			HashMap<SantiagoInterface, Tuile> listeTuilesChoisies = phase3point1(listeClients);
@@ -321,7 +328,6 @@ public class Partie implements Serializable{
 		 * @throws RemoteException
 		 */
 		public void phase4() throws RemoteException {
-			phaseEnCours = 4;
 			SantiagoInterface propositionChoisie;
 			//On récupère le joueur à gauche
 			SantiagoInterface client = getClientAGauche(constructeurDeCanal);
@@ -819,11 +825,25 @@ public class Partie implements Serializable{
 	 */
 	public void AideAuDeveloppement() {
 		if (this.partieACommence == true) {
-			for (Joueur j : listeJoueurs()) {
+			for (Joueur j : listeJoueurs) {
 				j.AugmenterSoldeParTour();
 			}
 		}
 	}
+	
+	public void lancerSauvegarde() {
+		for(SantiagoInterface si : listeClients) {
+			try {
+				System.out.println("Sauvegarde pour le joueur : " + si.getJoueur().getPseudo());
+				si.sauvegarder();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+
 
 	// --------------- GETTER et SETTER ---------------
 
@@ -840,7 +860,7 @@ public class Partie implements Serializable{
 		int i = listeClients.indexOf(si);
 		
 		//On récupère le joueur d'après (ou le premier s'il n'y en a pas)
-		if (listeJoueurs.size()-1 == i){
+		if (listeClients.size()-1 == i){
 		
 			return listeClients.get(0);
 		
@@ -985,22 +1005,6 @@ public class Partie implements Serializable{
 	public void setPartieACommence(boolean partieACommence) {
 		this.partieACommence = partieACommence;
 	}
-
-
-
-
-	public int getPhaseEnCours() {
-		return phaseEnCours;
-	}
-
-
-
-
-	public void setPhaseEnCours(int phaseEnCours) {
-		this.phaseEnCours = phaseEnCours;
-	}
-
-
 
 
 	public void setPlateau(Plateau plateau) {

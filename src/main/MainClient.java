@@ -76,7 +76,7 @@ public class MainClient {
 		} else if(choix == 2){
 			
 			for(Partie p : serveur.voirParties()) {
-			
+				System.out.println("Afficher que les parties non commencées (A la fin des tests)");
 				System.out.println("Parties en cours :" +p.getNomPartie());
 				System.out.println("--> Nombre de joueurs max: " +p.getNombreJoueursRequis());
 				System.out.println("--> Liste des joueurs :");
@@ -99,7 +99,7 @@ public class MainClient {
 			}
 			
 			client.initialiserPartie(pRejoint);
-			serveur.testPartiePrete(pRejoint);
+			serveur.testPartieEstPrete(pRejoint);
 		} else {
 			// Chargement d'une partie
 			Partie pChargee = null;
@@ -126,7 +126,7 @@ public class MainClient {
 						Partie pRejoint = serveur.rejoindrePartie(pChargee, client);
 						
 						client.initialiserPartie(pRejoint);
-						serveur.testPartiePrete(pRejoint);
+						serveur.testPartieEstPrete(pRejoint);
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -137,14 +137,12 @@ public class MainClient {
 			}
 
 		}
-			
-		
-		
-		
-		
+
 		System.out.println("[System] Bataille Remote Object	is ready:");
 		//server.setClient(client);
+		while(true) {
 
+		}
 
 	}
 

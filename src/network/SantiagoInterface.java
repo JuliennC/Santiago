@@ -31,7 +31,7 @@ public interface SantiagoInterface extends Remote{
 	
 	public void initialiserPartie(Partie aPartie) throws RemoteException;
 	
-	public void testPartiePrete(Partie aPartie) throws RemoteException, PartieException, JoueurException;
+	public void testPartieEstPrete(Partie partie) throws PartieException, RemoteException, JoueurException;
 	
 	public ArrayList<Partie> voirParties() throws RemoteException;
 	

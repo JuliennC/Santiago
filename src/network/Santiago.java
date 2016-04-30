@@ -40,9 +40,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	private static ArrayList<String>listePseudos = new ArrayList<>();
 	Partie p;
 	
-
-	
-	
 	public Santiago(Joueur j) throws RemoteException {
 		super();
 		joueur = j;
@@ -213,11 +210,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		this.p = aPartie;
 	}
 	
-	public void testPartiePrete(Partie aPartie) throws RemoteException, PartieException, JoueurException {
-		//On test si la partie est complète
-		testPartieEstPrete(aPartie);
-	}
-	
 	/**
 	 * Foncion qui demande à l'utilisateur d'entrer une offre
 	 * 
@@ -236,8 +228,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 
 			//On récupère l'offre
 			System.out.println("["+joueur.getPseudo()+"] : Vous devez faire une enchère : ");
-			String str = scInt.nextLine();
-			offre = Integer.parseInt(str);
+			offre = scInt.nextInt();
 			
 			//On regarde la conformité de l'offre
 			if (offre < 0) {
@@ -647,8 +638,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		if(partie.getNombreJoueursRequis() == partie.getNombreJoueurDansLaPartie()){
 			
 			if(! partie.getPartieACommence()){
-				
-				//On lance la partie
 				partie.lancePartie();
 			}
 			
@@ -713,7 +702,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		XMLTools.encodeToFile(p, p.getNomPartie());
 		
 		System.out.println("Partie sauvegardée ! :D");
-		charger(p.getNomPartie());
 	}
 	
 	/**
@@ -724,12 +712,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		if(pChargee != null) {
 			System.out.println("Chargement de la partie " +pChargee.getNomPartie());
-			//A enlever par la suite :
-			System.out.println("Listes des joueurs :");
-			for(Joueur j: pChargee.getListeJoueurs()) {
-				System.out.println(j.getPseudo());
-				
-			}
 			return pChargee;
 		} else {
 			return null;
@@ -751,7 +733,5 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		return false;
 
 	}
-
-	
 	
 }
