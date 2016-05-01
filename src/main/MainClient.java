@@ -98,7 +98,6 @@ public class MainClient {
 			}
 			
 			client.initialiserPartie(pRejoint);
-			serveur.testPartieEstPrete(pRejoint);
 		} else {
 			// Chargement d'une partie
 			Partie pChargee = null;
@@ -125,7 +124,6 @@ public class MainClient {
 						Partie pRejoint = serveur.rejoindrePartie(pChargee, client);
 						
 						client.initialiserPartie(pRejoint);
-						serveur.testPartieEstPrete(pRejoint);
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

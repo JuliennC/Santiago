@@ -631,19 +631,20 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws RemoteException 
 	 * @throws JoueurException 
 	 */
-	public void testPartieEstPrete(Partie partie) throws PartieException, RemoteException, JoueurException{
+	public void testPartieEstPrete() throws PartieException, RemoteException, JoueurException{
 		
 		/*Pour qu'une partie soit prête, il faut : 
 		*
 		*	- Que le nombre de rejoueur requis soit atteint
 		*	- Qu'elle n'ait pas déjà commencé (bien évidemment)
 		*/
-		if(partie.getNombreJoueursRequis() == partie.getNombreJoueurDansLaPartie()){
-			
-			if(! partie.getPartieACommence()){
-				partie.lancePartie();
-			}
-			
+		for(Partie aP : listeParties) {
+			if(aP.getNombreJoueursRequis() == aP.getNombreJoueurDansLaPartie()){
+				
+				if(! aP.getPartieACommence()){
+					aP.lancePartie();
+				}
+			}			
 		}
 	}
 	
