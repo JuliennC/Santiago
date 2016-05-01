@@ -50,7 +50,7 @@ public class MainClientFxml extends Application implements Initializable, Observ
 	
 	public void update(Observable obs, Object obj) {
 		if(obs instanceof Partie){
-			
+			System.out.println("Coucou");
 			Partie p = (Partie)obs;
 			changeText(p);
 		}
