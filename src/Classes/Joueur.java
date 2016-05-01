@@ -29,7 +29,7 @@ public class Joueur implements Serializable{
 	public Joueur(String pseudo, int solde) {
 		this.pseudo = pseudo;
 		this.solde = solde;
-		this.couleur = "Blanc";
+		this.marqueurRestant = new ArrayList<MarqueurRendement>();
 	}
 	
 	public Joueur(String pseudo, int solde,String couleur) {
@@ -243,6 +243,27 @@ public class Joueur implements Serializable{
 	
 	public void setCouleur(String couleur){
 		this.couleur = couleur;
+		for(int i =0 ; i<22; i++){
+			switch(this.couleur){
+			case "Blanc" :
+				this.marqueurRestant.add(new MarqueurBlanc());
+				break;
+			case "Gris" :
+				this.marqueurRestant.add(new MarqueurGris());
+				break;
+			case "Noir" :
+				this.marqueurRestant.add(new MarqueurNoir());
+				break;
+			case "Orange" :
+				this.marqueurRestant.add(new MarqueurOrange());
+				break;
+			case "Rouge" :
+				this.marqueurRestant.add(new MarqueurRouge());
+				break;
+			default:
+				break;
+			}
+		}
 	}
 	
 	

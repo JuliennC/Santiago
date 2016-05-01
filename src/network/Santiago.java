@@ -143,7 +143,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					p.addClient(i);
 					
 					//On test si la partie est complète
-					testPartieEstPrete(p);
 					
 				} catch (PartieException e) {
 
@@ -526,25 +525,39 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws RemoteException 
 	 * @throws JoueurException 
 	 */
-	public void testPartieEstPrete(Partie partie) throws PartieException, RemoteException, JoueurException{
-		
-		/*Pour qu'une partie soit prête, il faut : 
-		*
-		*	- Que le nombre de rejoueur requis soit atteint
-		*	- Qu'elle n'ait pas déjà commencé (bien évidemment)
-		*/
-		if(partie.getNombreJoueursRequis() == partie.getNombreJoueurDansLaPartie()){
-			
-			if(! partie.getPartieACommence()){
-				
-				//On lance la partie
-				partie.lancePartie();
+	public void testPartieEstPrete() throws PartieException, RemoteException, JoueurException{
+		for(Partie aP : listeParties) {
+			if(aP.getNombreJoueursRequis() == aP.getNombreJoueurDansLaPartie()){
+				if(! aP.getPartieACommence()){
+				aP.lancePartie();
+				}
 			}
-			
 		}
 	}
 	
-	
+	public void attributionDesCouleurs(Partie partie){
+		ArrayList<Joueur> listJoueur = partie.getListeJoueurs();
+		switch(partie.getNombreJoueurDansLaPartie()){
+		case 3:
+			listJoueur.get(0).setCouleur("Rouge");
+			listJoueur.get(1).setCouleur("Orange");
+			listJoueur.get(2).setCouleur("Gris");
+			break;
+		case 4:
+			listJoueur.get(0).setCouleur("Rouge");
+			listJoueur.get(1).setCouleur("Orange");
+			listJoueur.get(2).setCouleur("Gris");
+			listJoueur.get(3).setCouleur("Noir");
+			break;
+		case 5:
+			listJoueur.get(0).setCouleur("Rouge");
+			listJoueur.get(1).setCouleur("Orange");
+			listJoueur.get(2).setCouleur("Gris");
+			listJoueur.get(3).setCouleur("Noir");
+			listJoueur.get(3).setCouleur("Blanc");
+			break;
+		}
+	}
 	
 	
 	

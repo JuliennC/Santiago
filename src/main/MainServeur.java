@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 import Classes.Joueur;
 import Classes.Partie;
+import Exception.JoueurException;
+import Exception.PartieException;
 import network.Santiago;
 import network.SantiagoInterface;
 
@@ -25,16 +27,14 @@ public class MainServeur {
 		
 		System.out.println("[System] Santiago remote object is ready");
 		
-		while(true)
-		{
-			//Ne rentre pas dans la condition
-			//if(server.getClient()!=null)
-			//{
-			//	SantiagoInterface client = server.getClient();
-			//	String pseudo = server.reception();
-				
-			//	System.out.println("Pseudo du joueur: " +pseudo);
-			//}
+		while(true){
+			try {
+				server.testPartieEstPrete();
+			}
+			catch (PartieException | JoueurException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+		    }
 		
 		}
 	}
