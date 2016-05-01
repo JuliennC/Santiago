@@ -3,7 +3,7 @@ package Classes.Tuile;
 
 public class TuilePommeDeTerre extends Tuile {
 
-	
+	public TuilePommeDeTerre() {}
 	
 	public TuilePommeDeTerre(int nbMarqueurs){
 		

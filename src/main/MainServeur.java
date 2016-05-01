@@ -16,7 +16,7 @@ import network.SantiagoInterface;
 
 
 public class MainServeur {
-	public static void main (String args[]) throws RemoteException, MalformedURLException
+	public static void main (String args[]) throws RemoteException, MalformedURLException, PartieException, JoueurException
 	{
 		LocateRegistry.createRegistry(43000);
 		System.setProperty ("java.rmi.server.hostname",	"127.0.0.1");
@@ -27,15 +27,16 @@ public class MainServeur {
 		
 		System.out.println("[System] Santiago remote object is ready");
 		
-		while(true){
+
+		while(true)
+		{
 			try {
+				Thread.sleep(10000);
 				server.testPartieEstPrete();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			catch (PartieException | JoueurException e) {
-			    // TODO Auto-generated catch block
-			    e.printStackTrace();
-		    }
-		
 		}
 	}
 }

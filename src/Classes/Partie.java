@@ -2,6 +2,7 @@ package Classes;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
 import network.SantiagoInterface;
+import serialisationXML.XMLTools;
 import Classes.Marqueurs.*;
 import Classes.Plateau.Canal;
 import Classes.Plateau.Case;
@@ -28,14 +30,16 @@ public class Partie implements Serializable{
 
 	
 	private String nomPartie = null;
-	//private ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>();
+	private ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>();
 	private ArrayList<SantiagoInterface> listeClients = new ArrayList<>();
 	
 	private int nombreDeJoueurs;
 	private boolean partieACommence = false;
 	private SantiagoInterface constructeurDeCanal;
 	private Plateau plateau;
+	private int tourEnCours = 1;
 	
+	private boolean tousConnectes = true;
 	
 	public Partie(String aNom, int nbJoueurs) throws PartieException{
 		
@@ -61,10 +65,7 @@ public class Partie implements Serializable{
 
 	}
 	
-	public ArrayList<Joueur> listeJoueurs() {
-		
-		ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>();
-		
+	public ArrayList<Joueur> listeJoueurs() {		
 		for(SantiagoInterface si : listeClients){
 			
 			try{
@@ -94,37 +95,66 @@ public class Partie implements Serializable{
 		this.constructeurDeCanal = (SantiagoInterface) randomInList(listeClients);
 
 		System.out.println("Constructeur de canal : "+constructeurDeCanal.getJoueur().getPseudo());
-
-
+		
 		// ATTENTION : ON LANCE LES PHASES UNIQUEMENT SI LA PARTIE A UN NOM
 		// POUR NE PAS QUE CA SE LANCE POUR LES TESTS
 		if(nomPartie != null){
-		
-		
-			
 			while(! partiEstTerminee() ){
+				lancerSauvegarde();
+				
+				HashMap<SantiagoInterface, Integer> offres;
 				
 				// retourner les plantation et les mettre aux enchere
-				HashMap<SantiagoInterface, Integer> offres = phase1();
+				if(tousConnectes) {		
+					offres = phase1();					
+				} else {
+					break;
+				}
 				
 				//changement du constructeur de canal
-				phase2(offres);
+				if(tousConnectes) {
+					phase2(offres);					
+				} else {
+					break;
+				}
 				
 				//Choisir une plantation et la placer
-				phase3(offres);
+				if(tousConnectes) {
+					phase3(offres);				
+				} else {
+					break;
+				}
 				
-				//Phase 4: Soudoyer le constructeur de canal :
-				demanderPotDeVin();
+				//Phase 4: Soudoyer le constructeur de canal
+				if(tousConnectes) {
+					phase4();					
+				} else {
+					break;
+				}
+
+				if(tousConnectes) {
+					tourEnCours++;					
+				} else {
+					break;
+				}
+
 				
 			}
-			
-			
+
 			//C'est donc la fin de la partie
 			finDePartie();
 		}
 
+		//On lance la phase1
 		
-				
+		HashMap<SantiagoInterface, Integer> offres = phase1();
+		
+		//Maintenant on peut gérer les offres
+		phase2(offres);
+		
+		
+		//Phase 4: Soudoyer le constructeur de canal :
+		phase4();
 		
 	}
 	
@@ -155,7 +185,6 @@ public class Partie implements Serializable{
 	 */
 	
 	public HashMap<SantiagoInterface, Integer> phase1() throws RemoteException {
-			
 			retourneTuiles();
 			presentationTuile();
 			//On récupère le joueur à gauche
@@ -168,7 +197,7 @@ public class Partie implements Serializable{
 
 				// Le joueur doit faire une offre
 				int offre = client.joueurFaitUneOffre();
-				
+
 				//On vérifie que l'offre est valide 
 				boolean offreValide =  (! (listeOffres.containsValue(offre))) || (offre == 0); 
 				
@@ -177,8 +206,10 @@ public class Partie implements Serializable{
 					//On affiche une erreur
 					client.afficheErreur("Erreur : vous devez entrer une offre qui différentes des autres joueurs");
 					
+					
 					//On redemande une offre
 					offre = client.joueurFaitUneOffre();
+
 					
 					//On véruifie la nouvelle offre
 					offreValide = ! (listeOffres.containsValue(offre));
@@ -218,7 +249,6 @@ public class Partie implements Serializable{
 		 * @return : void
 		 */
 		public void phase6() {
-
 			//On parcours toutes les cases
 			for(int i=0 ; i < plateau.getTabPlateau().length ; i++){
 				
@@ -266,7 +296,7 @@ public class Partie implements Serializable{
 			
 		}
 		
-		public void phase2(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
+		public void phase2(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{			
 			ArrayList <SantiagoInterface> ordre = ordreDesAiguilles();
 			int offreMin = -1;
 			for(SantiagoInterface si : ordre){
@@ -286,6 +316,7 @@ public class Partie implements Serializable{
 		
 		
 		public void phase3(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException, JoueurException{
+			
 			ArrayList <SantiagoInterface> listeClients = ordreDecroissantOffre(listeOffres);
 			HashMap<SantiagoInterface, Tuile> listeTuilesChoisies = phase3point1(listeClients);
 			phase3point2(listeTuilesChoisies, listeClients);
@@ -296,7 +327,7 @@ public class Partie implements Serializable{
 		 * Correspond à la phase 4 d'un tour de jeu.
 		 * @throws RemoteException
 		 */
-		public void demanderPotDeVin() throws RemoteException {
+		public void phase4() throws RemoteException {
 			SantiagoInterface propositionChoisie;
 			//On récupère le joueur à gauche
 			SantiagoInterface client = getClientAGauche(constructeurDeCanal);
@@ -308,7 +339,10 @@ public class Partie implements Serializable{
 			//HashMap des propositions de pot de vin (Avec le cumul des pots de vin lors des soutiens)
 			HashMap<SantiagoInterface, Integer> listePropositions = new HashMap<>();
 			
-
+			//ArrayList des canaux temporaires
+			ArrayList<Canal> listeCanauxTemp = new ArrayList<>();
+			
+			
 			//Pour chaque client
 			while(! client.equals(constructeurDeCanal)) {	
 				int choix = 0;
@@ -330,7 +364,8 @@ public class Partie implements Serializable{
 						//On la met dans la liste des propositions (Ici la somme pourra être augmentée par un soutien d'un joueur)
 						listePropositions.put(client, potDeVin);
 						
-						//poserCanalTemporaire();
+						//poserCanalTemporaire
+						listeCanauxTemp.add(client.poserCanalTemporaire(plateau, listeCanauxTemp));
 						break;
 					case 2:
 						//On demande le joueur soutenu.
@@ -358,17 +393,11 @@ public class Partie implements Serializable{
 			}
 			
 			//Une fois que tous les joueurs ont déposés un pot de vin (ou passer), on passe à la seconde partie de la phase 4:
-			propositionChoisie = constructeurDeCanal.choisirPotDeVin(listePropositions);
+			propositionChoisie = constructeurDeCanal.choisirPotDeVin(plateau, listePropositions, listeCanauxTemp);
 			
 			//Informer les joueurs
 			propositionChoisie.deduirePotDeVin(listePropositions, listeSoutiens, listePotsDeVin, constructeurDeCanal);
 		}
-		
-		
-		
-		
-		
-		
 		
 		/**
 		 * Fonction qui fait la fin d'une partie et qui compte les scores
@@ -487,9 +516,6 @@ public class Partie implements Serializable{
 			
 		}
 		
-		
-	
-
 		// --------------- FIN PHASES ---------------
 	
 		
@@ -799,11 +825,25 @@ public class Partie implements Serializable{
 	 */
 	public void AideAuDeveloppement() {
 		if (this.partieACommence == true) {
-			for (Joueur j : listeJoueurs()) {
+			for (Joueur j : listeJoueurs) {
 				j.AugmenterSoldeParTour();
 			}
 		}
 	}
+	
+	public void lancerSauvegarde() {
+		for(SantiagoInterface si : listeClients) {
+			try {
+				System.out.println("Sauvegarde pour le joueur : " + si.getJoueur().getPseudo());
+				si.sauvegarder();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+
 
 	// --------------- GETTER et SETTER ---------------
 
@@ -820,7 +860,7 @@ public class Partie implements Serializable{
 		int i = listeClients.indexOf(si);
 		
 		//On récupère le joueur d'après (ou le premier s'il n'y en a pas)
-		if (listeJoueurs().size()-1 == i){
+		if (listeClients.size()-1 == i){
 		
 			return listeClients.get(0);
 		
@@ -847,7 +887,7 @@ public class Partie implements Serializable{
 	 * @return : int 
 	 */
 	public int getNombreJoueurDansLaPartie(){
-		return listeJoueurs().size();
+		return listeClients.size();
 	}
 	
 	/**
@@ -931,4 +971,46 @@ public class Partie implements Serializable{
 	public Plateau getPlateau() {
 		return plateau;
 	}
+
+	public void setNomPartie(String nomPartie) {
+		this.nomPartie = nomPartie;
+	}
+
+	public void setListeJoueurs(ArrayList<Joueur> listeJoueurs) {
+		this.listeJoueurs = listeJoueurs;
+	}
+
+
+	public int getTourEnCours() {
+		return tourEnCours;
+	}
+
+
+
+
+	public void setTourEnCours(int tourEnCours) {
+		this.tourEnCours = tourEnCours;
+	}
+
+
+
+
+	public int getNombreDeJoueurs() {
+		return nombreDeJoueurs;
+	}
+
+
+
+
+	public void setPartieACommence(boolean partieACommence) {
+		this.partieACommence = partieACommence;
+	}
+
+
+	public void setPlateau(Plateau plateau) {
+		this.plateau = plateau;
+	}
+	
+	
+	
 }

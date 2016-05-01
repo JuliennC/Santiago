@@ -26,6 +26,8 @@ public class Joueur implements Serializable{
 	private String couleur;
 	private ArrayList<MarqueurRendement> marqueurRestant;
 		
+	public Joueur() {}
+	
 	public Joueur(String pseudo, int solde) {
 		this.pseudo = pseudo;
 		this.solde = solde;
@@ -281,4 +283,18 @@ public class Joueur implements Serializable{
 		this.marqueurRestant.remove(marqueur);
 		return marqueur;
 	}
+
+	public ArrayList<MarqueurRendement> getMarqueurRestant() {
+		return marqueurRestant;
+	}
+
+	public void setMarqueurRestant(ArrayList<MarqueurRendement> marqueurRestant) {
+		this.marqueurRestant = marqueurRestant;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
 }
