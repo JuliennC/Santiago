@@ -6,6 +6,8 @@ import java.net.URL;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 
 import Classes.Joueur;
@@ -39,10 +41,21 @@ import javafx.stage.Stage;
 import network.Santiago;
 import network.SantiagoInterface;
 
-public class MainClientFxml extends Application implements Initializable{
+public class MainClientFxml extends Application implements Initializable, Observer {
 
 	private static SantiagoInterface client;
 	private SantiagoInterface serveur;
+	
+	
+	
+	public void update(Observable obs, Object obj) {
+		if(obs instanceof Partie){
+			
+			Partie p = (Partie)obs;
+			changeText(p);
+		}
+	}
+	
 	
 	/*-------------Début attribut creation -------------*/
 	@FXML
@@ -335,6 +348,9 @@ public class MainClientFxml extends Application implements Initializable{
         primaryStage.setScene(scene);
         primaryStage.setTitle("Santiago");
         primaryStage.show();
+        
+        
+        
 	}
 	
 	public static void main(String[] args) {

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Observable;
 
 import Classes.Tuile.*;
 import Exception.JoueurException;
@@ -23,7 +24,7 @@ import Classes.Plateau.Canal;
 import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
 
-public class Partie implements Serializable{
+public class Partie extends Observable implements Serializable {
 
 	static int nombreDeJoueursMin = 3;
 	static int nombreDeJoueursMax = 5;	
@@ -732,6 +733,9 @@ public class Partie implements Serializable{
 
 			listeClients.add(client);
 
+			setChanged();
+			notifyObservers(listeClients);
+			
 		} else {
 
 			throw new PartieException("Vous êtes déjà dans la partie");

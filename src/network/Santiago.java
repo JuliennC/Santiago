@@ -156,6 +156,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					
 					p.addClient(i);
 					
+					
 				} catch (PartieException e) {
 
 					e.printStackTrace();
