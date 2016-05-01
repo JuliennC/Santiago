@@ -138,7 +138,7 @@ public class MainClient {
 		System.out.println("[System] Bataille Remote Object	is ready:");
 		//server.setClient(client);
 		while(true) {
-
+			
 		}
 
 	}

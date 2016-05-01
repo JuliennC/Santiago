@@ -29,7 +29,14 @@ public class MainServeur {
 		
 		while(true)
 		{
-			server.testPartieEstPrete();
+			try {
+				Thread.sleep(10000);
+				server.testPartieEstPrete();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
 }
