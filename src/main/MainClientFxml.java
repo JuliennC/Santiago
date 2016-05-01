@@ -15,6 +15,8 @@ import Exception.PartieException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -195,7 +197,7 @@ public class MainClientFxml extends Application implements Initializable{
 		
 		this.serveur.ajouterPartieListe(p);
 		this.serveur.rejoindrePartie(this.nomPartie.getText(), client);
-		salleDAttente((Stage)b.getScene().getWindow(),this.serveur.getPartieByName(this.nomPartie.getText()));
+		salleDAttente((Stage)b.getScene().getWindow(),this.nomPartie.getText());
 	}
 	
 	/**
@@ -216,7 +218,7 @@ public class MainClientFxml extends Application implements Initializable{
         }
 		try {
 			Button b = (Button) e.getSource();
-			salleDAttente((Stage)b.getScene().getWindow(),this.serveur.getPartieByName(nomPartie));
+			salleDAttente((Stage)b.getScene().getWindow(),nomPartie);
 		}
 		catch (IOException e1) {
 			e1.printStackTrace();
@@ -323,18 +325,37 @@ public class MainClientFxml extends Application implements Initializable{
 	 * @throws IOException
 	 * @throws InterruptedException 
 	 */
-	public void salleDAttente(Stage primaryStage,Partie p) throws IOException, InterruptedException{
-		
+	public void salleDAttente(Stage primaryStage,String nomPartie) throws IOException, InterruptedException{
+		Partie partie = this.serveur.getPartieByName(nomPartie);
 		URL url = getClass().getResource("../view/SalleDAttente.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(url);
         
         BorderPane root = (BorderPane) fxmlLoader.load();
         MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
-        controller.changeText(p);
+        controller.changeText(partie);
         final Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Santiago");
         primaryStage.show();
+        Service<Void> updateSalle = new Service<Void>(){
+			protected Task<Void> createTask() {
+				return new Task<Void>(){
+					@Override
+					protected Void call() throws Exception {
+						Partie p = controller.serveur.getPartieByName(nomPartie);
+						while(!p.getPartieACommence()){
+							
+							MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
+							p = controller.serveur.getPartieByName(nomPartie);
+							controller.changeText(p);
+						}
+						//TODO : lancement du plateau.
+						return null;
+					}
+			    };
+			}
+		};
+		updateSalle.start();
 	}
 	
 	public static void main(String[] args) {
