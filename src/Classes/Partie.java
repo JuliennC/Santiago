@@ -302,7 +302,28 @@ public class Partie implements Serializable{
 				
 				//Si il veut le poser on lui demande où (A FAIRE)
 				if (choix==true){
-					client.placerCanal();	
+					
+					//On recupere la liste des canaux
+					ArrayList<Canal> canaux = new ArrayList<>();
+					canaux = plateau.getListeCanaux();
+					
+					//on crée une nouvelle liste de canaux pas en eau
+					ArrayList<Canal> canauxDispo = new ArrayList<>();
+					
+					//On parcourt la liste pour n'avoir que les canaux disponibles (pas en eau)
+					for(Canal c : canaux){
+						if (!c.estEnEau()){
+							canauxDispo.add(c);
+						}
+				    } 
+					
+					Canal canal = new Canal ();
+					
+					//On demande au joueur de choisir
+					canal = client.placerCanal(canauxDispo);
+					
+					//On met en eau le canal
+					canal.metEnEau();
 				}
 				
 				//On change de client

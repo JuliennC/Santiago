@@ -531,6 +531,33 @@ public class PartieImplTest {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Test de la méthode phase5
+	 * 
+	 * @throws PartieException
+	 * @throws RemoteException 
+	 */
+	@Test
+	public void testphase5() throws PartieException, RemoteException {
+		Joueur j1 = new Joueur("Joueur1", 0);
+		Joueur j2 = new Joueur("Joueur2", 0);
+		Joueur j3 = new Joueur("Joueur3", 0);
+		SantiagoInterface s1 = new Santiago(j1);
+		SantiagoInterface s2 = new Santiago(j2);
+		SantiagoInterface s3 = new Santiago(j3);
+		Partie p = new Partie();
+		p.addClient(s1);
+		assertEquals(1, p.getListeJoueurs().size());
+		p.addClient(s2);
+		assertEquals(2, p.getListeJoueurs().size());
+		p.addClient(s3);
+		assertEquals(3, p.getListeJoueurs().size());
+		p.addClient(s2);
+		assertEquals(3, p.getListeJoueurs().size());
+		
+		p.phase5();
+	}
 
 }
 

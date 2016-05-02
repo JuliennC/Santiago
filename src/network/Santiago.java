@@ -16,6 +16,7 @@ import java.util.Set;
 
 import Classes.Joueur;
 import Classes.Partie;
+import Classes.Plateau.Canal;
 import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
@@ -331,7 +332,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	public void cumulerPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions, SantiagoInterface joueurSoutenu, int potDeVin) throws RemoteException {
 		for(SantiagoInterface si : listePropositions.keySet()) {
 			if(si.equals(joueurSoutenu)) {
-				listePropositions.replace(si, listePropositions.get(si) + potDeVin);
+				listePropositions.put(si, listePropositions.get(si) + potDeVin);
 				break;								
 			}
 		}
@@ -594,6 +595,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 */
 	public boolean irrigationSupp() {
 		System.out.println("Voulez vous poser votre unique canal recu en début de partie ? o / n");
+		Scanner sc = new Scanner(System.in);
 		String choix = scString.nextLine();
 		boolean reponse = false;
 		switch (choix) {
@@ -609,6 +611,48 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			break;
 		}
 		return reponse;
+	}
+	
+	/**
+	 * Fonction qui demande au client où il veut poser son canal
+	 * @return Canal
+	 * 
+	 */
+	public Canal placerCanal(ArrayList<Canal> canauxDispo){
+		int i = 1;
+		//Choix du canal à mettre en eau
+		System.out.println("Choisissez le canal que vous voulez irriguer : ");
+		for(Canal c : canauxDispo){
+			System.out.println(i + ". " + c.toString());
+			i++;
+	    }
+		
+		try {
+			
+			Scanner sc = new Scanner(System.in);
+			String choix = sc.nextLine();
+			int choix2 = Integer.parseInt(choix);
+			
+		} catch (NumberFormatException e) {
+			
+			System.out.println("Entrez un nombre \n");
+			placerCanal(canauxDispo);
+			
+		}
+		
+		Canal canal = new Canal ();
+		
+		//Je récupere le canal choisi
+		try {
+			canal = canauxDispo.get(choix2);
+		} catch (Exception e) {
+			
+		}
+		
+		
+		//On retourne le canal
+		return canal;
+		
 	}
 	
 	

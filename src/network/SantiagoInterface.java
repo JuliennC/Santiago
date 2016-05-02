@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import Classes.Joueur;
 import Classes.Partie;
+import Classes.Plateau.Canal;
 import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
@@ -57,5 +58,7 @@ public interface SantiagoInterface extends Remote{
 	public SantiagoInterface choisirPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException;
 		
 	public void deduirePotDeVin(HashMap<SantiagoInterface, Integer> listePropositions, HashMap<SantiagoInterface, SantiagoInterface> listeSoutiens, HashMap<SantiagoInterface, Integer> listePotDeVin, SantiagoInterface constructeur) throws RemoteException;
+
+	public Canal placerCanal(ArrayList<Canal> canauxDispo);
 
 }

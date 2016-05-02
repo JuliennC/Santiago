@@ -22,6 +22,8 @@ public class Canal {
 	 * 
 	*/
 	
+
+
 	private Point coordDebut;
 	private Point coordFin;
 	
@@ -75,5 +77,15 @@ public class Canal {
 	 */
 	public boolean canalEstVertical(){
 		return (coordDebut.x == coordFin.x);
+	}
+	
+	
+	/**
+	 * Fonction to String pour afficher les coordonnées du canal
+	 *	
+	 *	@return : String
+	 */
+	public String toString() {
+		return "Canal [coordDebut=" + coordDebut + ", coordFin=" + coordFin + ", estEnEau=" + estEnEau + "]";
 	}
 }
