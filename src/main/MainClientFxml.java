@@ -167,11 +167,13 @@ public class MainClientFxml extends Application implements Initializable{
 	public void changeAccordion() throws RemoteException{
 		ObservableList<TitledPane> list = FXCollections.observableArrayList();
 		for(Partie p : this.serveur.voirParties()){
-			GridPane grid = new GridPane();
-			grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
-			grid.addRow(1,new Text("Nombre de Joueur dans la Partie: "+p.getNombreJoueurDansLaPartie()));
-			TitledPane pane = new TitledPane(p.getNomPartie(),grid);
-			list.add(pane);
+			if(!p.getPartieACommence()){
+				GridPane grid = new GridPane();
+				grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
+				grid.addRow(1,new Text("Nombre de Joueur dans la Partie: "+p.getNombreJoueurDansLaPartie()));
+				TitledPane pane = new TitledPane(p.getNomPartie(),grid);
+				list.add(pane);
+			}
 		}
 		this.listePartie.getPanes().addAll(list);
 		if(!this.listePartie.getPanes().isEmpty()){
@@ -356,7 +358,7 @@ public class MainClientFxml extends Application implements Initializable{
 							}
 						}
 						//TODO : lancement du plateau.
-						
+						lancementPlateau(primaryStage);
 						
 						return null;
 					}
@@ -367,6 +369,20 @@ public class MainClientFxml extends Application implements Initializable{
 	}
 	
 	
+	public void lancementPlateau(Stage primaryStage) throws IOException{
+		
+		final URL url = getClass().getResource("../view/Accueil.fxml");
+
+        final FXMLLoader fxmlLoader = new FXMLLoader(url);
+        
+        final BorderPane root = (BorderPane) fxmlLoader.load();
+        System.out.println(root);
+        final Scene scene = new Scene(root);
+        
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Santiago");
+        primaryStage.show();
+	}
 	
 	public static void main(String[] args) {
 		Application.launch(MainClientFxml.class,args);
