@@ -13,10 +13,14 @@ import Classes.Partie;
 import Exception.JoueurException;
 import Exception.PartieException;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
+import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -89,7 +93,7 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	/*------------- Fin attribut Salle D'attente --------------*/
 	
-	
+	private static Stage stage;
 	@Override
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -114,8 +118,10 @@ public class MainClientFxml extends Application implements Initializable{
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
         final BorderPane root = (BorderPane) fxmlLoader.load();
         final Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Santiago");
+        
+        stage = primaryStage;
+        stage.setScene(scene);
+        stage.setTitle("Santiago");
         primaryStage.show();
 	}
 
@@ -132,9 +138,9 @@ public class MainClientFxml extends Application implements Initializable{
         MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
         controller.changeAccordion();
         final Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Santiago");
-        primaryStage.show();
+        stage.setScene(scene);
+        stage.setTitle("Santiago");
+        stage.show();
 	}
 	
 	/**
@@ -340,9 +346,9 @@ public class MainClientFxml extends Application implements Initializable{
         MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
         controller.changeText(partie);
         final Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Santiago");
-        primaryStage.show();
+        stage.setScene(scene);
+        stage.setTitle("Santiago");
+        stage.show();
         Service<Void> updateSalle = new Service<Void>(){
 			protected Task<Void> createTask() {
 				return new Task<Void>(){
@@ -351,6 +357,7 @@ public class MainClientFxml extends Application implements Initializable{
 					protected Void call() throws Exception {
 						Partie p = controller.serveur.getPartieByName(nomPartie);
 						int nbJ = 1;
+						
 						while(!p.getPartieACommence()){
 							p = controller.serveur.getPartieByName(nomPartie);
 							
@@ -361,18 +368,41 @@ public class MainClientFxml extends Application implements Initializable{
 							}
 						}
 						//TODO : lancement du plateau.
-						lancementPlateau(primaryStage);
 						
 						return null;
 					}
+					
 			    };
+				
 			}
+			
 		};
+		updateSalle.stateProperty().addListener(new ChangeListener<Worker.State>() {
+
+
+
+            @Override
+            public void changed(ObservableValue<? extends Worker.State> observableValue, Worker.State oldValue, Worker.State newValue) {
+                switch (newValue) {
+                    case FAILED:
+                    case CANCELLED:
+                    case SUCCEEDED:
+						try {
+							lancementPlateau();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+                        break;
+                }
+            }
+        });
+        
 		updateSalle.start();
 	}
 	
 	
-	public void lancementPlateau(Stage primaryStage) throws IOException{
+	public void lancementPlateau() throws IOException{
 		
 		final URL url = getClass().getResource("../view/Accueil.fxml");
 
@@ -381,10 +411,9 @@ public class MainClientFxml extends Application implements Initializable{
         final BorderPane root = (BorderPane) fxmlLoader.load();
         System.out.println(root);
         final Scene scene = new Scene(root);
-        
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Santiago");
-        primaryStage.show();
+        stage.setScene(scene);
+        stage.setTitle("Santiago");
+        stage.show();
 	}
 	
 	public static void main(String[] args) {
