@@ -97,7 +97,6 @@ public class MainClientFxml extends Application implements Initializable{
 			this.serveur = (SantiagoInterface)Naming.lookup("rmi://127.0.0.1:43000/ABC");
 		} 
 		catch (MalformedURLException | RemoteException | NotBoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -214,9 +213,8 @@ public class MainClientFxml extends Application implements Initializable{
 		TitledPane pane = this.listePartie.getExpandedPane();
 		String nomPartie = pane.getText();
 		Partie pRejoint;
-		
 		try{
-			pRejoint = serveur.rejoindrePartie(nomPartie, this.client);
+			pRejoint = this.serveur.rejoindrePartie(nomPartie, this.client);
 			this.client.initialiserPartie(pRejoint);
 		}
         catch(RemoteException | PartieException | JoueurException e1){
@@ -361,7 +359,7 @@ public class MainClientFxml extends Application implements Initializable{
 							}
 						}
 						//TODO : lancement du plateau.
-						lancementPlateau(primaryStage);
+						controller.lancementPlateau();
 						
 						return null;
 					}
@@ -372,8 +370,8 @@ public class MainClientFxml extends Application implements Initializable{
 	}
 	
 	
-	public void lancementPlateau(Stage primaryStage) throws IOException{
-		
+	public void lancementPlateau() throws IOException{
+		Stage primaryStage = (Stage)this.joueur1.getScene().getWindow();
 		final URL url = getClass().getResource("../view/Accueil.fxml");
 
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -381,8 +379,9 @@ public class MainClientFxml extends Application implements Initializable{
         final BorderPane root = (BorderPane) fxmlLoader.load();
         System.out.println(root);
         final Scene scene = new Scene(root);
-        
+        System.out.println(scene);
         primaryStage.setScene(scene);
+        System.out.println(primaryStage);
         primaryStage.setTitle("Santiago");
         primaryStage.show();
 	}
