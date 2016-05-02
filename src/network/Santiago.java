@@ -25,6 +25,7 @@ import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
 import serialisationXML.XMLTools;
+import Classes.Static;
 
 
 public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
@@ -155,6 +156,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					} 
 					
 					p.addClient(i);
+					p.addModification(Static.modificationJoueurs);
 
 				} catch (PartieException e) {
 
@@ -201,6 +203,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 				aPartie.getListeJoueurs().add(si.getJoueur());
 				
 				aPartie.addClient(si);
+				aPartie.addModification(Static.modificationJoueurs);
 				
 				break;
 			}

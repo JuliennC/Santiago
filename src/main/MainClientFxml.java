@@ -6,10 +6,12 @@ import java.net.URL;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Classes.Joueur;
 import Classes.Partie;
+import Classes.Static;
 import Exception.JoueurException;
 import Exception.PartieException;
 import javafx.application.Application;
@@ -50,7 +52,7 @@ public class MainClientFxml extends Application implements Initializable{
 
 	private static SantiagoInterface client;
 	private SantiagoInterface serveur;
-	
+
 	/*-------------Début attribut creation -------------*/
 	@FXML
 	TextField nomPartie,partieError;
@@ -118,10 +120,12 @@ public class MainClientFxml extends Application implements Initializable{
         final BorderPane root = (BorderPane) fxmlLoader.load();
         final Scene scene = new Scene(root);
         
+        
         stage = primaryStage;
         stage.setScene(scene);
         stage.setTitle("Santiago");
         primaryStage.show();
+        
 	}
 
 	/**
@@ -141,6 +145,84 @@ public class MainClientFxml extends Application implements Initializable{
         stage.setTitle("Santiago");
         stage.show();
 	}
+	
+	
+	
+	
+	/**
+	 * Fonction qui va chercher les informations de la partie
+	 */
+	public void chercheInfoPartie(final MainClientFxml controller, final Partie p) throws IOException{
+
+		final SantiagoInterface serveur_Bis = serveur;
+
+		Service<Void> updateSalle = new Service<Void>(){
+			protected Task<Void> createTask() {
+				return new Task<Void>(){
+					
+					@Override
+					protected Void call() throws Exception {
+
+						ArrayList<Integer> modifs = new ArrayList<>();
+						
+						int index = 0;
+						
+						while(true){
+							
+							Partie partie = serveur_Bis.getPartieByName(p.getNomPartie());							
+
+							if(partie == null){ continue; }
+						
+							if(partie.getListeModifications().size() > 0){
+								
+								//On ajoute les éléments suivants
+								for(int i = index; i < partie.getListeModifications().size(); i++){
+									
+									modifs.add(partie.getListeModifications().get(i));
+									index = i+1;
+								}
+								
+
+								if(modifs.size() == 0){ /*System.out.println("\nfin");*/ continue; }
+
+								Integer modif = modifs.get(0);
+								System.out.println("Modif : "+modif);
+
+								if(modif.equals(Static.modificationJoueurs)){
+									//System.out.println("---- joueur");
+
+								
+							        controller.changeText(partie);
+																			    
+									modifs.remove(0);
+									modifs.add(Static.modificationPartieCommence);
+
+							
+								} else if(modif.equals(Static.modificationPartieCommence)){
+							
+										controller.lancementPlateau();
+										modifs.remove(0);
+							
+								}
+						
+
+							}
+							
+						}
+
+					}
+			    };
+				
+			}
+			
+		};
+		
+
+		updateSalle.start();
+	}
+	
+	
+	
 	
 	/**
 	 *Cette méthode permet de valider un pseudo, de le verifier 
@@ -245,6 +327,7 @@ public class MainClientFxml extends Application implements Initializable{
 		int nbJoueurDansPartie = p.getNombreJoueurDansLaPartie();
 		switch(nbJoueurRequis){
 			case 3:
+
 				if(nbJoueurDansPartie == 1){
 					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
 					this.joueur2.setText("Joueur 2 : En Attente");
@@ -254,12 +337,13 @@ public class MainClientFxml extends Application implements Initializable{
 					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
 					this.joueur2.setText("Joueur 2 : "+p.getListeJoueurs().get(1).getPseudo());
 					this.joueur3.setText("Joueur 3 : En Attente");
+					
 				}
 				else{
 					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
 					this.joueur2.setText("Joueur 2 : "+p.getListeJoueurs().get(1).getPseudo());
 					this.joueur3.setText("Joueur 3 : "+p.getListeJoueurs().get(2).getPseudo());
-				}
+				}				
 				break;
 			case 4:
 				if(nbJoueurDansPartie == 1){
@@ -335,10 +419,10 @@ public class MainClientFxml extends Application implements Initializable{
 	 * @throws IOException
 	 * @throws InterruptedException 
 	 */
-	public void salleDAttente(Stage primaryStage,String nomPartie) throws IOException, InterruptedException{
+	public void salleDAttente(Stage primaryStage,final String nomPartie) throws IOException, InterruptedException{
 		Partie partie = this.serveur.getPartieByName(nomPartie);
 		URL url = getClass().getResource("../view/SalleDAttente.fxml");
-        FXMLLoader fxmlLoader = new FXMLLoader(url);
+        final FXMLLoader fxmlLoader = new FXMLLoader(url);
         
         BorderPane root = (BorderPane) fxmlLoader.load();
         MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
@@ -347,64 +431,19 @@ public class MainClientFxml extends Application implements Initializable{
         stage.setScene(scene);
         stage.setTitle("Santiago");
         stage.show();
-        Service<Void> updateSalle = new Service<Void>(){
-			protected Task<Void> createTask() {
-				return new Task<Void>(){
-					
-					@Override
-					protected Void call() throws Exception {
-						Partie p = controller.serveur.getPartieByName(nomPartie);
-						int nbJ = 1;
-						
-						while(!p.getPartieACommence()){
-							p = controller.serveur.getPartieByName(nomPartie);
-							
-							if(p.getNombreJoueurDansLaPartie() != nbJ) {
-								MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
-								controller.changeText(p);
-								nbJ = p.getNombreJoueurDansLaPartie();
-							}
-						}
-						//TODO : lancement du plateau.
-
-						controller.lancementPlateau();
-
-						
-						return null;
-					}
-					
-			    };
-				
-			}
-			
-		};
-		updateSalle.stateProperty().addListener(new ChangeListener<Worker.State>() {
-
-
-
-            @Override
-            public void changed(ObservableValue<? extends Worker.State> observableValue, Worker.State oldValue, Worker.State newValue) {
-                switch (newValue) {
-                    case FAILED:
-                    case CANCELLED:
-                    case SUCCEEDED:
-						try {
-							lancementPlateau();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-                        break;
-                }
-            }
-        });
         
-		updateSalle.start();
+        chercheInfoPartie(controller, partie);
+
+        
 	}
 	
 	
 	public void lancementPlateau() throws IOException{
 
+<<<<<<< HEAD
+=======
+		//Stage primaryStage = (Stage)this.joueur1.getScene().getWindow();
+>>>>>>> a20dc916b5d0a88c1a8f7b0b6616e488a2e7961e
 
 		final URL url = getClass().getResource("../view/Accueil.fxml");
 
@@ -412,10 +451,12 @@ public class MainClientFxml extends Application implements Initializable{
         
         final BorderPane root = (BorderPane) fxmlLoader.load();
         System.out.println(root);
-        final Scene scene = new Scene(root);
+        stage.getScene().setRoot(root);
+        
+        /*  final Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Santiago");
-        stage.show();
+        stage.show();*/
 	}
 	
 	public static void main(String[] args) {

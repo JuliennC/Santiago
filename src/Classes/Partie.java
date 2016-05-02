@@ -30,7 +30,7 @@ public class Partie implements Serializable{
 
 	
 	private String nomPartie = null;
-	private ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>();
+
 	private ArrayList<SantiagoInterface> listeClients = new ArrayList<>();
 	
 	private int nombreDeJoueurs;
@@ -40,6 +40,8 @@ public class Partie implements Serializable{
 	private int tourEnCours = 1;
 	
 	private boolean tousConnectes = true;
+	
+	private ArrayList<Integer> listeModifications = new ArrayList<>();
 	
 	public Partie(String aNom, int nbJoueurs) throws PartieException{
 		
@@ -66,16 +68,19 @@ public class Partie implements Serializable{
 	}
 	
 	public ArrayList<Joueur> listeJoueurs() {		
+		
+		ArrayList<Joueur> liste = new ArrayList<>();
+		
 		for(SantiagoInterface si : listeClients){
 			
 			try{
-				listeJoueurs.add(si.getJoueur());
+				liste.add(si.getJoueur());
 			}catch(Exception e){
 				System.out.println(e.getMessage());
 			}
 		}
 	
-		return listeJoueurs;
+		return liste;
 	}
 	
 	
@@ -825,7 +830,7 @@ public class Partie implements Serializable{
 	 */
 	public void AideAuDeveloppement() {
 		if (this.partieACommence == true) {
-			for (Joueur j : listeJoueurs) {
+			for (Joueur j : listeJoueurs()) {
 				j.AugmenterSoldeParTour();
 			}
 		}
@@ -843,7 +848,32 @@ public class Partie implements Serializable{
 		}
 	}
 	
+	
+	
+	
+	/**
+	 * Fonction qui ajoute une modification de la partie
+	 */
+	public void addModification(Integer mo){
+		listeModifications.add(mo);
+	}
 
+	
+	/**
+	 * Fonction qui retourne la liste des modifications
+	 */
+	public ArrayList<Integer> getListeModifications(){
+		return listeModifications;
+	}
+	
+	
+	/**
+	 * Fonction qui supprime la premiere modificatoin
+	 */
+	public void permiereMidificationTraitee(){
+		listeModifications.remove(0);
+	}
+	
 
 	// --------------- GETTER et SETTER ---------------
 
@@ -919,6 +949,7 @@ public class Partie implements Serializable{
 		if (partieACommence == false) {
 
 			partieACommence = true;
+			addModification(Static.modificationPartieCommence);
 
 		} else {
 
@@ -976,9 +1007,6 @@ public class Partie implements Serializable{
 		this.nomPartie = nomPartie;
 	}
 
-	public void setListeJoueurs(ArrayList<Joueur> listeJoueurs) {
-		this.listeJoueurs = listeJoueurs;
-	}
 
 
 	public int getTourEnCours() {
