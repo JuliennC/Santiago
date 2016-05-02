@@ -405,7 +405,6 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	public void lancementPlateau() throws IOException{
 
-		Stage primaryStage = (Stage)this.joueur1.getScene().getWindow();
 
 		final URL url = getClass().getResource("../view/Accueil.fxml");
 
