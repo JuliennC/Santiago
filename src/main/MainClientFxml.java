@@ -38,6 +38,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import network.Santiago;
 import network.SantiagoInterface;
 
@@ -340,16 +341,23 @@ public class MainClientFxml extends Application implements Initializable{
         Service<Void> updateSalle = new Service<Void>(){
 			protected Task<Void> createTask() {
 				return new Task<Void>(){
+					
 					@Override
 					protected Void call() throws Exception {
 						Partie p = controller.serveur.getPartieByName(nomPartie);
+						int nbJ = 1;
 						while(!p.getPartieACommence()){
-							
-							MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
 							p = controller.serveur.getPartieByName(nomPartie);
-							controller.changeText(p);
+							
+							if(p.getNombreJoueurDansLaPartie() != nbJ) {
+								MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
+								controller.changeText(p);
+								nbJ = p.getNombreJoueurDansLaPartie();
+							}
 						}
 						//TODO : lancement du plateau.
+						
+						
 						return null;
 					}
 			    };
@@ -357,6 +365,8 @@ public class MainClientFxml extends Application implements Initializable{
 		};
 		updateSalle.start();
 	}
+	
+	
 	
 	public static void main(String[] args) {
 		Application.launch(MainClientFxml.class,args);
