@@ -213,8 +213,11 @@ public class MainClientFxml extends Application implements Initializable{
 	public void joinPartie(ActionEvent e) throws RemoteException, InterruptedException{
 		TitledPane pane = this.listePartie.getExpandedPane();
 		String nomPartie = pane.getText();
+		Partie pRejoint;
+		
 		try{
-			this.serveur.rejoindrePartie(nomPartie, this.client);
+			pRejoint = serveur.rejoindrePartie(nomPartie, this.client);
+			this.client.initialiserPartie(pRejoint);
 		}
         catch(RemoteException | PartieException | JoueurException e1){
         	this.partieError.setText("Vous ne pouvez pas rejoindre cette partie");
