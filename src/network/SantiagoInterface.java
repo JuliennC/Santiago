@@ -24,7 +24,7 @@ public interface SantiagoInterface extends Remote{
 	public void addPseudo(String pseudo)throws RemoteException;
 	public void send(String msg) throws RemoteException;
 	public Partie getPartieByName(String name) throws RemoteException;
-	public Partie creerPartie(String nom, int nbJoueur) throws RemoteException;
+	public Partie creerPartie(String nom, int nbJoueur) throws RemoteException, InterruptedException;
 	public Partie creerPartie(Partie aPartie) throws RemoteException;
 	
 	public void ajouterPartieListe(Partie p) throws RemoteException;
@@ -68,5 +68,5 @@ public interface SantiagoInterface extends Remote{
 		public Canal poserCanalTemporaire(Plateau plateau, ArrayList<Canal> listeCanauxTemp) throws RemoteException;	
 		
 
-	
+	public boolean tic() throws RemoteException;
 }

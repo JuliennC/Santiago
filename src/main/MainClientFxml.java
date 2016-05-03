@@ -195,7 +195,6 @@ public class MainClientFxml extends Application implements Initializable{
 							        controller.changeText(partie);
 																			    
 									modifs.remove(0);
-									modifs.add(Static.modificationPartieCommence);
 
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
@@ -203,6 +202,11 @@ public class MainClientFxml extends Application implements Initializable{
 										controller.lancementPlateau();
 										modifs.remove(0);
 							
+								} else if(modif.equals(Static.modificationJoueurDeconnection)){
+									
+									System.out.println("ATTENTION : un joueur s'est déconnecté");
+									modifs.remove(0);
+
 								}
 						
 
