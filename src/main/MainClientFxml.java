@@ -1,5 +1,6 @@
 package main;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -55,7 +56,7 @@ public class MainClientFxml extends Application implements Initializable{
 
 	/*-------------Début attribut creation -------------*/
 	@FXML
-	TextField nomPartie,partieError;
+	TextField nomPartie,partieError,nomPartieChargement;
 	
 	@FXML
 	RadioButton radio3, radio4, radio5;
@@ -71,6 +72,9 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	@FXML
 	Button createButton, loadButton, joinButton;
+	
+	@FXML
+	Text errorNomChargement;
 	
 	/*------------- Fin attribut creation -------------*/
 	
@@ -146,9 +150,6 @@ public class MainClientFxml extends Application implements Initializable{
         stage.show();
 	}
 	
-	
-	
-	
 	/**
 	 * Fonction qui va chercher les informations de la partie
 	 */
@@ -195,7 +196,6 @@ public class MainClientFxml extends Application implements Initializable{
 							        controller.changeText(partie);
 																			    
 									modifs.remove(0);
-									modifs.add(Static.modificationPartieCommence);
 
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
@@ -220,9 +220,6 @@ public class MainClientFxml extends Application implements Initializable{
 
 		updateSalle.start();
 	}
-	
-	
-	
 	
 	/**
 	 *Cette méthode permet de valider un pseudo, de le verifier 
@@ -268,7 +265,6 @@ public class MainClientFxml extends Application implements Initializable{
 		}
 	}
 
-	
 	/**
 	 * Méthode qui appel la création d'une partie
 	 * 
@@ -288,6 +284,22 @@ public class MainClientFxml extends Application implements Initializable{
 		this.serveur.ajouterPartieListe(p);
 		this.serveur.rejoindrePartie(this.nomPartie.getText(), client);
 		salleDAttente((Stage)b.getScene().getWindow(),this.nomPartie.getText());
+	}
+	
+	
+	public void chargerPartie(ActionEvent e) throws RemoteException, FileNotFoundException, IOException, PartieException, JoueurException, InterruptedException{
+		Button b = (Button)e.getSource();
+		RadioButton radio = (RadioButton)this.nbJoueur.getSelectedToggle();
+		
+		Partie p = this.client.charger(this.nomPartieChargement.getText());
+		if(p == null){
+			this.errorNomChargement.setText("La partie n'éxiste pas");
+		}
+		else{
+			this.serveur.ajouterPartieListe(p);
+			this.serveur.rejoindrePartie(this.nomPartie.getText(), client);
+			salleDAttente((Stage)b.getScene().getWindow(),this.nomPartie.getText());
+		}
 	}
 	
 	/**
@@ -440,12 +452,7 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	public void lancementPlateau() throws IOException{
 
-<<<<<<< HEAD
-=======
-		//Stage primaryStage = (Stage)this.joueur1.getScene().getWindow();
->>>>>>> a20dc916b5d0a88c1a8f7b0b6616e488a2e7961e
-
-		final URL url = getClass().getResource("../view/Accueil.fxml");
+		final URL url = getClass().getResource("../view/Plateau.fxml");
 
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
         
