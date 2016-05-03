@@ -207,7 +207,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	
 	
 	
-	
+	public ArrayList<Partie> getListeParties(){
+		return this.listeParties;
+	}
 	
 	
 	
@@ -240,7 +242,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws JoueurException 
 	 */
 	public Partie rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException {
-
+		System.out.println("coucou");
 		this.verifieServer();
 		
 		/* On vérifie d'abord que la liste contient la partie demandée, 
@@ -253,7 +255,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		
 		for(Partie p:listeParties) {
+
 			if(p.getNomPartie().equals(nom)) {
+				
 				try {
 					
 					/* On vérifie d'abord que la partie n'a pas déjà commencé, 
@@ -305,6 +309,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws JoueurException
 	 */
 	public Partie rejoindrePartie(Partie aPartie, SantiagoInterface si) throws RemoteException, PartieException, JoueurException {
+		System.out.println("coucou");
 		this.verifieServer();
 		
 		for(Joueur j: aPartie.getListeJoueurs()) {

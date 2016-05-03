@@ -188,7 +188,7 @@ public class MainClientFxml extends Application implements Initializable{
 								System.out.println("Modif : "+modif);
 
 								if(modif.equals(Static.modificationJoueurs)){
-									//System.out.println("---- joueur");
+									System.out.println("---- joueur");
 
 								
 							        controller.changeText(partie);
@@ -255,30 +255,29 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	public void changeAccordion() throws RemoteException{
 		ObservableList<TitledPane> list = FXCollections.observableArrayList();
+		
 		for(Partie p : serveur.voirParties()){
-			if(!p.getPartieACommence()){
+			boolean b = false;
+			for(Joueur j : p.getListeDesJoueur()){
+				if(j.getPseudo().equals(client.getJoueur().getPseudo())){
+					b = true;
+					break;
+				}
+			}
+			if(b){
+				GridPane grid = new GridPane();
+				grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
+				grid.addRow(1,new Text("Nombre de Joueur dans la Partie: "+p.getNombreJoueurDansLaPartie()));
+				TitledPane pane = new TitledPane(p.getNomPartie(),grid);
+				pane.textFillProperty().set(Color.RED);;
+				list.add(pane);
+			}
+			else if(p.getNombreJoueurDansLaPartie()!=p.getNombreJoueursRequis()){
 				GridPane grid = new GridPane();
 				grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
 				grid.addRow(1,new Text("Nombre de Joueur dans la Partie: "+p.getNombreJoueurDansLaPartie()));
 				TitledPane pane = new TitledPane(p.getNomPartie(),grid);
 				list.add(pane);
-			}
-			else{
-				boolean b = false;
-				for(Joueur j : p.getListeDesJoueur()){
-					if(j.getPseudo().equals(client.getJoueur().getPseudo())){
-						b = true;
-						break;
-					}
-				}
-				if(b){
-					GridPane grid = new GridPane();
-					grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
-					grid.addRow(1,new Text("Nombre de Joueur dans la Partie: "+p.getNombreJoueurDansLaPartie()));
-					TitledPane pane = new TitledPane(p.getNomPartie(),grid);
-					pane.textFillProperty().set(Color.RED);;
-					list.add(pane);
-				}
 			}
 		}
 		this.listePartie.getPanes().addAll(list);
@@ -328,7 +327,7 @@ public class MainClientFxml extends Application implements Initializable{
 				}
 			}
 			if(b){
-				p.setPartieACommence(true);
+				p.setPartieACommence(false);
 				p.addClient(client);
 				this.serveur.ajouterPartieListe(p);
 				salleDAttente((Stage)button.getScene().getWindow(),p.getNomPartie());
@@ -378,8 +377,6 @@ public class MainClientFxml extends Application implements Initializable{
 		int nbJoueurRequis = p.getNombreJoueursRequis();
 		int nbJoueurDansPartie = p.getNombreJoueurDansLaPartie();
 		
-		System.out.println("p : "+p);
-		System.out.println("p : "+p.getListeJoueurs());
 
 
 		
@@ -501,7 +498,6 @@ public class MainClientFxml extends Application implements Initializable{
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
         
         final BorderPane root = (BorderPane) fxmlLoader.load();
-        System.out.println(root);
         stage.getScene().setRoot(root);
         
         /*  final Scene scene = new Scene(root);

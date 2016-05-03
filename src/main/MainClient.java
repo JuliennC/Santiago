@@ -51,7 +51,7 @@ public class MainClient {
 		joueur = new Joueur(pseudo, 10);
 
 		//
-		SantiagoInterface client = new Santiago(joueur);
+		SantiagoInterface client = new Santiago("client", joueur);
 		
 		
 		String	msg =	"["+client.getName()+"]	est connecté";
@@ -121,9 +121,9 @@ public class MainClient {
 						//On ajoute le joueur à la partie
 						serveur.rejoindrePartie(partieCreee.getNomPartie(), client);
 					} else {
-						Partie pRejoint = serveur.rejoindrePartie(pChargee, client);
+						//Partie pRejoint = serveur.rejoindrePartie(pChargee, client);
 						
-						client.initialiserPartie(pRejoint);
+						//client.initialiserPartie(pRejoint);
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
