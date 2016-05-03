@@ -34,7 +34,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	
 	private ArrayList<Partie> listeParties = new ArrayList<>();
 	
-	
 	protected String name;
 	protected Joueur joueur;
 	private SantiagoInterface client = null;
@@ -97,12 +96,14 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @param nbJoueur
 	 * 
 	 * @return p
+	 * @throws InterruptedException 
 	 */
 
-	public Partie creerPartie(String nom, int nbJoueur) throws RemoteException {
+	public Partie creerPartie(String nom, int nbJoueur) throws RemoteException, InterruptedException {
 		try {
 			p = new Partie(nom, nbJoueur);
-
+			p.analyseConnexionJoueurs();
+			
 		} catch (PartieException e) {
 
 			e.printStackTrace();
@@ -761,6 +762,15 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		return false;
 
+	}
+	
+	
+	
+	/**
+	 * Fonction qui infique que le joueur est bien en ligne
+	 */
+	public boolean tic(){
+		return true;
 	}
 	
 }

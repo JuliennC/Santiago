@@ -9,8 +9,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 
 import Classes.Tuile.*;
 import Exception.JoueurException;
@@ -31,7 +36,7 @@ public class Partie implements Serializable{
 	
 	private String nomPartie = null;
 
-	private ArrayList<SantiagoInterface> listeClients = new ArrayList<>();
+	private List<SantiagoInterface> listeClients = Collections.synchronizedList(new ArrayList<SantiagoInterface>());
 	
 	private int nombreDeJoueurs;
 	private boolean partieACommence = false;
@@ -97,7 +102,11 @@ public class Partie implements Serializable{
 		System.out.println("On lance la partie");
 		
 		setPartieCommence();
-		this.constructeurDeCanal = (SantiagoInterface) randomInList(listeClients);
+		
+		Random random = new Random();
+		
+		int index = random.nextInt(listeClients.size());
+		this.constructeurDeCanal = listeClients.get(index);
 
 		System.out.println("Constructeur de canal : "+constructeurDeCanal.getJoueur().getPseudo());
 		
@@ -874,6 +883,65 @@ public class Partie implements Serializable{
 		listeModifications.remove(0);
 	}
 	
+	
+	
+	/**
+	 * Fonction qui vérifie que tous les joueurs sont bien connectés, et avertis les autres sinon
+	 * @throws RemoteException 
+	 * @throws InterruptedException 
+	 */
+	public void analyseConnexionJoueurs() throws RemoteException, InterruptedException{
+		System.out.println("analyse debute");
+	
+		/*while(true){
+		
+			System.out.println("analyse co : "+listeClients.size());
+				//HashMap<Joueur, Boolean> tab = new HashMap<>();
+				ConcurrentHashMap<Joueur, Boolean> tab = new ConcurrentHashMap<>();
+				
+				for(SantiagoInterface client : listeClients){
+					System.out.println("e");
+
+					try{
+						System.out.println("client : "+client.getJoueur().getPseudo());
+
+						boolean tac = client.tic();
+						if (tac) { 
+							System.out.println("vrai");
+
+							tab.put(client.getJoueur(), true); }
+						else {
+							System.out.println("faux");
+							if(tab.get(client.getJoueur())){
+								addModification(Static.modificationJoueurDeconnection);
+							} else {
+								tab.put(client.getJoueur(), false);
+							}
+						}
+					
+					} catch(Exception e){
+					
+						try {
+							if(tab.get(client.getJoueur())){
+								addModification(Static.modificationJoueurDeconnection);
+							} else {
+								tab.put(client.getJoueur(), false);
+							}
+						} catch (RemoteException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
+		
+				Thread.sleep(60000);
+		}*/
+		
+	
+	}
+	
+	
+	
 
 	// --------------- GETTER et SETTER ---------------
 
@@ -943,13 +1011,15 @@ public class Partie implements Serializable{
 	 * @return : void
 	 * 	
 	 * Si la partie a déjà commencée, on lève une exception
+	 * @throws RemoteException 
 	 */
-	public void setPartieCommence() throws PartieException {
+	public void setPartieCommence() throws PartieException, RemoteException {
 
 		if (partieACommence == false) {
 
 			partieACommence = true;
 			addModification(Static.modificationPartieCommence);
+			
 
 		} else {
 
