@@ -869,7 +869,7 @@ public class Partie implements Serializable{
 			try {
 				System.out.println();
 				System.out.println("Sauvegarde pour le joueur : " + si.getJoueur().getPseudo());
-				si.sauvegarder(this.nomPartie);
+				si.sauvegarder(this);
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

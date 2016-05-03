@@ -52,7 +52,7 @@ public interface SantiagoInterface extends Remote{
 
 	public void afficheErreur(String message) throws RemoteException;
 	
-	public void sauvegarder(String name) throws RemoteException, FileNotFoundException, IOException;
+	public void sauvegarder(Partie p) throws RemoteException, FileNotFoundException, IOException;
 	public Partie charger(String fileName) throws RemoteException, FileNotFoundException, IOException;
 	
 	public boolean reprendrePartie(Partie partieRejointe) throws RemoteException;

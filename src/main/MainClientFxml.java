@@ -303,7 +303,7 @@ public class MainClientFxml extends Application implements Initializable{
 		}
 		else{
 			p.setPartieACommence(true);
-			System.out.println(p.getListeJoueurs().size());
+			System.out.println(p.getListeDesJoueur().size());
 			this.serveur.ajouterPartieListe(p);
 			
 			/*this.serveur.rejoindrePartie(this.nomPartie.getText(), client);

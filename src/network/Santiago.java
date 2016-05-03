@@ -715,9 +715,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
-	public void sauvegarder(String name) throws RemoteException, FileNotFoundException, IOException {
-		Partie partie = this.getPartieByName(name);
-		
+	public void sauvegarder(Partie partie) throws RemoteException, FileNotFoundException, IOException {
 		System.out.println("Sauvegarde");
 		System.out.println("Sauvegarde de la partie " +partie.getNomPartie());
 		XMLTools.encodeToFile(partie, partie.getNomPartie());
@@ -733,6 +731,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			Partie pChargee = (Partie) XMLTools.decodeFromFile(fileName);
 			if(pChargee != null) {
 				System.out.println("Chargement de la partie " +pChargee.getNomPartie());
+				System.out.println("Chargement de la partie " +pChargee.getNombreDeJoueurs());
 				return pChargee;
 			}
 			else{
