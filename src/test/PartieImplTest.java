@@ -60,9 +60,10 @@ public class PartieImplTest {
 	 * Test de la méthode fabriqueTuile
 	 * 
 	 * @throws PartieException
+	 * @throws RemoteException 
 	 */
 	@Test(expected = PartieException.class)
-	public void testFabriqueTuile() throws PartieException {
+	public void testFabriqueTuile() throws PartieException, RemoteException {
 		Partie p = new Partie();
 		assertEquals(45, p.getPlateau().getListeTuiles().size());
 		p.setPartieCommence();
@@ -554,7 +555,7 @@ public class PartieImplTest {
 		listeOffres1.put(s3, 0);	
 		p.setConstructeurDeCanal(s1);
 		
-		s1.sauvegarder();
+		//s1.sauvegarder();
 		
 		//serveur.rejoindrePartie
 	}

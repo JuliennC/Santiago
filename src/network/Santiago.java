@@ -36,7 +36,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	
 	protected String name;
 	protected Joueur joueur;
-	private SantiagoInterface client = null;
+//	private SantiagoInterface client = null;
 	private static ArrayList<String>listePseudos = new ArrayList<>();
 	Partie p;
 	
@@ -67,18 +67,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	public String getName() throws RemoteException {
 		// TODO Auto-generated method stub
 		return name;
-	}
-	
-	@Override
-	public SantiagoInterface getClient() throws RemoteException {
-		// TODO Auto-generated method stub
-		return client;
-	}
-	
-	@Override
-	public void setClient(SantiagoInterface s) throws RemoteException {
-		client = s;
-
 	}
 
 	@Override
@@ -645,9 +633,10 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			if(aP.getNombreJoueursRequis() == aP.getNombreJoueurDansLaPartie()){
 				
 				if(! aP.getPartieACommence()){
-					//Afficher linterface
+					
 					
 					aP.lancePartie();
+					
 				}
 			}			
 		}
@@ -726,10 +715,12 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
-	public void sauvegarder() throws RemoteException, FileNotFoundException, IOException {
+	public void sauvegarder(String name) throws RemoteException, FileNotFoundException, IOException {
+		Partie partie = this.getPartieByName(name);
+		
 		System.out.println("Sauvegarde");
-		System.out.println("Sauvegarde de la partie " +p.getNomPartie());
-		XMLTools.encodeToFile(p, p.getNomPartie());
+		System.out.println("Sauvegarde de la partie " +partie.getNomPartie());
+		XMLTools.encodeToFile(partie, partie.getNomPartie());
 		
 		System.out.println("Partie sauvegardée ! :D");
 	}
@@ -737,16 +728,22 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	/**
 	 * Charge un fichier XML contenant une partie
 	 */
-	public Partie charger(String fileName) throws RemoteException, FileNotFoundException, IOException {
-		Partie pChargee = (Partie) XMLTools.decodeFromFile(fileName);
-		
-		if(pChargee != null) {
-			System.out.println("Chargement de la partie " +pChargee.getNomPartie());
-			return pChargee;
-		} else {
+	public Partie charger(String fileName) throws RemoteException, IOException {
+		try{
+			Partie pChargee = (Partie) XMLTools.decodeFromFile(fileName);
+			if(pChargee != null) {
+				System.out.println("Chargement de la partie " +pChargee.getNomPartie());
+				return pChargee;
+			}
+			else{
+				return null;
+			}
+		}
+		catch(FileNotFoundException e){
 			return null;
 		}
 	}
+
 	
 	/**
 	 * 

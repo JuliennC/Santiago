@@ -20,7 +20,7 @@ public class MainClient {
 	
 	private static Joueur joueur;
 	
-	public static void main (String args[]) throws RemoteException, MalformedURLException, NotBoundException, PartieException, JoueurException{
+	public static void main (String args[]) throws RemoteException, MalformedURLException, NotBoundException, PartieException, JoueurException, InterruptedException{
 		System.setSecurityManager(new SecurityManager());
 		
 		Scanner	scString = new Scanner(System.in);

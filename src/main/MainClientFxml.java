@@ -288,6 +288,7 @@ public class MainClientFxml extends Application implements Initializable{
 		
 		this.serveur.ajouterPartieListe(p);
 		this.serveur.rejoindrePartie(this.nomPartie.getText(), client);
+		this.client.initialiserPartie(p);
 		salleDAttente((Stage)b.getScene().getWindow(),this.nomPartie.getText());
 	}
 	
@@ -301,9 +302,12 @@ public class MainClientFxml extends Application implements Initializable{
 			this.errorNomChargement.setText("La partie n'éxiste pas");
 		}
 		else{
+			p.setPartieACommence(true);
+			System.out.println(p.getListeJoueurs().size());
 			this.serveur.ajouterPartieListe(p);
-			this.serveur.rejoindrePartie(this.nomPartie.getText(), client);
-			salleDAttente((Stage)b.getScene().getWindow(),this.nomPartie.getText());
+			
+			/*this.serveur.rejoindrePartie(this.nomPartie.getText(), client);
+			salleDAttente((Stage)b.getScene().getWindow(),this.nomPartie.getText());*/
 		}
 	}
 	

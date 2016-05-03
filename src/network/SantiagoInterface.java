@@ -19,8 +19,8 @@ public interface SantiagoInterface extends Remote{
 	
 	public String getName() throws RemoteException;
 	
-	public SantiagoInterface getClient() throws RemoteException;
-	public void setClient(SantiagoInterface s)	throws RemoteException;
+	//public SantiagoInterface getClient() throws RemoteException;
+	//public void setClient(SantiagoInterface s)	throws RemoteException;
 	public void addPseudo(String pseudo)throws RemoteException;
 	public void send(String msg) throws RemoteException;
 	public Partie getPartieByName(String name) throws RemoteException;
@@ -52,7 +52,7 @@ public interface SantiagoInterface extends Remote{
 
 	public void afficheErreur(String message) throws RemoteException;
 	
-	public void sauvegarder() throws RemoteException, FileNotFoundException, IOException;
+	public void sauvegarder(String name) throws RemoteException, FileNotFoundException, IOException;
 	public Partie charger(String fileName) throws RemoteException, FileNotFoundException, IOException;
 	
 	public boolean reprendrePartie(Partie partieRejointe) throws RemoteException;

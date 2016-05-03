@@ -39,10 +39,12 @@ public class Partie implements Serializable{
 	private List<SantiagoInterface> listeClients = Collections.synchronizedList(new ArrayList<SantiagoInterface>());
 	
 	private int nombreDeJoueurs;
-	private boolean partieACommence = false;
+	private boolean partieACommence;
 	private SantiagoInterface constructeurDeCanal;
 	private Plateau plateau;
 	private int tourEnCours = 1;
+	
+	private ArrayList<Joueur> listeDesJoueur;
 	
 	private boolean tousConnectes = true;
 	
@@ -85,12 +87,24 @@ public class Partie implements Serializable{
 			}
 		}
 	
+		this.listeDesJoueur = liste;
 		return liste;
 	}
 	
-	
-	
-	
+	public ArrayList<Joueur> getListeDesJoueur() {
+		return listeDesJoueur;
+	}
+
+
+
+
+	public void setListeDesJoueur(ArrayList<Joueur> listeDesJoueur) {
+		this.listeDesJoueur = listeDesJoueur;
+	}
+
+
+
+
 	/**
 	 * methode de lancement d'une partie
 	 * @throws PartieException 
@@ -100,8 +114,6 @@ public class Partie implements Serializable{
 	public void lancePartie() throws PartieException, RemoteException, JoueurException {
 		
 		System.out.println("On lance la partie");
-		
-		setPartieCommence();
 		
 		Random random = new Random();
 		
@@ -113,7 +125,14 @@ public class Partie implements Serializable{
 		// ATTENTION : ON LANCE LES PHASES UNIQUEMENT SI LA PARTIE A UN NOM
 		// POUR NE PAS QUE CA SE LANCE POUR LES TESTS
 		if(nomPartie != null){
+			setPartieACommence(true);
+			listeJoueurs();
+
 			while(! partiEstTerminee() ){
+				System.out.println("==================================");
+				System.out.println(this.listeDesJoueur.size());
+				System.out.println("==================================");
+				
 				lancerSauvegarde();
 				
 				HashMap<SantiagoInterface, Integer> offres;
@@ -848,8 +867,10 @@ public class Partie implements Serializable{
 	public void lancerSauvegarde() {
 		for(SantiagoInterface si : listeClients) {
 			try {
+				System.out.println();
 				System.out.println("Sauvegarde pour le joueur : " + si.getJoueur().getPseudo());
-				si.sauvegarder();
+				si.sauvegarder(this.nomPartie);
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
