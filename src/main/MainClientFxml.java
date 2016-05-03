@@ -153,7 +153,6 @@ public class MainClientFxml extends Application implements Initializable{
 	 * Fonction qui va chercher les informations de la partie
 	 */
 	public void chercheInfoPartie(final MainClientFxml controller, final Partie p) throws IOException{
-
 		final SantiagoInterface serveur_Bis = serveur;
 
 		Service<Void> updateSalle = new Service<Void>(){
@@ -433,8 +432,6 @@ public class MainClientFxml extends Application implements Initializable{
         stage.show();
         
         chercheInfoPartie(controller, partie);
-
-        
 	}
 	
 	
