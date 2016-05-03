@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -9,7 +10,6 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="825.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainClientFxml">
@@ -23,17 +23,276 @@
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="12.0" minWidth="12.0" prefWidth="12.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="12.0" minWidth="12.0" prefWidth="12.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="12.0" minWidth="12.0" prefWidth="12.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="12.0" minWidth="12.0" prefWidth="12.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="12.0" minWidth="12.0" prefWidth="12.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="12.0" minHeight="12.0" prefHeight="12.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="12.0" minHeight="12.0" prefHeight="12.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="12.0" minHeight="12.0" prefHeight="12.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="12.0" minHeight="12.0" prefHeight="12.0" vgrow="SOMETIMES" />
         </rowConstraints>
+         <BorderPane.margin>
+            <Insets left="250.0" right="50.0" top="50.0" />
+         </BorderPane.margin>
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" stroke="BLACK" strokeType="INSIDE" width="200.0" GridPane.rowIndex="1" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" stroke="BLACK" strokeType="INSIDE" width="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ImageView fx:id="Case_1_1" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_2_1" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_4_1" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_5_1" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_7_1" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_8_1" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_1_2" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_8_2" GridPane.columnIndex="2" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_7_2" GridPane.columnIndex="2" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_5_2" GridPane.columnIndex="2" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_2_2" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_4_2" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_1_4" GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_8_4" GridPane.columnIndex="4" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_7_4" GridPane.columnIndex="4" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_5_4" GridPane.columnIndex="4" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_4_4" GridPane.columnIndex="4" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_2_4" GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_1_5" GridPane.columnIndex="5" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_8_5" GridPane.columnIndex="5" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_7_5" GridPane.columnIndex="5" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_5_5" GridPane.columnIndex="5" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_4_5" GridPane.columnIndex="5" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_2_5" GridPane.columnIndex="5" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_7_7" GridPane.columnIndex="7" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_5_7" GridPane.columnIndex="7" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_4_7" GridPane.columnIndex="7" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_2_7" GridPane.columnIndex="7" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_1_7" GridPane.columnIndex="7" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_8_7" GridPane.columnIndex="7" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_1_8" GridPane.columnIndex="8" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_8_8" GridPane.columnIndex="8" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_7_8" GridPane.columnIndex="8" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_5_8" GridPane.columnIndex="8" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_4_8" GridPane.columnIndex="8" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_2_8" GridPane.columnIndex="8" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_1_10" GridPane.columnIndex="10" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_8_10" GridPane.columnIndex="10" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_7_10" GridPane.columnIndex="10" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_5_10" GridPane.columnIndex="10" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_4_10" GridPane.columnIndex="10" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_2_10" GridPane.columnIndex="10" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_1_11" GridPane.columnIndex="11" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_8_11" GridPane.columnIndex="11" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_7_11" GridPane.columnIndex="11" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_5_11" GridPane.columnIndex="11" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_4_11" GridPane.columnIndex="11" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Case_2_11" GridPane.columnIndex="11" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@Images/Case_Plateau_Vide.jpg" />
+               </image>
+            </ImageView>
          </children>
       </GridPane>
    </center>
