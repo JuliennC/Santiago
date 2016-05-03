@@ -70,7 +70,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	public void verifieServer(){
 		if (TYPE.equals("client")){
 			
-			PartieException e = new PartieException("Erreur appelé d'un client au lieu d'un server");
+			PartieException e = new PartieException("Erreur appelé à un '"+TYPE+"' au lieu d'un server");
 			e.printStackTrace();
 		}
 	}
@@ -78,7 +78,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	public void verifieClient(){
 		if (TYPE.equals("server")){
 			
-			PartieException e = new PartieException("Erreur appelé d'un server au lieu d'un client");
+			PartieException e = new PartieException("Erreur appelé à un '"+TYPE+"' au lieu d'un client");
 			e.printStackTrace();
 		}
 	}
@@ -121,7 +121,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 
 			Partie p = new Partie(nom, nbJoueur);
 			
-			//Santiago.analyseConnexionJoueurs(nom);
 			
 			return p;
 			
@@ -146,12 +145,13 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		this.verifieServer();
 		
-		System.out.println("analyse debute");
+		System.out.println("'"+TYPE+"' analyse debute : " + voirParties());
 		
 		class SayHello extends TimerTask {
 
 			public void run() {
-				
+				System.out.println("a " + TYPE);
+
 				//Partie p = server.getPartieByName(nom);
 				
 				Partie p = listeParties.get(0);
@@ -164,6 +164,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 				
 				for(SantiagoInterface client : p.getListeClients()){
 					System.out.println("e");
+					
+					int numJoueur = p.getListeClients().indexOf(client);
 
 					try{
 						System.out.println("client : "+client.getJoueur().getPseudo());
@@ -184,16 +186,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					
 					} catch(Exception e){
 					
-						try {
-							if(tab.get(client.getJoueur())){
-								p.addModification(Static.modificationJoueurDeconnection);
-							} else {
-								tab.put(client.getJoueur(), false);
-							}
-						} catch (RemoteException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						//tab.put(client.getJoueur(), false);
+						p.addModification(Static.modificationJoueurDeconnection);
 					}
 				}
 			}
@@ -853,6 +847,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		this.verifieServer();
 		
 		listeParties.add(p);
+		
+		analyseConnexionJoueurs(p.getNomPartie());
+
 	}
 
 	
@@ -925,7 +922,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 */
 	public boolean tic(){
 		
-		this.verifieServer();
+		this.verifieClient();
 		return true;
 	}
 	

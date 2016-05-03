@@ -293,7 +293,7 @@ public class MainClientFxml extends Application implements Initializable{
 		serveur.ajouterPartieListe(p);
 		
 		p = serveur.rejoindrePartie(this.nomPartie.getText(), client);
-
+		
 		salleDAttente((Stage)b.getScene().getWindow(),this.nomPartie.getText());
 			
 	}
