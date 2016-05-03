@@ -19,29 +19,26 @@ public interface SantiagoInterface extends Remote{
 	
 	public String getName() throws RemoteException;
 	
-	//public SantiagoInterface getClient() throws RemoteException;
-	//public void setClient(SantiagoInterface s)	throws RemoteException;
-	public void addPseudo(String pseudo)throws RemoteException;
 	public void send(String msg) throws RemoteException;
-	public Partie getPartieByName(String name) throws RemoteException;
-	public Partie creerPartie(String nom, int nbJoueur) throws RemoteException, InterruptedException;
+	public void addPseudo(String pseudo) throws RemoteException;;
+	public Partie creerPartie(String nom, int nbJoueur) throws RemoteException, InterruptedException ;
+	public void analyseConnexionJoueurs(final String nom) throws RemoteException;
 	public Partie creerPartie(Partie aPartie) throws RemoteException;
-	
-	public void ajouterPartieListe(Partie p) throws RemoteException;
-	
-	public void initialiserPartie(Partie aPartie) throws RemoteException;
-	
-	public void testPartieEstPrete() throws PartieException, RemoteException, JoueurException;
-	
-	public ArrayList<Partie> voirParties() throws RemoteException;
-	
 	public Partie rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException;
-	public Partie rejoindrePartie(Partie aPartie, SantiagoInterface si) throws RemoteException, PartieException, JoueurException;
-	
+	public Partie getPartieByName(String name) throws RemoteException;
+	public Partie initialiserPartie(Partie aPartie) throws RemoteException ;
 	public void enregistrePseudo(String pseudo) throws RemoteException;
-
 	public boolean pseudoEstDisponible(String pseudo) throws RemoteException;
-	
+	public void testPartieEstPrete() throws PartieException, RemoteException, JoueurException;
+	public boolean listeContientPartie(ArrayList<Partie> liste, String nomPartie) throws RemoteException;
+	public void ajouterPartieListe(Partie p) throws RemoteException;
+	public ArrayList<Partie> voirParties() throws RemoteException;
+	public void sauvegarder(Partie p) throws RemoteException, FileNotFoundException, IOException;
+	public Partie charger(String fileName) throws RemoteException, FileNotFoundException, IOException;
+	public boolean reprendrePartie(Partie partieRejointe) throws RemoteException;
+
+	public void setJoueur(Joueur j) throws RemoteException;
+
 	public Joueur getJoueur() throws RemoteException;
 	
 	public int joueurFaitUneOffre() throws RemoteException;
@@ -52,11 +49,7 @@ public interface SantiagoInterface extends Remote{
 
 	public void afficheErreur(String message) throws RemoteException;
 	
-	public void sauvegarder(Partie p) throws RemoteException, FileNotFoundException, IOException;
-	public Partie charger(String fileName) throws RemoteException, FileNotFoundException, IOException;
 	
-	public boolean reprendrePartie(Partie partieRejointe) throws RemoteException;
-
 	public int propositionPhase4() throws RemoteException;
 
 		public int joueurFaitPotDeVin() throws RemoteException;
