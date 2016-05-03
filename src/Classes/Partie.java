@@ -9,13 +9,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 
 import Classes.Tuile.*;
 import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
+import network.Santiago;
 import network.SantiagoInterface;
 import serialisationXML.XMLTools;
 import Classes.Marqueurs.*;
@@ -31,7 +37,7 @@ public class Partie implements Serializable{
 	
 	private String nomPartie = null;
 
-	private ArrayList<SantiagoInterface> listeClients = new ArrayList<>();
+	private ArrayList<SantiagoInterface> listeClients = new ArrayList<SantiagoInterface>();
 	
 	private int nombreDeJoueurs;
 	private boolean partieACommence = false;
@@ -97,7 +103,11 @@ public class Partie implements Serializable{
 		System.out.println("On lance la partie");
 		
 		setPartieCommence();
-		this.constructeurDeCanal = (SantiagoInterface) randomInList(listeClients);
+		
+		Random random = new Random();
+		
+		int index = random.nextInt(listeClients.size());
+		this.constructeurDeCanal = listeClients.get(index);
 
 		System.out.println("Constructeur de canal : "+constructeurDeCanal.getJoueur().getPseudo());
 		
@@ -840,7 +850,7 @@ public class Partie implements Serializable{
 		for(SantiagoInterface si : listeClients) {
 			try {
 				System.out.println("Sauvegarde pour le joueur : " + si.getJoueur().getPseudo());
-				si.sauvegarder();
+				si.sauvegarder(this);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -873,6 +883,10 @@ public class Partie implements Serializable{
 	public void permiereMidificationTraitee(){
 		listeModifications.remove(0);
 	}
+	
+	
+	
+	
 	
 
 	// --------------- GETTER et SETTER ---------------
@@ -943,13 +957,15 @@ public class Partie implements Serializable{
 	 * @return : void
 	 * 	
 	 * Si la partie a déjà commencée, on lève une exception
+	 * @throws RemoteException 
 	 */
-	public void setPartieCommence() throws PartieException {
+	public void setPartieCommence() throws PartieException, RemoteException {
 
 		if (partieACommence == false) {
 
 			partieACommence = true;
 			addModification(Static.modificationPartieCommence);
+			
 
 		} else {
 
@@ -1039,6 +1055,11 @@ public class Partie implements Serializable{
 		this.plateau = plateau;
 	}
 	
+	
+	
+	public List<SantiagoInterface> getListeClients(){
+		return listeClients;
+	}
 	
 	
 }

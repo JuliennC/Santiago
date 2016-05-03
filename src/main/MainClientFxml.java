@@ -100,7 +100,7 @@ public class MainClientFxml extends Application implements Initializable{
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
-			this.serveur = (SantiagoInterface)Naming.lookup("rmi://127.0.0.1:43000/ABC");
+			this.serveur = (SantiagoInterface)Naming.lookup("rmi://127.0.0.1:44000/ABC");
 		} 
 		catch (MalformedURLException | RemoteException | NotBoundException e) {
 			e.printStackTrace();
@@ -153,7 +153,6 @@ public class MainClientFxml extends Application implements Initializable{
 	 * Fonction qui va chercher les informations de la partie
 	 */
 	public void chercheInfoPartie(final MainClientFxml controller, final Partie p) throws IOException{
-		final SantiagoInterface serveur_Bis = serveur;
 
 		Service<Void> updateSalle = new Service<Void>(){
 			protected Task<Void> createTask() {
@@ -168,7 +167,7 @@ public class MainClientFxml extends Application implements Initializable{
 						
 						while(true){
 							
-							Partie partie = serveur_Bis.getPartieByName(p.getNomPartie());							
+							Partie partie = serveur.getPartieByName(p.getNomPartie());							
 
 							if(partie == null){ continue; }
 						
@@ -194,7 +193,6 @@ public class MainClientFxml extends Application implements Initializable{
 							        controller.changeText(partie);
 																			    
 									modifs.remove(0);
-									modifs.add(Static.modificationPartieCommence);
 
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
@@ -202,6 +200,11 @@ public class MainClientFxml extends Application implements Initializable{
 										controller.lancementPlateau();
 										modifs.remove(0);
 							
+								} else if(modif.equals(Static.modificationJoueurDeconnection)){
+									
+									System.out.println("ATTENTION : un joueur s'est déconnecté");
+									modifs.remove(0);
+
 								}
 						
 
@@ -236,12 +239,14 @@ public class MainClientFxml extends Application implements Initializable{
 		String pseudo = this.pseudo.getText();
 		
 		//On vérifie que le pseudo est disponible
-		boolean pseudoEstDispo = this.serveur.pseudoEstDisponible(pseudo);
+		boolean pseudoEstDispo = serveur.pseudoEstDisponible(pseudo);
 		
 		if(!pseudo.isEmpty()&&pseudoEstDispo){
 			Joueur joueur = new Joueur(pseudo,10);
-			this.client = new Santiago(joueur);
-			this.serveur.addPseudo(pseudo);
+			client = new Santiago("client");
+			client.setJoueur(joueur);
+
+			serveur.addPseudo(pseudo);
 			//parcoursListePartie();
 			startChoixPartie((Stage)this.valider.getScene().getWindow());
 		}
@@ -252,7 +257,7 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	public void changeAccordion() throws RemoteException{
 		ObservableList<TitledPane> list = FXCollections.observableArrayList();
-		for(Partie p : this.serveur.voirParties()){
+		for(Partie p : serveur.voirParties()){
 			if(!p.getPartieACommence()){
 				GridPane grid = new GridPane();
 				grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
@@ -282,11 +287,14 @@ public class MainClientFxml extends Application implements Initializable{
 		Button b = (Button)e.getSource();
 		RadioButton radio = (RadioButton)this.nbJoueur.getSelectedToggle();
 		
-		Partie p = this.client.creerPartie(this.nomPartie.getText(),Integer.parseInt(radio.getText()));
+		Partie p = serveur.creerPartie(this.nomPartie.getText(),Integer.parseInt(radio.getText()));
 		
-		this.serveur.ajouterPartieListe(p);
-		this.serveur.rejoindrePartie(this.nomPartie.getText(), client);
+		serveur.ajouterPartieListe(p);
+		
+		p = serveur.rejoindrePartie(this.nomPartie.getText(), client);
+
 		salleDAttente((Stage)b.getScene().getWindow(),this.nomPartie.getText());
+			
 	}
 	
 	/**
@@ -301,8 +309,8 @@ public class MainClientFxml extends Application implements Initializable{
 		String nomPartie = pane.getText();
 		Partie pRejoint;
 		try{
-			pRejoint = this.serveur.rejoindrePartie(nomPartie, this.client);
-			this.client.initialiserPartie(pRejoint);
+			pRejoint = serveur.rejoindrePartie(nomPartie, this.client);
+			serveur.initialiserPartie(pRejoint);
 		}
         catch(RemoteException | PartieException | JoueurException e1){
         	this.partieError.setText("Vous ne pouvez pas rejoindre cette partie");
@@ -324,6 +332,12 @@ public class MainClientFxml extends Application implements Initializable{
 	public void changeText(Partie p){
 		int nbJoueurRequis = p.getNombreJoueursRequis();
 		int nbJoueurDansPartie = p.getNombreJoueurDansLaPartie();
+		
+		System.out.println("p : "+p);
+		System.out.println("p : "+p.getListeJoueurs());
+
+
+		
 		switch(nbJoueurRequis){
 			case 3:
 
@@ -419,7 +433,7 @@ public class MainClientFxml extends Application implements Initializable{
 	 * @throws InterruptedException 
 	 */
 	public void salleDAttente(Stage primaryStage,final String nomPartie) throws IOException, InterruptedException{
-		Partie partie = this.serveur.getPartieByName(nomPartie);
+		Partie partie = serveur.getPartieByName(nomPartie);
 		URL url = getClass().getResource("../view/SalleDAttente.fxml");
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
         
@@ -436,6 +450,7 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	
 	public void lancementPlateau() throws IOException{
+
 		final URL url = getClass().getResource("../view/Accueil.fxml");
 
         final FXMLLoader fxmlLoader = new FXMLLoader(url);

@@ -16,6 +16,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 
 import Classes.Joueur;
 import Classes.Partie;
@@ -32,26 +35,26 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	Scanner scString = new Scanner(System.in);
 	Scanner scInt = new Scanner(System.in);
 	
+	// Partie Server
 	private ArrayList<Partie> listeParties = new ArrayList<>();
-	
-	
-	protected String name;
+	private ArrayList<String>listePseudos = new ArrayList<>();
+
+	// Partie Client
+	protected String TYPE;
 	protected Joueur joueur;
-	private SantiagoInterface client = null;
-	private static ArrayList<String>listePseudos = new ArrayList<>();
-	Partie p;
 	
-	public Santiago(Joueur j) throws RemoteException {
+	
+	public Santiago(String type, Joueur j) throws RemoteException {
 		super();
 		joueur = j;
-		this.name = j.getPseudo();
+		this.TYPE = "client";
 	}
 
 	
-	public Santiago(String name) throws RemoteException {
+	public Santiago(String type) throws RemoteException {
 		super();
 
-		this.name = name;
+		this.TYPE = type;
 	}
 	
 	
@@ -59,28 +62,39 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		return joueur;
 	}
 	
+	public void setJoueur(Joueur j) throws RemoteException{
+		this.joueur = j;
+	}
+	
+	
+	public void verifieServer(){
+		if (TYPE.equals("client")){
+			
+			PartieException e = new PartieException("Erreur appelé d'un client au lieu d'un server");
+			e.printStackTrace();
+		}
+	}
+	
+	public void verifieClient(){
+		if (TYPE.equals("server")){
+			
+			PartieException e = new PartieException("Erreur appelé d'un server au lieu d'un client");
+			e.printStackTrace();
+		}
+	}
 	
 	public void addPseudo(String pseudo){
-		this.listePseudos.add(pseudo);
+		
+		verifieServer();
+		listePseudos.add(pseudo);
 	}
 	
 	@Override
 	public String getName() throws RemoteException {
 		// TODO Auto-generated method stub
-		return name;
+		return TYPE;
 	}
 	
-	@Override
-	public SantiagoInterface getClient() throws RemoteException {
-		// TODO Auto-generated method stub
-		return client;
-	}
-	
-	@Override
-	public void setClient(SantiagoInterface s) throws RemoteException {
-		client = s;
-
-	}
 
 	@Override
 	public void send(String msg) throws RemoteException {
@@ -97,18 +111,110 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @param nbJoueur
 	 * 
 	 * @return p
+	 * @throws InterruptedException 
 	 */
 
-	public Partie creerPartie(String nom, int nbJoueur) throws RemoteException {
-		try {
-			p = new Partie(nom, nbJoueur);
+	public Partie creerPartie(String nom, int nbJoueur) throws RemoteException, InterruptedException {
+		this.verifieServer();
 
+		try {
+
+			Partie p = new Partie(nom, nbJoueur);
+			
+			//Santiago.analyseConnexionJoueurs(nom);
+			
+			return p;
+			
 		} catch (PartieException e) {
 
 			e.printStackTrace();
 		}
-		return p;
+		
+		return null;
 	}
+	
+	
+
+	
+	
+	
+	/**
+	 * Fonction qui vérifie que tous les joueurs sont bien connectés, et avertis les autres sinon
+	 * @throws RemoteException 
+	 */
+	public void analyseConnexionJoueurs(final String nom) throws RemoteException{
+		
+		this.verifieServer();
+		
+		System.out.println("analyse debute");
+		
+		class SayHello extends TimerTask {
+
+			public void run() {
+				
+				//Partie p = server.getPartieByName(nom);
+				
+				Partie p = listeParties.get(0);
+				
+				if(p == null){System.out.println(p+"Personne dans : "+listeParties); return;}
+				
+				System.out.println("analyse co : "+p);
+				//HashMap<Joueur, Boolean> tab = new HashMap<>();
+				ConcurrentHashMap<Joueur, Boolean> tab = new ConcurrentHashMap<>();
+				
+				for(SantiagoInterface client : p.getListeClients()){
+					System.out.println("e");
+
+					try{
+						System.out.println("client : "+client.getJoueur().getPseudo());
+
+						boolean tac = client.tic();
+						if (tac) { 
+							System.out.println("vrai");
+
+							tab.put(client.getJoueur(), true); }
+						else {
+							System.out.println("faux");
+							if(tab.get(client.getJoueur())){
+								p.addModification(Static.modificationJoueurDeconnection);
+							} else {
+								tab.put(client.getJoueur(), false);
+							}
+						}
+					
+					} catch(Exception e){
+					
+						try {
+							if(tab.get(client.getJoueur())){
+								p.addModification(Static.modificationJoueurDeconnection);
+							} else {
+								tab.put(client.getJoueur(), false);
+							}
+						} catch (RemoteException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+		
+		Timer timer = new Timer();
+		SayHello hello = new SayHello();
+		timer.schedule(hello, 0, 5000);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 * Créé une partie à partir des données contenues dans le fichier XML
@@ -117,7 +223,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws RemoteException
 	 */
 	public Partie creerPartie(Partie aPartie) throws RemoteException {
-		p = aPartie;
+		this.verifieServer();
+		
+		Partie p = aPartie;
 		
 		System.out.println("La partie a été chargée correctement !");
 
@@ -131,9 +239,10 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws PartieException 
 	 * @throws JoueurException 
 	 */
-	@Override
 	public Partie rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException {
 
+		this.verifieServer();
+		
 		/* On vérifie d'abord que la liste contient la partie demandée, 
 		*  Sinon, on lève une exception
 		*/
@@ -157,6 +266,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					
 					p.addClient(i);
 					p.addModification(Static.modificationJoueurs);
+					
+					System.out.println("okkkkkkkkk : "+p.getListeClients().size());
 
 				} catch (PartieException e) {
 
@@ -175,8 +286,10 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @param name
 	 * @return
 	 */
-	public Partie getPartieByName(String name){
-		for(Partie p : this.listeParties){
+	 public Partie getPartieByName(String name){
+	 this.verifieServer();
+	 
+		for(Partie p : listeParties){
 			if(p.getNomPartie().equals(name)){
 				return p;
 			}
@@ -192,6 +305,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws JoueurException
 	 */
 	public Partie rejoindrePartie(Partie aPartie, SantiagoInterface si) throws RemoteException, PartieException, JoueurException {
+		this.verifieServer();
+		
 		for(Joueur j: aPartie.getListeJoueurs()) {
 			if(j.getPseudo().equals(si.getJoueur().getPseudo())) {
 				si.getJoueur().setCouleur(j.getCouleur());
@@ -212,8 +327,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		return aPartie;
 	}
 	
-	public void initialiserPartie(Partie aPartie) throws RemoteException {
-		this.p = aPartie;
+	public Partie initialiserPartie(Partie aPartie) throws RemoteException {
+		this.verifieServer();
+		return aPartie;
 	}
 	
 	/**
@@ -223,6 +339,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @return : int --> l'offre
 	 */
 	public int joueurFaitUneOffre() throws RemoteException{		
+		this.verifieClient();
 		
 		Scanner scInt = new Scanner(System.in);
 
@@ -261,6 +378,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @return int choix
 	 */
 	public int propositionPhase4() throws RemoteException {
+		this.verifieClient();
+		
 		boolean choixValide = false;
 		int choix = 0;
 		
@@ -284,10 +403,14 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	
 
 	public int joueurChoisitTuile(int nbTuile){
+		this.verifieClient();
+		
 		return this.joueur.joueurChoisitTuile(nbTuile);
 	}
 	
 	public int[] joueurChoisitPlacement(){
+		this.verifieClient();
+		
 		return this.joueur.joueurChoisitPlacement();
 	}
 		
@@ -297,6 +420,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @return: montant : Pot de vin
 	 */
 	public int joueurFaitPotDeVin() throws RemoteException {
+		this.verifieClient();
+		
 		boolean montantValide = false;
 		int montant = 0;
 		
@@ -325,6 +450,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 */
 	@Override
 	public void afficherPropositionsPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException{
+		this.verifieClient();
+		
 		for(SantiagoInterface si : listePropositions.keySet()) {
 			System.out.println("Joueur : " +si.getJoueur().getPseudo() + " | Couleur : " + si.getJoueur().getCouleur() + 
 					" | Montant proposé: " +listePropositions.get(si));
@@ -338,6 +465,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @return SantiagoInterface: joueur soutenu
 	 */
 	public SantiagoInterface soutenirJoueur(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException {
+		this.verifieClient();
+		
 		boolean choixJoueur = false;
 		String choix = "";
 		SantiagoInterface joueur = null;
@@ -376,6 +505,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 */
 	@Override
 	public void cumulerPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions, SantiagoInterface joueurSoutenu, int potDeVin) throws RemoteException {
+		this.verifieClient();
+		
 		for(SantiagoInterface si : listePropositions.keySet()) {
 			if(si.equals(joueurSoutenu)) {
 				listePropositions.replace(si, listePropositions.get(si) + potDeVin);
@@ -400,6 +531,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 */
 	@Override
 	public SantiagoInterface choisirPotDeVin(Plateau plateau, HashMap<SantiagoInterface, Integer> listePropositions, ArrayList<Canal> listeCanauxTemp) throws RemoteException {
+		this.verifieClient();
+		
 		int coutCanalPerso;
 		boolean choixOk = false;
 		int choixProposition = 0;
@@ -483,6 +616,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 */
 	@Override
 	public void deduirePotDeVin(HashMap<SantiagoInterface, Integer> listePropositions, HashMap<SantiagoInterface, SantiagoInterface> listeSoutiens, HashMap<SantiagoInterface, Integer> listePotsDeVin, SantiagoInterface constructeur) throws RemoteException{
+		this.verifieClient();
+		
 		if(!this.equals(constructeur)) {
 			// On déduit le pot de vin des joueurs ayant soutenu la proposition
 			for(SantiagoInterface si : listeSoutiens.keySet()) {
@@ -522,6 +657,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @return int: propositionMax
 	 */
 	public int constructeurPoserCanalPerso(HashMap<SantiagoInterface, Integer> listePropositions) {
+		this.verifieClient();
+		
 		int propositionMax = 0;
 		
 		for(SantiagoInterface si : listePropositions.keySet()) {
@@ -540,6 +677,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 */
 	@Override
 	public Canal poserCanalTemporaire(Plateau plateau, ArrayList<Canal> listeCanauxTemp) throws RemoteException {
+		this.verifieClient();
+		
 		// TODO Auto-generated method stub
 		System.out.println("Positionnez votre canal temporaire sur le plateau...");
 		Canal canal = new Canal(joueur.getCouleur());
@@ -605,6 +744,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @return : void
 	 */
 	public void enregistrePseudo(String pseudo) throws RemoteException{
+		this.verifieServer();
 		
 		//On enregistre également le pseudo pour que personne ne prenne le même pseudo
 		listePseudos.add(pseudo);
@@ -616,6 +756,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @return : boolean
 	 */
 	public boolean pseudoEstDisponible(String pseudo) throws RemoteException{
+		this.verifieServer();
 		
 		//On enregistre également le pseudo pour que personne ne prenne le même pseudo
 		return !(listePseudos.contains(pseudo));
@@ -635,6 +776,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws JoueurException 
 	 */
 	public void testPartieEstPrete() throws PartieException, RemoteException, JoueurException{
+		this.verifieServer();
+		
 		/*Pour qu'une partie soit prête, il faut : 
 		*
 		*	- Que le nombre de rejoueur requis soit atteint
@@ -653,6 +796,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	}
 	
 	public void attributionDesCouleurs(Partie partie){
+	
+		this.verifieServer();
+		
 		ArrayList<Joueur> listJoueur = partie.getListeJoueurs();
 		switch(partie.getNombreJoueurDansLaPartie()){
 		case 3:
@@ -683,6 +829,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @parameters : arraylist<Partie> , String nomPartie
 	 */
 	public boolean listeContientPartie(ArrayList<Partie> liste, String nomPartie){
+		this.verifieServer();
 		
 		for(Partie p : liste){
 			
@@ -702,9 +849,10 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * Fonction appelée par le serveur uniquement pour mettre à jour la liste des parties
 	 * Appelé lorsque le client appelle la fonction creerPartie().
 	 */
-	@Override
 	public void ajouterPartieListe(Partie p) throws RemoteException {
-		this.listeParties.add(p);
+		this.verifieServer();
+		
+		listeParties.add(p);
 	}
 
 	
@@ -714,8 +862,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * Fonction appelée par le client pour voir la liste des parties en cours sur le serveur
 	 * @return: ArrayList listeParties
 	 */
-	@Override
 	public ArrayList<Partie> voirParties() throws RemoteException {
+		this.verifieServer();
+			
 		// TODO Auto-generated method stub
 		return listeParties;
 	}
@@ -725,7 +874,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
-	public void sauvegarder() throws RemoteException, FileNotFoundException, IOException {
+	public void sauvegarder(Partie p) throws RemoteException, FileNotFoundException, IOException {
+		this.verifieClient();
+		
 		System.out.println("Sauvegarde");
 		System.out.println("Sauvegarde de la partie " +p.getNomPartie());
 		XMLTools.encodeToFile(p, p.getNomPartie());
@@ -737,6 +888,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * Charge un fichier XML contenant une partie
 	 */
 	public Partie charger(String fileName) throws RemoteException, FileNotFoundException, IOException {
+		this.verifieServer();
+		
 		Partie pChargee = (Partie) XMLTools.decodeFromFile(fileName);
 		
 		if(pChargee != null) {
@@ -753,6 +906,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @return true si la partie existe déjà ; false sinon
 	 */
 	public boolean reprendrePartie(Partie partieRejointe) throws RemoteException {
+		this.verifieServer();
+		
 		for(Partie p:listeParties) {
 			if(p.getNomPartie().equals(partieRejointe.getNomPartie())) {
 				return true;
@@ -761,6 +916,17 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		return false;
 
+	}
+	
+	
+	
+	/**
+	 * Fonction qui infique que le joueur est bien en ligne
+	 */
+	public boolean tic(){
+		
+		this.verifieServer();
+		return true;
 	}
 	
 }
