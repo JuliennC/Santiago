@@ -293,6 +293,416 @@
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
+            <ImageView GridPane.columnIndex="10" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_0_1" GridPane.columnIndex="1">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_0_" GridPane.columnIndex="2">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="8" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="7" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="5" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="4" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_0_" GridPane.columnIndex="11">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_0_" GridPane.columnIndex="10">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_0_" GridPane.columnIndex="8">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_0_" GridPane.columnIndex="7">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_0_" GridPane.columnIndex="5">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_0_" GridPane.columnIndex="4">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="2" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="1" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="11" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="10" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="8" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="7" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="5" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="4" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="2" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="11" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="11" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="10" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="8" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="7" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="5" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView GridPane.columnIndex="4" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@Images/canalHvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_3_9" GridPane.columnIndex="9" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_6_12" GridPane.columnIndex="12" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_3_12" GridPane.columnIndex="12" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_0_12" GridPane.columnIndex="12">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_9_9" GridPane.columnIndex="9" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_6_9" GridPane.columnIndex="9" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_0_9" GridPane.columnIndex="9">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_9_6" GridPane.columnIndex="6" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_6_6" GridPane.columnIndex="6" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_3_6" GridPane.columnIndex="6" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_0_6" GridPane.columnIndex="6">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_9_3" GridPane.columnIndex="3" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_6_3" GridPane.columnIndex="3" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_3_3" GridPane.columnIndex="3" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_0_3" GridPane.columnIndex="3">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_9_0" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_6_0" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_3_0" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_9_12" GridPane.columnIndex="12" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="CanalVide_0_0" layoutX="10.0" layoutY="182.0">
+               <image>
+                  <Image url="@Images/canalAngleVide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_1_9" GridPane.columnIndex="9" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_7_9" GridPane.columnIndex="9" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_8_12" GridPane.columnIndex="12" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_7_12" GridPane.columnIndex="12" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_5_3" GridPane.columnIndex="3" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_5_6" GridPane.columnIndex="6" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_5_9" GridPane.columnIndex="9" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_5_12" GridPane.columnIndex="12" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_4_3" GridPane.columnIndex="3" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_4_6" GridPane.columnIndex="6" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_4_9" GridPane.columnIndex="9" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_4_12" GridPane.columnIndex="12" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_2_12" GridPane.columnIndex="12" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_1_12" GridPane.columnIndex="12" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_2_3" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_2_6" GridPane.columnIndex="6" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_3_9" GridPane.columnIndex="9" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_1_6" GridPane.columnIndex="6" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_1_3" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_1_0" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_2_0" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_4_0" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_5_0" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_7_0" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_8_0" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_8_3" GridPane.columnIndex="3" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_7_3" GridPane.columnIndex="3" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_8_6" GridPane.columnIndex="6" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_7_6" GridPane.columnIndex="6" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="Canal_8_9" GridPane.columnIndex="9" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@Images/canalVvide.png" />
+               </image>
+            </ImageView>
          </children>
       </GridPane>
    </center>
@@ -300,7 +710,7 @@
       <TextArea prefHeight="645.0" prefWidth="343.0" BorderPane.alignment="CENTER" />
    </right>
    <bottom>
-      <GridPane prefHeight="109.0" prefWidth="1300.0" BorderPane.alignment="CENTER">
+      <GridPane prefHeight="67.0" prefWidth="1300.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="1009.0" minWidth="10.0" prefWidth="957.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="645.0" minWidth="10.0" prefWidth="343.0" />

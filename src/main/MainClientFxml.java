@@ -439,12 +439,6 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	
 	public void lancementPlateau() throws IOException{
-
-<<<<<<< HEAD
-=======
-		//Stage primaryStage = (Stage)this.joueur1.getScene().getWindow();
->>>>>>> a20dc916b5d0a88c1a8f7b0b6616e488a2e7961e
-
 		final URL url = getClass().getResource("../view/Accueil.fxml");
 
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
