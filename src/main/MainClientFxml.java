@@ -263,6 +263,23 @@ public class MainClientFxml extends Application implements Initializable{
 				TitledPane pane = new TitledPane(p.getNomPartie(),grid);
 				list.add(pane);
 			}
+			else{
+				boolean b = false;
+				for(Joueur j : p.getListeDesJoueur()){
+					if(j.getPseudo().equals(client.getJoueur().getPseudo())){
+						b = true;
+						break;
+					}
+				}
+				if(b){
+					GridPane grid = new GridPane();
+					grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
+					grid.addRow(1,new Text("Nombre de Joueur dans la Partie: "+p.getNombreJoueurDansLaPartie()));
+					TitledPane pane = new TitledPane(p.getNomPartie(),grid);
+					pane.textFillProperty().set(Color.RED);;
+					list.add(pane);
+				}
+			}
 		}
 		this.listePartie.getPanes().addAll(list);
 		if(!this.listePartie.getPanes().isEmpty()){
@@ -294,17 +311,29 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	
 	public void chargerPartie(ActionEvent e) throws RemoteException, FileNotFoundException, IOException, PartieException, JoueurException, InterruptedException{
-		Button b = (Button)e.getSource();
-		RadioButton radio = (RadioButton)this.nbJoueur.getSelectedToggle();
-		
-		Partie p = this.client.charger(this.nomPartieChargement.getText());
+		Button button = (Button) e.getSource();
+		Partie p = client.charger(this.nomPartieChargement.getText());
 		if(p == null){
 			this.errorNomChargement.setText("La partie n'éxiste pas");
 		}
 		else{
-			p.setPartieACommence(true);
-			System.out.println(p.getListeDesJoueur().size());
-			this.serveur.ajouterPartieListe(p);
+			boolean b = false;
+			ArrayList<Joueur> listeJoueur = p.getListeDesJoueur();
+			for(Joueur j : listeJoueur){
+				if(j.getPseudo().equals(client.getJoueur().getPseudo())){
+					b = true;
+					break;
+				}
+			}
+			if(b){
+				p.setPartieACommence(true);
+				p.addClient(client);
+				this.serveur.ajouterPartieListe(p);
+				salleDAttente((Stage)button.getScene().getWindow(),p.getNomPartie());
+			}
+			else{
+				this.errorNomChargement.setText("La partie n'éxiste pas");
+			}
 			
 			/*this.serveur.rejoindrePartie(this.nomPartie.getText(), client);
 			salleDAttente((Stage)b.getScene().getWindow(),this.nomPartie.getText());*/
