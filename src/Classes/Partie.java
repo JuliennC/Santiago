@@ -21,6 +21,7 @@ import Classes.Tuile.*;
 import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
+import network.Santiago;
 import network.SantiagoInterface;
 import serialisationXML.XMLTools;
 import Classes.Marqueurs.*;
@@ -36,7 +37,7 @@ public class Partie implements Serializable{
 	
 	private String nomPartie = null;
 
-	private List<SantiagoInterface> listeClients = Collections.synchronizedList(new ArrayList<SantiagoInterface>());
+	private ArrayList<SantiagoInterface> listeClients = new ArrayList<SantiagoInterface>();
 	
 	private int nombreDeJoueurs;
 	private boolean partieACommence = false;
@@ -849,7 +850,7 @@ public class Partie implements Serializable{
 		for(SantiagoInterface si : listeClients) {
 			try {
 				System.out.println("Sauvegarde pour le joueur : " + si.getJoueur().getPseudo());
-				si.sauvegarder();
+				si.sauvegarder(this);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -884,61 +885,6 @@ public class Partie implements Serializable{
 	}
 	
 	
-	
-	/**
-	 * Fonction qui vérifie que tous les joueurs sont bien connectés, et avertis les autres sinon
-	 * @throws RemoteException 
-	 * @throws InterruptedException 
-	 */
-	public void analyseConnexionJoueurs() throws RemoteException, InterruptedException{
-		System.out.println("analyse debute");
-	
-		/*while(true){
-		
-			System.out.println("analyse co : "+listeClients.size());
-				//HashMap<Joueur, Boolean> tab = new HashMap<>();
-				ConcurrentHashMap<Joueur, Boolean> tab = new ConcurrentHashMap<>();
-				
-				for(SantiagoInterface client : listeClients){
-					System.out.println("e");
-
-					try{
-						System.out.println("client : "+client.getJoueur().getPseudo());
-
-						boolean tac = client.tic();
-						if (tac) { 
-							System.out.println("vrai");
-
-							tab.put(client.getJoueur(), true); }
-						else {
-							System.out.println("faux");
-							if(tab.get(client.getJoueur())){
-								addModification(Static.modificationJoueurDeconnection);
-							} else {
-								tab.put(client.getJoueur(), false);
-							}
-						}
-					
-					} catch(Exception e){
-					
-						try {
-							if(tab.get(client.getJoueur())){
-								addModification(Static.modificationJoueurDeconnection);
-							} else {
-								tab.put(client.getJoueur(), false);
-							}
-						} catch (RemoteException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
-				}
-		
-				Thread.sleep(60000);
-		}*/
-		
-	
-	}
 	
 	
 	
@@ -1109,6 +1055,11 @@ public class Partie implements Serializable{
 		this.plateau = plateau;
 	}
 	
+	
+	
+	public List<SantiagoInterface> getListeClients(){
+		return listeClients;
+	}
 	
 	
 }
