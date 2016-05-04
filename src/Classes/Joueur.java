@@ -22,14 +22,26 @@ public class Joueur implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String pseudo;	
+	private String motDePasse;	
+	
 	private int solde;
 	private String couleur;
 	private ArrayList<MarqueurRendement> marqueurRestant;
 		
 	public Joueur() {}
 	
+	/**
+	 * Fonction qui crée un joueur SANS MOT DE PASSE --> Utilisé pour les tests
+	 */
 	public Joueur(String pseudo, int solde) {
 		this.pseudo = pseudo;
+		this.solde = solde;
+		this.marqueurRestant = new ArrayList<MarqueurRendement>();
+	}
+	
+	public Joueur(String pseudo, String motDePasse, int solde) {
+		this.pseudo = pseudo;
+		this.motDePasse = motDePasse;
 		this.solde = solde;
 		this.marqueurRestant = new ArrayList<MarqueurRendement>();
 	}
@@ -296,5 +308,12 @@ public class Joueur implements Serializable{
 		return serialVersionUID;
 	}
 	
-	
+	public String getMotDePasse() {
+		return motDePasse;
+	}
+
+	public void setMotDePasse(String motDePasse) {
+		this.motDePasse = motDePasse;
+	}
+
 }

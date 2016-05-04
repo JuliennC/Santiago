@@ -78,7 +78,7 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	/*------------- Début attribut Accueil ---------------*/
 	@FXML
-	TextField pseudo;
+	TextField pseudo, motDePasse;
 	
 	@FXML
 	Text pseudoError;
@@ -94,6 +94,21 @@ public class MainClientFxml extends Application implements Initializable{
 	Text joueur1, joueur2, joueur3, joueur4, joueur5;
 	
 	/*------------- Fin attribut Salle D'attente --------------*/
+	
+	
+	/*-------------Début attribut Rejoindre Parties Commencées -------------*/
+
+
+	
+	@FXML
+	Accordion accordeonPartiesCommencees;
+	
+	@FXML
+	Button boutonSkip, boutonRejoindre;
+	
+	/*------------- Fin attribut Rejoindre Parties Commencées --------------*/
+
+	
 	
 	private static Stage stage;
 	@Override
@@ -115,6 +130,7 @@ public class MainClientFxml extends Application implements Initializable{
 	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
+		
 		final URL url = getClass().getResource("../view/Accueil.fxml");
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
         final BorderPane root = (BorderPane) fxmlLoader.load();
@@ -127,6 +143,16 @@ public class MainClientFxml extends Application implements Initializable{
         primaryStage.show();
         
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * Cette méthode lance la scène de choix de la partie.
@@ -135,16 +161,58 @@ public class MainClientFxml extends Application implements Initializable{
 	 * @throws IOException
 	 */
 	public void startChoixPartie(Stage primaryStage) throws IOException{
-		URL url = getClass().getResource("../view/ChoixPartie.fxml");
-        FXMLLoader fxmlLoader = new FXMLLoader(url);
-        BorderPane root = (BorderPane) fxmlLoader.load();
-        MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
-        controller.changeAccordion();
-        final Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Santiago");
-        stage.show();
+		
+		
+		ArrayList<Partie> partiesNonTerminees = serveur.getPartiePourJoueur(client.getJoueur().getPseudo());
+System.out.println("non term : "+partiesNonTerminees);
+		if( (partiesNonTerminees.size() > 0) && (serveur.joueurParticipeAUnePartie(client.getJoueur(), partiesNonTerminees)) ){
+			
+			URL url = getClass().getResource("../view/chargePartiesCommencees.fxml");
+			FXMLLoader fxmlLoader = new FXMLLoader(url);
+			BorderPane root = (BorderPane) fxmlLoader.load();
+			MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
+			controller.changeAccordionPartiesCommencees(partiesNonTerminees);
+			final Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.setTitle("Santiago");
+			stage.show();
+			
+		} else {
+		
+			URL url = getClass().getResource("../view/ChoixPartie.fxml");
+			FXMLLoader fxmlLoader = new FXMLLoader(url);
+			BorderPane root = (BorderPane) fxmlLoader.load();
+			MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
+			controller.changeAccordion();
+			final Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.setTitle("Santiago");
+			stage.show();
+		}
 	}
+	
+	
+	
+	
+	
+	
+	public void changeAccordionPartiesCommencees(ArrayList<Partie> partiesNonTerminees) throws RemoteException{
+		ObservableList<TitledPane> list = FXCollections.observableArrayList();
+		for(Partie p : partiesNonTerminees){
+
+				GridPane grid = new GridPane();
+				grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
+				grid.addRow(1,new Text("Nombre de Joueur dans la Partie: "+p.getNombreJoueurDansLaPartie()));
+				TitledPane pane = new TitledPane(p.getNomPartie(),grid);
+				list.add(pane);
+		}
+
+		this.accordeonPartiesCommencees.getPanes().addAll(list);
+		if(!this.accordeonPartiesCommencees.getPanes().isEmpty()){
+			this.accordeonPartiesCommencees.setExpandedPane(this.accordeonPartiesCommencees.getPanes().get(0));
+		}
+	}
+
 	
 	
 	
@@ -153,7 +221,6 @@ public class MainClientFxml extends Application implements Initializable{
 	 * Fonction qui va chercher les informations de la partie
 	 */
 	public void chercheInfoPartie(final MainClientFxml controller, final Partie p) throws IOException{
-
 
 		Service<Void> updateSalle = new Service<Void>(){
 			protected Task<Void> createTask() {
@@ -182,14 +249,14 @@ public class MainClientFxml extends Application implements Initializable{
 								}
 								
 
-								if(modifs.size() == 0){ /*System.out.println("\nfin");*/ continue; }
+								if(modifs.size() == 0){ /*System.out.println("\nRien à modifier");*/ continue; }
 
 								Integer modif = modifs.get(0);
-								System.out.println("Modif : "+modif);
+								//System.out.println("Modif : "+modif);
 
 								if(modif.equals(Static.modificationJoueurs)){
 									//System.out.println("---- joueur");
-
+									System.out.println("Nouveau joueur : "+p.getJoueursConnectes());
 								
 							        controller.changeText(partie);
 																			    
@@ -204,15 +271,20 @@ public class MainClientFxml extends Application implements Initializable{
 								} else if(modif.equals(Static.modificationJoueurDeconnection)){
 									
 									System.out.println("ATTENTION : un joueur s'est déconnecté");
+									
+							        controller.changeText(partie);
 									modifs.remove(0);
 
+								} else {
+									
+									System.out.println("Modif non reconnue");
 								}
 						
 
 							}
 							
 						}
-
+						
 					}
 			    };
 				
@@ -238,16 +310,18 @@ public class MainClientFxml extends Application implements Initializable{
 	public void validerPseudo(ActionEvent e) throws NotBoundException, IOException{
 		
 		String pseudo = this.pseudo.getText();
+		String mdp = this.motDePasse.getText();
 		
 		//On vérifie que le pseudo est disponible
 		boolean pseudoEstDispo = serveur.pseudoEstDisponible(pseudo);
 		
-		if(!pseudo.isEmpty()&&pseudoEstDispo){
+		
+		if(!pseudo.isEmpty()&&pseudoEstDispo  || (serveur.connexionPseudoEtMDP(pseudo, mdp))){
 			Joueur joueur = new Joueur(pseudo,10);
 			client = new Santiago("client");
 			client.setJoueur(joueur);
 
-			serveur.addPseudo(pseudo);
+			serveur.enregistrePseudoEtMDP(pseudo, mdp);
 			//parcoursListePartie();
 			startChoixPartie((Stage)this.valider.getScene().getWindow());
 		}
@@ -307,10 +381,35 @@ public class MainClientFxml extends Application implements Initializable{
 	 */
 	public void joinPartie(ActionEvent e) throws RemoteException, InterruptedException{
 		TitledPane pane = this.listePartie.getExpandedPane();
+		
+		joinPartieSalleDAttente(e, pane);
+	}
+	
+	
+	
+
+	public void rejoindrePartieEnCours(ActionEvent e) throws InterruptedException{
+
+		TitledPane pane = this.accordeonPartiesCommencees.getExpandedPane();
+
+		joinPartieSalleDAttente(e, pane);
+
+	}
+	
+	
+	
+	public void skipPartiesEnCours(){
+		
+		
+	}
+	
+	
+	public void joinPartieSalleDAttente(ActionEvent e, TitledPane pane) throws InterruptedException{
+		
 		String nomPartie = pane.getText();
 		Partie pRejoint;
 		try{
-			pRejoint = serveur.rejoindrePartie(nomPartie, this.client);
+			pRejoint = serveur.rejoindrePartie(nomPartie, client);
 			serveur.initialiserPartie(pRejoint);
 		}
         catch(RemoteException | PartieException | JoueurException e1){
@@ -325,12 +424,17 @@ public class MainClientFxml extends Application implements Initializable{
 		}
 	}
 	
+	
+	
+	
+	
 	/**
 	 * Cette méthope permet de modifier les joueurs en attente lors du lancement de la scene d'attente
 	 * 
 	 * @param p
+	 * @throws RemoteException 
 	 */
-	public void changeText(Partie p){
+	public void changeText(Partie p) throws RemoteException{
 		int nbJoueurRequis = p.getNombreJoueursRequis();
 		int nbJoueurDansPartie = p.getNombreJoueurDansLaPartie();
 		
@@ -343,83 +447,83 @@ public class MainClientFxml extends Application implements Initializable{
 			case 3:
 
 				if(nbJoueurDansPartie == 1){
-					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
 					this.joueur2.setText("Joueur 2 : En Attente");
 					this.joueur3.setText("Joueur 3 : En Attente");
 				}
 				else if(nbJoueurDansPartie == 2){
-					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getListeJoueurs().get(1).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
 					this.joueur3.setText("Joueur 3 : En Attente");
 					
 				}
 				else{
-					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getListeJoueurs().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : "+p.getListeJoueurs().get(2).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
 				}				
 				break;
 			case 4:
 				if(nbJoueurDansPartie == 1){
-					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
 					this.joueur2.setText("Joueur 2 : En Attente");
 					this.joueur3.setText("Joueur 3 : En Attente");
 					this.joueur4.setText("Joueur 4 : En Attente");
 				}
 				else if(nbJoueurDansPartie == 2){
-					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getListeJoueurs().get(1).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
 					this.joueur3.setText("Joueur 3 : En Attente");
 					this.joueur4.setText("Joueur 4 : En Attente");
 				}
 				else if(nbJoueurDansPartie == 3){
-					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getListeJoueurs().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : "+p.getListeJoueurs().get(2).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
 					this.joueur4.setText("Joueur 4 : En Attente");
 				}
 				else{
-					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getListeJoueurs().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : "+p.getListeJoueurs().get(2).getPseudo());
-					this.joueur4.setText("Joueur 4 : "+p.getListeJoueurs().get(3).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
+					this.joueur4.setText("Joueur 4 : "+p.getJoueursConnectes().get(3).getPseudo());
 				}
 				break;
 			case 5:
 				if(nbJoueurDansPartie == 1){
-					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
 					this.joueur2.setText("Joueur 2 : En Attente");
 					this.joueur3.setText("Joueur 3 : En Attente");
 					this.joueur4.setText("Joueur 4 : En Attente");
 					this.joueur5.setText("Joueur 5 : En Attente");
 				}
 				else if(nbJoueurDansPartie == 2){
-					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getListeJoueurs().get(1).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
 					this.joueur3.setText("Joueur 3 : En Attente");
 					this.joueur4.setText("Joueur 4 : En Attente");
 					this.joueur5.setText("Joueur 5 : En Attente");
 				}
 				else if(nbJoueurDansPartie == 3){
-					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getListeJoueurs().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : "+p.getListeJoueurs().get(2).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
 					this.joueur4.setText("Joueur 4 : En Attente");
 					this.joueur5.setText("Joueur 5 : En Attente");
 				}
 				else if(nbJoueurDansPartie == 4){
-					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getListeJoueurs().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : "+p.getListeJoueurs().get(2).getPseudo());
-					this.joueur4.setText("Joueur 4 : "+p.getListeJoueurs().get(3).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
+					this.joueur4.setText("Joueur 4 : "+p.getJoueursConnectes().get(3).getPseudo());
 					this.joueur5.setText("Joueur 5 : En Attente");
 				}
 				else {
-					this.joueur1.setText("Joueur 1 : "+p.getListeJoueurs().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getListeJoueurs().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : "+p.getListeJoueurs().get(2).getPseudo());
-					this.joueur4.setText("Joueur 4 : "+p.getListeJoueurs().get(3).getPseudo());
-					this.joueur5.setText("Joueur 5 : "+p.getListeJoueurs().get(4).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
+					this.joueur4.setText("Joueur 4 : "+p.getJoueursConnectes().get(3).getPseudo());
+					this.joueur5.setText("Joueur 5 : "+p.getJoueursConnectes().get(4).getPseudo());
 				}
 				break;
 		}
@@ -447,8 +551,6 @@ public class MainClientFxml extends Application implements Initializable{
         stage.show();
         
         chercheInfoPartie(controller, partie);
-
-        
 	}
 	
 	

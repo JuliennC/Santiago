@@ -21,14 +21,13 @@ public interface SantiagoInterface extends Remote{
 	
 	
 	public void send(String msg) throws RemoteException;
-	public void addPseudo(String pseudo) throws RemoteException;;
 	public Partie creerPartie(String nom, int nbJoueur) throws RemoteException, InterruptedException ;
 	public void analyseConnexionJoueurs(final String nom) throws RemoteException;
 	public Partie creerPartie(Partie aPartie) throws RemoteException;
 	public Partie rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException;
 	public Partie getPartieByName(String name) throws RemoteException;
 	public Partie initialiserPartie(Partie aPartie) throws RemoteException ;
-	public void enregistrePseudo(String pseudo) throws RemoteException;
+	public void enregistrePseudoEtMDP(String pseudo, String mdp) throws RemoteException;
 	public boolean pseudoEstDisponible(String pseudo) throws RemoteException;
 	public void testPartieEstPrete() throws PartieException, RemoteException, JoueurException;
 	public boolean listeContientPartie(ArrayList<Partie> liste, String nomPartie) throws RemoteException;
@@ -37,6 +36,9 @@ public interface SantiagoInterface extends Remote{
 	public void sauvegarder(Partie p) throws RemoteException, FileNotFoundException, IOException;
 	public Partie charger(String fileName) throws RemoteException, FileNotFoundException, IOException;
 	public boolean reprendrePartie(Partie partieRejointe) throws RemoteException;
+	public ArrayList<Partie> getPartiePourJoueur(String joueur) throws RemoteException;
+	public boolean joueurParticipeAUnePartie(Joueur joueur, ArrayList<Partie> listeParties) throws RemoteException;
+	public boolean connexionPseudoEtMDP(String pseudo, String motDePasse) throws RemoteException;
 
 	public void setJoueur(Joueur j) throws RemoteException;
 
