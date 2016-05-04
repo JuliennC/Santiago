@@ -120,8 +120,24 @@ public class MainClientFxml extends Application implements Initializable{
     Canal_5_9, Canal_5_12, Canal_4_3, Canal_4_6, Canal_4_9, Canal_4_12, Canal_2_12, Canal_1_12, Canal_2_3,
     Canal_2_6, Canal_3_9, Canal_1_6, Canal_1_3, Canal_1_0, Canal_2_0, Canal_4_0, Canal_5_0, Canal_7_0,
     Canal_8_0, Canal_8_3, Canal_7_3, Canal_8_6, Canal_7_6, Canal_8_9;
+    
+    @FXML
+    ImageView constructeur1,constructeur2,constructeur3,constructeur4,constructeur5;
+    
+    @FXML
+    ImageView tourJoueur1,tourJoueur2,tourJoueur3,tourJoueur4,tourJoueur5;
+    
+    @FXML
+    ImageView tuile1,tuile2,tuile3,tuile4,tuile5;
+    
+    @FXML
+    ImageView pioche1,pioche2,pioche3,pioche4,pioche5;
+    
+    @FXML
+    Text nomJoueur1,nomJoueur2,nomJoueur3,nomJoueur4,nomJoueur5;
 	
-	
+    @FXML
+    Text soldeJoueur1,soldeJoueur2,soldeJoueur3,soldeJoueur4,soldeJoueur5;
 	/*------------------------------------------------------*/
 	
 	private static Stage stage;
@@ -241,8 +257,11 @@ public class MainClientFxml extends Application implements Initializable{
 								} else if(modif.equals(Static.modificationTuiles)){
 									MainClientFxml.controller.modifierTuiles();
 									modifs.remove(0);
+									
+								}else if(modif.equals(Static.modificationConstructeurDeCanal)){
+									MainClientFxml.controller.modifierConstructeur();
+									modifs.remove(0);
 								}
-
 						
 
 							}
@@ -531,6 +550,10 @@ public class MainClientFxml extends Application implements Initializable{
 //        }
 	}
 	
+	public void modifierConstructeur() throws IOException{
+		
+	}
+
 	public void afficherTuile(Tuile t, int posX, int posY) {
 //		ArrayList listeMarqueurs = t.getMarqueursActuels();
 //		

@@ -32,12 +32,7 @@
             <RowConstraints maxHeight="358.0" minHeight="10.0" prefHeight="215.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text fx:id="pseudoError" fill="#c30000" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-               <font>
-                  <Font name="Arial" size="24.0" />
-               </font>
-            </Text>
-            <Text fx:id="joueur3" fill="#6b6060" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Text fx:id="joueur3" fill="#ff46d1" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>
@@ -52,12 +47,12 @@
                   <Font name="Arial" size="24.0" />
                </font>
             </Text>
-            <Text fx:id="joueur4" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Text fx:id="joueur4" fill="#13c300" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>
             </Text>
-            <Text fx:id="joueur5" fill="BLUE" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Text fx:id="joueur5" fill="#780274" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>

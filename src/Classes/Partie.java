@@ -325,6 +325,7 @@ public class Partie implements Serializable{
 				}
 			}
 			System.out.println("Le nouveau constructeur de canal est: "+this.constructeurDeCanal.getName());
+			addModification(Static.modificationConstructeurDeCanal);
 		}
 
 		
