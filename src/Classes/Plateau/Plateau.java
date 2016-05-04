@@ -69,7 +69,7 @@ public class Plateau implements Serializable {
 		
 				
 		// On lance la fabrication des tuiles
-		fabriqueTuiles();
+		//fabriqueTuiles();
 		
 		
 		//On init la source	

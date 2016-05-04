@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainClientFxml">
+   <top>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vous avez des parties en cours" textAlignment="CENTER" wrappingWidth="525.21875" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Text>
+   </top>
+   <center>
+      <Accordion fx:id="accordeonPartiesCommencees" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <Pane prefHeight="63.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="boutonRejoindre" layoutX="198.0" layoutY="14.0" mnemonicParsing="false" onAction="#rejoindrePartieEnCours" prefHeight="35.0" prefWidth="204.0" text="Rejoindre" />
+            <Button fx:id="boutonSkip" layoutX="523.0" layoutY="18.0" mnemonicParsing="false" onAction="#skipPartiesEnCours" text="Skip -&gt;" />
+         </children>
+      </Pane>
+   </bottom>
+</BorderPane>
