@@ -111,15 +111,29 @@ public class MainClientFxml extends Application implements Initializable{
     Case_1_11, Case_8_11, Case_7_11, Case_5_11, Case_4_11, Case_2_11;
     
     HashMap<String, ImageView> caseMap = new HashMap<>();
+    
+    @FXML
+    ImageView Canal_1_0, Canal_2_0, Canal_6_2, Canal_5_2, Canal_4_2, Canal_3_2, Canal_2_2, Canal_1_2, Canal_8_0, Canal_7_0,
+    Canal_6_0, Canal_5_0, Canal_4_0, Canal_3_0, Canal_2_6, Canal_1_6, Canal_8_4, Canal_7_4, Canal_6_4, Canal_5_4, Canal_4_4,
+    Canal_3_4, Canal_2_4, Canal_1_4, Canal_8_2, Canal_8_6, Canal_7_6, Canal_6_6, Canal_5_6, Canal_4_6, Canal_3_6, Canal_6_1,
+    Canal_6_5, Canal_8_5, Canal_2_3, Canal_4_3, Canal_6_3, Canal_8_3, Canal_8_1, Canal_4_1, Canal_2_1, Canal_0_1, Canal_0_2,
+    Canal_0_3, Canal_0_4, Canal_0_5, Canal_0_6, Canal_2_5, Canal_4_5;
 
     @FXML
-    ImageView CanalVide_0_1, CanalVide_0_2, CanalVide_3_9, CanalVide_6_12, CanalVide_3_12, CanalVide_0_12,
-    CanalVide_9_9, CanalVide_6_9, CanalVide_0_9, CanalVide_9_6, CanalVide_6_6, CanalVide_3_6, CanalVide_0_6,
-    CanalVide_9_3, CanalVide_6_3, CanalVide_3_3, CanalVide_0_3, CanalVide_9_0, CanalVide_6_0, CanalVide_3_0,
-    CanalVide_9_12, CanalVide_0_0, Canal_1_9, Canal_7_9, Canal_8_12, Canal_7_12, Canal_5_3, Canal_5_6,
-    Canal_5_9, Canal_5_12, Canal_4_3, Canal_4_6, Canal_4_9, Canal_4_12, Canal_2_12, Canal_1_12, Canal_2_3,
-    Canal_2_6, Canal_3_9, Canal_1_6, Canal_1_3, Canal_1_0, Canal_2_0, Canal_4_0, Canal_5_0, Canal_7_0,
-    Canal_8_0, Canal_8_3, Canal_7_3, Canal_8_6, Canal_7_6, Canal_8_9;
+    ImageView MarqueurC0_0_1,  MarqueurC0_0_2, MarqueurC1_0_1, MarqueurC1_0_2, MarqueurC2_0_1, MarqueurC2_0_2, MarqueurC3_0_1,
+    MarqueurC4_2, MarqueurC3_0_2, MarqueurC4_0_2, MarqueurC1_1_1, MarqueurC0_1_2, MarqueurC0_1_1,  MarqueurC7_0_2,
+    MarqueurC7_0_1, MarqueurC6_0_2, MarqueurC6_0_1, MarqueurC5_0_2, MarqueurC5_0_1, MarqueurC4_0_1, MarqueurC1_1_2,
+    MarqueurC7_2_2, MarqueurC7_2_1, MarqueurC6_2_2, MarqueurC6_2_1, MarqueurC5_2_2, MarqueurC5_2_1, MarqueurC4_2_2,
+    MarqueurC4_2_1, MarqueurC3_2_2, MarqueurC3_2_1, MarqueurC2_2_2, MarqueurC2_2_1, MarqueurC1_2_2, MarqueurC1_2_1,
+    MarqueurC0_2_2, MarqueurC0_2_1, MarqueurC7_1_2, MarqueurC7_1_1, MarqueurC6_1_2, MarqueurC6_1_1, MarqueurC5_1_2,
+    MarqueurC5_1_1, MarqueurC4_1_2, MarqueurC4_1_1, MarqueurC3_1_2, MarqueurC3_1_1, MarqueurC2_1_2, MarqueurC2_1_1,
+    MarqueurC6_5_2, MarqueurC7_5_2, MarqueurC7_5_1, MarqueurC6_5_1, MarqueurC5_5_2, MarqueurC5_5_1, MarqueurC4_5_2,
+    MarqueurC4_5_1, MarqueurC3_5_2, MarqueurC3_5_1, MarqueurC2_5_2, MarqueurC2_5_1, MarqueurC1_5_2, MarqueurC1_5_1,
+    MarqueurC0_5_2, MarqueurC0_5_1, MarqueurC7_4_2, MarqueurC7_4_1, MarqueurC6_4_2, MarqueurC6_4_1, MarqueurC5_4_2,
+    MarqueurC5_4_1, MarqueurC4_4_2, MarqueurC4_4_1, MarqueurC3_4_2, MarqueurC3_4_1, MarqueurC2_4_2, MarqueurC2_4_1,
+    MarqueurC1_4_2, MarqueurC1_4_1, MarqueurC0_4_2, MarqueurC0_4_1, MarqueurC7_3_2, MarqueurC7_3_1, MarqueurC6_3_2,
+    MarqueurC6_3_1, MarqueurC5_3_2, MarqueurC5_3_1, MarqueurC4_3_2, MarqueurC4_3_1, MarqueurC3_3_2, MarqueurC3_3_1,
+    MarqueurC2_3_2, MarqueurC2_3_1, MarqueurC1_3_2, MarqueurC1_3_1, MarqueurC0_3_2, MarqueurC0_3_1;
 	
 	
 	/*------------------------------------------------------*/
