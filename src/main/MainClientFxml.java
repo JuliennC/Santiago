@@ -532,27 +532,37 @@ public class MainClientFxml extends Application implements Initializable{
 	}
 	
 	public void afficherTuile(Tuile t, int posX, int posY) {
-//		ArrayList listeMarqueurs = t.getMarqueursActuels();
+		ArrayList listeMarqueurs = t.getMarqueursActuels();
 //		
 	    String caseAModifier = "Case_"+posX+"_"+posY;
 	    
-		
-//		if(t.getIntituleDuChamps().equals("Champs de banane")) {
-//			if(listeMarqueurs.isEmpty()) {
-//				
-//			}
-//		} else if(t.getIntituleDuChamps().equals("Champs de canne")) {
-//			
-//		} else if(t.getIntituleDuChamps().equals("Champs de haricot")) {
-//			
-//		} else if(t.getIntituleDuChamps().equals("Champs de piment")) {
-//			
-//		} else if(t.getIntituleDuChamps().equals("Champs de pomme de terre")) {
-//			
-//		}
+		if(t.estDesert()) {
+			Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Dos_Tuiles.jpg"));
+			//this.Case_1_1.setImage(c);
+		} else {
+			if(t.getIntituleDuChamps().equals("Champs de banane")) {
+				if(listeMarqueurs.isEmpty()) {
+					//Afficher tuile sans marqueur
+					Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Bananes0.jpg"));
+				} else if(listeMarqueurs.size() == 1) {
+					Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Bananes1.jpg"));
+				} else if(listeMarqueurs.size() == 1) {
+					Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Bananes2.jpg"));
+				}
+			} else if(t.getIntituleDuChamps().equals("Champs de canne")) {
+				
+			} else if(t.getIntituleDuChamps().equals("Champs de haricot")) {
+				
+			} else if(t.getIntituleDuChamps().equals("Champs de piment")) {
+				
+			} else if(t.getIntituleDuChamps().equals("Champs de pomme de terre")) {
+				
+			}			
+		}
+
 		
 		System.out.println("Afficher Tuile : " +t.getIntituleDuChamps());
-		Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Bananes0.jpg"));
+		Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Bananes0.jpg"));
 		System.out.println("Case 1:" +this.Case_1_1);
 		System.out.println("Ici");
 		System.out.println("Image " +c);
