@@ -10,11 +10,16 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import Classes.Joueur;
 import Classes.Partie;
 import Classes.Static;
+import Classes.Plateau.Case;
+import Classes.Plateau.Plateau;
+import Classes.Tuile.Tuile;
+import Classes.Tuile.TuilePiment;
 import Exception.JoueurException;
 import Exception.PartieException;
 import javafx.application.Application;
@@ -36,9 +41,13 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -101,7 +110,6 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	/*------------- Fin attribut Salle D'attente --------------*/
 	
-	
 
 	/*-------------Début attribut Score -------------*/
 	
@@ -122,12 +130,64 @@ public class MainClientFxml extends Application implements Initializable{
 	Button boutonSkip, boutonRejoindre;
 	
 	/*------------- Fin attribut Rejoindre Parties Commencées --------------*/
-
 	
+	/*-------------Début attributs Plateau --------------------*/
+    @FXML
+    ImageView Case_1_1, Case_2_1, Case_4_1, Case_5_1, Case_7_1, Case_8_1, Case_1_2, Case_8_2, Case_7_2, Case_5_2,
+    Case_2_2, Case_4_2, Case_1_4, Case_8_4, Case_7_4, Case_5_4, Case_4_4, Case_2_4, Case_1_5, Case_8_5, Case_7_5,
+    Case_5_5, Case_4_5, Case_2_5, Case_7_7, Case_5_7, Case_4_7, Case_2_7, Case_1_7, Case_8_7, Case_1_8, Case_8_8,
+    Case_7_8, Case_5_8, Case_4_8, Case_2_8, Case_1_10, Case_8_10, Case_7_10, Case_5_10, Case_4_10, Case_2_10,
+    Case_1_11, Case_8_11, Case_7_11, Case_5_11, Case_4_11, Case_2_11;
+    
+    HashMap<String, ImageView> caseMap = new HashMap<>();
+    
+    @FXML
+    ImageView Canal_1_0, Canal_2_0, Canal_6_2, Canal_5_2, Canal_4_2, Canal_3_2, Canal_2_2, Canal_1_2, Canal_8_0, Canal_7_0,
+    Canal_6_0, Canal_5_0, Canal_4_0, Canal_3_0, Canal_2_6, Canal_1_6, Canal_8_4, Canal_7_4, Canal_6_4, Canal_5_4, Canal_4_4,
+    Canal_3_4, Canal_2_4, Canal_1_4, Canal_8_2, Canal_8_6, Canal_7_6, Canal_6_6, Canal_5_6, Canal_4_6, Canal_3_6, Canal_6_1,
+    Canal_6_5, Canal_8_5, Canal_2_3, Canal_4_3, Canal_6_3, Canal_8_3, Canal_8_1, Canal_4_1, Canal_2_1, Canal_0_1, Canal_0_2,
+    Canal_0_3, Canal_0_4, Canal_0_5, Canal_0_6, Canal_2_5, Canal_4_5;
+    
+    @FXML
+    ImageView constructeur1,constructeur2,constructeur3,constructeur4,constructeur5;
+    
+    @FXML
+    ImageView tourJoueur1,tourJoueur2,tourJoueur3,tourJoueur4,tourJoueur5;
+    
+    @FXML
+    ImageView tuile1,tuile2,tuile3,tuile4,tuile5;
+    
+    @FXML
+    ImageView pioche1,pioche2,pioche3,pioche4,pioche5;
+    
+    @FXML
+    Text nomJoueur1,nomJoueur2,nomJoueur3,nomJoueur4,nomJoueur5;
+
+    
+    ImageView MarqueurC0_0_1,  MarqueurC0_0_2, MarqueurC1_0_1, MarqueurC1_0_2, MarqueurC2_0_1, MarqueurC2_0_2, MarqueurC3_0_1,
+    MarqueurC4_2, MarqueurC3_0_2, MarqueurC4_0_2, MarqueurC1_1_1, MarqueurC0_1_2, MarqueurC0_1_1,  MarqueurC7_0_2,
+    MarqueurC7_0_1, MarqueurC6_0_2, MarqueurC6_0_1, MarqueurC5_0_2, MarqueurC5_0_1, MarqueurC4_0_1, MarqueurC1_1_2,
+    MarqueurC7_2_2, MarqueurC7_2_1, MarqueurC6_2_2, MarqueurC6_2_1, MarqueurC5_2_2, MarqueurC5_2_1, MarqueurC4_2_2,
+    MarqueurC4_2_1, MarqueurC3_2_2, MarqueurC3_2_1, MarqueurC2_2_2, MarqueurC2_2_1, MarqueurC1_2_2, MarqueurC1_2_1,
+    MarqueurC0_2_2, MarqueurC0_2_1, MarqueurC7_1_2, MarqueurC7_1_1, MarqueurC6_1_2, MarqueurC6_1_1, MarqueurC5_1_2,
+    MarqueurC5_1_1, MarqueurC4_1_2, MarqueurC4_1_1, MarqueurC3_1_2, MarqueurC3_1_1, MarqueurC2_1_2, MarqueurC2_1_1,
+    MarqueurC6_5_2, MarqueurC7_5_2, MarqueurC7_5_1, MarqueurC6_5_1, MarqueurC5_5_2, MarqueurC5_5_1, MarqueurC4_5_2,
+    MarqueurC4_5_1, MarqueurC3_5_2, MarqueurC3_5_1, MarqueurC2_5_2, MarqueurC2_5_1, MarqueurC1_5_2, MarqueurC1_5_1,
+    MarqueurC0_5_2, MarqueurC0_5_1, MarqueurC7_4_2, MarqueurC7_4_1, MarqueurC6_4_2, MarqueurC6_4_1, MarqueurC5_4_2,
+    MarqueurC5_4_1, MarqueurC4_4_2, MarqueurC4_4_1, MarqueurC3_4_2, MarqueurC3_4_1, MarqueurC2_4_2, MarqueurC2_4_1,
+    MarqueurC1_4_2, MarqueurC1_4_1, MarqueurC0_4_2, MarqueurC0_4_1, MarqueurC7_3_2, MarqueurC7_3_1, MarqueurC6_3_2,
+    MarqueurC6_3_1, MarqueurC5_3_2, MarqueurC5_3_1, MarqueurC4_3_2, MarqueurC4_3_1, MarqueurC3_3_2, MarqueurC3_3_1,
+    MarqueurC2_3_2, MarqueurC2_3_1, MarqueurC1_3_2, MarqueurC1_3_1, MarqueurC0_3_2, MarqueurC0_3_1;
+	
+    @FXML
+    Text soldeJoueur1,soldeJoueur2,soldeJoueur3,soldeJoueur4,soldeJoueur5;
+	/*------------------------------------------------------*/
 	
 	private static Stage stage;
+	private static String name;
 	
-	
+	private static MainClientFxml controller;
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
@@ -235,7 +295,8 @@ System.out.println("non term : "+partiesNonTerminees);
 	/**
 	 * Fonction qui va chercher les informations de la partie
 	 */
-	public void chercheInfoPartie(final MainClientFxml controller, final Partie p) throws IOException{
+	public void chercheInfoPartie(final Partie p) throws IOException{
+
 
 		Service<Void> updateSalle = new Service<Void>(){
 			protected Task<Void> createTask() {
@@ -274,14 +335,14 @@ System.out.println("non term : "+partiesNonTerminees);
 									//System.out.println("---- joueur");
 									//System.out.println("Nouveau joueur : "+p.getJoueursConnectes());
 								
-							        controller.changeText(partie);
-																			    
+							        MainClientFxml.controller.changeText(partie);
+													
 									modifs.remove(0);
 
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
 							
-										controller.lancementPlateau();
+									MainClientFxml.controller.lancementPlateau();
 										modifs.remove(0);
 							
 								} else if(modif.equals(Static.modificationJoueurDeconnection)){
@@ -290,15 +351,19 @@ System.out.println("non term : "+partiesNonTerminees);
 									
 							        controller.changeText(partie);
 									modifs.remove(0);
+								} else if(modif.equals(Static.modificationTuiles)){
 
-								} else {
+									System.out.println("Modification des tuiles");
+									MainClientFxml.controller.metAJourAffichageTuiles();
+									modifs.remove(0);
 									
+								}else if(modif.equals(Static.modificationConstructeurDeCanal)){
+									MainClientFxml.controller.modifierConstructeur();
+									modifs.remove(0);
+								} else {
 									System.out.println("Modif non reconnue");
 								}
-						
-
 							}
-							
 						}
 						
 					}
@@ -391,9 +456,9 @@ System.out.println("non term : "+partiesNonTerminees);
 	public void createPartie(ActionEvent e) throws NumberFormatException, NotBoundException, PartieException, JoueurException, IOException, InterruptedException{
 		Button b = (Button)e.getSource();
 		RadioButton radio = (RadioButton)this.nbJoueur.getSelectedToggle();
+		name = this.nomPartie.getText();
+		Partie p = serveur.creerPartie(name ,Integer.parseInt(radio.getText()));
 		
-		Partie p = serveur.creerPartie(this.nomPartie.getText(),Integer.parseInt(radio.getText()));
-		p.getPlateau().fabriqueTuiles();
 		serveur.ajouterPartieListe(p);
 
 		p = serveur.rejoindrePartie(this.nomPartie.getText(), client);
@@ -492,7 +557,7 @@ System.out.println("non term : "+partiesNonTerminees);
         }
 		try {
 			Button b = (Button) e.getSource();
-			salleDAttente((Stage)b.getScene().getWindow(),nomPartie);
+			salleDAttente((Stage)b.getScene().getWindow(),name);
 		}
 		catch (IOException e1) {
 			e1.printStackTrace();
@@ -616,29 +681,29 @@ System.out.println("non term : "+partiesNonTerminees);
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
         
         BorderPane root = (BorderPane) fxmlLoader.load();
-        MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
+        this.controller = (MainClientFxml)fxmlLoader.getController();
         controller.changeText(partie);
         final Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Santiago");
         stage.show();
         
-        chercheInfoPartie(controller, partie);
+        chercheInfoPartie(partie);
+
+        
 	}
 	
 	public void lancementPlateau() throws IOException{
-
+		System.out.println("Lanchement Plateau");
+		
 		final URL url = getClass().getResource("../view/Plateau.fxml");
 
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
         
         final BorderPane root = (BorderPane) fxmlLoader.load();
+        this.controller = (MainClientFxml)fxmlLoader.getController();
+
         stage.getScene().setRoot(root);
-        
-        /*  final Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Santiago");
-        stage.show();*/
 	}
 	
 	public void lancementScore(Partie partie) throws IOException{
@@ -681,6 +746,125 @@ System.out.println("non term : "+partiesNonTerminees);
 			}
 			i++;
 		}
+	}
+	
+	public void modifierConstructeur() throws IOException{
+		
+	}
+
+	public void afficherTuile(Tuile t, int posX, int posY) {
+		ArrayList listeMarqueurs = t.getMarqueursActuels();
+//		
+	    String caseAModifier = "Case_"+posX+"_"+posY;
+	    
+		if(t.estDesert()) {
+			Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Dos_Tuiles.jpg"));
+			//this.Case_1_1.setImage(c);
+		} else {
+			if(t.getIntituleDuChamps().equals("Champs de banane")) {
+				if(listeMarqueurs.isEmpty()) {
+					Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Bananes0.jpg"));
+				} else if(listeMarqueurs.size() == 1) {
+					Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Bananes1.jpg"));
+				} else if(listeMarqueurs.size() == 1) {
+					Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Bananes2.jpg"));
+				}
+			} else if(t.getIntituleDuChamps().equals("Champs de canne")) {
+				
+			} else if(t.getIntituleDuChamps().equals("Champs de haricot")) {
+				
+			} else if(t.getIntituleDuChamps().equals("Champs de piment")) {
+				
+			} else if(t.getIntituleDuChamps().equals("Champs de pomme de terre")) {
+				
+			}			
+		}
+
+		
+		System.out.println("Afficher Tuile : " +t.getIntituleDuChamps());
+		Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Bananes0.jpg"));
+		System.out.println("Case 1:" +this.Case_1_1);
+		System.out.println("Ici");
+		System.out.println("Image " +c);
+		//System.out.println("Case 2:" +this.Case_1_1.getId());
+		this.Case_1_1.setImage(c);
+		System.out.println("Ici 2");
+		//System.out.println("Case 3:" +this.Case_1_1);
+		
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Fonction appelé lorsque l'utilisateur clique sur une case pour poser une tuile
+	 * @throws RemoteException 
+	 */
+	public void selectionneCase(MouseEvent e) throws RemoteException{
+		System.out.println("Tile pressed ");
+		//On récupère l'imageview
+		ImageView view = (ImageView) e.getSource();
+		
+		//On récupère l'id de l'image
+		String id = view.getId();
+		
+		//On parse l'id pour obtenir les coordonées de la case
+		String[] res = id.split("_");
+		
+		int x = Integer.parseInt(res[1]);
+		int y = Integer.parseInt(res[2]);
+		
+		
+		//On dit au server d'ajouter la tuile
+        TuilePiment tuile = new TuilePiment();
+        
+        //On prévient du changmenet
+        serveur.poseTuileAvecXY(name, tuile, x, y);
+        
+
+	}
+	
+	
+	/**
+	 * Fonction qui met à jour le plateau en fonction des tuiles
+	 * @throws RemoteException 
+	 */
+	public void metAJourAffichageTuiles() throws RemoteException{
+		
+		//On récupère la case
+        Partie p = serveur.getPartieByName(name);
+        Case[][] tabCases = p.getPlateau().getTabPlateau();
+        
+        //On parcours les cases
+        for(int y=0 ; y < tabCases.length ; y++){
+        	
+        	Case[] ligne = tabCases[y];
+        	
+        	for(int x=0 ; x < tabCases[y].length ; x++){
+        		
+        		Case c = ligne[x];
+        		
+        		Tuile tuile = c.getContientTuile();
+        	
+        		if(tuile != null){
+        			
+        			//On construit l'id de l'imageview que l'on veut
+        			String id = "#Case_"+y+"_"+x;
+        			
+        			//On met l'image view
+        			Scene scene = stage.getScene();
+        			ImageView view = (ImageView) scene.lookup(id);
+        			
+        			Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Bananes0.jpg"));
+
+        			view.setImage(image);
+        			
+        		}
+        		
+        	}        	
+        }
+		
 	}
 	
 	public static void main(String[] args) {

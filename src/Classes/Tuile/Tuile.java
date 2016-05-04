@@ -125,22 +125,6 @@ public abstract class Tuile implements Serializable {
 		return nombreMarqueursNecessaires;
 	}
 	
-	
-	
-	/**
-	 * Fonction qui retourne l'intitulé du champs
-	 * 
-	 * @param : void
-	 * @return : String
-	 * 			
-	 */
-	public String getIntitule(){
-		
-		return intituleDuChamps;
-	}
-	
-	
-	
 	/**
 	 * Fonction qui retourne la liste des marqueurs actuellement sur la tuile
 	 * 
