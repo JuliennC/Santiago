@@ -128,11 +128,7 @@ public class Partie implements Serializable{
 		if(nomPartie != null){
 			setPartieACommence(true);
 			listeJoueurs();
-
 			while(! partiEstTerminee() ){
-				System.out.println("==================================");
-				System.out.println(this.listeDesJoueur.size());
-				System.out.println("==================================");
 				
 				lancerSauvegarde();
 				
@@ -205,7 +201,7 @@ public class Partie implements Serializable{
 	 */
 	
 	public boolean partiEstTerminee(){
-		
+		System.out.println(plateau.getListeTuiles().size());
 		return (plateau.getListeTuiles().size() == 0);
 	}
 	

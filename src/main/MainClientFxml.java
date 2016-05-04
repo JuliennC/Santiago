@@ -8,6 +8,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 import Classes.Joueur;
@@ -99,9 +101,17 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	/*------------- Fin attribut Salle D'attente --------------*/
 	
+	/*-------------Début attribut Score -------------*/
+	
+	@FXML
+	Text gagnant,deuxieme,troisieme,quatrieme,cinquieme;
+	
+	/*------------- Fin attribut Score --------------*/
+	
 	private static Stage stage;
+	
+	
 	@Override
-
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
 			this.serveur = (SantiagoInterface)Naming.lookup("rmi://127.0.0.1:44000/ABC");
@@ -258,10 +268,12 @@ public class MainClientFxml extends Application implements Initializable{
 		
 		for(Partie p : serveur.voirParties()){
 			boolean b = false;
-			for(Joueur j : p.getListeDesJoueur()){
-				if(j.getPseudo().equals(client.getJoueur().getPseudo())){
-					b = true;
-					break;
+			if(p.getListeDesJoueur() != null){
+				for(Joueur j : p.getListeDesJoueur()){
+					if(j.getPseudo().equals(client.getJoueur().getPseudo())){
+						b = true;
+						break;
+					}
 				}
 			}
 			if(b){
@@ -301,7 +313,7 @@ public class MainClientFxml extends Application implements Initializable{
 		RadioButton radio = (RadioButton)this.nbJoueur.getSelectedToggle();
 		
 		Partie p = serveur.creerPartie(this.nomPartie.getText(),Integer.parseInt(radio.getText()));
-		
+		p.getPlateau().fabriqueTuiles();
 		serveur.ajouterPartieListe(p);
 
 		p = serveur.rejoindrePartie(this.nomPartie.getText(), client);
@@ -310,12 +322,26 @@ public class MainClientFxml extends Application implements Initializable{
 			
 	}
 	
-	
+	/**
+	 * Cette méthode permet de charger une partie et de lancer la salle d'attente
+	 * si la partie est finie il charge l'interface des scores
+	 * 
+	 * @param e
+	 * @throws RemoteException
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws PartieException
+	 * @throws JoueurException
+	 * @throws InterruptedException
+	 */
 	public void chargerPartie(ActionEvent e) throws RemoteException, FileNotFoundException, IOException, PartieException, JoueurException, InterruptedException{
 		Button button = (Button) e.getSource();
 		Partie p = client.charger(this.nomPartieChargement.getText());
 		if(p == null){
 			this.errorNomChargement.setText("La partie n'éxiste pas");
+		}
+		else if(p.partiEstTerminee()){
+			lancementScore(p);
 		}
 		else{
 			boolean b = false;
@@ -490,7 +516,6 @@ public class MainClientFxml extends Application implements Initializable{
         chercheInfoPartie(controller, partie);
 	}
 	
-	
 	public void lancementPlateau() throws IOException{
 
 		final URL url = getClass().getResource("../view/Plateau.fxml");
@@ -504,6 +529,48 @@ public class MainClientFxml extends Application implements Initializable{
         stage.setScene(scene);
         stage.setTitle("Santiago");
         stage.show();*/
+	}
+	
+	public void lancementScore(Partie partie) throws IOException{
+		final URL url = getClass().getResource("../view/Score.fxml");
+
+        final FXMLLoader fxmlLoader = new FXMLLoader(url);
+        
+        final BorderPane root = (BorderPane) fxmlLoader.load();
+        MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
+        controller.affichageDesScores(partie);
+        stage.getScene().setRoot(root);
+	}
+
+	public void affichageDesScores(Partie partie){
+		Collections.sort(partie.getListeDesJoueur(), new Comparator<Joueur>() {
+	        public int compare(Joueur j1, Joueur j2)
+	        {
+	        	Integer solde1 = (Integer)j1.getSolde();
+	        	Integer solde2 = (Integer)j2.getSolde();
+	            return  solde1.compareTo(solde2);
+	        }
+	    });
+		Collections.reverse(partie.getListeDesJoueur());
+		int i = 0;
+		for(Joueur j : partie.getListeDesJoueur()){
+			if(i == 0){
+				this.gagnant.setText("Le gagnant est : " + j.getPseudo() + "\navec un score de : " + j.getSolde());
+			}
+			else if(i == 1){
+				this.deuxieme.setText("Le deuxième est : " + j.getPseudo() + "\navec un score de : " + j.getSolde());
+			}
+			else if(i == 2){
+				this.troisieme.setText("Le troisième est : " + j.getPseudo() + " \navec un score de : " + j.getSolde());	
+			}
+			else if(i == 3){
+				this.quatrieme.setText("Le quatrième est : " + j.getPseudo() + " avec un score de : " + j.getSolde());
+			}
+			else if(i == 4){
+				this.cinquieme.setText("Le cinquième est : " + j.getPseudo() + " avec un score de : " + j.getSolde());
+			}
+			i++;
+		}
 	}
 	
 	public static void main(String[] args) {

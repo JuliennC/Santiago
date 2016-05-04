@@ -896,6 +896,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	public Partie charger(String fileName) throws RemoteException, IOException {
 		try{
 			Partie pChargee = (Partie) XMLTools.decodeFromFile(fileName);
+			System.out.println(pChargee.getPlateau().getListeTuiles().size());
 			if(pChargee != null) {
 				System.out.println("Chargement de la partie " +pChargee.getNomPartie());
 				return pChargee;
