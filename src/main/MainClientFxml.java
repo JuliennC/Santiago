@@ -110,7 +110,7 @@ public class MainClientFxml extends Application implements Initializable{
     Case_7_8, Case_5_8, Case_4_8, Case_2_8, Case_1_10, Case_8_10, Case_7_10, Case_5_10, Case_4_10, Case_2_10,
     Case_1_11, Case_8_11, Case_7_11, Case_5_11, Case_4_11, Case_2_11;
     
-    HashMap<ImageView, String> caseMap = new HashMap<>();
+    HashMap<String, ImageView> caseMap = new HashMap<>();
 
     @FXML
     ImageView CanalVide_0_1, CanalVide_0_2, CanalVide_3_9, CanalVide_6_12, CanalVide_3_12, CanalVide_0_12,
@@ -147,7 +147,6 @@ public class MainClientFxml extends Application implements Initializable{
 	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		caseMap.put(this.Case_1_1, "Case_1_1");
 		final URL url = getClass().getResource("../view/Accueil.fxml");
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
         final BorderPane root = (BorderPane) fxmlLoader.load();
@@ -535,7 +534,7 @@ public class MainClientFxml extends Application implements Initializable{
 	public void afficherTuile(Tuile t, int posX, int posY) {
 //		ArrayList listeMarqueurs = t.getMarqueursActuels();
 //		
-//	    String caseAModifier = "Case_"+posX+"_"+posY;
+	    String caseAModifier = "Case_"+posX+"_"+posY;
 	    
 		
 //		if(t.getIntituleDuChamps().equals("Champs de banane")) {
