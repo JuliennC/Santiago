@@ -289,412 +289,312 @@
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_3_10" GridPane.columnIndex="10" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_7_2" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="10" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_0_1" GridPane.columnIndex="1">
+            <ImageView fx:id="Canal_1_0" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_0_2" GridPane.columnIndex="2">
+            <ImageView fx:id="Canal_2_0" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="2">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_3_8" GridPane.columnIndex="8" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_6_2" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_3_7" GridPane.columnIndex="7" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_5_2" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_3_5" GridPane.columnIndex="5" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_4_2" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_3_4" GridPane.columnIndex="4" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_3_2" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_3_2" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_2_2" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_3_1" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_1_2" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="CanalVide_0_" GridPane.columnIndex="11">
+            <ImageView fx:id="Canal_8_0" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="11" GridPane.halignment="LEFT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_0_10" GridPane.columnIndex="10">
+            <ImageView fx:id="Canal_7_0" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="10" GridPane.halignment="RIGHT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_0_8" GridPane.columnIndex="8">
+            <ImageView fx:id="Canal_6_0" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="8" GridPane.halignment="LEFT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_0_7" GridPane.columnIndex="7">
+            <ImageView fx:id="Canal_5_0" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="7" GridPane.halignment="RIGHT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_0_5" GridPane.columnIndex="5">
+            <ImageView fx:id="Canal_4_0" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="5" GridPane.halignment="LEFT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_0_4" GridPane.columnIndex="4">
+            <ImageView fx:id="Canal_3_0" fitHeight="12.0" fitWidth="93.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_9_2" GridPane.columnIndex="2" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_2_6" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_9_1" GridPane.columnIndex="1" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_1_6" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_11" GridPane.columnIndex="11" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_8_4" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="11" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_10" GridPane.columnIndex="10" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_7_4" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="10" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_8" GridPane.columnIndex="8" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_6_4" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_7" GridPane.columnIndex="7" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_5_4" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_5" GridPane.columnIndex="5" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_4_4" fitHeight="12.0" fitWidth="93.0" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_4" GridPane.columnIndex="4" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_3_4" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_2" GridPane.columnIndex="2" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_2_4" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_1" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_1_4" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_3_11" GridPane.columnIndex="11" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_8_2" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="11" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_9_11" GridPane.columnIndex="11" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_8_6" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="11" GridPane.halignment="LEFT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_9_10" GridPane.columnIndex="10" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_7_6" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="10" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_9_8" GridPane.columnIndex="8" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_6_6" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_9_7" GridPane.columnIndex="7" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_5_6" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_9_5" GridPane.columnIndex="5" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_4_6" fitHeight="12.0" fitWidth="93.0" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_9_4" GridPane.columnIndex="4" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_3_6" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_3_9" GridPane.columnIndex="9" GridPane.rowIndex="3">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_6_12" GridPane.columnIndex="12" GridPane.rowIndex="6">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_3_12" GridPane.columnIndex="12" GridPane.rowIndex="3">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_0_12" GridPane.columnIndex="12">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_9_9" GridPane.columnIndex="9" GridPane.rowIndex="9">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_6_9" GridPane.columnIndex="9" GridPane.rowIndex="6">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_0_9" GridPane.columnIndex="9">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_9_6" GridPane.columnIndex="6" GridPane.rowIndex="9">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_6_6" GridPane.columnIndex="6" GridPane.rowIndex="6">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_3_6" GridPane.columnIndex="6" GridPane.rowIndex="3">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="CanalVide_0_6" GridPane.columnIndex="6">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_9_3" GridPane.columnIndex="3" GridPane.rowIndex="9">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_6_3" GridPane.columnIndex="3" GridPane.rowIndex="6">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_3_3" GridPane.columnIndex="3" GridPane.rowIndex="3">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_0_3" GridPane.columnIndex="3">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_9_0" GridPane.rowIndex="9">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_6_0" GridPane.rowIndex="6">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_3_0" GridPane.rowIndex="3">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_9_12" GridPane.columnIndex="12" GridPane.rowIndex="9">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_0_0" layoutX="10.0" layoutY="182.0">
-               <image>
-                  <Image url="@Images/canalAngleVide.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Canal_1_9" GridPane.columnIndex="9" GridPane.rowIndex="1">
+            <ImageView fx:id="Canal_6_1" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="9" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_7_9" GridPane.columnIndex="9" GridPane.rowIndex="7">
+            <ImageView fx:id="Canal_6_5" fitHeight="91.0" fitWidth="12.0" GridPane.columnIndex="9" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_12" GridPane.columnIndex="12" GridPane.rowIndex="8">
+            <ImageView fx:id="Canal_8_6" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="12" GridPane.rowIndex="8" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_7_12" GridPane.columnIndex="12" GridPane.rowIndex="7">
+            <ImageView fx:id="Canal_8_5" fitHeight="91.0" fitWidth="12.0" GridPane.columnIndex="12" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_5_3" GridPane.columnIndex="3" GridPane.rowIndex="5">
+            <ImageView fx:id="Canal_2_4" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="3" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_5_6" GridPane.columnIndex="6" GridPane.rowIndex="5">
+            <ImageView fx:id="Canal_4_4" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="6" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_5_9" GridPane.columnIndex="9" GridPane.rowIndex="5">
+            <ImageView fx:id="Canal_6_4" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="9" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_5_12" GridPane.columnIndex="12" GridPane.rowIndex="5">
+            <ImageView fx:id="Canal_8_4" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="12" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_3" GridPane.columnIndex="3" GridPane.rowIndex="4">
+            <ImageView fx:id="Canal_2_3" fitHeight="91.0" fitWidth="12.0" GridPane.columnIndex="3" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_6" GridPane.columnIndex="6" GridPane.rowIndex="4">
+            <ImageView fx:id="Canal_4_3" fitHeight="91.0" fitWidth="12.0" GridPane.columnIndex="6" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_9" GridPane.columnIndex="9" GridPane.rowIndex="4">
+            <ImageView fx:id="Canal_6_3" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="9" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_12" GridPane.columnIndex="12" GridPane.rowIndex="4">
+            <ImageView fx:id="Canal_8_3" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="12" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_12" GridPane.columnIndex="12" GridPane.rowIndex="2">
+            <ImageView fx:id="Canal_8_2" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="12" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_1_12" GridPane.columnIndex="12" GridPane.rowIndex="1">
+            <ImageView fx:id="Canal_8_1" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="12" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_3" GridPane.columnIndex="3" GridPane.rowIndex="2">
+            <ImageView fx:id="Canal_2_2" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_6" GridPane.columnIndex="6" GridPane.rowIndex="2">
+            <ImageView fx:id="Canal_4_2" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="6" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_9" GridPane.columnIndex="9" GridPane.rowIndex="2">
+            <ImageView fx:id="Canal_6_2" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="9" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_1_6" GridPane.columnIndex="6" GridPane.rowIndex="1">
+            <ImageView fx:id="Canal_4_1" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="6" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_1_3" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <ImageView fx:id="Canal_2_1" fitHeight="93.0" fitWidth="12.0" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_1_0" GridPane.rowIndex="1">
+            <ImageView fx:id="Canal_0_1" fitHeight="92.0" fitWidth="12.0" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_0" GridPane.rowIndex="2">
+            <ImageView fx:id="Canal_0_2" fitHeight="92.0" fitWidth="12.0" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_0" GridPane.rowIndex="4">
+            <ImageView fx:id="Canal_0_3" fitHeight="91.0" fitWidth="12.0" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_5_0" GridPane.rowIndex="5">
+            <ImageView fx:id="Canal_0_4" fitHeight="92.0" fitWidth="12.0" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_7_0" GridPane.rowIndex="7">
+            <ImageView fx:id="Canal_0_5" fitHeight="91.0" fitWidth="12.0" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_0" GridPane.rowIndex="8">
+            <ImageView fx:id="Canal_0_6" fitHeight="92.0" fitWidth="12.0" GridPane.rowIndex="8" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_3" GridPane.columnIndex="3" GridPane.rowIndex="8">
+            <ImageView fx:id="Canal_2_6" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="3" GridPane.rowIndex="8" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_7_3" GridPane.columnIndex="3" GridPane.rowIndex="7">
+            <ImageView fx:id="Canal_2_5" fitHeight="91.0" fitWidth="12.0" GridPane.columnIndex="3" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_6" GridPane.columnIndex="6" GridPane.rowIndex="8">
+            <ImageView fx:id="Canal_4_6" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="6" GridPane.rowIndex="8" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_7_6" GridPane.columnIndex="6" GridPane.rowIndex="7">
+            <ImageView fx:id="Canal_4_5" fitHeight="91.0" fitWidth="12.0" GridPane.columnIndex="6" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_9" GridPane.columnIndex="9" GridPane.rowIndex="8">
+            <ImageView fx:id="Canal_6_6" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="9" GridPane.rowIndex="8" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
@@ -804,82 +704,82 @@
                   <Insets bottom="50.0" left="25.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_12" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC7_2_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="25.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_13" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC7_2_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="5.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_14" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC6_2_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="25.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_15" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC6_2_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="5.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_16" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC5_2_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="25.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_17" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC5_2_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="5.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_18" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC4_2_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="25.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_19" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC4_2_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="5.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_110" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC3_2_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="25.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_111" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC3_2_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="5.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_112" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC2_2_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="25.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_113" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC2_2_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="5.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_114" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC1_2_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="25.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_115" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC1_2_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="5.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_116" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC0_2_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="25.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_117" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <ImageView fx:id="MarqueurC0_2_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="50.0" left="5.0" />
                </GridPane.margin>
@@ -944,54 +844,246 @@
                   <Insets bottom="50.0" left="5.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="MarqueurC1_1_121" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_122" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_123" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_124" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_125" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_126" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_127" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_128" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_129" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_1210" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_1211" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_1212" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_1213" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_1214" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_1215" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_1216" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <ImageView fx:id="MarqueurC1_1_1217" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1218" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1219" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1220" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1221" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1222" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1223" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1224" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1225" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1226" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1227" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1228" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1229" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1230" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1231" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1232" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <ImageView fx:id="MarqueurC1_1_1233" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1234" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1235" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1236" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1237" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1238" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1239" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1240" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1241" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1242" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1243" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1244" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1245" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1246" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1247" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <ImageView fx:id="MarqueurC1_1_1248" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ImageView fx:id="MarqueurC6_5_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC7_5_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC7_5_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC6_5_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC5_5_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC5_5_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC4_5_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC4_5_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC3_5_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC3_5_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC2_5_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC2_5_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC1_5_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC1_5_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC0_5_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC0_5_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC7_4_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC7_4_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC6_4_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC6_4_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC5_4_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC5_4_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC4_4_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC4_4_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC3_4_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC3_4_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC2_4_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC2_4_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC1_4_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC1_4_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC0_4_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC0_4_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC7_3_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC7_3_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC6_3_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC6_3_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC5_3_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC5_3_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC4_3_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC4_3_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC3_3_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC3_3_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC2_3_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC2_3_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC1_3_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC1_3_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC0_3_2" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="25.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="MarqueurC0_3_1" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="5.0" />
+               </GridPane.margin>
+            </ImageView>
          </children>
       </GridPane>
    </center>

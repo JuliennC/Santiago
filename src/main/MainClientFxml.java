@@ -542,7 +542,6 @@ public class MainClientFxml extends Application implements Initializable{
 		} else {
 			if(t.getIntituleDuChamps().equals("Champs de banane")) {
 				if(listeMarqueurs.isEmpty()) {
-					//Afficher tuile sans marqueur
 					Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Bananes0.jpg"));
 				} else if(listeMarqueurs.size() == 1) {
 					Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Bananes1.jpg"));
