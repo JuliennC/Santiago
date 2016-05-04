@@ -326,7 +326,7 @@ System.out.println("non term : "+partiesNonTerminees);
 			startChoixPartie((Stage)this.valider.getScene().getWindow());
 		}
 		else{
-			this.pseudoError.setText("Pseudo invalide");
+			this.pseudoError.setText("Pseudo invalide ou mot de passe incorrecte.");
 		}
 	}
 	
