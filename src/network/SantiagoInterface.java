@@ -10,6 +10,7 @@ import Classes.Joueur;
 import Classes.Partie;
 import Classes.Plateau.Canal;
 import Classes.Plateau.Plateau;
+import Classes.Tuile.Tuile;
 import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
@@ -49,8 +50,9 @@ public interface SantiagoInterface extends Remote{
 	public int[] joueurChoisitPlacement() throws RemoteException;
 
 	public void afficheErreur(String message) throws RemoteException;
-	
-	
+	//public void addNotificationAPArtie(String nomPartie, int modif) throws RemoteException;
+	public void poseTuileAvecXY(String nomPartie, Tuile tuile, int x, int y) throws RemoteException;
+
 	public int propositionPhase4() throws RemoteException;
 
 		public int joueurFaitPotDeVin() throws RemoteException;

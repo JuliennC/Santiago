@@ -23,7 +23,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import Classes.Joueur;
 import Classes.Partie;
 import Classes.Plateau.Canal;
+import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
+import Classes.Tuile.Tuile;
 import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
@@ -208,10 +210,31 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	
 	
 	
+	/*
+	 * Fonction qui avertie une partie d'une modification
+	 *
+	public void addNotificationAPArtie(String nomPartie, int modif) throws RemoteException{
+		this.verifieServer();
+		
+		Partie p = getPartieByName(nomPartie);
+		p.addModification(modif);
+	
+	}*/
 	
 	
 	
-	
+	/**
+	 * Fonction qui joute une tuile au plateau d'une partie
+	 */
+	public void poseTuileAvecXY(String nomPartie, Tuile tuile, int x, int y) throws RemoteException{
+		
+		Partie p = getPartieByName(nomPartie);
+		
+		Case c = p.getPlateau().getTabPlateau()[y][x];
+        c.setContientTuile(tuile);
+
+        p.addModification(Static.modificationTuiles);
+	}
 	
 	
 	

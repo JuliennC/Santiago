@@ -16,6 +16,7 @@ import Classes.Static;
 import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
 import Classes.Tuile.Tuile;
+import Classes.Tuile.TuilePiment;
 import Exception.JoueurException;
 import Exception.PartieException;
 import javafx.application.Application;
@@ -43,6 +44,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -224,7 +226,7 @@ public class MainClientFxml extends Application implements Initializable{
 
 								
 							        MainClientFxml.controller.changeText(partie);
-																			    
+													
 									modifs.remove(0);
 
 							
@@ -239,7 +241,9 @@ public class MainClientFxml extends Application implements Initializable{
 									modifs.remove(0);
 
 								} else if(modif.equals(Static.modificationTuiles)){
-									MainClientFxml.controller.modifierTuiles();
+
+									System.out.println("Modification des tuiles");
+									MainClientFxml.controller.metAJourAffichageTuiles();
 									modifs.remove(0);
 								}
 
@@ -489,7 +493,7 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	
 	public void lancementPlateau() throws IOException{
-
+		System.out.println("Lanchement Plateau");
 		final URL url = getClass().getResource("../view/Plateau.fxml");
 
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -502,6 +506,8 @@ public class MainClientFxml extends Application implements Initializable{
         stage.setTitle("Santiago");
         stage.show();*/
 	}
+	
+	
 	
 	public void modifierTuiles() throws IOException {  
 		System.out.println(name);
@@ -562,6 +568,81 @@ public class MainClientFxml extends Application implements Initializable{
 		//System.out.println("Case 3:" +this.Case_1_1);
 		
 	}
+	
+	
+	
+	
+	
+	/**
+	 * Fonction appelé lorsque l'utilisateur clique sur une case pour poser une tuile
+	 * @throws RemoteException 
+	 */
+	public void selectionneCase(MouseEvent e) throws RemoteException{
+		System.out.println("Tile pressed ");
+		//On récupère l'imageview
+		ImageView view = (ImageView) e.getSource();
+		
+		//On récupère l'id de l'image
+		String id = view.getId();
+		
+		//On parse l'id pour obtenir les coordonées de la case
+		String[] res = id.split("_");
+		
+		int x = Integer.parseInt(res[1]);
+		int y = Integer.parseInt(res[2]);
+		
+		
+		//On dit au server d'ajouter la tuile
+        TuilePiment tuile = new TuilePiment();
+        
+        //On prévient du changmenet
+        serveur.poseTuileAvecXY(name, tuile, x, y);
+        
+
+	}
+	
+	
+	/**
+	 * Fonction qui met à jour le plateau en fonction des tuiles
+	 * @throws RemoteException 
+	 */
+	public void metAJourAffichageTuiles() throws RemoteException{
+		
+		//On récupère la case
+        Partie p = serveur.getPartieByName(name);
+        Case[][] tabCases = p.getPlateau().getTabPlateau();
+        
+        //On parcours les cases
+        for(int y=0 ; y < tabCases.length ; y++){
+        	
+        	Case[] ligne = tabCases[y];
+        	
+        	for(int x=0 ; x < tabCases[y].length ; x++){
+        		
+        		Case c = ligne[x];
+        		
+        		Tuile tuile = c.getContientTuile();
+        	
+        		if(tuile != null){
+        			
+        			//On construit l'id de l'imageview que l'on veut
+        			String id = "#Case_"+y+"_"+x;
+        			
+        			//On met l'image view
+        			Scene scene = stage.getScene();
+        			ImageView view = (ImageView) scene.lookup(id);
+        			
+        			Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Bananes0.jpg"));
+
+        			view.setImage(image);
+        			
+        		}
+        		
+        	}        	
+        }
+		
+	}
+	
 	
 	public static void main(String[] args) {
 		Application.launch(MainClientFxml.class,args);

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -8,7 +12,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="825.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainClientFxml">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="825.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainClientFxml">
    <top>
       <ImageView fitHeight="167.0" fitWidth="950.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
@@ -49,7 +53,7 @@
             <Insets left="250.0" right="50.0" top="50.0" />
          </BorderPane.margin>
          <children>
-            <ImageView fx:id="Case_1_1" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <ImageView fx:id="Case_1_1" onMouseClicked="#selectionneCase" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
