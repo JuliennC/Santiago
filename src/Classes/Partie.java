@@ -173,6 +173,7 @@ public class Partie implements Serializable{
 
 			//C'est donc la fin de la partie
 			finDePartie();
+			lancerSauvegarde();
 		}
 
 		//On lance la phase1
@@ -201,7 +202,6 @@ public class Partie implements Serializable{
 	 */
 	
 	public boolean partiEstTerminee(){
-		System.out.println(plateau.getListeTuiles().size());
 		return (plateau.getListeTuiles().size() == 0);
 	}
 	
