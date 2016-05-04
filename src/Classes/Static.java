@@ -10,6 +10,8 @@ public class Static {
 	public final static Integer modificationPartieCommence = 3;
 	
 	public final static Integer modificationJoueurDeconnection = 4;
+	
+	public final static Integer modificationTuiles = 5;
 
 }
 

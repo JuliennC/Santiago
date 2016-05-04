@@ -115,7 +115,7 @@ public class Partie implements Serializable{
 		// POUR NE PAS QUE CA SE LANCE POUR LES TESTS
 		if(nomPartie != null){
 			while(! partiEstTerminee() ){
-				lancerSauvegarde();
+				//lancerSauvegarde();
 				
 				HashMap<SantiagoInterface, Integer> offres;
 				
@@ -609,6 +609,9 @@ public class Partie implements Serializable{
 					listeMarqueurs.add(client.getJoueur().getMarqueur());
 				}
 			}
+			// TEST:
+			this.plateau.getTabPlateau()[1][1].setContientTuile(tuile);
+			this.addModification(5);
 			tuile.setMarqueursActuels(listeMarqueurs);
 			setPositionTuile(client,tuile);
 		}
@@ -635,7 +638,7 @@ public class Partie implements Serializable{
 	public void setPositionTuile(SantiagoInterface client, Tuile tuile) throws RemoteException{
 		boolean placementOk = false;
 		while(!placementOk){
-			System.out.println("["+client.getName()+"] : "+tuile.getIntitule() + " : " + tuile.getNombreMarqueursNecessaires());
+			System.out.println("["+client.getName()+"] : "+tuile.getIntituleDuChamps() + " : " + tuile.getNombreMarqueursNecessaires());
 			int coord[]=client.joueurChoisitPlacement();
 			if(this.plateau.getListeTuilesRetournees().size()!=0 
 					&& tuile == this.plateau.getListeTuilesRetournees().get(0)
@@ -668,7 +671,7 @@ public class Partie implements Serializable{
 		int i = 0;
 		System.out.println("Les tuiles retournées sont:");
 		for(Tuile t: this.plateau.getListeTuilesRetournees()){
-			System.out.println(i + " : " + t.getIntitule() + " : " + t.getNombreMarqueursNecessaires());
+			System.out.println(i + " : " + t.getIntituleDuChamps() + " : " + t.getNombreMarqueursNecessaires());
 			i++;
 		}
 	}

@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="825.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainClientFxml">
    <top>
@@ -21,7 +17,7 @@
       </ImageView>
    </top>
    <center>
-      <GridPane BorderPane.alignment="CENTER">
+      <GridPane>
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="12.0" minWidth="12.0" prefWidth="12.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
@@ -34,8 +30,8 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="12.0" minWidth="12.0" prefWidth="12.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="12.0" minWidth="12.0" prefWidth="12.0" />
+			<ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+			<ColumnConstraints hgrow="SOMETIMES" maxWidth="12.0" minWidth="12.0" prefWidth="12.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints maxHeight="12.0" minHeight="12.0" prefHeight="12.0" vgrow="SOMETIMES" />
@@ -303,7 +299,7 @@
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="CanalVide_0_" GridPane.columnIndex="2">
+            <ImageView fx:id="CanalVide_0_2" GridPane.columnIndex="2">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
@@ -706,31 +702,4 @@
          </children>
       </GridPane>
    </center>
-   <right>
-      <TextArea prefHeight="645.0" prefWidth="343.0" BorderPane.alignment="CENTER" />
-   </right>
-   <bottom>
-      <GridPane prefHeight="67.0" prefWidth="1300.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1009.0" minWidth="10.0" prefWidth="957.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="645.0" minWidth="10.0" prefWidth="343.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="81.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <TextField GridPane.columnIndex="1">
-               <font>
-                  <Font name="Arial" size="15.0" />
-               </font>
-            </TextField>
-            <Button mnemonicParsing="false" onAction="#Test" text="Envoyer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-               <font>
-                  <Font name="Arial" size="15.0" />
-               </font>
-            </Button>
-         </children>
-      </GridPane>
-   </bottom>
 </BorderPane>

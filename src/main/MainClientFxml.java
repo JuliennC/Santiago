@@ -7,11 +7,15 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import Classes.Joueur;
 import Classes.Partie;
 import Classes.Static;
+import Classes.Plateau.Case;
+import Classes.Plateau.Plateau;
+import Classes.Tuile.Tuile;
 import Exception.JoueurException;
 import Exception.PartieException;
 import javafx.application.Application;
@@ -33,9 +37,12 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -95,7 +102,32 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	/*------------- Fin attribut Salle D'attente --------------*/
 	
+	/*-------------Début attributs Plateau --------------------*/
+    @FXML
+    ImageView Case_1_1, Case_2_1, Case_4_1, Case_5_1, Case_7_1, Case_8_1, Case_1_2, Case_8_2, Case_7_2, Case_5_2,
+    Case_2_2, Case_4_2, Case_1_4, Case_8_4, Case_7_4, Case_5_4, Case_4_4, Case_2_4, Case_1_5, Case_8_5, Case_7_5,
+    Case_5_5, Case_4_5, Case_2_5, Case_7_7, Case_5_7, Case_4_7, Case_2_7, Case_1_7, Case_8_7, Case_1_8, Case_8_8,
+    Case_7_8, Case_5_8, Case_4_8, Case_2_8, Case_1_10, Case_8_10, Case_7_10, Case_5_10, Case_4_10, Case_2_10,
+    Case_1_11, Case_8_11, Case_7_11, Case_5_11, Case_4_11, Case_2_11;
+    
+    HashMap<ImageView, String> caseMap = new HashMap<>();
+
+    @FXML
+    ImageView CanalVide_0_1, CanalVide_0_2, CanalVide_3_9, CanalVide_6_12, CanalVide_3_12, CanalVide_0_12,
+    CanalVide_9_9, CanalVide_6_9, CanalVide_0_9, CanalVide_9_6, CanalVide_6_6, CanalVide_3_6, CanalVide_0_6,
+    CanalVide_9_3, CanalVide_6_3, CanalVide_3_3, CanalVide_0_3, CanalVide_9_0, CanalVide_6_0, CanalVide_3_0,
+    CanalVide_9_12, CanalVide_0_0, Canal_1_9, Canal_7_9, Canal_8_12, Canal_7_12, Canal_5_3, Canal_5_6,
+    Canal_5_9, Canal_5_12, Canal_4_3, Canal_4_6, Canal_4_9, Canal_4_12, Canal_2_12, Canal_1_12, Canal_2_3,
+    Canal_2_6, Canal_3_9, Canal_1_6, Canal_1_3, Canal_1_0, Canal_2_0, Canal_4_0, Canal_5_0, Canal_7_0,
+    Canal_8_0, Canal_8_3, Canal_7_3, Canal_8_6, Canal_7_6, Canal_8_9;
+	
+	
+	/*------------------------------------------------------*/
+	
 	private static Stage stage;
+	private static String name;
+	
+	private static MainClientFxml controller;
 	@Override
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -115,6 +147,7 @@ public class MainClientFxml extends Application implements Initializable{
 	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
+		caseMap.put(this.Case_1_1, "Case_1_1");
 		final URL url = getClass().getResource("../view/Accueil.fxml");
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
         final BorderPane root = (BorderPane) fxmlLoader.load();
@@ -152,7 +185,8 @@ public class MainClientFxml extends Application implements Initializable{
 	/**
 	 * Fonction qui va chercher les informations de la partie
 	 */
-	public void chercheInfoPartie(final MainClientFxml controller, final Partie p) throws IOException{
+	public void chercheInfoPartie(final Partie p) throws IOException{
+
 
 		Service<Void> updateSalle = new Service<Void>(){
 			protected Task<Void> createTask() {
@@ -190,14 +224,14 @@ public class MainClientFxml extends Application implements Initializable{
 									//System.out.println("---- joueur");
 
 								
-							        controller.changeText(partie);
+							        MainClientFxml.controller.changeText(partie);
 																			    
 									modifs.remove(0);
 
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
 							
-										controller.lancementPlateau();
+									MainClientFxml.controller.lancementPlateau();
 										modifs.remove(0);
 							
 								} else if(modif.equals(Static.modificationJoueurDeconnection)){
@@ -205,7 +239,11 @@ public class MainClientFxml extends Application implements Initializable{
 									System.out.println("ATTENTION : un joueur s'est déconnecté");
 									modifs.remove(0);
 
+								} else if(modif.equals(Static.modificationTuiles)){
+									MainClientFxml.controller.modifierTuiles();
+									modifs.remove(0);
 								}
+
 						
 
 							}
@@ -286,8 +324,8 @@ public class MainClientFxml extends Application implements Initializable{
 	public void createPartie(ActionEvent e) throws NumberFormatException, NotBoundException, PartieException, JoueurException, IOException, InterruptedException{
 		Button b = (Button)e.getSource();
 		RadioButton radio = (RadioButton)this.nbJoueur.getSelectedToggle();
-		
-		Partie p = serveur.creerPartie(this.nomPartie.getText(),Integer.parseInt(radio.getText()));
+		name = this.nomPartie.getText();
+		Partie p = serveur.creerPartie(name ,Integer.parseInt(radio.getText()));
 		
 		serveur.ajouterPartieListe(p);
 		
@@ -306,10 +344,10 @@ public class MainClientFxml extends Application implements Initializable{
 	 */
 	public void joinPartie(ActionEvent e) throws RemoteException, InterruptedException{
 		TitledPane pane = this.listePartie.getExpandedPane();
-		String nomPartie = pane.getText();
+		name = pane.getText();
 		Partie pRejoint;
 		try{
-			pRejoint = serveur.rejoindrePartie(nomPartie, this.client);
+			pRejoint = serveur.rejoindrePartie(name, this.client);
 			serveur.initialiserPartie(pRejoint);
 		}
         catch(RemoteException | PartieException | JoueurException e1){
@@ -317,7 +355,7 @@ public class MainClientFxml extends Application implements Initializable{
         }
 		try {
 			Button b = (Button) e.getSource();
-			salleDAttente((Stage)b.getScene().getWindow(),nomPartie);
+			salleDAttente((Stage)b.getScene().getWindow(),name);
 		}
 		catch (IOException e1) {
 			e1.printStackTrace();
@@ -438,31 +476,92 @@ public class MainClientFxml extends Application implements Initializable{
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
         
         BorderPane root = (BorderPane) fxmlLoader.load();
-        MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
+        this.controller = (MainClientFxml)fxmlLoader.getController();
         controller.changeText(partie);
         final Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Santiago");
         stage.show();
         
-        chercheInfoPartie(controller, partie);
+        chercheInfoPartie(partie);
+
+        
 	}
 	
 	
 	public void lancementPlateau() throws IOException{
 
-		final URL url = getClass().getResource("../view/Accueil.fxml");
+		final URL url = getClass().getResource("../view/Plateau.fxml");
 
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
         
         final BorderPane root = (BorderPane) fxmlLoader.load();
-        System.out.println(root);
+        this.controller = (MainClientFxml)fxmlLoader.getController();
         stage.getScene().setRoot(root);
-        
         /*  final Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Santiago");
         stage.show();*/
+	}
+	
+	public void modifierTuiles() throws IOException {  
+		System.out.println(name);
+        Partie p = serveur.getPartieByName(name);
+        
+        System.out.println("Partie : " +p);
+        
+        Plateau plateau = p.getPlateau();
+        
+        Case c = plateau.getTabPlateau()[1][1];
+    	if(c.getContientTuile() != null){
+    		Tuile t = c.getContientTuile();
+    		afficherTuile(t, 1, 1);
+
+    	}
+    	
+        //On parcourt le plateau
+//        for(int i = 0; i <= 6; i++) {
+//        	for(int j = 0; j <= 8; i++) {
+//        		Case c = plateau.getTabPlateau()[1][1];
+//            	if(c.getContientTuile() != null){
+//            		Tuile t = c.getContientTuile();
+//            		afficherTuile(t);
+//
+//            	}
+//            }
+//        }
+	}
+	
+	public void afficherTuile(Tuile t, int posX, int posY) {
+//		ArrayList listeMarqueurs = t.getMarqueursActuels();
+//		
+//	    String caseAModifier = "Case_"+posX+"_"+posY;
+	    
+		
+//		if(t.getIntituleDuChamps().equals("Champs de banane")) {
+//			if(listeMarqueurs.isEmpty()) {
+//				
+//			}
+//		} else if(t.getIntituleDuChamps().equals("Champs de canne")) {
+//			
+//		} else if(t.getIntituleDuChamps().equals("Champs de haricot")) {
+//			
+//		} else if(t.getIntituleDuChamps().equals("Champs de piment")) {
+//			
+//		} else if(t.getIntituleDuChamps().equals("Champs de pomme de terre")) {
+//			
+//		}
+		
+		System.out.println("Afficher Tuile : " +t.getIntituleDuChamps());
+		Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Bananes0.jpg"));
+		System.out.println("Case 1:" +this.Case_1_1);
+		System.out.println("Ici");
+		System.out.println("Image " +c);
+		//System.out.println("Case 2:" +this.Case_1_1.getId());
+		this.Case_1_1.setImage(c);
+		System.out.println("Ici 2");
+		//System.out.println("Case 3:" +this.Case_1_1);
+		
 	}
 	
 	public static void main(String[] args) {
