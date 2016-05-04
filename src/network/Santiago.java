@@ -23,7 +23,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import Classes.Joueur;
 import Classes.Partie;
 import Classes.Plateau.Canal;
+import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
+import Classes.Tuile.Tuile;
 import Exception.JoueurException;
 import Exception.PartieException;
 import main.MainClient;
@@ -82,6 +84,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			e.printStackTrace();
 		}
 	}
+
 	
 
 	
@@ -90,7 +93,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		// TODO Auto-generated method stub
 		return TYPE;
 	}
-	
 
 	@Override
 	public void send(String msg) throws RemoteException {
@@ -146,7 +148,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		class SayHello extends TimerTask {
 
 			public void run() {
-				System.out.println("a " + TYPE);
+				//System.out.println("a " + TYPE);
 
 				//Partie p = server.getPartieByName(nom);
 				
@@ -154,24 +156,23 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 				
 				if(p == null){System.out.println(p+"Personne dans : "+listeParties); return;}
 				
-				System.out.println("analyse co : "+p);
+				//System.out.println("analyse co : "+p);
 				//HashMap<Joueur, Boolean> tab = new HashMap<>();
 				ConcurrentHashMap<Joueur, Boolean> tab = new ConcurrentHashMap<>();
 				
 				for(SantiagoInterface client : p.getListeClients()){
-					System.out.println("e");
+					//System.out.println("e");
 					
-					int numJoueur = p.getListeClients().indexOf(client);
 
 					try{
-						System.out.println("client : "+client.getJoueur().getPseudo());
+						//System.out.println("client : "+client.getJoueur().getPseudo());
 
 						boolean tac = client.tic();
 						if (tac) { 
-							System.out.println("vrai");
+							//System.out.println("vrai");
 							tab.put(client.getJoueur(), true); }
 						else {
-							System.out.println("faux");
+							//System.out.println("faux");
 							if(tab.get(client.getJoueur())){
 								
 								p.addModification(Static.modificationJoueurDeconnection);
@@ -200,9 +201,24 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	
 	
 	
+
+	public ArrayList<Partie> getListeParties(){
+		return this.listeParties;
+	}
+	
+	/*
+	 * Fonction qui avertie une partie d'une modification
+	 *
+	public void addNotificationAPArtie(String nomPartie, int modif) throws RemoteException{
+		this.verifieServer();
+		
+		Partie p = getPartieByName(nomPartie);
+		p.addModification(modif);
+	}*/
+
 	/**
 	 * Fonction qui récupère les parties pour un joueur donné 
-	 */
+	 * */
 	public ArrayList<Partie> getPartiePourJoueur(String joueur) throws RemoteException {
 		
 		this.verifieServer();
@@ -227,7 +243,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		return res;
 	}
-	
 	
 	/**
 	 * Fonction qui analyse si un client est dans la partie
@@ -255,6 +270,18 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	}
 	
 	
+	/**
+	 * Fonction qui joute une tuile au plateau d'une partie
+	 */
+	public void poseTuileAvecXY(String nomPartie, Tuile tuile, int x, int y) throws RemoteException{
+		
+		Partie p = getPartieByName(nomPartie);
+		
+		Case c = p.getPlateau().getTabPlateau()[y][x];
+        c.setContientTuile(tuile);
+
+        p.addModification(Static.modificationTuiles);
+	}
 	
 	
 	
@@ -283,7 +310,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws JoueurException 
 	 */
 	public Partie rejoindrePartie(String nom, SantiagoInterface i) throws RemoteException, PartieException, JoueurException {
-
+		System.out.println("coucou");
 		this.verifieServer();
 		
 		/* On vérifie d'abord que la liste contient la partie demandée, 
@@ -296,7 +323,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		
 		for(Partie p:listeParties) {
+
 			if(p.getNomPartie().equals(nom)) {
+				
 				try {
 					
 					/* On vérifie d'abord que la partie n'a pas déjà commencé, 
@@ -346,6 +375,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws JoueurException
 	 */
 	public Partie rejoindrePartie(Partie aPartie, SantiagoInterface si) throws RemoteException, PartieException, JoueurException {
+		System.out.println("coucou");
 		this.verifieServer();
 		
 		for(Joueur j: aPartie.getListeJoueurs()) {
@@ -842,9 +872,10 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			if(aP.getNombreJoueursRequis() == aP.getNombreJoueurDansLaPartie()){
 				
 				if(! aP.getPartieACommence()){
-					//Afficher linterface
+					
 					
 					aP.lancePartie();
+					
 				}
 			}			
 		}
@@ -942,9 +973,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
+
 	public void sauvegarder(Partie p) throws RemoteException, FileNotFoundException, IOException {
 		this.verifieClient();
-		
 		System.out.println("Sauvegarde");
 		System.out.println("Sauvegarde de la partie " +p.getNomPartie());
 		XMLTools.encodeToFile(p, p.getNomPartie());
@@ -955,18 +986,23 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	/**
 	 * Charge un fichier XML contenant une partie
 	 */
-	public Partie charger(String fileName) throws RemoteException, FileNotFoundException, IOException {
-		this.verifieServer();
-		
-		Partie pChargee = (Partie) XMLTools.decodeFromFile(fileName);
-		
-		if(pChargee != null) {
-			System.out.println("Chargement de la partie " +pChargee.getNomPartie());
-			return pChargee;
-		} else {
+	public Partie charger(String fileName) throws RemoteException, IOException {
+		try{
+			Partie pChargee = (Partie) XMLTools.decodeFromFile(fileName);
+			System.out.println(pChargee.getPlateau().getListeTuiles().size());
+			if(pChargee != null) {
+				System.out.println("Chargement de la partie " +pChargee.getNomPartie());
+				return pChargee;
+			}
+			else{
+				return null;
+			}
+		}
+		catch(FileNotFoundException e){
 			return null;
 		}
 	}
+
 	
 	/**
 	 * 

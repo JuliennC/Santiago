@@ -40,10 +40,12 @@ public class Partie implements Serializable{
 	private ArrayList<SantiagoInterface> listeClients = new ArrayList<SantiagoInterface>();
 	
 	private int nombreDeJoueurs;
-	private boolean partieACommence = false;
+	private boolean partieACommence;
 	private SantiagoInterface constructeurDeCanal;
 	private Plateau plateau;
 	private int tourEnCours = 1;
+	
+	private ArrayList<Joueur> listeDesJoueur;
 	
 	private boolean tousConnectes = true;
 
@@ -75,12 +77,22 @@ public class Partie implements Serializable{
 
 	}
 	
+
 	
-	
-	
-	
-	
-	
+	public ArrayList<Joueur> getListeDesJoueur() {
+		return listeDesJoueur;
+	}
+
+
+
+
+	public void setListeDesJoueur(ArrayList<Joueur> listeDesJoueur) {
+		this.listeDesJoueur = listeDesJoueur;
+	}
+
+
+
+
 	/**
 	 * methode de lancement d'une partie
 	 * @throws PartieException 
@@ -90,8 +102,6 @@ public class Partie implements Serializable{
 	public void lancePartie() throws PartieException, RemoteException, JoueurException {
 		
 		System.out.println("On lance la partie");
-		
-		setPartieCommence();
 		
 		Random random = new Random();
 		
@@ -103,7 +113,9 @@ public class Partie implements Serializable{
 		// ATTENTION : ON LANCE LES PHASES UNIQUEMENT SI LA PARTIE A UN NOM
 		// POUR NE PAS QUE CA SE LANCE POUR LES TESTS
 		if(nomPartie != null){
-			while(! partiEstTerminee() ){
+			setPartieACommence(true);
+
+			while(! partiEstTerminee() ){			
 				lancerSauvegarde();
 				
 				HashMap<SantiagoInterface, Integer> offres;
@@ -147,6 +159,7 @@ public class Partie implements Serializable{
 
 			//C'est donc la fin de la partie
 			finDePartie();
+			lancerSauvegarde();
 		}
 
 		//On lance la phase1
@@ -175,7 +188,6 @@ public class Partie implements Serializable{
 	 */
 	
 	public boolean partiEstTerminee(){
-		
 		return (plateau.getListeTuiles().size() == 0);
 	}
 	
@@ -314,6 +326,7 @@ public class Partie implements Serializable{
 				}
 			}
 			System.out.println("Le nouveau constructeur de canal est: "+this.constructeurDeCanal.getName());
+			addModification(Static.modificationConstructeurDeCanal);
 		}
 
 		
@@ -598,6 +611,9 @@ public class Partie implements Serializable{
 					listeMarqueurs.add(client.getJoueur().getMarqueur());
 				}
 			}
+			// TEST:
+			this.plateau.getTabPlateau()[1][1].setContientTuile(tuile);
+			this.addModification(5);
 			tuile.setMarqueursActuels(listeMarqueurs);
 			setPositionTuile(client,tuile);
 		}
@@ -624,7 +640,7 @@ public class Partie implements Serializable{
 	public void setPositionTuile(SantiagoInterface client, Tuile tuile) throws RemoteException{
 		boolean placementOk = false;
 		while(!placementOk){
-			System.out.println("["+client.getName()+"] : "+tuile.getIntitule() + " : " + tuile.getNombreMarqueursNecessaires());
+			System.out.println("["+client.getName()+"] : "+tuile.getIntituleDuChamps() + " : " + tuile.getNombreMarqueursNecessaires());
 			int coord[]=client.joueurChoisitPlacement();
 			if(this.plateau.getListeTuilesRetournees().size()!=0 
 					&& tuile == this.plateau.getListeTuilesRetournees().get(0)
@@ -657,7 +673,7 @@ public class Partie implements Serializable{
 		int i = 0;
 		System.out.println("Les tuiles retournées sont:");
 		for(Tuile t: this.plateau.getListeTuilesRetournees()){
-			System.out.println(i + " : " + t.getIntitule() + " : " + t.getNombreMarqueursNecessaires());
+			System.out.println(i + " : " + t.getIntituleDuChamps() + " : " + t.getNombreMarqueursNecessaires());
 			i++;
 		}
 	}
@@ -670,7 +686,7 @@ public class Partie implements Serializable{
 	 * @return la liste des joueurs en partant de la gauche du constructeur de canal
 	 */
 	public ArrayList<SantiagoInterface>	ordreDesAiguilles(){
-		ArrayList<SantiagoInterface> dansLOrdre = new ArrayList();
+		ArrayList<SantiagoInterface> dansLOrdre = new ArrayList<>();
 		SantiagoInterface client = getClientAGauche(this.constructeurDeCanal);
 		while(! client.equals(constructeurDeCanal)){
 			dansLOrdre.add(client);
@@ -688,7 +704,7 @@ public class Partie implements Serializable{
 	 * @throws RemoteException 
 	 */
 	public ArrayList<SantiagoInterface> ordreDecroissantOffre(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
-		ArrayList<SantiagoInterface> dansLOrdre = new ArrayList();
+		ArrayList<SantiagoInterface> dansLOrdre = new ArrayList<>();
 		HashMap<SantiagoInterface, Integer> listeOffres2 = new HashMap<SantiagoInterface, Integer>();
 		for(Entry<SantiagoInterface, Integer> e : listeOffres.entrySet()){
 			listeOffres2.put(e.getKey(),e.getValue());
@@ -830,7 +846,7 @@ public class Partie implements Serializable{
 	 * @param list
 	 * @return un objet random contenu dans la liste
 	 */
-	public Object randomInList(ArrayList list) {
+	public Object randomInList(ArrayList<Object> list) {
 		int random = (int) (Math.random() * list.size());
 		return list.get(random);
 	}
@@ -853,6 +869,7 @@ public class Partie implements Serializable{
 	public void lancerSauvegarde() {
 		for(SantiagoInterface si : listeClients) {
 			try {
+				System.out.println();
 				System.out.println("Sauvegarde pour le joueur : " + si.getJoueur().getPseudo());
 				si.sauvegarder(this);
 			} catch (IOException e) {

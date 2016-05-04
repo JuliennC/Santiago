@@ -32,32 +32,32 @@
             <RowConstraints maxHeight="358.0" minHeight="10.0" prefHeight="215.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text fx:id="joueur3" fill="#ff46d1" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Text fx:id="gagnant" fill="#ffd900" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>
             </Text>
-            <Text fx:id="joueur1" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Text fx:id="deuxieme" fill="#979595" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>
             </Text>
-            <Text fx:id="joueur2" fill="#ff8000" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Text fx:id="troisieme" fill="#c93403" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>
             </Text>
-            <Text fx:id="joueur4" fill="#13c300" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Text fx:id="quatrieme" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>
             </Text>
-            <Text fx:id="joueur5" fill="#780274" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Text fx:id="cinquieme" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="En attente de joueurs :" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Score :" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                <font>
                   <Font name="Arial Bold" size="36.0" />
                </font>
