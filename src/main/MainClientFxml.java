@@ -267,12 +267,12 @@ System.out.println("non term : "+partiesNonTerminees);
 								if(modifs.size() == 0){ /*System.out.println("\nRien à modifier");*/ continue; }
 
 								Integer modif = modifs.get(0);
-								//System.out.println("Modif : "+modif);
+								System.out.println("Modif : "+modif);
 
 								if(modif.equals(Static.modificationJoueurs)){
 
 									//System.out.println("---- joueur");
-									System.out.println("Nouveau joueur : "+p.getJoueursConnectes());
+									//System.out.println("Nouveau joueur : "+p.getJoueursConnectes());
 								
 							        controller.changeText(partie);
 																			    

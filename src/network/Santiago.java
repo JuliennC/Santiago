@@ -146,7 +146,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		class SayHello extends TimerTask {
 
 			public void run() {
-				System.out.println("a " + TYPE);
+				//System.out.println("a " + TYPE);
 
 				//Partie p = server.getPartieByName(nom);
 				
@@ -154,24 +154,23 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 				
 				if(p == null){System.out.println(p+"Personne dans : "+listeParties); return;}
 				
-				System.out.println("analyse co : "+p);
+				//System.out.println("analyse co : "+p);
 				//HashMap<Joueur, Boolean> tab = new HashMap<>();
 				ConcurrentHashMap<Joueur, Boolean> tab = new ConcurrentHashMap<>();
 				
 				for(SantiagoInterface client : p.getListeClients()){
-					System.out.println("e");
+					//System.out.println("e");
 					
 
-
 					try{
-						System.out.println("client : "+client.getJoueur().getPseudo());
+						//System.out.println("client : "+client.getJoueur().getPseudo());
 
 						boolean tac = client.tic();
 						if (tac) { 
-							System.out.println("vrai");
+							//System.out.println("vrai");
 							tab.put(client.getJoueur(), true); }
 						else {
-							System.out.println("faux");
+							//System.out.println("faux");
 							if(tab.get(client.getJoueur())){
 								
 								p.addModification(Static.modificationJoueurDeconnection);
