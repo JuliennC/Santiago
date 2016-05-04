@@ -48,6 +48,8 @@ public class Partie implements Serializable{
 	private ArrayList<Joueur> listeDesJoueur;
 	
 	private boolean tousConnectes = true;
+
+	private ArrayList<Joueur> listeDesJoueurs = new ArrayList<>();
 	
 	private ArrayList<Integer> listeModifications = new ArrayList<>();
 	
@@ -75,22 +77,7 @@ public class Partie implements Serializable{
 
 	}
 	
-	public ArrayList<Joueur> listeJoueurs() {		
-		
-		ArrayList<Joueur> liste = new ArrayList<>();
-		
-		for(SantiagoInterface si : listeClients){
-			
-			try{
-				liste.add(si.getJoueur());
-			}catch(Exception e){
-				System.out.println(e.getMessage());
-			}
-		}
-	
-		this.listeDesJoueur = liste;
-		return liste;
-	}
+
 	
 	public ArrayList<Joueur> getListeDesJoueur() {
 		return listeDesJoueur;
@@ -127,7 +114,7 @@ public class Partie implements Serializable{
 		// POUR NE PAS QUE CA SE LANCE POUR LES TESTS
 		if(nomPartie != null){
 			setPartieACommence(true);
-			listeJoueurs();
+
 			while(! partiEstTerminee() ){
 				
 				lancerSauvegarde();
@@ -696,7 +683,7 @@ public class Partie implements Serializable{
 	 * @return la liste des joueurs en partant de la gauche du constructeur de canal
 	 */
 	public ArrayList<SantiagoInterface>	ordreDesAiguilles(){
-		ArrayList<SantiagoInterface> dansLOrdre = new ArrayList();
+		ArrayList<SantiagoInterface> dansLOrdre = new ArrayList<>();
 		SantiagoInterface client = getClientAGauche(this.constructeurDeCanal);
 		while(! client.equals(constructeurDeCanal)){
 			dansLOrdre.add(client);
@@ -714,7 +701,7 @@ public class Partie implements Serializable{
 	 * @throws RemoteException 
 	 */
 	public ArrayList<SantiagoInterface> ordreDecroissantOffre(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{
-		ArrayList<SantiagoInterface> dansLOrdre = new ArrayList();
+		ArrayList<SantiagoInterface> dansLOrdre = new ArrayList<>();
 		HashMap<SantiagoInterface, Integer> listeOffres2 = new HashMap<SantiagoInterface, Integer>();
 		for(Entry<SantiagoInterface, Integer> e : listeOffres.entrySet()){
 			listeOffres2.put(e.getKey(),e.getValue());
@@ -755,12 +742,27 @@ public class Partie implements Serializable{
 	 * @return : void
 	 * 	
 	 * Si le joueur ne peut pas petre ajouté, on lève une exception
+	 * @throws RemoteException 
 	 */
-	public void addClient(SantiagoInterface client) throws PartieException {
+	public void addClient(SantiagoInterface client) throws PartieException, RemoteException {
 
 		if (!listeClients.contains(client)) {
 
 			listeClients.add(client);
+			
+			//Il faut qu'on supprime le joueur si on ajoute un client qui était déjà la 
+			for (Joueur j : listeDesJoueurs){
+				
+				//Si le joueur du client est déjà dans la liste des joueurs on la supprime
+				if(client.getJoueur().getPseudo().equals(j.getPseudo())){
+					
+					listeDesJoueurs.remove(j);
+					
+				}
+			}		
+		
+			listeDesJoueurs.add(client.getJoueur());
+
 
 		} else {
 
@@ -841,7 +843,7 @@ public class Partie implements Serializable{
 	 * @param list
 	 * @return un objet random contenu dans la liste
 	 */
-	public Object randomInList(ArrayList list) {
+	public Object randomInList(ArrayList<Object> list) {
 		int random = (int) (Math.random() * list.size());
 		return list.get(random);
 	}
@@ -855,7 +857,7 @@ public class Partie implements Serializable{
 	 */
 	public void AideAuDeveloppement() {
 		if (this.partieACommence == true) {
-			for (Joueur j : listeJoueurs()) {
+			for (Joueur j : listeDesJoueurs) {
 				j.AugmenterSoldeParTour();
 			}
 		}
@@ -902,6 +904,21 @@ public class Partie implements Serializable{
 	
 	
 	
+	/**
+	 * Fonction qui retourne la liste des joueurs connectés
+	 * @throws RemoteException 
+	 */
+	public ArrayList<Joueur> getJoueursConnectes() throws RemoteException{
+		
+		ArrayList<Joueur> res = new ArrayList<>();
+		
+		for(SantiagoInterface c : listeClients){
+			
+			res.add(c.getJoueur());
+		}
+		
+		return res;
+	}
 	
 	
 
@@ -960,7 +977,7 @@ public class Partie implements Serializable{
 
 		// On retourne une "copie" de la liste pour qu'aucun joueur ne puisse
 		// être changé après le début de la partie
-		ArrayList<Joueur> liste = new ArrayList<Joueur>(listeJoueurs());
+		ArrayList<Joueur> liste = new ArrayList<Joueur>(listeDesJoueurs);
 
 		return liste;
 	}
@@ -1074,8 +1091,12 @@ public class Partie implements Serializable{
 	
 	
 	public List<SantiagoInterface> getListeClients(){
-		return listeClients;
+		return new ArrayList<SantiagoInterface>(listeClients);
 	}
 	
+	
+	public void supprimeClient(SantiagoInterface client){
+		listeClients.remove(client);
+	}
 	
 }

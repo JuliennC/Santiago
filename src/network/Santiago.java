@@ -37,7 +37,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	
 	// Partie Server
 	private ArrayList<Partie> listeParties = new ArrayList<>();
-	private ArrayList<String>listePseudos = new ArrayList<>();
+	private HashMap<String, String>listeComptes = new HashMap<>();
 
 	// Partie Client
 	protected String TYPE;
@@ -70,7 +70,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	public void verifieServer(){
 		if (TYPE.equals("client")){
 			
-			PartieException e = new PartieException("Erreur appelé d'un client au lieu d'un server");
+			PartieException e = new PartieException("Erreur appelé à un '"+TYPE+"' au lieu d'un server");
 			e.printStackTrace();
 		}
 	}
@@ -78,17 +78,13 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	public void verifieClient(){
 		if (TYPE.equals("server")){
 			
-			PartieException e = new PartieException("Erreur appelé d'un server au lieu d'un client");
+			PartieException e = new PartieException("Erreur appelé à un '"+TYPE+"' au lieu d'un client");
 			e.printStackTrace();
 		}
 	}
 
 	
-	public void addPseudo(String pseudo){
-		
-		verifieServer();
-		listePseudos.add(pseudo);
-	}
+
 	
 	@Override
 	public String getName() throws RemoteException {
@@ -121,7 +117,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 
 			Partie p = new Partie(nom, nbJoueur);
 			
-			//Santiago.analyseConnexionJoueurs(nom);
 			
 			return p;
 			
@@ -146,12 +141,13 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		this.verifieServer();
 		
-		System.out.println("analyse debute");
+		System.out.println("'"+TYPE+"' analyse debute : " + voirParties());
 		
 		class SayHello extends TimerTask {
 
 			public void run() {
-				
+				System.out.println("a " + TYPE);
+
 				//Partie p = server.getPartieByName(nom);
 				
 				Partie p = listeParties.get(0);
@@ -164,6 +160,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 				
 				for(SantiagoInterface client : p.getListeClients()){
 					System.out.println("e");
+					
+
 
 					try{
 						System.out.println("client : "+client.getJoueur().getPseudo());
@@ -171,12 +169,14 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 						boolean tac = client.tic();
 						if (tac) { 
 							System.out.println("vrai");
-
 							tab.put(client.getJoueur(), true); }
 						else {
 							System.out.println("faux");
 							if(tab.get(client.getJoueur())){
+								
 								p.addModification(Static.modificationJoueurDeconnection);
+								p.supprimeClient(client);
+								
 							} else {
 								tab.put(client.getJoueur(), false);
 							}
@@ -184,16 +184,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					
 					} catch(Exception e){
 					
-						try {
-							if(tab.get(client.getJoueur())){
-								p.addModification(Static.modificationJoueurDeconnection);
-							} else {
-								tab.put(client.getJoueur(), false);
-							}
-						} catch (RemoteException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						//tab.put(client.getJoueur(), false);
+						p.addModification(Static.modificationJoueurDeconnection);
+						p.supprimeClient(client);
 					}
 				}
 			}
@@ -207,11 +200,67 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	
 	
 	
+
 	public ArrayList<Partie> getListeParties(){
 		return this.listeParties;
 	}
 	
 	
+
+	/**
+	 * Fonction qui récupère les parties pour un joueur donné 
+	 */
+	public ArrayList<Partie> getPartiePourJoueur(String joueur) throws RemoteException {
+		
+		this.verifieServer();
+		
+		ArrayList<Partie> res = new ArrayList<>();
+		
+		for(Partie p : listeParties){
+			
+			if(! p.partiEstTerminee()) {
+			
+				for(Joueur j : p.getListeJoueurs()){
+					
+					String pseudo1 = j.getPseudo();
+					
+					if(pseudo1.equals(joueur)){
+				
+						res.add(p);
+					}
+				}
+			}
+		}
+		
+		return res;
+	}
+	
+
+	
+	/**
+	 * Fonction qui analyse si un client est dans la partie
+	 */
+	public boolean joueurParticipeAUnePartie(Joueur joueur, ArrayList<Partie> listeParties) throws RemoteException {
+		
+		this.verifieServer();
+		
+		
+		for(Partie p : listeParties){
+			
+			if(! p.partiEstTerminee()) {
+			
+				for(SantiagoInterface c : p.getListeClients()){
+			
+					if(c.getJoueur().getPseudo().equals(joueur.getPseudo()));
+						
+						return true;
+						
+				}
+			}
+		}
+		
+		return false;
+	}
 	
 	
 	
@@ -271,8 +320,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					p.addClient(i);
 					p.addModification(Static.modificationJoueurs);
 					
-					System.out.println("okkkkkkkkk : "+p.getListeClients().size());
-
 				} catch (PartieException e) {
 
 					e.printStackTrace();
@@ -748,11 +795,11 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @param : String pseudo
 	 * @return : void
 	 */
-	public void enregistrePseudo(String pseudo) throws RemoteException{
+	public void enregistrePseudoEtMDP(String pseudo, String mdp) throws RemoteException{
 		this.verifieServer();
 		
 		//On enregistre également le pseudo pour que personne ne prenne le même pseudo
-		listePseudos.add(pseudo);
+		listeComptes.put(pseudo, mdp);
 	}
 	
 	/**
@@ -764,9 +811,23 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		this.verifieServer();
 		
 		//On enregistre également le pseudo pour que personne ne prenne le même pseudo
-		return !(listePseudos.contains(pseudo));
+		return !(listePseudos().contains(pseudo));
 	}
 	
+	
+	
+	
+	/**
+	 * Fonction qui vérifie si une connexion est possible avec un pseudo et un mdp
+	 * @params : String pseudo
+	 * @params : String mot de passe
+	 * @return : boolean
+	 */
+	public boolean connexionPseudoEtMDP(String pseudo, String motDePasse) throws RemoteException{
+		this.verifieServer();
+		
+		return listeComptes.get(pseudo).equals(motDePasse);
+	}
 	
 	
 	
@@ -830,6 +891,16 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	
 	
 	
+	
+	/**
+	 * Fonction qui retourne la liste des pseudos utilisés
+	 */
+	public Set<String> listePseudos(){
+		return listeComptes.keySet();
+	}
+	
+	
+	
 	/**
 	 * Fonction qui vérifie si une partie est présente dans une liste de partie
 	 * @parameters : arraylist<Partie> , String nomPartie
@@ -859,6 +930,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		this.verifieServer();
 		
 		listeParties.add(p);
+		
+		analyseConnexionJoueurs(p.getNomPartie());
+
 	}
 
 	
@@ -936,7 +1010,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 */
 	public boolean tic(){
 		
-		this.verifieServer();
+		this.verifieClient();
 		return true;
 	}
 	
