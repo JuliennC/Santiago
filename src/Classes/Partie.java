@@ -63,9 +63,14 @@ public class Partie implements Serializable{
 	
 		plateau = new Plateau();
 	}
+<<<<<<< HEAD
 	
 	private ArrayList<String []> listeMessages = new ArrayList<String []>();
 	private ArrayList<Joueur> listeDestinataires = new ArrayList<Joueur>();
+=======
+
+	
+>>>>>>> parent of 458512a... Pour naunau
 	
 	
 	/**
@@ -214,7 +219,9 @@ public class Partie implements Serializable{
 			//On prend les offres des joueurs
 			while(! client.equals(constructeurDeCanal)) {
 				joueurEnCours = client.getJoueur();
+				System.out.println(joueurEnCours);
 				addModification(Static.modificationJoueurEnCours);
+<<<<<<< HEAD
 				
 				//Envoi message:
 				String msg = client.getJoueur().getPseudo()+ " fait une enchère...";
@@ -223,6 +230,8 @@ public class Partie implements Serializable{
 				}
 				envoyerMessage(listeDestinataires, msg);
 				
+=======
+>>>>>>> parent of 458512a... Pour naunau
 				// Le joueur doit faire une offre
 				boolean offreValide = false;				
 				
@@ -248,7 +257,14 @@ public class Partie implements Serializable{
 						offreValide = true;
 					}
 				}
+<<<<<<< HEAD
 
+=======
+				
+				//On stocke les offres
+				listeOffres.put(client, offre);	
+				
+>>>>>>> parent of 458512a... Pour naunau
 				//On change de joueur
 				client = getClientAGauche(client);
 			}
@@ -939,6 +955,7 @@ public class Partie implements Serializable{
 		}
 	}
 	
+<<<<<<< HEAD
 	public void envoyerMessage(ArrayList<Joueur> destinataire, String msg) throws RemoteException {
 		String tabMessage[] = new String[2];
 		tabMessage[0] = msg;
@@ -956,6 +973,9 @@ public class Partie implements Serializable{
 		addModification(Static.modificationtexte);
 		listeDestinataires.clear();
 	}
+=======
+	
+>>>>>>> parent of 458512a... Pour naunau
 	
 	
 	/**
@@ -1181,6 +1201,7 @@ public class Partie implements Serializable{
 	public Joueur getJoueurEnCours() {
 		return joueurEnCours;
 	}
+<<<<<<< HEAD
 
 	public ArrayList<String[]> getListeMessages() {
 		return listeMessages;
@@ -1210,6 +1231,8 @@ public class Partie implements Serializable{
 		
 		return propositionMax;
 	}
+=======
+>>>>>>> parent of 458512a... Pour naunau
 	
 	
 	

@@ -1,6 +1,5 @@
 package main;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -17,9 +16,12 @@ import java.util.ResourceBundle;
 import Classes.Joueur;
 import Classes.Partie;
 import Classes.Static;
+<<<<<<< HEAD
 import Classes.Marqueurs.MarqueurRouge;
 import Classes.Marqueurs.MarqueurRendement;
 import Classes.Marqueurs.MarqueurRouge;
+=======
+>>>>>>> parent of 458512a... Pour naunau
 import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
 import Classes.Tuile.Tuile;
@@ -136,14 +138,12 @@ public class MainClientFxml extends Application implements Initializable{
 	/*------------- Fin attribut Rejoindre Parties Commencées --------------*/
 	
 	/*-------------Début attributs Plateau --------------------*/
-	@FXML
+    @FXML
     ImageView Case_0_0, Case_0_1, Case_0_2, Case_0_3, Case_0_4, Case_0_5, Case_1_0, Case_1_1, Case_1_2, Case_1_3,
     Case_1_4, Case_1_5, Case_2_0, Case_2_1, Case_2_2, Case_2_3, Case_2_4, Case_2_5, Case_3_0, Case_3_1, Case_3_2, Case_3_3,
     Case_3_4, Case_3_5, Case_4_0, Case_4_1, Case_4_2, Case_4_3, Case_4_4, Case_4_5, Case_5_0, Case_5_1, Case_5_2,
     Case_5_3, Case_5_4, Case_5_5, Case_6_0, Case_6_1, Case_6_2, Case_6_3, Case_6_4, Case_6_5, Case_7_0,
     Case_7_1, Case_7_2, Case_7_3, Case_7_4, Case_7_5;
-    
-    HashMap<String, ImageView> caseMap = new HashMap<>();
     
     @FXML
     ImageView Canal_1_0, Canal_2_0, Canal_6_2, Canal_5_2, Canal_4_2, Canal_3_2, Canal_2_2, Canal_1_2, Canal_8_0, Canal_7_0,
@@ -185,16 +185,12 @@ public class MainClientFxml extends Application implements Initializable{
 	
     @FXML
     Text soldeJoueur1,soldeJoueur2,soldeJoueur3,soldeJoueur4,soldeJoueur5;
-    
-    @FXML
-    TextArea zoneTexte;
 	/*------------------------------------------------------*/
 	
 	private static Stage stage;
 	private static String name;
 	
 	private static MainClientFxml controller;
-	private static int indexMessage = 0;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -344,6 +340,7 @@ System.out.println("non term : "+partiesNonTerminees);
 									//System.out.println("Nouveau joueur : "+p.getJoueursConnectes());
 								
 							        MainClientFxml.controller.changeText(partie);
+													
 									modifs.remove(0);
 
 							
@@ -365,15 +362,12 @@ System.out.println("non term : "+partiesNonTerminees);
 									modifs.remove(0);
 									
 								}else if(modif.equals(Static.modificationConstructeurDeCanal)){
-									MainClientFxml.controller.modifierConstructeur();
+									MainClientFxml.controller.modifierConstructeur(partie);
 									modifs.remove(0);
 								} else if(modif.equals(Static.modificationJoueurEnCours)){
 									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
-								} else if(modif.equals(Static.modificationtexte)){
-									MainClientFxml.controller.afficherTexte(partie);
-									modifs.remove(0);
-								}else {
+								} else {
 									System.out.println("Modif non reconnue");
 								}
 							}
@@ -417,7 +411,7 @@ System.out.println("non term : "+partiesNonTerminees);
 			startChoixPartie((Stage)this.valider.getScene().getWindow());
 		}
 		else{
-			this.pseudoError.setText("Pseudo invalide ou mot de passe incorrecte.");
+			this.pseudoError.setText("Pseudo invalide");
 		}
 	}
 	
@@ -537,9 +531,6 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 		joinPartieSalleDAttente(e, pane);
 	}
-	
-	
-	
 
 	public void rejoindrePartieEnCours(ActionEvent e) throws InterruptedException{
 
@@ -548,19 +539,16 @@ System.out.println("non term : "+partiesNonTerminees);
 		joinPartieSalleDAttente(e, pane);
 
 	}
-	
-	
-	
+
 	public void skipPartiesEnCours(){
 		
 		
 	}
-	
-	
+
 	public void joinPartieSalleDAttente(ActionEvent e, TitledPane pane) throws InterruptedException{
 		
 		String nomPartie = pane.getText();
-		Partie pRejoint = null;
+		Partie pRejoint;
 		try{
 			pRejoint = serveur.rejoindrePartie(nomPartie, client);
 			serveur.initialiserPartie(pRejoint);
@@ -570,17 +558,13 @@ System.out.println("non term : "+partiesNonTerminees);
         }
 		try {
 			Button b = (Button) e.getSource();
-			salleDAttente((Stage)b.getScene().getWindow(),pRejoint.getNomPartie());
+			salleDAttente((Stage)b.getScene().getWindow(),nomPartie);
 		}
 		catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
-	
-	
-	
-	
-	
+
 	/**
 	 * Cette méthope permet de modifier les joueurs en attente lors du lancement de la scene d'attente
 	 * 
@@ -715,7 +699,11 @@ System.out.println("non term : "+partiesNonTerminees);
         
         final BorderPane root = (BorderPane) fxmlLoader.load();
         this.controller = (MainClientFxml)fxmlLoader.getController();
+<<<<<<< HEAD
         this.controller.
+=======
+        this.controller.afficheJoueur(p);
+>>>>>>> parent of 458512a... Pour naunau
         stage.getScene().setRoot(root);
 	}
 	
@@ -761,11 +749,89 @@ System.out.println("non term : "+partiesNonTerminees);
 		}
 	}
 	
-	public void modifierConstructeur() throws IOException{
-		
+	public void afficheJoueur(Partie p) throws RemoteException{
+		switch(p.getNombreJoueurDansLaPartie()){
+			case 3:
+				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
+				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
+				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
+				
+				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
+				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
+				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
+				break;
+			case 4:
+				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
+				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
+				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
+				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
+				
+				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
+				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
+				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
+				this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
+				break;
+			case 5:
+				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
+				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
+				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
+				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
+				this.nomJoueur5.setText(p.getJoueursConnectes().get(4).getPseudo());
+				
+				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
+				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
+				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
+				this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
+				this.soldeJoueur5.setText(""+p.getJoueursConnectes().get(4).getSolde());
+				
+				break;
+		}
+	}
+	
+	
+	public void modifierConstructeur(Partie p) throws IOException{
+		Joueur constructeur = p.getConstructeurDeCanal().getJoueur();
+		if(constructeur != null){
+			System.out.println("Coucou");
+			if(constructeur.getPseudo().equals(this.nomJoueur1.getText())){
+				this.constructeur1.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
+				this.constructeur2.setImage(null);
+				this.constructeur3.setImage(null);
+				this.constructeur4.setImage(null);
+				this.constructeur5.setImage(null);
+			}
+			else if(constructeur.getPseudo().equals(this.nomJoueur2.getText())){
+				this.constructeur1.setImage(null);
+				this.constructeur2.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
+				this.constructeur3.setImage(null);
+				this.constructeur4.setImage(null);
+				this.constructeur5.setImage(null);
+			}
+			else if(constructeur.getPseudo().equals(this.nomJoueur3.getText())){
+				this.constructeur1.setImage(null);
+				this.constructeur2.setImage(null);
+				this.constructeur3.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
+				this.constructeur4.setImage(null);
+				this.constructeur5.setImage(null);
+			}
+			else if(constructeur.getPseudo().equals(this.nomJoueur4.getText())){
+				this.constructeur1.setImage(null);
+				this.constructeur2.setImage(null);
+				this.constructeur3.setImage(null);
+				this.constructeur4.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
+				this.constructeur5.setImage(null);
+			}
+			else if(constructeur.getPseudo().equals(this.nomJoueur5.getText())){
+				this.constructeur1.setImage(null);
+				this.constructeur2.setImage(null);
+				this.constructeur3.setImage(null);
+				this.constructeur4.setImage(null);
+				this.constructeur5.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
+			}
+		}
 	}
 
-	/*public void afficherTuile(Tuile t, int posX, int posY) {
+	public void afficherTuile(Tuile t, int posX, int posY) {
 		ArrayList listeMarqueurs = t.getMarqueursActuels();
 //		
 	    String caseAModifier = "Case_"+posX+"_"+posY;
@@ -792,6 +858,7 @@ System.out.println("non term : "+partiesNonTerminees);
 				
 			}			
 		}
+
 		
 		System.out.println("Afficher Tuile : " +t.getIntituleDuChamps());
 		Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Bananes0.jpg"));
@@ -803,7 +870,7 @@ System.out.println("non term : "+partiesNonTerminees);
 		System.out.println("Ici 2");
 		//System.out.println("Case 3:" +this.Case_1_1);
 		
-	}*/
+	}
 	
 	
 	
@@ -829,10 +896,14 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 		
 		//On dit au server d'ajouter la tuile
+<<<<<<< HEAD
         TuilePiment tuile = new TuilePiment(1);
         MarqueurRouge m = new MarqueurRouge();
         
         tuile.addMarqueur(m);
+=======
+        TuilePiment tuile = new TuilePiment();
+>>>>>>> parent of 458512a... Pour naunau
         
         //On prévient du changmenet
         serveur.poseTuileAvecXY(name, tuile, x, y);
@@ -865,44 +936,15 @@ System.out.println("non term : "+partiesNonTerminees);
         		if(tuile != null){
         			
         			//On construit l'id de l'imageview que l'on veut
-        			String idCase = "#Case_"+x+"_"+y;
+        			String id = "#Case_"+y+"_"+x;
         			
         			//On met l'image view
         			Scene scene = stage.getScene();
-        			ImageView view = (ImageView) scene.lookup(idCase);
+        			ImageView view = (ImageView) scene.lookup(id);
         			
-        			try{
-        				//Image image = new Image(MainClientFxml.class.getResourceAsStream(tuile.getPath()));
-        				//view.setImage(image);
+        			Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Bananes0.jpg"));
 
-        			}catch(Exception e){
-        				e.printStackTrace();
-        			}
-        			
-        			
-        			//L'index du marqueurs
-        			int index = 0;
-        			
-        			//On s'occupe des marqueurs
-        			for(MarqueurRendement mr : tuile.getMarqueursActuels()){
-        				
-        				index++;
-        				
-        				//On construit l'id de l'imageview que l'on veut
-            			String idMarqueur = "#MarqueurC"+x+"_"+y+"_"+index;
-            			
-            			ImageView viewMarqueurs = (ImageView) scene.lookup(idMarqueur);
-            			
-            			try{
-            				Image image = new Image(MainClientFxml.class.getResourceAsStream( "../view/Images/single-cubeOrange.png" /*mr.getPath()*/));
-            				viewMarqueurs.setImage(image);
-
-            			}catch(Exception e){
-            				e.printStackTrace();
-            			}
-            			
-        			}
-        			
+        			view.setImage(image);
         			
         		}
         		
@@ -932,6 +974,7 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 	}
 	
+<<<<<<< HEAD
 	public void afficherTexte(Partie partie) throws RemoteException {
 		System.out.println("JE SUIS JE SUIS JE SUIS .... ");
 		System.out.println(client.getJoueur().getPseudo());
@@ -1022,6 +1065,8 @@ System.out.println("non term : "+partiesNonTerminees);
 	}
 	
 	
+=======
+>>>>>>> parent of 458512a... Pour naunau
 	public static void main(String[] args) {
 		Application.launch(MainClientFxml.class,args);
 	}
