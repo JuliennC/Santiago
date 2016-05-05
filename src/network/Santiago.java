@@ -848,9 +848,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		return listeComptes.get(pseudo).equals(motDePasse);
 	}
 	
-	
-	
-	
 	/**
 	 * Fonction qui test si une partie est prête à être lancée.
 	 * Si une partie est prête à être lancée, on lance la partie, 
