@@ -44,7 +44,7 @@ public interface SantiagoInterface extends Remote{
 
 	public Joueur getJoueur() throws RemoteException;
 	
-	public int joueurFaitUneOffre() throws RemoteException;
+	public String joueurFaitUneOffre() throws RemoteException;
 	
 	public int joueurChoisitTuile(int nbTuile) throws RemoteException;
 	
@@ -54,12 +54,12 @@ public interface SantiagoInterface extends Remote{
 	//public void addNotificationAPArtie(String nomPartie, int modif) throws RemoteException;
 	public void poseTuileAvecXY(String nomPartie, Tuile tuile, int x, int y) throws RemoteException;
 
-	public int propositionPhase4() throws RemoteException;
+	public String propositionPhase4() throws RemoteException;
 
-		public int joueurFaitPotDeVin() throws RemoteException;
+		public String joueurFaitPotDeVin() throws RemoteException;
 		public void afficherPropositionsPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException;
 		public SantiagoInterface soutenirJoueur(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException;
-		public void cumulerPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions, SantiagoInterface joueurSoutenu, int potDeVin) throws RemoteException;
+		public String cumulerPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions, SantiagoInterface joueurSoutenu, int potDeVin) throws RemoteException;
 		public SantiagoInterface choisirPotDeVin(Plateau plateau, HashMap<SantiagoInterface, Integer> listePropositions, ArrayList<Canal> listeCanauxTemp) throws RemoteException;
 		public void deduirePotDeVin(HashMap<SantiagoInterface, Integer> listePropositions, HashMap<SantiagoInterface, SantiagoInterface> listeSoutiens, HashMap<SantiagoInterface, Integer> listePotDeVin, SantiagoInterface constructeur) throws RemoteException;	
 		public Canal poserCanalTemporaire(Plateau plateau, ArrayList<Canal> listeCanauxTemp) throws RemoteException;	

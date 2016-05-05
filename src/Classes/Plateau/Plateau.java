@@ -27,7 +27,7 @@ public class Plateau implements Serializable {
 
 	/**
 	 * Initialisation du Plateau
-	 * C'est un tableau de Case
+	 * C'est un tableau de Cases
 	 * Plateau de 8 cases de largeur et 6 cases de hauteur
 	 * ATTENTION : dans un tableau à double dimension, c'est tab[y][x] !
 	 * 
