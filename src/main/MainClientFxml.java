@@ -364,7 +364,7 @@ System.out.println("non term : "+partiesNonTerminees);
 									modifs.remove(0);
 									
 								}else if(modif.equals(Static.modificationConstructeurDeCanal)){
-									MainClientFxml.controller.modifierConstructeur();
+									MainClientFxml.controller.modifierConstructeur(partie);
 									modifs.remove(0);
 								} else if(modif.equals(Static.modificationJoueurEnCours)){
 									MainClientFxml.controller.afficherJoueurEnCours(partie);
@@ -760,8 +760,46 @@ System.out.println("non term : "+partiesNonTerminees);
 		}
 	}
 	
-	public void modifierConstructeur() throws IOException{
-		
+	public void modifierConstructeur(Partie p) throws IOException{
+		Joueur constructeur = p.getConstructeurDeCanal().getJoueur();
+		if(constructeur != null){
+			System.out.println("Coucou");
+			if(constructeur.getPseudo().equals(this.nomJoueur1.getText())){
+				this.constructeur1.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
+				this.constructeur2.setImage(null);
+				this.constructeur3.setImage(null);
+				this.constructeur4.setImage(null);
+				this.constructeur5.setImage(null);
+			}
+			else if(constructeur.getPseudo().equals(this.nomJoueur2.getText())){
+				this.constructeur1.setImage(null);
+				this.constructeur2.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
+				this.constructeur3.setImage(null);
+				this.constructeur4.setImage(null);
+				this.constructeur5.setImage(null);
+			}
+			else if(constructeur.getPseudo().equals(this.nomJoueur3.getText())){
+				this.constructeur1.setImage(null);
+				this.constructeur2.setImage(null);
+				this.constructeur3.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
+				this.constructeur4.setImage(null);
+				this.constructeur5.setImage(null);
+			}
+			else if(constructeur.getPseudo().equals(this.nomJoueur4.getText())){
+				this.constructeur1.setImage(null);
+				this.constructeur2.setImage(null);
+				this.constructeur3.setImage(null);
+				this.constructeur4.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
+				this.constructeur5.setImage(null);
+			}
+			else if(constructeur.getPseudo().equals(this.nomJoueur5.getText())){
+				this.constructeur1.setImage(null);
+				this.constructeur2.setImage(null);
+				this.constructeur3.setImage(null);
+				this.constructeur4.setImage(null);
+				this.constructeur5.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
+			}
+		}
 	}
 
 	/*public void afficherTuile(Tuile t, int posX, int posY) {
