@@ -342,7 +342,7 @@ System.out.println("non term : "+partiesNonTerminees);
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
 							
-									MainClientFxml.controller.lancementPlateau();
+									MainClientFxml.controller.lancementPlateau(partie);
 										modifs.remove(0);
 							
 								} else if(modif.equals(Static.modificationJoueurDeconnection)){
@@ -524,9 +524,6 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 		joinPartieSalleDAttente(e, pane);
 	}
-	
-	
-	
 
 	public void rejoindrePartieEnCours(ActionEvent e) throws InterruptedException{
 
@@ -535,15 +532,12 @@ System.out.println("non term : "+partiesNonTerminees);
 		joinPartieSalleDAttente(e, pane);
 
 	}
-	
-	
-	
+
 	public void skipPartiesEnCours(){
 		
 		
 	}
-	
-	
+
 	public void joinPartieSalleDAttente(ActionEvent e, TitledPane pane) throws InterruptedException{
 		
 		String nomPartie = pane.getText();
@@ -563,11 +557,7 @@ System.out.println("non term : "+partiesNonTerminees);
 			e1.printStackTrace();
 		}
 	}
-	
-	
-	
-	
-	
+
 	/**
 	 * Cette méthope permet de modifier les joueurs en attente lors du lancement de la scene d'attente
 	 * 
@@ -693,7 +683,7 @@ System.out.println("non term : "+partiesNonTerminees);
         
 	}
 	
-	public void lancementPlateau() throws IOException{
+	public void lancementPlateau(Partie p) throws IOException{
 		System.out.println("Lanchement Plateau");
 		
 		final URL url = getClass().getResource("../view/Plateau.fxml");
@@ -702,7 +692,7 @@ System.out.println("non term : "+partiesNonTerminees);
         
         final BorderPane root = (BorderPane) fxmlLoader.load();
         this.controller = (MainClientFxml)fxmlLoader.getController();
-
+        this.controller.afficheJoueur(p);
         stage.getScene().setRoot(root);
 	}
 	
@@ -753,13 +743,22 @@ System.out.println("non term : "+partiesNonTerminees);
 			case 3:
 				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
 				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
-				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());			
+				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
+				
+				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
+				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
+				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
 				break;
 			case 4:
 				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
 				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
 				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
 				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
+				
+				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
+				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
+				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
+				this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
 				break;
 			case 5:
 				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
@@ -767,13 +766,19 @@ System.out.println("non term : "+partiesNonTerminees);
 				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
 				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
 				this.nomJoueur5.setText(p.getJoueursConnectes().get(4).getPseudo());
+				
+				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
+				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
+				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
+				this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
+				this.soldeJoueur5.setText(""+p.getJoueursConnectes().get(4).getSolde());
+				
 				break;
 		}
 	}
 	
 	
 	public void modifierConstructeur(Partie p) throws IOException{
-		MainClientFxml.controller.afficheJoueur(p);
 		Joueur constructeur = null;
 		for(Joueur j : p.getListeDesJoueur()){
 			if(p.getConstructeurDeCanal().getJoueur() == j){
@@ -781,6 +786,7 @@ System.out.println("non term : "+partiesNonTerminees);
 			}
 		}
 		if(constructeur != null){
+			System.out.println("Coucou");
 			if(constructeur.getPseudo().equals(this.nomJoueur1.getText())){
 				this.constructeur1.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
 				this.constructeur2.setImage(null);
