@@ -781,12 +781,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	
 	
 	public void modifierConstructeur(Partie p) throws IOException{
-		Joueur constructeur = null;
-		for(Joueur j : p.getListeDesJoueur()){
-			if(p.getConstructeurDeCanal().getJoueur() == j){
-				constructeur = j;
-			}
-		}
+		Joueur constructeur = p.getConstructeurDeCanal().getJoueur();
 		if(constructeur != null){
 			System.out.println("Coucou");
 			if(constructeur.getPseudo().equals(this.nomJoueur1.getText())){
