@@ -17,6 +17,8 @@ import java.util.ResourceBundle;
 import Classes.Joueur;
 import Classes.Partie;
 import Classes.Static;
+import Classes.Marqueurs.MarqueurGris;
+import Classes.Marqueurs.MarqueurRendement;
 import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
 import Classes.Tuile.Tuile;
@@ -819,6 +821,9 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 		//On dit au server d'ajouter la tuile
         TuilePiment tuile = new TuilePiment(1);
+        MarqueurGris m = new MarqueurGris();
+        
+        tuile.addMarqueur(m);
         
         //On prévient du changmenet
         serveur.poseTuileAvecXY(name, tuile, x, y);
@@ -851,11 +856,11 @@ System.out.println("non term : "+partiesNonTerminees);
         		if(tuile != null){
         			
         			//On construit l'id de l'imageview que l'on veut
-        			String id = "#Case_"+x+"_"+y;
+        			String idCase = "#Case_"+x+"_"+y;
         			
         			//On met l'image view
         			Scene scene = stage.getScene();
-        			ImageView view = (ImageView) scene.lookup(id);
+        			ImageView view = (ImageView) scene.lookup(idCase);
         			
         			try{
         				Image image = new Image(MainClientFxml.class.getResourceAsStream(tuile.getPath()));
@@ -866,8 +871,28 @@ System.out.println("non term : "+partiesNonTerminees);
         			}
         			
         			
+        			//L'index du marqueurs
+        			int index = 0;
         			
-        			
+        			//On s'occupe des marqueurs
+        			for(MarqueurRendement mr : tuile.getMarqueursActuels()){
+        				
+        				index++;
+        				
+        				//On construit l'id de l'imageview que l'on veut
+            			String idMarqueur = "#MarqueurC"+x+"_"+y+"_"+index;
+            			
+            			ImageView viewMarqueurs = (ImageView) scene.lookup(idMarqueur);
+            			
+            			try{
+            				Image image = new Image(MainClientFxml.class.getResourceAsStream( "../view/Images/single-cubeOrange.png" /*mr.getPath()*/));
+            				viewMarqueurs.setImage(image);
+
+            			}catch(Exception e){
+            				e.printStackTrace();
+            			}
+            			
+        			}
         			
         			
         		}

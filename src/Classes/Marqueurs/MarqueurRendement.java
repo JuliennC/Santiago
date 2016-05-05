@@ -10,7 +10,8 @@ public abstract class MarqueurRendement {
 	 * ATTENTION devra être remplacé par le lien de l'image du marqueur
 	 */
 	private String couleur;
-
+	
+	public MarqueurRendement(){}
 	
 	public MarqueurRendement(String c){
 		
