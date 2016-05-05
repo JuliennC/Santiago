@@ -64,9 +64,8 @@ public class Partie implements Serializable{
 		plateau = new Plateau();
 	}
 	
-	private ArrayList<String []> listeMessages = new ArrayList<String []>() {
-
-	};
+	private ArrayList<String []> listeMessages = new ArrayList<String []>();
+	private ArrayList<Joueur> listeDestinataires = new ArrayList<Joueur>();
 	
 	
 	/**
@@ -217,64 +216,46 @@ public class Partie implements Serializable{
 				joueurEnCours = client.getJoueur();
 				addModification(Static.modificationJoueurEnCours);
 				
-				String tabMessage[] = new String[2];
-				tabMessage[0] = client.getJoueur().getPseudo()+ " fait une offre...";
-				
+				//Envoi message:
+				String msg = client.getJoueur().getPseudo()+ " fait une enchère...";
 				for(Joueur j: listeDesJoueurs) {
-					if(tabMessage[1] != null) {
-						tabMessage[1] = tabMessage[1]+j.getPseudo()+"_";
-					} else {
-						tabMessage[1] = j.getPseudo()+"_";
-					}
+					listeDestinataires.add(j);
 				}
-				listeMessages.add(tabMessage);
-				addModification(Static.modificationtexte);
+				envoyerMessage(listeDestinataires, msg);
 				
 				// Le joueur doit faire une offre
-				int offre = client.joueurFaitUneOffre();
-
-				//On vérifie que l'offre est valide 
-				boolean offreValide =  (! (listeOffres.containsValue(offre))) || (offre == 0); 
+				boolean offreValide = false;				
 				
-				while(! offreValide){
+				while(!offreValide) {
+					String offre = client.joueurFaitUneOffre();
+					String res[] = offre.split("_");
 					
-					//On affiche une erreur
-					client.afficheErreur("Erreur : vous devez entrer une offre qui différentes des autres joueurs");
-					
-					
-					//On redemande une offre
-					offre = client.joueurFaitUneOffre();
-
-					
-					//On véruifie la nouvelle offre
-					offreValide = ! (listeOffres.containsValue(offre));
-					
+					if(res[0].equals("0")) {
+						//L'offre est invalide, on signale le joueur et on redemande une offre
+						listeDestinataires.add(client.getJoueur());
+						envoyerMessage(listeDestinataires, res[1]);
+					} else if(listeOffres.containsValue(res[1])){
+						//L'offre est invalide car une offre du même montant existe
+						listeDestinataires.add(client.getJoueur());
+						envoyerMessage(listeDestinataires, "Vous devez entrer une offre différente de celle des autres joueurs");
+					} else {
+						//L'offre est valide
+						msg = client.getJoueur().getPseudo()+ "a proposé " +res[1]+ " Escudos !";
+						envoyerMessage(listeDesJoueurs, msg);
+						
+						//On stocke les offres
+						listeOffres.put(client, Integer.parseInt(res[1]));
+						offreValide = true;
+					}
 				}
-				//texte = client.getJoueur().getPseudo()+ "a proposé " +offre+ " Escudos !";
-				addModification(Static.modificationtexte);
-				
-				//On stocke les offres
-				listeOffres.put(client, offre);	
-				
+
 				//On change de joueur
 				client = getClientAGauche(client);
+			}
 
-			}
+			envoyerMessage(listeDesJoueurs, "Les enchères sont terminées");
 			
-			int offre = client.joueurFaitUneOffre();
-			
-			//On stocke les offres
-			listeOffres.put(client, offre);	
-			
-			//On affiche les offres
-			String str = "";
-			
-			for(SantiagoInterface si : listeOffres.keySet()){
-				
-				str += si.getJoueur().getPseudo()+" --> "+listeOffres.get(si)+"\n";
-			}
-			
-			System.out.println("Les enchères sont terminées : \n"+str);
+			//Le joueur en cours est à null (La flèche disparait de l'interface)
 			joueurEnCours = null;
 			addModification(Static.modificationJoueurEnCours);
 			return listeOffres;
@@ -347,7 +328,8 @@ public class Partie implements Serializable{
 					this.constructeurDeCanal = si;
 				}
 			}
-			System.out.println("Le nouveau constructeur de canal est: "+this.constructeurDeCanal.getName());
+			
+			envoyerMessage(listeDesJoueurs, "Le nouveau constructeur de canal est: "+this.constructeurDeCanal.getName());
 			addModification(Static.modificationConstructeurDeCanal);
 		}
 
@@ -912,19 +894,22 @@ public class Partie implements Serializable{
 		}
 	}
 	
-	public void envoyerMessage(SantiagoInterface client) throws RemoteException {
+	public void envoyerMessage(ArrayList<Joueur> destinataire, String msg) throws RemoteException {
 		String tabMessage[] = new String[2];
-		tabMessage[0] = client.getJoueur().getPseudo()+ " fait une offre...";
+		tabMessage[0] = msg;
 		
-		for(Joueur j: listeDesJoueurs) {
+		for(Joueur j: destinataire) {
+			//Destinataires:
 			if(tabMessage[1] != null) {
 				tabMessage[1] = tabMessage[1]+j.getPseudo()+"_";
 			} else {
 				tabMessage[1] = j.getPseudo()+"_";
 			}
 		}
+		//On ajoute le message à l'arrayList:
 		listeMessages.add(tabMessage);
 		addModification(Static.modificationtexte);
+		listeDestinataires.clear();
 	}
 	
 	
