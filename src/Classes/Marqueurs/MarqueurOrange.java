@@ -6,7 +6,7 @@ public class MarqueurOrange extends MarqueurRendement{
 	
 	public MarqueurOrange(){
 		
-		super("Orange");
+		super("Orange","../view/Images/single-cubeOrange");
 	}
 	
 }

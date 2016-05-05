@@ -57,7 +57,7 @@
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_0_0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <ImageView fx:id="Case_0_0" onMouseClicked="#test" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>

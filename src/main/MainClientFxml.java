@@ -336,7 +336,7 @@ System.out.println("non term : "+partiesNonTerminees);
 									//System.out.println("Nouveau joueur : "+p.getJoueursConnectes());
 								
 							        MainClientFxml.controller.changeText(partie);
-													
+
 									modifs.remove(0);
 
 							
@@ -359,6 +359,10 @@ System.out.println("non term : "+partiesNonTerminees);
 									
 								}else if(modif.equals(Static.modificationConstructeurDeCanal)){
 									MainClientFxml.controller.modifierConstructeur(partie);
+									modifs.remove(0);
+								}
+								else if(modif.equals(Static.modificationRetourneTuile)){
+									MainClientFxml.controller.afficheTuilesRetournees(partie);
 									modifs.remove(0);
 								} else {
 									System.out.println("Modif non reconnue");
@@ -738,12 +742,18 @@ System.out.println("non term : "+partiesNonTerminees);
 		}
 	}
 	
+	
+	
 	public void afficheJoueur(Partie p) throws RemoteException{
 		switch(p.getNombreJoueurDansLaPartie()){
 			case 3:
 				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
 				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
 				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
+				
+				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
 				
 				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
 				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
@@ -754,6 +764,11 @@ System.out.println("non term : "+partiesNonTerminees);
 				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
 				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
 				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
+				
+				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+				this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
 				
 				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
 				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
@@ -767,16 +782,23 @@ System.out.println("non term : "+partiesNonTerminees);
 				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
 				this.nomJoueur5.setText(p.getJoueursConnectes().get(4).getPseudo());
 				
+				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+				this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
+				this.nomJoueur5.setFill(Color.web(p.getJoueursConnectes().get(4).getCodeCouleur()));
+				
 				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
 				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
 				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
 				this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
 				this.soldeJoueur5.setText(""+p.getJoueursConnectes().get(4).getSolde());
 				
+				this.pioche5.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Dos_Tuiles.jpg")));
+				
 				break;
 		}
 	}
-	
 	
 	public void modifierConstructeur(Partie p) throws IOException{
 		Joueur constructeur = p.getConstructeurDeCanal().getJoueur();
@@ -861,7 +883,9 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 	}
 	
-	
+	public void afficheTuilesRetournees(Partie p){
+		
+	}
 	
 	
 	

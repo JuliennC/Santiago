@@ -202,6 +202,7 @@ public class Partie implements Serializable{
 	
 	public HashMap<SantiagoInterface, Integer> phase1() throws RemoteException {
 			retourneTuiles();
+			addModification(Static.modificationRetourneTuile);
 			presentationTuile();
 			//On récupère le joueur à gauche
 			SantiagoInterface client = getClientAGauche(constructeurDeCanal);

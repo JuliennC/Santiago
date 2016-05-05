@@ -6,15 +6,17 @@ public abstract class MarqueurRendement {
 
 	private Joueur joueurProprietaire;
 	
+	protected String path;
 	/*
 	 * ATTENTION devra être remplacé par le lien de l'image du marqueur
 	 */
 	private String couleur;
 
 	
-	public MarqueurRendement(String c){
+	public MarqueurRendement(String c, String p){
 		
 		couleur = c;
+		path = p;
 	}
 	
 	

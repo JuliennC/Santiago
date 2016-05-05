@@ -14,6 +14,10 @@ public class Static {
 	public final static Integer modificationTuiles = 5;
 	
 	public final static Integer modificationConstructeurDeCanal = 6;
+	
+	public final static Integer modificationJoueurEnCours = 7;
+	
+	public final static Integer modificationRetourneTuile = 8;
 
 }
 
