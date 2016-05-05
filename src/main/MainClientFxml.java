@@ -1002,7 +1002,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	                String id_1="";
 	                String id_2="";
 
-	                if(canal.getCoordDebut().x % 2 == 0){
+	                if(canal.getCoordFin().x % 2 == 0){
 
 		                id_1 = "#Canal_"+canal.getCoordDebut().x+"_"+canal.getCoordDebut().y+"_h";
 		                id_2 = "#Canal_"+(canal.getCoordFin().x-1)+"_"+(canal.getCoordFin().y+1)+"_h";
