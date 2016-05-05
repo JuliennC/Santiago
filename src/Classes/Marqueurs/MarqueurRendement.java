@@ -1,20 +1,24 @@
 package Classes.Marqueurs;
 
+import java.io.Serializable;
+
 import Classes.Joueur;
 
-public abstract class MarqueurRendement {
+public abstract class MarqueurRendement implements Serializable{
 
 	private Joueur joueurProprietaire;
 	
+	protected String path;
 	/*
 	 * ATTENTION devra être remplacé par le lien de l'image du marqueur
 	 */
 	private String couleur;
 
 	
-	public MarqueurRendement(String c){
+	public MarqueurRendement(String c, String p){
 		
 		couleur = c;
+		path = p;
 	}
 	
 	

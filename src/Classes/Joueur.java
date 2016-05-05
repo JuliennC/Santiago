@@ -1,20 +1,17 @@
 package Classes;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import Classes.Marqueurs.MarqueurBlanc;
-import Classes.Marqueurs.MarqueurGris;
-import Classes.Marqueurs.MarqueurNoir;
 import Classes.Marqueurs.MarqueurOrange;
 import Classes.Marqueurs.MarqueurRendement;
+import Classes.Marqueurs.MarqueurRose;
 import Classes.Marqueurs.MarqueurRouge;
+import Classes.Marqueurs.MarqueurVert;
+import Classes.Marqueurs.MarqueurViolet;
 import Exception.JoueurException;
-import network.SantiagoInterface;
+
 
 public class Joueur implements Serializable{
 	/**
@@ -53,23 +50,23 @@ public class Joueur implements Serializable{
 		this.marqueurRestant = new ArrayList<MarqueurRendement>();
 		for(int i =0 ; i<22; i++){
 			switch(this.couleur){
-			case "Blanc" :
-				this.marqueurRestant.add(new MarqueurBlanc());
-				break;
-			case "Gris" :
-				this.marqueurRestant.add(new MarqueurGris());
-				break;
-			case "Noir" :
-				this.marqueurRestant.add(new MarqueurNoir());
-				break;
-			case "Orange" :
-				this.marqueurRestant.add(new MarqueurOrange());
-				break;
-			case "Rouge" :
-				this.marqueurRestant.add(new MarqueurRouge());
-				break;
-			default:
-				break;
+				case "Vert" :
+					this.marqueurRestant.add(new MarqueurVert());
+					break;
+				case "Rose" :
+					this.marqueurRestant.add(new MarqueurRose());
+					break;
+				case "Violet" :
+					this.marqueurRestant.add(new MarqueurViolet());
+					break;
+				case "Orange" :
+					this.marqueurRestant.add(new MarqueurOrange());
+					break;
+				case "Rouge" :
+					this.marqueurRestant.add(new MarqueurRouge());
+					break;
+				default:
+					break;
 			}
 		}
 	}
@@ -259,16 +256,16 @@ public class Joueur implements Serializable{
 		this.couleur = couleur;
 		for(int i =0 ; i<22; i++){
 			switch(this.couleur){
-			case "Blanc" :
-				this.marqueurRestant.add(new MarqueurBlanc());
+			case "Vert" :
+				this.marqueurRestant.add(new MarqueurVert());
 				break;
-			case "Gris" :
-				this.marqueurRestant.add(new MarqueurGris());
+			case "Rose" :
+				this.marqueurRestant.add(new MarqueurRose());
 				break;
-			case "Noir" :
-				this.marqueurRestant.add(new MarqueurNoir());
+			case "Violet" :
+				this.marqueurRestant.add(new MarqueurViolet());
 				break;
-			case "Orange" :
+			case "Orange": 
 				this.marqueurRestant.add(new MarqueurOrange());
 				break;
 			case "Rouge" :
@@ -314,6 +311,23 @@ public class Joueur implements Serializable{
 
 	public void setMotDePasse(String motDePasse) {
 		this.motDePasse = motDePasse;
+	}
+	
+	public String getCodeCouleur(){
+		switch(this.couleur){
+			case "Rouge":
+				return "#ff0000";
+			case "Orange":
+				return "#ff8000";
+			case "Rose":
+				return "#ff46d1";
+			case "Vert":
+				return "#13c300";
+			case "Violet":
+				return "#780274";
+			default:
+				return null;
+		}
 	}
 
 }

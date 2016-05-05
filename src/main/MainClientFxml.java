@@ -17,8 +17,9 @@ import java.util.ResourceBundle;
 import Classes.Joueur;
 import Classes.Partie;
 import Classes.Static;
-import Classes.Marqueurs.MarqueurGris;
+import Classes.Marqueurs.MarqueurRouge;
 import Classes.Marqueurs.MarqueurRendement;
+import Classes.Marqueurs.MarqueurRouge;
 import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
 import Classes.Tuile.Tuile;
@@ -348,7 +349,7 @@ System.out.println("non term : "+partiesNonTerminees);
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
 							
-									MainClientFxml.controller.lancementPlateau();
+									MainClientFxml.controller.lancementPlateau(partie);
 										modifs.remove(0);
 							
 								} else if(modif.equals(Static.modificationJoueurDeconnection)){
@@ -705,7 +706,7 @@ System.out.println("non term : "+partiesNonTerminees);
         
 	}
 	
-	public void lancementPlateau() throws IOException{
+	public void lancementPlateau(Partie p) throws IOException{
 		System.out.println("Lanchement Plateau");
 		
 		final URL url = getClass().getResource("../view/Plateau.fxml");
@@ -714,7 +715,7 @@ System.out.println("non term : "+partiesNonTerminees);
         
         final BorderPane root = (BorderPane) fxmlLoader.load();
         this.controller = (MainClientFxml)fxmlLoader.getController();
-
+        this.controller.
         stage.getScene().setRoot(root);
 	}
 	
@@ -829,7 +830,7 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 		//On dit au server d'ajouter la tuile
         TuilePiment tuile = new TuilePiment(1);
-        MarqueurGris m = new MarqueurGris();
+        MarqueurRouge m = new MarqueurRouge();
         
         tuile.addMarqueur(m);
         
@@ -963,6 +964,63 @@ System.out.println("non term : "+partiesNonTerminees);
 		}
 		//zoneTexte.insertText(0, partie.getTexte());
 	}
+	
+	public void afficheJoueur(Partie p) throws RemoteException{
+		switch(p.getNombreJoueurDansLaPartie()){
+			case 3:
+				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
+				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
+				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
+				
+				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+				
+				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
+				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
+				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
+				break;
+			case 4:
+				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
+				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
+				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
+				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
+				
+				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+				this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
+				
+				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
+				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
+				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
+				this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
+				break;
+			case 5:
+				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
+				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
+				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
+				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
+				this.nomJoueur5.setText(p.getJoueursConnectes().get(4).getPseudo());
+				
+				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+				this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
+				this.nomJoueur5.setFill(Color.web(p.getJoueursConnectes().get(4).getCodeCouleur()));
+				
+				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
+				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
+				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
+				this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
+				this.soldeJoueur5.setText(""+p.getJoueursConnectes().get(4).getSolde());
+				
+				this.pioche5.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Dos_Tuiles.jpg")));
+				
+				break;
+		}
+	}
+	
 	
 	public static void main(String[] args) {
 		Application.launch(MainClientFxml.class,args);

@@ -873,7 +873,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 				
 				if(! aP.getPartieACommence()){
 					
-					
+					attributionDesCouleurs(aP);
 					aP.lancePartie();
 					
 				}
@@ -890,20 +890,20 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		case 3:
 			listJoueur.get(0).setCouleur("Rouge");
 			listJoueur.get(1).setCouleur("Orange");
-			listJoueur.get(2).setCouleur("Gris");
+			listJoueur.get(2).setCouleur("Rose");
 			break;
 		case 4:
 			listJoueur.get(0).setCouleur("Rouge");
 			listJoueur.get(1).setCouleur("Orange");
-			listJoueur.get(2).setCouleur("Gris");
-			listJoueur.get(3).setCouleur("Noir");
+			listJoueur.get(2).setCouleur("Rose");
+			listJoueur.get(3).setCouleur("Vert");
 			break;
 		case 5:
 			listJoueur.get(0).setCouleur("Rouge");
 			listJoueur.get(1).setCouleur("Orange");
-			listJoueur.get(2).setCouleur("Gris");
-			listJoueur.get(3).setCouleur("Noir");
-			listJoueur.get(3).setCouleur("Blanc");
+			listJoueur.get(2).setCouleur("Rose");
+			listJoueur.get(3).setCouleur("Vert");
+			listJoueur.get(3).setCouleur("Violet");
 			break;
 		}
 	}
