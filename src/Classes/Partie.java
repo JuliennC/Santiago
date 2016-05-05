@@ -103,13 +103,13 @@ public class Partie implements Serializable{
 	 */
 	public void lancePartie() throws PartieException, RemoteException, JoueurException {	
 		System.out.println("On lance la partie");
-		this.getPlateau().fabriqueTuiles();
 		addModification(Static.modificationPartieCommence);
-
+		this.getPlateau().fabriqueTuiles();
+		
 		Random random = new Random();
 		int index = random.nextInt(listeClients.size());
 		this.constructeurDeCanal = listeClients.get(index);
-		this.plateau.fabriqueTuiles();
+
 		System.out.println("Constructeur de canal : "+constructeurDeCanal.getJoueur().getPseudo());
 		
 		// ATTENTION : ON LANCE LES PHASES UNIQUEMENT SI LA PARTIE A UN NOM

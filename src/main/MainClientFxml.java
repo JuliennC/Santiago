@@ -133,11 +133,11 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	/*-------------Début attributs Plateau --------------------*/
     @FXML
-    ImageView Case_1_1, Case_2_1, Case_4_1, Case_5_1, Case_7_1, Case_8_1, Case_1_2, Case_8_2, Case_7_2, Case_5_2,
-    Case_2_2, Case_4_2, Case_1_4, Case_8_4, Case_7_4, Case_5_4, Case_4_4, Case_2_4, Case_1_5, Case_8_5, Case_7_5,
-    Case_5_5, Case_4_5, Case_2_5, Case_7_7, Case_5_7, Case_4_7, Case_2_7, Case_1_7, Case_8_7, Case_1_8, Case_8_8,
-    Case_7_8, Case_5_8, Case_4_8, Case_2_8, Case_1_10, Case_8_10, Case_7_10, Case_5_10, Case_4_10, Case_2_10,
-    Case_1_11, Case_8_11, Case_7_11, Case_5_11, Case_4_11, Case_2_11;
+    ImageView Case_0_0, Case_0_1, Case_0_2, Case_0_3, Case_0_4, Case_0_5, Case_1_0, Case_1_1, Case_1_2, Case_1_3,
+    Case_1_4, Case_1_5, Case_2_0, Case_2_1, Case_2_2, Case_2_3, Case_2_4, Case_2_5, Case_3_0, Case_3_1, Case_3_2, Case_3_3,
+    Case_3_4, Case_3_5, Case_4_0, Case_4_1, Case_4_2, Case_4_3, Case_4_4, Case_4_5, Case_5_0, Case_5_1, Case_5_2,
+    Case_5_3, Case_5_4, Case_5_5, Case_6_0, Case_6_1, Case_6_2, Case_6_3, Case_6_4, Case_6_5, Case_7_0,
+    Case_7_1, Case_7_2, Case_7_3, Case_7_4, Case_7_5;
     
     @FXML
     ImageView Canal_1_0, Canal_2_0, Canal_6_2, Canal_5_2, Canal_4_2, Canal_3_2, Canal_2_2, Canal_1_2, Canal_8_0, Canal_7_0,
@@ -937,18 +937,23 @@ System.out.println("non term : "+partiesNonTerminees);
 	
 	public void afficherJoueurEnCours(Partie partie) {
 		Joueur j = partie.getJoueurEnCours();
-		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/fleche.png"));
-			
+		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/fleche.png"));
+		
 		if(j.getPseudo().equals(this.nomJoueur1.getText())) {
 			this.tourJoueur1.setImage(image);
+			System.out.println("AH QUE KOUKOU j1!!!!!");
 		} else if (j.getPseudo().equals(this.nomJoueur2.getText())) {
 			this.tourJoueur1.setImage(image);
+			System.out.println("AH QUE KOUKOU j2!!!!!");
 		} else if (j.getPseudo().equals(this.nomJoueur3.getText())) {
 			this.tourJoueur1.setImage(image);
+			System.out.println("AH QUE KOUKOU j3!!!!!");
 		} else if (j.getPseudo().equals(this.nomJoueur4.getText())) {
 			this.tourJoueur1.setImage(image);
+			System.out.println("AH QUE KOUKOU j4!!!!!");
 		} else if (j.getPseudo().equals(this.nomJoueur5.getText())) {
 			this.tourJoueur1.setImage(image);
+			System.out.println("AH QUE KOUKOU j4!!!!!");
 		}
 		
 	}
