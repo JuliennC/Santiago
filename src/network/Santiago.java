@@ -502,24 +502,9 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		    	System.out.println("Erreur dans la valeur. \n");
 		    } 
 		}
-		
 		return montant;
 	}
-	
-	/**
-	 * Afficher la liste des propositions de pot de vin (Avec cumul des pots de vin)
-	 * 
-	 */
-	@Override
-	public void afficherPropositionsPotDeVin(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException{
-		this.verifieClient();
-		
-		for(SantiagoInterface si : listePropositions.keySet()) {
-			System.out.println("Joueur : " +si.getJoueur().getPseudo() + " | Couleur : " + si.getJoueur().getCouleur() + 
-					" | Montant proposé: " +listePropositions.get(si));
-		}
-	}
-	
+
 	/**
 	 * Fonction appelée pour le choix 2
 	 * Affiche la liste des propositions (Fonction afficherPropositionsPotDeVin)
@@ -528,36 +513,17 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 */
 	public SantiagoInterface soutenirJoueur(HashMap<SantiagoInterface, Integer> listePropositions) throws RemoteException {
 		this.verifieClient();
-		
-		boolean choixJoueur = false;
+
 		String choix = "";
-		SantiagoInterface joueur = null;
+	
+		choix = scString.nextLine();			
 		
-		System.out.println("La liste des pots de vin: ");
-		afficherPropositionsPotDeVin(listePropositions);
-		
-
-		while(!choixJoueur) {
-			if(choix.contains("")) {
-				System.out.println("Quel joueur voulez vous soutenir ?");
-			} else {
-				System.out.println("Ce joueur n'est pas dans la liste des pots de vin.. Réessayez :");
-				System.out.println("Quel joueur voulez vous soutenir ?");
+		for(SantiagoInterface si : listePropositions.keySet()){
+			if(si.getJoueur().getPseudo().equals(choix) ) {
+				return si;
 			}
-			
-			choix = scString.nextLine();			
-			
-			for(SantiagoInterface si : listePropositions.keySet()){
-				if(si.getJoueur().getPseudo().equals(choix) ) {
-					choixJoueur = true;
-					joueur = si;
-					break;
-				}
-			}
-			choix = "";
 		}
-
-		return joueur;
+		return null;
 	}
 	
 	/**
@@ -590,9 +556,10 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * Cas 2: Pose le canal et déduit le coût au solde
 	 * 
 	 * @return SantiagoInterface joueurChoisi: Le joueur choisi
+	 * @throws PartieException 
 	 */
 	@Override
-	public SantiagoInterface choisirPotDeVin(Plateau plateau, HashMap<SantiagoInterface, Integer> listePropositions, ArrayList<Canal> listeCanauxTemp) throws RemoteException {
+	public SantiagoInterface choisirPotDeVin(Plateau plateau, HashMap<SantiagoInterface, Integer> listePropositions, ArrayList<Canal> listeCanauxTemp) throws RemoteException, PartieException {
 		this.verifieClient();
 		
 		int coutCanalPerso;
@@ -604,20 +571,13 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		coutCanalPerso = constructeurPoserCanalPerso(listePropositions);	
 		
 		while(!choixOk) {
-			if(coutCanalPerso + 1 < joueur.getSolde()) {
-				System.out.println("Faites un choix:");
-				System.out.println("[1] Choisir la proposition d'un joueur");
-				System.out.println("[2] Choisir de constuire son propre canal (Coût: Proposition la plus élevée + 1 Escudo");	
-				
+			if(coutCanalPerso + 1 < joueur.getSolde()) {		
 				try {
 					choixProposition = scInt.nextInt();
 				} catch (InputMismatchException e) {
-					System.out.println("Erreur dans la valeur. \n");
+					throw new PartieException("Erreur dans la valeur");
 				}
-				
 			} else {
-				System.out.println("Vous n'avez pas un solde suffisant pour poser votre propre canal.");
-				System.out.println("Vous devez donc poser le canal d'un joueur :");
 				choixProposition = 1;
 			}
 			
@@ -736,55 +696,53 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * Permet aux joueurs de poser un canal temporaire
 	 * Canal : Couleur du joueur
 	 * 		   Mise en eau = false
+	 * @throws PartieException 
 	 */
 	@Override
-	public Canal poserCanalTemporaire(Plateau plateau, ArrayList<Canal> listeCanauxTemp) throws RemoteException {
+	public Canal poserCanalTemporaire(Plateau plateau, ArrayList<Canal> listeCanauxTemp) throws RemoteException, PartieException {
 		this.verifieClient();
-		
 		// TODO Auto-generated method stub
-		System.out.println("Positionnez votre canal temporaire sur le plateau...");
+		
 		Canal canal = new Canal(joueur.getCouleur());
 		Point coordDebut = new Point();
 		Point coordFin = new Point();
 		boolean canalValide = false;
 		
-		while(!canalValide) {
-			//Wait listener 
-			//On récupère les coordonnéés au clic sur le plateau
-			int xDeb = 2;
-			int yDeb = 1;
-			int xFin = 2;
-			int yFin = 2;
+		//Wait listener 
+		//On récupère les coordonnéés au clic sur le plateau
+		int xDeb = 2;
+		int yDeb = 1;
+		int xFin = 2;
+		int yFin = 2;
 
-			coordDebut.setLocation(xDeb, yDeb);
-			coordFin.setLocation(xFin, yFin);
-			
-
-			for(Canal c:plateau.getListeCanaux()) {
-				if(c.getCoordDebut().equals(canal.getCoordDebut())) {
-					if(c.getCoordFin().equals(canal.getCoordFin())) {
-						//La position est valide, on vérifie que le canal n'existe pas déjà (!!! Pas sur que ça serve, à avoir avec l'interface)
-						canalValide = true;
-						
-						for(Canal c2:listeCanauxTemp) {
-							if(c2.getCoordDebut().equals(canal.getCoordDebut())) {
-								if(c2.getCoordFin().equals(canal.getCoordFin())) {
-									canalValide = false;
-									break;
-								}
+		coordDebut.setLocation(xDeb, yDeb);
+		coordFin.setLocation(xFin, yFin);
+		
+		for(Canal c:plateau.getListeCanaux()) {
+			if(c.getCoordDebut().equals(canal.getCoordDebut())) {
+				if(c.getCoordFin().equals(canal.getCoordFin())) {
+					//La position est valide, on vérifie que le canal n'existe pas déjà (!!! Pas sur que ça serve, à avoir avec l'interface)
+					canalValide = true;
+					
+					for(Canal c2:listeCanauxTemp) {
+						if(c2.getCoordDebut().equals(canal.getCoordDebut())) {
+							if(c2.getCoordFin().equals(canal.getCoordFin())) {
+								canalValide = false;
+								break;
 							}
 						}
-						break;
 					}
+					break;
 				}
 			}
-			
-			if(canalValide == true) {
-				System.out.println("Canal validé. Au tour des autres joueurs...");
-			} else {
-				System.out.println("Position invalide, réessayez...");
-			}
 		}
+		
+		if(canalValide) {
+			System.out.println("Canal validé. Au tour des autres joueurs...");
+		} else {
+			throw new PartieException("Position invalide, réessayez...");
+		}
+
 		return canal;
 	}
 	

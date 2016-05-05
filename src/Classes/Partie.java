@@ -368,7 +368,7 @@ public class Partie implements Serializable{
 			while(! client.equals(constructeurDeCanal)) {	
 				int choix = 0;
 				int potDeVin;
-				SantiagoInterface joueurSoutenu;
+				SantiagoInterface joueurSoutenu = null;
 				joueurEnCours = client.getJoueur();
 				addModification(Static.modificationJoueurEnCours);
 
@@ -388,11 +388,41 @@ public class Partie implements Serializable{
 						listePropositions.put(client, potDeVin);
 						
 						//poserCanalTemporaire
-						listeCanauxTemp.add(client.poserCanalTemporaire(plateau, listeCanauxTemp));
+						Canal c = null;
+						while(c.equals(null)) {
+							listeDestinataires.add(client.getJoueur());
+							envoyerMessage(listeDestinataires, "Positionnez votre canal temporaire sur le plateau...");
+							
+							try {
+								c = client.poserCanalTemporaire(plateau, listeCanauxTemp);
+							} catch (PartieException e) {
+								// TODO Auto-generated catch block
+								listeDestinataires.add(client.getJoueur());
+								envoyerMessage(listeDestinataires, e.getMessage());
+							}						
+						}
+						listeCanauxTemp.add(c);	
+
 						break;
 					case 2:
 						//On demande le joueur soutenu.
-						joueurSoutenu = client.soutenirJoueur(listePotsDeVin);
+						while(joueurSoutenu.equals(null)) {
+							//On affiche la liste des pots de vins existant:
+							String msg = afficherPropositions(listePropositions);
+							listeDestinataires.add(client.getJoueur());
+							envoyerMessage(listeDestinataires, msg);
+
+							//On demande quel joueur soutenir:
+							listeDestinataires.add(client.getJoueur());
+							envoyerMessage(listeDestinataires, "Quel joueur voulez vous soutenir ?");
+							joueurSoutenu = client.soutenirJoueur(listePotsDeVin);	
+							
+							if(joueurSoutenu.equals(null)) {
+								listeDestinataires.add(client.getJoueur());
+								envoyerMessage(listeDestinataires, "Erreur dans la valeur.");								
+							}
+						}
+
 						
 						//On demande le montant du pot de vin
 						potDeVin = client.joueurFaitPotDeVin();
@@ -416,6 +446,21 @@ public class Partie implements Serializable{
 			}
 			
 			joueurEnCours = null; addModification(Static.modificationJoueurEnCours);
+			
+			//On regarde si le joueur a les moyens de poser son propre canal:
+			int coutCanalPerso = constructeurPoserCanalPerso(listePropositions);
+			
+			if(coutCanalPerso + 1 < client.getJoueur().getSolde()) {
+				//On demande quel joueur soutenir:
+				String msg = "Faites un choix: \n[1] Choisir la proposition d'un joueur \n[2] Choisir de constuire son propre canal (Coût: Proposition la plus élevée + 1 Escudo";
+				listeDestinataires.add(client.getJoueur());
+				envoyerMessage(listeDestinataires, msg);					
+			} else {
+				String msg = "Vous n'avez pas un solde suffisant pour poser votre propre canal. \nVous devez donc poser le canal d'un joueur :";
+				listeDestinataires.add(client.getJoueur());
+				envoyerMessage(listeDestinataires, msg);					
+			}
+
 			
 			//Une fois que tous les joueurs ont déposés un pot de vin (ou passer), on passe à la seconde partie de la phase 4:
 			propositionChoisie = constructeurDeCanal.choisirPotDeVin(plateau, listePropositions, listeCanauxTemp);
@@ -1141,7 +1186,30 @@ public class Partie implements Serializable{
 		return listeMessages;
 	}
 
-
+	public String afficherPropositions(HashMap<SantiagoInterface, Integer> liste) {
+		String msg = "La liste des pots de vin: \n";
+		for(SantiagoInterface si : liste.keySet()) {
+			msg = msg + si +" : " +liste.get(si) +"\n";
+		}
+		return msg;		
+	}
+	
+	/**
+	 * Calcule le cout pour le constructeur de poser son canal perso (Basé sur la proposition max + 1)
+	 * @param listePropositions
+	 * @return
+	 */
+	public int constructeurPoserCanalPerso(HashMap<SantiagoInterface, Integer> listePropositions) {
+		int propositionMax = 0;
+		
+		for(SantiagoInterface si : listePropositions.keySet()) {
+			if(listePropositions.get(si) > propositionMax) {
+				propositionMax = listePropositions.get(si);							
+			}
+		}
+		
+		return propositionMax;
+	}
 	
 	
 	
