@@ -53,6 +53,8 @@ public class Partie implements Serializable{
 	
 	private ArrayList<Integer> listeModifications = new ArrayList<>();
 	
+	private Joueur joueurEnCours = null;
+	
 	public Partie(String aNom, int nbJoueurs) throws PartieException{
 		
 		this.nomPartie = aNom;
@@ -61,8 +63,9 @@ public class Partie implements Serializable{
 	
 		plateau = new Plateau();
 	}
-
 	
+	private ArrayList<String []> listeMessages = new ArrayList<String []>();
+	private ArrayList<Joueur> listeDestinataires = new ArrayList<Joueur>();
 	
 	
 	/**
@@ -99,15 +102,15 @@ public class Partie implements Serializable{
 	 * @throws RemoteException 
 	 * @throws JoueurException 
 	 */
-	public void lancePartie() throws PartieException, RemoteException, JoueurException {
-		
+	public void lancePartie() throws PartieException, RemoteException, JoueurException {	
 		System.out.println("On lance la partie");
 		addModification(Static.modificationPartieCommence);
-		Random random = new Random();
+		this.getPlateau().fabriqueTuiles();
 		
+		Random random = new Random();
 		int index = random.nextInt(listeClients.size());
 		this.constructeurDeCanal = listeClients.get(index);
-		this.plateau.fabriqueTuiles();
+
 		System.out.println("Constructeur de canal : "+constructeurDeCanal.getJoueur().getPseudo());
 		addModification(Static.modificationConstructeurDeCanal);
 		// ATTENTION : ON LANCE LES PHASES UNIQUEMENT SI LA PARTIE A UN NOM
@@ -211,51 +214,51 @@ public class Partie implements Serializable{
 
 			//On prend les offres des joueurs
 			while(! client.equals(constructeurDeCanal)) {
-
-				// Le joueur doit faire une offre
-				int offre = client.joueurFaitUneOffre();
-
-				//On vérifie que l'offre est valide 
-				boolean offreValide =  (! (listeOffres.containsValue(offre))) || (offre == 0); 
+				joueurEnCours = client.getJoueur();
+				addModification(Static.modificationJoueurEnCours);
 				
-				while(! offreValide){
-					
-					//On affiche une erreur
-					client.afficheErreur("Erreur : vous devez entrer une offre qui différentes des autres joueurs");
-					
-					
-					//On redemande une offre
-					offre = client.joueurFaitUneOffre();
-
-					
-					//On véruifie la nouvelle offre
-					offreValide = ! (listeOffres.containsValue(offre));
-					
+				//Envoi message:
+				String msg = client.getJoueur().getPseudo()+ " fait une enchère...";
+				for(Joueur j: listeDesJoueurs) {
+					listeDestinataires.add(j);
 				}
+				envoyerMessage(listeDestinataires, msg);
 				
-				//On stocke les offres
-				listeOffres.put(client, offre);	
+				// Le joueur doit faire une offre
+				boolean offreValide = false;				
 				
+				while(!offreValide) {
+					String offre = client.joueurFaitUneOffre();
+					String res[] = offre.split("_");
+					
+					if(res[0].equals("0")) {
+						//L'offre est invalide, on signale le joueur et on redemande une offre
+						listeDestinataires.add(client.getJoueur());
+						envoyerMessage(listeDestinataires, res[1]);
+					} else if(listeOffres.containsValue(res[1])){
+						//L'offre est invalide car une offre du même montant existe
+						listeDestinataires.add(client.getJoueur());
+						envoyerMessage(listeDestinataires, "Vous devez entrer une offre différente de celle des autres joueurs");
+					} else {
+						//L'offre est valide
+						msg = client.getJoueur().getPseudo()+ "a proposé " +res[1]+ " Escudos !";
+						envoyerMessage(listeDesJoueurs, msg);
+						
+						//On stocke les offres
+						listeOffres.put(client, Integer.parseInt(res[1]));
+						offreValide = true;
+					}
+				}
+
 				//On change de joueur
 				client = getClientAGauche(client);
+			}
 
-			}
+			envoyerMessage(listeDesJoueurs, "Les enchères sont terminées");
 			
-			int offre = client.joueurFaitUneOffre();
-			
-			//On stocke les offres
-			listeOffres.put(client, offre);	
-			
-			//On affiche les offres
-			String str = "";
-			
-			for(SantiagoInterface si : listeOffres.keySet()){
-				
-				str += si.getJoueur().getPseudo()+" --> "+listeOffres.get(si)+"\n";
-			}
-			
-			System.out.println("Les enchères sont terminées : \n"+str);
-			
+			//Le joueur en cours est à null (La flèche disparait de l'interface)
+			joueurEnCours = null;
+			addModification(Static.modificationJoueurEnCours);
 			return listeOffres;
 		}
 				
@@ -326,7 +329,8 @@ public class Partie implements Serializable{
 					this.constructeurDeCanal = si;
 				}
 			}
-			System.out.println("Le nouveau constructeur de canal est: "+this.constructeurDeCanal.getName());
+			
+			envoyerMessage(listeDesJoueurs, "Le nouveau constructeur de canal est: "+this.constructeurDeCanal.getName());
 			addModification(Static.modificationConstructeurDeCanal);
 		}
 
@@ -366,6 +370,8 @@ public class Partie implements Serializable{
 				int choix = 0;
 				int potDeVin;
 				SantiagoInterface joueurSoutenu;
+				joueurEnCours = client.getJoueur();
+				addModification(Static.modificationJoueurEnCours);
 
 				
 				//Etape 1: On demande un choix [Pot de vin ; Soutenir joueur ; Passer]
@@ -409,6 +415,8 @@ public class Partie implements Serializable{
 				//On change de joueur
 				client = getClientAGauche(client);
 			}
+			
+			joueurEnCours = null; addModification(Static.modificationJoueurEnCours);
 			
 			//Une fois que tous les joueurs ont déposés un pot de vin (ou passer), on passe à la seconde partie de la phase 4:
 			propositionChoisie = constructeurDeCanal.choisirPotDeVin(plateau, listePropositions, listeCanauxTemp);
@@ -585,6 +593,8 @@ public class Partie implements Serializable{
 		// on cree le HashMap qui accueil les couple client tuile
 		HashMap<SantiagoInterface, Tuile> listeTuilesChoisies = new HashMap<>();
 		for (SantiagoInterface client : listeClients){
+			joueurEnCours = client.getJoueur();
+			addModification(Static.modificationJoueurEnCours);
 			presentationTuile();
 			// le client choisit sa tuile
 			int indexTuileChoisie = client.joueurChoisitTuile(this.plateau.getListeTuilesRetournees().size());
@@ -605,6 +615,7 @@ public class Partie implements Serializable{
 	 */
 	public void phase3point2(HashMap<SantiagoInterface, Tuile> listeTuilesChoisies, ArrayList <SantiagoInterface> listeClients) throws RemoteException{
 		for(SantiagoInterface client : listeClients){
+			joueurEnCours = client.getJoueur(); addModification(Static.modificationJoueurEnCours);
 			Tuile tuile = listeTuilesChoisies.get(client);
 			ArrayList<MarqueurRendement>listeMarqueurs = new ArrayList <MarqueurRendement>();
 			for(int i = 0; i< tuile.getNombreMarqueursNecessaires();i++){
@@ -618,6 +629,8 @@ public class Partie implements Serializable{
 			tuile.setMarqueursActuels(listeMarqueurs);
 			setPositionTuile(client,tuile);
 		}
+		joueurEnCours = null; addModification(Static.modificationJoueurEnCours);
+		
 		if(this.nombreDeJoueurs == 3){
 			setPositionTuile(listeClients.get(0),this.plateau.getListeTuilesRetournees().get(0));
 		}
@@ -882,7 +895,23 @@ public class Partie implements Serializable{
 		}
 	}
 	
-	
+	public void envoyerMessage(ArrayList<Joueur> destinataire, String msg) throws RemoteException {
+		String tabMessage[] = new String[2];
+		tabMessage[0] = msg;
+		
+		for(Joueur j: destinataire) {
+			//Destinataires:
+			if(tabMessage[1] != null) {
+				tabMessage[1] = tabMessage[1]+j.getPseudo()+"_";
+			} else {
+				tabMessage[1] = j.getPseudo()+"_";
+			}
+		}
+		//On ajoute le message à l'arrayList:
+		listeMessages.add(tabMessage);
+		addModification(Static.modificationtexte);
+		listeDestinataires.clear();
+	}
 	
 	
 	/**
@@ -1104,5 +1133,17 @@ public class Partie implements Serializable{
 	public void supprimeClient(SantiagoInterface client){
 		listeClients.remove(client);
 	}
+
+	public Joueur getJoueurEnCours() {
+		return joueurEnCours;
+	}
+
+	public ArrayList<String[]> getListeMessages() {
+		return listeMessages;
+	}
+
+
+	
+	
 	
 }

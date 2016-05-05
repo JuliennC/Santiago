@@ -1,8 +1,10 @@
 package Classes.Marqueurs;
 
+import java.io.Serializable;
+
 import Classes.Joueur;
 
-public abstract class MarqueurRendement {
+public abstract class MarqueurRendement implements Serializable{
 
 	private Joueur joueurProprietaire;
 	

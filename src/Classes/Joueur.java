@@ -1,12 +1,8 @@
 package Classes;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import Classes.Marqueurs.MarqueurVert;
 import Classes.Marqueurs.MarqueurViolet;
 import Classes.Marqueurs.MarqueurRose;
@@ -14,7 +10,7 @@ import Classes.Marqueurs.MarqueurOrange;
 import Classes.Marqueurs.MarqueurRendement;
 import Classes.Marqueurs.MarqueurRouge;
 import Exception.JoueurException;
-import network.SantiagoInterface;
+
 
 public class Joueur implements Serializable{
 	/**
@@ -53,23 +49,23 @@ public class Joueur implements Serializable{
 		this.marqueurRestant = new ArrayList<MarqueurRendement>();
 		for(int i =0 ; i<22; i++){
 			switch(this.couleur){
-			case "Vert" :
-				this.marqueurRestant.add(new MarqueurVert());
-				break;
-			case "Rose" :
-				this.marqueurRestant.add(new MarqueurRose());
-				break;
-			case "Violet" :
-				this.marqueurRestant.add(new MarqueurViolet());
-				break;
-			case "Orange" :
-				this.marqueurRestant.add(new MarqueurOrange());
-				break;
-			case "Rouge" :
-				this.marqueurRestant.add(new MarqueurRouge());
-				break;
-			default:
-				break;
+				case "Vert" :
+					this.marqueurRestant.add(new MarqueurVert());
+					break;
+				case "Rose" :
+					this.marqueurRestant.add(new MarqueurRose());
+					break;
+				case "Violet" :
+					this.marqueurRestant.add(new MarqueurViolet());
+					break;
+				case "Orange" :
+					this.marqueurRestant.add(new MarqueurOrange());
+					break;
+				case "Rouge" :
+					this.marqueurRestant.add(new MarqueurRouge());
+					break;
+				default:
+					break;
 			}
 		}
 	}
@@ -268,7 +264,7 @@ public class Joueur implements Serializable{
 			case "Violet" :
 				this.marqueurRestant.add(new MarqueurViolet());
 				break;
-			case "Orange" :
+			case "Orange": 
 				this.marqueurRestant.add(new MarqueurOrange());
 				break;
 			case "Rouge" :
@@ -332,6 +328,4 @@ public class Joueur implements Serializable{
 				return null;
 		}
 	}
-	
-
 }
