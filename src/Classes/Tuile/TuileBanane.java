@@ -4,14 +4,12 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class TuileBanane extends Tuile  {
 
-	public TuileBanane() {}
 	
 	public TuileBanane(int nbMarqueurs){
 		
-		super(nbMarqueurs);
+		super(nbMarqueurs, "Champs de banane", "../view/Images/Bananes");
 
-		intituleDuChamps = "Champs de banane";
-
+		
 	}
 	
 }

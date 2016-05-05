@@ -14,14 +14,26 @@ public abstract class Tuile implements Serializable {
 	
 	protected String intituleDuChamps;
 	protected boolean estDesert;
+	protected String path;
 		
-	public Tuile() {}
 	
-	public Tuile(int nbMarqueurs) {
+	
+	public Tuile(int nbMarqueurs, String intituleDuChamps, String path) {
 		
 		nombreMarqueursNecessaires = nbMarqueurs;
+		this.intituleDuChamps = intituleDuChamps;
+		
+		if(nbMarqueurs == 1){
+			
+			this.path = path+"1.jpg";
+		
+		} else{
+			
+			this.path = path+"2.jpg";
+		}
 	}
 
+	
 	
 	
 
@@ -162,5 +174,12 @@ public abstract class Tuile implements Serializable {
 		this.nombreMarqueursNecessaires = nombreMarqueursNecessaires;
 	}
 	
-	
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
 }

@@ -3,13 +3,11 @@ package Classes.Tuile;
 
 public class TuileHaricot extends Tuile {
 
-	public TuileHaricot() {}
 	
 	public TuileHaricot(int nbMarqueurs){
 		
-		super(nbMarqueurs);
+		super(nbMarqueurs, "Champs de haricot", "../view/Images/Haricots");
 
-		intituleDuChamps = "Champs de haricot";
 	}
 	
 }
