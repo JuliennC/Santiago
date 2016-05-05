@@ -104,8 +104,9 @@ public class Partie implements Serializable{
 	 * @throws JoueurException 
 	 */
 	public void lancePartie() throws PartieException, RemoteException, JoueurException {	
-		System.out.println("On lance la partie");
 		addModification(Static.modificationPartieCommence);
+		System.out.println("On lance la partie");
+		
 		this.getPlateau().fabriqueTuiles();
 		
 		Random random = new Random();

@@ -324,7 +324,6 @@ System.out.println("non term : "+partiesNonTerminees);
 							if(partie == null){ continue; }
 						
 							if(partie.getListeModifications().size() > 0){
-								
 								//On ajoute les éléments suivants
 								for(int i = index; i < partie.getListeModifications().size(); i++){
 									
@@ -348,7 +347,7 @@ System.out.println("non term : "+partiesNonTerminees);
 
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
-							
+									System.out.println("COUCOU");
 									MainClientFxml.controller.lancementPlateau(partie);
 										modifs.remove(0);
 							
@@ -715,7 +714,7 @@ System.out.println("non term : "+partiesNonTerminees);
         
         final BorderPane root = (BorderPane) fxmlLoader.load();
         this.controller = (MainClientFxml)fxmlLoader.getController();
-        this.controller.
+        this.controller.afficheJoueur(p);
         stage.getScene().setRoot(root);
 	}
 	
@@ -966,15 +965,16 @@ System.out.println("non term : "+partiesNonTerminees);
 	}
 	
 	public void afficheJoueur(Partie p) throws RemoteException{
+		System.out.println("coucou");
 		switch(p.getNombreJoueurDansLaPartie()){
 			case 3:
 				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
 				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
 				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
 				
-				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
-				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
-				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+				//this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+				//this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+				//this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
 				
 				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
 				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
@@ -986,10 +986,10 @@ System.out.println("non term : "+partiesNonTerminees);
 				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
 				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
 				
-				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
-				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
-				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
-				this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
+				//this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+				//this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+				//this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+				//this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
 				
 				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
 				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
@@ -1003,11 +1003,11 @@ System.out.println("non term : "+partiesNonTerminees);
 				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
 				this.nomJoueur5.setText(p.getJoueursConnectes().get(4).getPseudo());
 				
-				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
-				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
-				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
-				this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
-				this.nomJoueur5.setFill(Color.web(p.getJoueursConnectes().get(4).getCodeCouleur()));
+				//this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+				//this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+				//this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+				//this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
+				//this.nomJoueur5.setFill(Color.web(p.getJoueursConnectes().get(4).getCodeCouleur()));
 				
 				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
 				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
