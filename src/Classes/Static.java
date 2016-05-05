@@ -15,5 +15,7 @@ public class Static {
 	
 	public final static Integer modificationConstructeurDeCanal = 6;
 
+	public final static Integer modificationCannaux = 9;
+
 }
 
