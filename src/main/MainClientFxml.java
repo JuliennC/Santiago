@@ -359,6 +359,7 @@ System.out.println("non term : "+partiesNonTerminees);
 									MainClientFxml.controller.modifierConstructeur(partie);
 									modifs.remove(0);
 								} else if(modif.equals(Static.modificationJoueurEnCours)){
+									System.out.println("ET LA ?");
 									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 								} else {
@@ -942,9 +943,12 @@ System.out.println("non term : "+partiesNonTerminees);
 	}
 	
 	public void afficherJoueurEnCours(Partie partie) {
+		System.out.println("ENTREE");
 		Joueur j = partie.getJoueurEnCours();
+		System.out.println("ENTREEDZDDZ");
 		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/fleche.png"));
-		
+		System.out.println("Pierre " +j.getPseudo());
+		System.out.println(this.nomJoueur1.getText());
 		if(j.getPseudo().equals(this.nomJoueur1.getText())) {
 			this.tourJoueur1.setImage(image);
 			System.out.println("AH QUE KOUKOU j1!!!!!");

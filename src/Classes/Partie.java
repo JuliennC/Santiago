@@ -53,7 +53,7 @@ public class Partie implements Serializable{
 	
 	private ArrayList<Integer> listeModifications = new ArrayList<>();
 	
-	private Joueur joueurEnCours = null;
+	private transient Joueur joueurEnCours = null;
 	
 	public Partie(String aNom, int nbJoueurs) throws PartieException{
 		
