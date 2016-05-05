@@ -17,5 +17,6 @@ public class Static {
 	
 	public final static Integer modificationJoueurEnCours = 7;
 
+	public final static Integer modificationtexte = 8;
 }
 

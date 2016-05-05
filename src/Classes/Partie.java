@@ -63,8 +63,10 @@ public class Partie implements Serializable{
 	
 		plateau = new Plateau();
 	}
-
 	
+	private ArrayList<String []> listeMessages = new ArrayList<String []>() {
+
+	};
 	
 	
 	/**
@@ -213,8 +215,21 @@ public class Partie implements Serializable{
 			//On prend les offres des joueurs
 			while(! client.equals(constructeurDeCanal)) {
 				joueurEnCours = client.getJoueur();
-				System.out.println(joueurEnCours);
 				addModification(Static.modificationJoueurEnCours);
+				
+				String tabMessage[] = new String[2];
+				tabMessage[0] = client.getJoueur().getPseudo()+ " fait une offre...";
+				
+				for(Joueur j: listeDesJoueurs) {
+					if(tabMessage[1] != null) {
+						tabMessage[1] = tabMessage[1]+j.getPseudo()+"_";
+					} else {
+						tabMessage[1] = j.getPseudo()+"_";
+					}
+				}
+				listeMessages.add(tabMessage);
+				addModification(Static.modificationtexte);
+				
 				// Le joueur doit faire une offre
 				int offre = client.joueurFaitUneOffre();
 
@@ -235,6 +250,8 @@ public class Partie implements Serializable{
 					offreValide = ! (listeOffres.containsValue(offre));
 					
 				}
+				//texte = client.getJoueur().getPseudo()+ "a proposé " +offre+ " Escudos !";
+				addModification(Static.modificationtexte);
 				
 				//On stocke les offres
 				listeOffres.put(client, offre);	
@@ -895,7 +912,20 @@ public class Partie implements Serializable{
 		}
 	}
 	
-	
+	public void envoyerMessage(SantiagoInterface client) throws RemoteException {
+		String tabMessage[] = new String[2];
+		tabMessage[0] = client.getJoueur().getPseudo()+ " fait une offre...";
+		
+		for(Joueur j: listeDesJoueurs) {
+			if(tabMessage[1] != null) {
+				tabMessage[1] = tabMessage[1]+j.getPseudo()+"_";
+			} else {
+				tabMessage[1] = j.getPseudo()+"_";
+			}
+		}
+		listeMessages.add(tabMessage);
+		addModification(Static.modificationtexte);
+	}
 	
 	
 	/**
@@ -1121,6 +1151,12 @@ public class Partie implements Serializable{
 	public Joueur getJoueurEnCours() {
 		return joueurEnCours;
 	}
+
+	public ArrayList<String[]> getListeMessages() {
+		return listeMessages;
+	}
+
+
 	
 	
 	
