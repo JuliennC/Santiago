@@ -111,7 +111,7 @@ public class Partie implements Serializable{
 		this.constructeurDeCanal = listeClients.get(index);
 
 		System.out.println("Constructeur de canal : "+constructeurDeCanal.getJoueur().getPseudo());
-		
+		addModification(Static.modificationConstructeurDeCanal);
 		// ATTENTION : ON LANCE LES PHASES UNIQUEMENT SI LA PARTIE A UN NOM
 		// POUR NE PAS QUE CA SE LANCE POUR LES TESTS
 		if(nomPartie != null){
