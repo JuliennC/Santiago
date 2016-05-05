@@ -53,7 +53,7 @@ public class Partie implements Serializable{
 	
 	private ArrayList<Integer> listeModifications = new ArrayList<>();
 	
-	private transient Joueur joueurEnCours = null;
+	private Joueur joueurEnCours = null;
 	
 	public Partie(String aNom, int nbJoueurs) throws PartieException{
 		
@@ -213,6 +213,7 @@ public class Partie implements Serializable{
 			//On prend les offres des joueurs
 			while(! client.equals(constructeurDeCanal)) {
 				joueurEnCours = client.getJoueur();
+				System.out.println(joueurEnCours);
 				addModification(Static.modificationJoueurEnCours);
 				// Le joueur doit faire une offre
 				int offre = client.joueurFaitUneOffre();
