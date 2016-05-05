@@ -872,7 +872,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			if(aP.getNombreJoueursRequis() == aP.getNombreJoueurDansLaPartie()){
 				
 				if(! aP.getPartieACommence()){
-					
 					attributionDesCouleurs(aP);
 					aP.lancePartie();
 					

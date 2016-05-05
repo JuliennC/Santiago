@@ -1,5 +1,6 @@
 package main;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,6 +17,7 @@ import java.util.ResourceBundle;
 import Classes.Joueur;
 import Classes.Partie;
 import Classes.Static;
+import Classes.Marqueurs.MarqueurRendement;
 import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
 import Classes.Tuile.Tuile;
@@ -132,12 +134,12 @@ public class MainClientFxml extends Application implements Initializable{
 	/*------------- Fin attribut Rejoindre Parties Commencées --------------*/
 	
 	/*-------------Début attributs Plateau --------------------*/
-    @FXML
-    ImageView Case_1_1, Case_2_1, Case_4_1, Case_5_1, Case_7_1, Case_8_1, Case_1_2, Case_8_2, Case_7_2, Case_5_2,
-    Case_2_2, Case_4_2, Case_1_4, Case_8_4, Case_7_4, Case_5_4, Case_4_4, Case_2_4, Case_1_5, Case_8_5, Case_7_5,
-    Case_5_5, Case_4_5, Case_2_5, Case_7_7, Case_5_7, Case_4_7, Case_2_7, Case_1_7, Case_8_7, Case_1_8, Case_8_8,
-    Case_7_8, Case_5_8, Case_4_8, Case_2_8, Case_1_10, Case_8_10, Case_7_10, Case_5_10, Case_4_10, Case_2_10,
-    Case_1_11, Case_8_11, Case_7_11, Case_5_11, Case_4_11, Case_2_11;
+	@FXML
+    ImageView Case_0_0, Case_0_1, Case_0_2, Case_0_3, Case_0_4, Case_0_5, Case_1_0, Case_1_1, Case_1_2, Case_1_3,
+    Case_1_4, Case_1_5, Case_2_0, Case_2_1, Case_2_2, Case_2_3, Case_2_4, Case_2_5, Case_3_0, Case_3_1, Case_3_2, Case_3_3,
+    Case_3_4, Case_3_5, Case_4_0, Case_4_1, Case_4_2, Case_4_3, Case_4_4, Case_4_5, Case_5_0, Case_5_1, Case_5_2,
+    Case_5_3, Case_5_4, Case_5_5, Case_6_0, Case_6_1, Case_6_2, Case_6_3, Case_6_4, Case_6_5, Case_7_0,
+    Case_7_1, Case_7_2, Case_7_3, Case_7_4, Case_7_5;
     
     HashMap<String, ImageView> caseMap = new HashMap<>();
     
@@ -181,12 +183,16 @@ public class MainClientFxml extends Application implements Initializable{
 	
     @FXML
     Text soldeJoueur1,soldeJoueur2,soldeJoueur3,soldeJoueur4,soldeJoueur5;
+    
+    @FXML
+    TextArea zoneTexte;
 	/*------------------------------------------------------*/
 	
 	private static Stage stage;
 	private static String name;
 	
 	private static MainClientFxml controller;
+	private static int indexMessage = 0;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -336,13 +342,12 @@ System.out.println("non term : "+partiesNonTerminees);
 									//System.out.println("Nouveau joueur : "+p.getJoueursConnectes());
 								
 							        MainClientFxml.controller.changeText(partie);
-
 									modifs.remove(0);
 
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
 							
-									MainClientFxml.controller.lancementPlateau(partie);
+									MainClientFxml.controller.lancementPlateau();
 										modifs.remove(0);
 							
 								} else if(modif.equals(Static.modificationJoueurDeconnection)){
@@ -358,13 +363,9 @@ System.out.println("non term : "+partiesNonTerminees);
 									modifs.remove(0);
 									
 								}else if(modif.equals(Static.modificationConstructeurDeCanal)){
-									MainClientFxml.controller.modifierConstructeur(partie);
+									MainClientFxml.controller.modifierConstructeur();
 									modifs.remove(0);
-								}
-								else if(modif.equals(Static.modificationRetourneTuile)){
-									MainClientFxml.controller.afficheTuilesRetournees(partie);
-									modifs.remove(0);
-								} else {
+								}else {
 									System.out.println("Modif non reconnue");
 								}
 							}
@@ -408,7 +409,7 @@ System.out.println("non term : "+partiesNonTerminees);
 			startChoixPartie((Stage)this.valider.getScene().getWindow());
 		}
 		else{
-			this.pseudoError.setText("Pseudo invalide");
+			this.pseudoError.setText("Pseudo invalide ou mot de passe incorrecte.");
 		}
 	}
 	
@@ -528,6 +529,9 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 		joinPartieSalleDAttente(e, pane);
 	}
+	
+	
+	
 
 	public void rejoindrePartieEnCours(ActionEvent e) throws InterruptedException{
 
@@ -536,16 +540,19 @@ System.out.println("non term : "+partiesNonTerminees);
 		joinPartieSalleDAttente(e, pane);
 
 	}
-
+	
+	
+	
 	public void skipPartiesEnCours(){
 		
 		
 	}
-
+	
+	
 	public void joinPartieSalleDAttente(ActionEvent e, TitledPane pane) throws InterruptedException{
 		
 		String nomPartie = pane.getText();
-		Partie pRejoint;
+		Partie pRejoint = null;
 		try{
 			pRejoint = serveur.rejoindrePartie(nomPartie, client);
 			serveur.initialiserPartie(pRejoint);
@@ -555,13 +562,17 @@ System.out.println("non term : "+partiesNonTerminees);
         }
 		try {
 			Button b = (Button) e.getSource();
-			salleDAttente((Stage)b.getScene().getWindow(),nomPartie);
+			salleDAttente((Stage)b.getScene().getWindow(),pRejoint.getNomPartie());
 		}
 		catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
-
+	
+	
+	
+	
+	
 	/**
 	 * Cette méthope permet de modifier les joueurs en attente lors du lancement de la scene d'attente
 	 * 
@@ -687,7 +698,7 @@ System.out.println("non term : "+partiesNonTerminees);
         
 	}
 	
-	public void lancementPlateau(Partie p) throws IOException{
+	public void lancementPlateau() throws IOException{
 		System.out.println("Lanchement Plateau");
 		
 		final URL url = getClass().getResource("../view/Plateau.fxml");
@@ -696,7 +707,7 @@ System.out.println("non term : "+partiesNonTerminees);
         
         final BorderPane root = (BorderPane) fxmlLoader.load();
         this.controller = (MainClientFxml)fxmlLoader.getController();
-        this.controller.afficheJoueur(p);
+
         stage.getScene().setRoot(root);
 	}
 	
@@ -742,107 +753,11 @@ System.out.println("non term : "+partiesNonTerminees);
 		}
 	}
 	
-	
-	
-	public void afficheJoueur(Partie p) throws RemoteException{
-		switch(p.getNombreJoueurDansLaPartie()){
-			case 3:
-				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
-				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
-				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
-				
-				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
-				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
-				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
-				
-				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
-				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
-				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
-				break;
-			case 4:
-				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
-				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
-				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
-				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
-				
-				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
-				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
-				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
-				this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
-				
-				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
-				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
-				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
-				this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
-				break;
-			case 5:
-				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
-				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
-				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
-				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
-				this.nomJoueur5.setText(p.getJoueursConnectes().get(4).getPseudo());
-				
-				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
-				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
-				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
-				this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
-				this.nomJoueur5.setFill(Color.web(p.getJoueursConnectes().get(4).getCodeCouleur()));
-				
-				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
-				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
-				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
-				this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
-				this.soldeJoueur5.setText(""+p.getJoueursConnectes().get(4).getSolde());
-				
-				this.pioche5.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Dos_Tuiles.jpg")));
-				
-				break;
-		}
-	}
-	
-	public void modifierConstructeur(Partie p) throws IOException{
-		Joueur constructeur = p.getConstructeurDeCanal().getJoueur();
-		if(constructeur != null){
-			System.out.println("Coucou");
-			if(constructeur.getPseudo().equals(this.nomJoueur1.getText())){
-				this.constructeur1.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
-				this.constructeur2.setImage(null);
-				this.constructeur3.setImage(null);
-				this.constructeur4.setImage(null);
-				this.constructeur5.setImage(null);
-			}
-			else if(constructeur.getPseudo().equals(this.nomJoueur2.getText())){
-				this.constructeur1.setImage(null);
-				this.constructeur2.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
-				this.constructeur3.setImage(null);
-				this.constructeur4.setImage(null);
-				this.constructeur5.setImage(null);
-			}
-			else if(constructeur.getPseudo().equals(this.nomJoueur3.getText())){
-				this.constructeur1.setImage(null);
-				this.constructeur2.setImage(null);
-				this.constructeur3.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
-				this.constructeur4.setImage(null);
-				this.constructeur5.setImage(null);
-			}
-			else if(constructeur.getPseudo().equals(this.nomJoueur4.getText())){
-				this.constructeur1.setImage(null);
-				this.constructeur2.setImage(null);
-				this.constructeur3.setImage(null);
-				this.constructeur4.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
-				this.constructeur5.setImage(null);
-			}
-			else if(constructeur.getPseudo().equals(this.nomJoueur5.getText())){
-				this.constructeur1.setImage(null);
-				this.constructeur2.setImage(null);
-				this.constructeur3.setImage(null);
-				this.constructeur4.setImage(null);
-				this.constructeur5.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Constructeur.jpg")));
-			}
-		}
+	public void modifierConstructeur() throws IOException{
+		
 	}
 
-	public void afficherTuile(Tuile t, int posX, int posY) {
+	/*public void afficherTuile(Tuile t, int posX, int posY) {
 		ArrayList listeMarqueurs = t.getMarqueursActuels();
 //		
 	    String caseAModifier = "Case_"+posX+"_"+posY;
@@ -869,7 +784,6 @@ System.out.println("non term : "+partiesNonTerminees);
 				
 			}			
 		}
-
 		
 		System.out.println("Afficher Tuile : " +t.getIntituleDuChamps());
 		Image c = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Bananes0.jpg"));
@@ -881,11 +795,9 @@ System.out.println("non term : "+partiesNonTerminees);
 		System.out.println("Ici 2");
 		//System.out.println("Case 3:" +this.Case_1_1);
 		
-	}
+	}*/
 	
-	public void afficheTuilesRetournees(Partie p){
-		
-	}
+	
 	
 	
 	
@@ -909,7 +821,7 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 		
 		//On dit au server d'ajouter la tuile
-        TuilePiment tuile = new TuilePiment();
+        TuilePiment tuile = new TuilePiment(1);
         
         //On prévient du changmenet
         serveur.poseTuileAvecXY(name, tuile, x, y);
@@ -942,15 +854,44 @@ System.out.println("non term : "+partiesNonTerminees);
         		if(tuile != null){
         			
         			//On construit l'id de l'imageview que l'on veut
-        			String id = "#Case_"+y+"_"+x;
+        			String idCase = "#Case_"+x+"_"+y;
         			
         			//On met l'image view
         			Scene scene = stage.getScene();
-        			ImageView view = (ImageView) scene.lookup(id);
+        			ImageView view = (ImageView) scene.lookup(idCase);
         			
-        			Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Bananes0.jpg"));
+        			try{
+        				//Image image = new Image(MainClientFxml.class.getResourceAsStream(tuile.getPath()));
+        				//view.setImage(image);
 
-        			view.setImage(image);
+        			}catch(Exception e){
+        				e.printStackTrace();
+        			}
+        			
+        			
+        			//L'index du marqueurs
+        			int index = 0;
+        			
+        			//On s'occupe des marqueurs
+        			for(MarqueurRendement mr : tuile.getMarqueursActuels()){
+        				
+        				index++;
+        				
+        				//On construit l'id de l'imageview que l'on veut
+            			String idMarqueur = "#MarqueurC"+x+"_"+y+"_"+index;
+            			
+            			ImageView viewMarqueurs = (ImageView) scene.lookup(idMarqueur);
+            			
+            			try{
+            				Image image = new Image(MainClientFxml.class.getResourceAsStream( "../view/Images/single-cubeOrange.png" /*mr.getPath()*/));
+            				viewMarqueurs.setImage(image);
+
+            			}catch(Exception e){
+            				e.printStackTrace();
+            			}
+            			
+        			}
+        			
         			
         		}
         		
@@ -958,6 +899,60 @@ System.out.println("non term : "+partiesNonTerminees);
         }
 		
 	}
+	
+	/*public void afficherJoueurEnCours(Partie partie) {
+		Joueur j = partie.getJoueurEnCours();
+		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/fleche.png"));
+
+		tourJoueur1.setImage(null); tourJoueur2.setImage(null); tourJoueur3.setImage(null);
+		tourJoueur4.setImage(null); tourJoueur5.setImage(null);
+		
+		if(j.getPseudo().equals(this.nomJoueur1.getText())) {
+			tourJoueur1.setImage(image);
+		} else if (j.getPseudo().equals(this.nomJoueur2.getText())) {
+			tourJoueur2.setImage(image);
+		} else if (j.getPseudo().equals(this.nomJoueur3.getText())) {
+			tourJoueur3.setImage(image);
+		} else if (j.getPseudo().equals(this.nomJoueur4.getText())) {
+			tourJoueur4.setImage(image);
+		} else if (j.getPseudo().equals(this.nomJoueur5.getText())) {
+			tourJoueur5.setImage(image);
+		}
+		
+	}*/
+	
+	/*public void afficherTexte(Partie partie) throws RemoteException {
+		System.out.println("JE SUIS JE SUIS JE SUIS .... ");
+		System.out.println(client.getJoueur().getPseudo());
+		
+		String contenu[] = partie.getListeMessages().get(indexMessage);
+		String pseudo = client.getJoueur().getPseudo();
+
+		//On parse 
+		String[] dest = contenu[1].split("_");
+
+		for(int i = 0; i < dest.length; i++) {
+			if(dest[i].equals(pseudo)) {
+				System.out.println("Je dois recevoir ce message!!");
+				System.out.println(contenu[0]);
+//				if(contenu[0].contains(pseudo)) {
+//					System.out.println("Ce message me concerne !!");
+//					String msg = contenu[0];
+//					msg.replace(pseudo+" a", "Vous avez");
+//					msg.replace(pseudo+" est", "Vous êtes");
+//					msg.replace(pseudo+" fait", "Vous devez faire");
+//					msg.replace(pseudo, "Vous");
+//					
+//					System.out.println(msg);
+//				} else {
+//					System.out.println("Ce message me concerne pas!!");
+//					System.out.println(contenu[0]);
+//				}
+				break;
+			}
+		}
+		//zoneTexte.insertText(0, partie.getTexte());
+	}*/
 	
 	public static void main(String[] args) {
 		Application.launch(MainClientFxml.class,args);
