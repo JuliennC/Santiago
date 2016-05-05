@@ -53,6 +53,8 @@ public class Partie implements Serializable{
 	
 	private ArrayList<Integer> listeModifications = new ArrayList<>();
 	
+	private Joueur joueurEnCours = null;
+	
 	public Partie(String aNom, int nbJoueurs) throws PartieException{
 		
 		this.nomPartie = aNom;
@@ -99,12 +101,12 @@ public class Partie implements Serializable{
 	 * @throws RemoteException 
 	 * @throws JoueurException 
 	 */
-	public void lancePartie() throws PartieException, RemoteException, JoueurException {
-		
+	public void lancePartie() throws PartieException, RemoteException, JoueurException {	
 		System.out.println("On lance la partie");
+		this.addModification(Static.modificationPartieCommence);
+		this.getPlateau().fabriqueTuiles();
 		
 		Random random = new Random();
-		
 		int index = random.nextInt(listeClients.size());
 		this.constructeurDeCanal = listeClients.get(index);
 
@@ -210,7 +212,8 @@ public class Partie implements Serializable{
 
 			//On prend les offres des joueurs
 			while(! client.equals(constructeurDeCanal)) {
-
+				joueurEnCours = client.getJoueur();
+				addModification(Static.modificationJoueurEnCours);
 				// Le joueur doit faire une offre
 				int offre = client.joueurFaitUneOffre();
 
@@ -254,7 +257,8 @@ public class Partie implements Serializable{
 			}
 			
 			System.out.println("Les enchères sont terminées : \n"+str);
-			
+			joueurEnCours = null;
+			addModification(Static.modificationJoueurEnCours);
 			return listeOffres;
 		}
 				
@@ -365,6 +369,8 @@ public class Partie implements Serializable{
 				int choix = 0;
 				int potDeVin;
 				SantiagoInterface joueurSoutenu;
+				joueurEnCours = client.getJoueur();
+				addModification(Static.modificationJoueurEnCours);
 
 				
 				//Etape 1: On demande un choix [Pot de vin ; Soutenir joueur ; Passer]
@@ -408,6 +414,8 @@ public class Partie implements Serializable{
 				//On change de joueur
 				client = getClientAGauche(client);
 			}
+			
+			joueurEnCours = null; addModification(Static.modificationJoueurEnCours);
 			
 			//Une fois que tous les joueurs ont déposés un pot de vin (ou passer), on passe à la seconde partie de la phase 4:
 			propositionChoisie = constructeurDeCanal.choisirPotDeVin(plateau, listePropositions, listeCanauxTemp);
@@ -584,6 +592,8 @@ public class Partie implements Serializable{
 		// on cree le HashMap qui accueil les couple client tuile
 		HashMap<SantiagoInterface, Tuile> listeTuilesChoisies = new HashMap<>();
 		for (SantiagoInterface client : listeClients){
+			joueurEnCours = client.getJoueur();
+			addModification(Static.modificationJoueurEnCours);
 			presentationTuile();
 			// le client choisit sa tuile
 			int indexTuileChoisie = client.joueurChoisitTuile(this.plateau.getListeTuilesRetournees().size());
@@ -604,6 +614,7 @@ public class Partie implements Serializable{
 	 */
 	public void phase3point2(HashMap<SantiagoInterface, Tuile> listeTuilesChoisies, ArrayList <SantiagoInterface> listeClients) throws RemoteException{
 		for(SantiagoInterface client : listeClients){
+			joueurEnCours = client.getJoueur(); addModification(Static.modificationJoueurEnCours);
 			Tuile tuile = listeTuilesChoisies.get(client);
 			ArrayList<MarqueurRendement>listeMarqueurs = new ArrayList <MarqueurRendement>();
 			for(int i = 0; i< tuile.getNombreMarqueursNecessaires();i++){
@@ -617,6 +628,8 @@ public class Partie implements Serializable{
 			tuile.setMarqueursActuels(listeMarqueurs);
 			setPositionTuile(client,tuile);
 		}
+		joueurEnCours = null; addModification(Static.modificationJoueurEnCours);
+		
 		if(this.nombreDeJoueurs == 3){
 			setPositionTuile(listeClients.get(0),this.plateau.getListeTuilesRetournees().get(0));
 		}
@@ -1101,5 +1114,11 @@ public class Partie implements Serializable{
 	public void supprimeClient(SantiagoInterface client){
 		listeClients.remove(client);
 	}
+
+	public Joueur getJoueurEnCours() {
+		return joueurEnCours;
+	}
+	
+	
 	
 }

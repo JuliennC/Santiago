@@ -139,8 +139,6 @@ public class MainClientFxml extends Application implements Initializable{
     Case_7_8, Case_5_8, Case_4_8, Case_2_8, Case_1_10, Case_8_10, Case_7_10, Case_5_10, Case_4_10, Case_2_10,
     Case_1_11, Case_8_11, Case_7_11, Case_5_11, Case_4_11, Case_2_11;
     
-    HashMap<String, ImageView> caseMap = new HashMap<>();
-    
     @FXML
     ImageView Canal_1_0, Canal_2_0, Canal_6_2, Canal_5_2, Canal_4_2, Canal_3_2, Canal_2_2, Canal_1_2, Canal_8_0, Canal_7_0,
     Canal_6_0, Canal_5_0, Canal_4_0, Canal_3_0, Canal_2_6, Canal_1_6, Canal_8_4, Canal_7_4, Canal_6_4, Canal_5_4, Canal_4_4,
@@ -360,6 +358,9 @@ System.out.println("non term : "+partiesNonTerminees);
 								}else if(modif.equals(Static.modificationConstructeurDeCanal)){
 									MainClientFxml.controller.modifierConstructeur();
 									modifs.remove(0);
+								} else if(modif.equals(Static.modificationJoueurEnCours)){
+									MainClientFxml.controller.afficherJoueurEnCours(partie);
+									modifs.remove(0);
 								} else {
 									System.out.println("Modif non reconnue");
 								}
@@ -557,7 +558,7 @@ System.out.println("non term : "+partiesNonTerminees);
         }
 		try {
 			Button b = (Button) e.getSource();
-			salleDAttente((Stage)b.getScene().getWindow(),name);
+			salleDAttente((Stage)b.getScene().getWindow(), nomPartie);
 		}
 		catch (IOException e1) {
 			e1.printStackTrace();
@@ -864,6 +865,24 @@ System.out.println("non term : "+partiesNonTerminees);
         		
         	}        	
         }
+		
+	}
+	
+	public void afficherJoueurEnCours(Partie partie) {
+		Joueur j = partie.getJoueurEnCours();
+		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/fleche.png"));
+			
+		if(j.getPseudo().equals(this.nomJoueur1.getText())) {
+			this.tourJoueur1.setImage(image);
+		} else if (j.getPseudo().equals(this.nomJoueur2.getText())) {
+			this.tourJoueur1.setImage(image);
+		} else if (j.getPseudo().equals(this.nomJoueur3.getText())) {
+			this.tourJoueur1.setImage(image);
+		} else if (j.getPseudo().equals(this.nomJoueur4.getText())) {
+			this.tourJoueur1.setImage(image);
+		} else if (j.getPseudo().equals(this.nomJoueur5.getText())) {
+			this.tourJoueur1.setImage(image);
+		}
 		
 	}
 	
