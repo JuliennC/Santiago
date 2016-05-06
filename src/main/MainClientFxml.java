@@ -387,13 +387,12 @@ System.out.println("non term : "+partiesNonTerminees);
 
 									
 							        MainClientFxml.controller.changeText(partie);
-							        MainClientFxml.controller.afficherJoueurEnCours(partie);
 							  		modifs.remove(0);
 
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
 									MainClientFxml.controller.lancementPlateau(partie);
-									MainClientFxml.controller.afficherJoueurEnCours(partie);
+
 									modifs.remove(0);
 
 							
@@ -408,13 +407,11 @@ System.out.println("non term : "+partiesNonTerminees);
 
 									System.out.println("Modification des tuiles");
 									MainClientFxml.controller.metAJourAffichageTuiles();
-									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 									
 								}else if(modif.equals(Static.modificationConstructeurDeCanal)){
 
 									MainClientFxml.controller.modifierConstructeur(partie);
-									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 
 								} else if(modif.equals(Static.modificationJoueurEnCours)){
@@ -424,27 +421,23 @@ System.out.println("non term : "+partiesNonTerminees);
 								} else if(modif.equals(Static.modificationRetourneTuile)){
 									
 									MainClientFxml.controller.afficheTuilesRetournees(partie);
-									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 								
 								} else if(modif.equals(Static.modificationConstructeurDeCanal)){
 									
 									MainClientFxml.controller.modifierConstructeur(partie);
-									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 									
 								} else if(modif.equals(Static.modificationCannaux)){
 
 									System.out.println("Modification des canaux");
 									MainClientFxml.controller.metAJourAffichageCanaux();
-									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 																		
 								} else if(modif.equals(Static.modificationSoldes)){
 
 									System.out.println("Modification des soldes");
 									MainClientFxml.controller.afficheJoueur(partie);
-									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 
 				
@@ -452,7 +445,6 @@ System.out.println("non term : "+partiesNonTerminees);
 									
 									System.out.println("Modification des tuiles retournées");
 									MainClientFxml.controller.afficheTuilesRetournees(partie);
-									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 									
 								} else {
@@ -494,7 +486,6 @@ System.out.println("non term : "+partiesNonTerminees);
 						Partie partie = serveur.getPartieByName(p.getNomPartie());
 						while(true){
 							MainClientFxml.controller.afficherTexte(partie);
-							MainClientFxml.controller.afficherJoueurEnCours(partie);
 							Thread.sleep(500);
 						}
 
@@ -1333,34 +1324,34 @@ System.out.println("non term : "+partiesNonTerminees);
 				btnEnvoyer.setDisable(true);
 				zoneSaisie.setDisable(true);
 				
-				Case_0_0.setDisable(true); Case_0_1.setDisable(true); Case_0_2.setDisable(true); Case_0_3.setDisable(true); Case_0_4.setDisable(true); Case_0_5.setDisable(true); Case_1_0.setDisable(true); Case_1_1.setDisable(true); Case_1_2.setDisable(true); Case_1_3.setDisable(true);
-			    Case_1_4.setDisable(true); Case_1_5.setDisable(true); Case_2_0.setDisable(true); Case_2_1.setDisable(true); Case_2_2.setDisable(true); Case_2_3.setDisable(true); Case_2_4.setDisable(true); Case_2_5.setDisable(true); Case_3_0.setDisable(true); Case_3_1.setDisable(true); Case_3_2.setDisable(true); Case_3_3.setDisable(true);
-			    Case_3_4.setDisable(true); Case_3_5.setDisable(true); Case_4_0.setDisable(true); Case_4_1.setDisable(true); Case_4_2.setDisable(true); Case_4_3.setDisable(true); Case_4_4.setDisable(true); Case_4_5.setDisable(true); Case_5_0.setDisable(true); Case_5_1.setDisable(true); Case_5_2.setDisable(true);
-			    Case_5_3.setDisable(true); Case_5_4.setDisable(true); Case_5_5.setDisable(true); Case_6_0.setDisable(true); Case_6_1.setDisable(true); Case_6_2.setDisable(true); Case_6_3.setDisable(true); Case_6_4.setDisable(true); Case_6_5.setDisable(true); Case_7_0.setDisable(true);
-			    Case_7_1.setDisable(true); Case_7_2.setDisable(true); Case_7_3.setDisable(true); Case_7_4.setDisable(true); Case_7_5.setDisable(true);
-				
-			    Canal_0_3_v.setDisable(true); Canal_4_2_h.setDisable(true); Canal_6_6_v.setDisable(true); Canal_3_4_h.setDisable(true); Canal_4_2_v.setDisable(true); Canal_5_0_h.setDisable(true); Canal_8_1_v.setDisable(true); Canal_1_0_h.setDisable(true); Canal_2_6_v.setDisable(true);
-			    Canal_6_5_v.setDisable(true); Canal_2_6_h.setDisable(true); Canal_0_4_v.setDisable(true); Canal_8_2_h.setDisable(true); Canal_4_1_v.setDisable(true); Canal_8_2_v.setDisable(true); Canal_7_4_h.setDisable(true); Canal_2_5_v.setDisable(true); Canal_6_6_h.setDisable(true); Canal_4_4_h.setDisable(true);
-			    Canal_0_1_v.setDisable(true); Canal_3_6_h.setDisable(true); Canal_5_2_h.setDisable(true); Canal_4_4_v.setDisable(true); Canal_8_3_v.setDisable(true); Canal_8_4_v.setDisable(true); Canal_1_2_h.setDisable(true); Canal_2_0_h.setDisable(true); Canal_0_2_v.setDisable(true); Canal_8_4_h.setDisable(true);
-			    Canal_4_3_v.setDisable(true); Canal_6_0_h.setDisable(true); Canal_8_5_v.setDisable(true); Canal_7_6_h.setDisable(true); Canal_3_0_h.setDisable(true); Canal_4_6_v.setDisable(true); Canal_5_4_h.setDisable(true); Canal_4_6_h.setDisable(true); Canal_8_6_v.setDisable(true); Canal_2_2_v.setDisable(true);
-			    Canal_1_4_h.setDisable(true); Canal_6_1_v.setDisable(true); Canal_2_2_h.setDisable(true); Canal_8_6_h.setDisable(true); Canal_4_5_v.setDisable(true); Canal_6_2_h.setDisable(true); Canal_2_1_v.setDisable(true); Canal_7_0_h.setDisable(true); Canal_6_2_v.setDisable(true); Canal_4_0_h.setDisable(true);
-			    Canal_3_2_h.setDisable(true);
+//				Case_0_0.setDisable(true); Case_0_1.setDisable(true); Case_0_2.setDisable(true); Case_0_3.setDisable(true); Case_0_4.setDisable(true); Case_0_5.setDisable(true); Case_1_0.setDisable(true); Case_1_1.setDisable(true); Case_1_2.setDisable(true); Case_1_3.setDisable(true);
+//			    Case_1_4.setDisable(true); Case_1_5.setDisable(true); Case_2_0.setDisable(true); Case_2_1.setDisable(true); Case_2_2.setDisable(true); Case_2_3.setDisable(true); Case_2_4.setDisable(true); Case_2_5.setDisable(true); Case_3_0.setDisable(true); Case_3_1.setDisable(true); Case_3_2.setDisable(true); Case_3_3.setDisable(true);
+//			    Case_3_4.setDisable(true); Case_3_5.setDisable(true); Case_4_0.setDisable(true); Case_4_1.setDisable(true); Case_4_2.setDisable(true); Case_4_3.setDisable(true); Case_4_4.setDisable(true); Case_4_5.setDisable(true); Case_5_0.setDisable(true); Case_5_1.setDisable(true); Case_5_2.setDisable(true);
+//			    Case_5_3.setDisable(true); Case_5_4.setDisable(true); Case_5_5.setDisable(true); Case_6_0.setDisable(true); Case_6_1.setDisable(true); Case_6_2.setDisable(true); Case_6_3.setDisable(true); Case_6_4.setDisable(true); Case_6_5.setDisable(true); Case_7_0.setDisable(true);
+//			    Case_7_1.setDisable(true); Case_7_2.setDisable(true); Case_7_3.setDisable(true); Case_7_4.setDisable(true); Case_7_5.setDisable(true);
+//				
+//			    Canal_0_3_v.setDisable(true); Canal_4_2_h.setDisable(true); Canal_6_6_v.setDisable(true); Canal_3_4_h.setDisable(true); Canal_4_2_v.setDisable(true); Canal_5_0_h.setDisable(true); Canal_8_1_v.setDisable(true); Canal_1_0_h.setDisable(true); Canal_2_6_v.setDisable(true);
+//			    Canal_6_5_v.setDisable(true); Canal_2_6_h.setDisable(true); Canal_0_4_v.setDisable(true); Canal_8_2_h.setDisable(true); Canal_4_1_v.setDisable(true); Canal_8_2_v.setDisable(true); Canal_7_4_h.setDisable(true); Canal_2_5_v.setDisable(true); Canal_6_6_h.setDisable(true); Canal_4_4_h.setDisable(true);
+//			    Canal_0_1_v.setDisable(true); Canal_3_6_h.setDisable(true); Canal_5_2_h.setDisable(true); Canal_4_4_v.setDisable(true); Canal_8_3_v.setDisable(true); Canal_8_4_v.setDisable(true); Canal_1_2_h.setDisable(true); Canal_2_0_h.setDisable(true); Canal_0_2_v.setDisable(true); Canal_8_4_h.setDisable(true);
+//			    Canal_4_3_v.setDisable(true); Canal_6_0_h.setDisable(true); Canal_8_5_v.setDisable(true); Canal_7_6_h.setDisable(true); Canal_3_0_h.setDisable(true); Canal_4_6_v.setDisable(true); Canal_5_4_h.setDisable(true); Canal_4_6_h.setDisable(true); Canal_8_6_v.setDisable(true); Canal_2_2_v.setDisable(true);
+//			    Canal_1_4_h.setDisable(true); Canal_6_1_v.setDisable(true); Canal_2_2_h.setDisable(true); Canal_8_6_h.setDisable(true); Canal_4_5_v.setDisable(true); Canal_6_2_h.setDisable(true); Canal_2_1_v.setDisable(true); Canal_7_0_h.setDisable(true); Canal_6_2_v.setDisable(true); Canal_4_0_h.setDisable(true);
+//			    Canal_3_2_h.setDisable(true);
 			} else {
 				btnEnvoyer.setDisable(false);
 				zoneSaisie.setDisable(false);
 				
-				Case_0_0.setDisable(false); Case_0_1.setDisable(false); Case_0_2.setDisable(false); Case_0_3.setDisable(false); Case_0_4.setDisable(false); Case_0_5.setDisable(false); Case_1_0.setDisable(false); Case_1_1.setDisable(false); Case_1_2.setDisable(false); Case_1_3.setDisable(false);
-			    Case_1_4.setDisable(false); Case_1_5.setDisable(false); Case_2_0.setDisable(false); Case_2_1.setDisable(false); Case_2_2.setDisable(false); Case_2_3.setDisable(false); Case_2_4.setDisable(false); Case_2_5.setDisable(false); Case_3_0.setDisable(false); Case_3_1.setDisable(false); Case_3_2.setDisable(false); Case_3_3.setDisable(false);
-			    Case_3_4.setDisable(false); Case_3_5.setDisable(false); Case_4_0.setDisable(false); Case_4_1.setDisable(false); Case_4_2.setDisable(false); Case_4_3.setDisable(false); Case_4_4.setDisable(false); Case_4_5.setDisable(false); Case_5_0.setDisable(false); Case_5_1.setDisable(false); Case_5_2.setDisable(false);
-			    Case_5_3.setDisable(false); Case_5_4.setDisable(false); Case_5_5.setDisable(false); Case_6_0.setDisable(false); Case_6_1.setDisable(false); Case_6_2.setDisable(false); Case_6_3.setDisable(false); Case_6_4.setDisable(false); Case_6_5.setDisable(false); Case_7_0.setDisable(false);
-			    Case_7_1.setDisable(false); Case_7_2.setDisable(false); Case_7_3.setDisable(false); Case_7_4.setDisable(false); Case_7_5.setDisable(false);
-			
-			    Canal_0_3_v.setDisable(false); Canal_4_2_h.setDisable(false); Canal_6_6_v.setDisable(false); Canal_3_4_h.setDisable(false); Canal_4_2_v.setDisable(false); Canal_5_0_h.setDisable(false); Canal_8_1_v.setDisable(false); Canal_1_0_h.setDisable(false); Canal_2_6_v.setDisable(false);
-			    Canal_6_5_v.setDisable(false); Canal_2_6_h.setDisable(false); Canal_0_4_v.setDisable(false); Canal_8_2_h.setDisable(false); Canal_4_1_v.setDisable(false); Canal_8_2_v.setDisable(false); Canal_7_4_h.setDisable(false); Canal_2_5_v.setDisable(false); Canal_6_6_h.setDisable(false); Canal_4_4_h.setDisable(false);
-			    Canal_0_1_v.setDisable(false); Canal_3_6_h.setDisable(false); Canal_5_2_h.setDisable(false); Canal_4_4_v.setDisable(false); Canal_8_3_v.setDisable(false); Canal_8_4_v.setDisable(false); Canal_1_2_h.setDisable(false); Canal_2_0_h.setDisable(false); Canal_0_2_v.setDisable(false); Canal_8_4_h.setDisable(false);
-			    Canal_4_3_v.setDisable(false); Canal_6_0_h.setDisable(false); Canal_8_5_v.setDisable(false); Canal_7_6_h.setDisable(false); Canal_3_0_h.setDisable(false); Canal_4_6_v.setDisable(false); Canal_5_4_h.setDisable(false); Canal_4_6_h.setDisable(false); Canal_8_6_v.setDisable(false); Canal_2_2_v.setDisable(false);
-			    Canal_1_4_h.setDisable(false); Canal_6_1_v.setDisable(false); Canal_2_2_h.setDisable(false); Canal_8_6_h.setDisable(false); Canal_4_5_v.setDisable(false); Canal_6_2_h.setDisable(false); Canal_2_1_v.setDisable(false); Canal_7_0_h.setDisable(false); Canal_6_2_v.setDisable(false); Canal_4_0_h.setDisable(false);
-			    Canal_3_2_h.setDisable(false);
+//				Case_0_0.setDisable(false); Case_0_1.setDisable(false); Case_0_2.setDisable(false); Case_0_3.setDisable(false); Case_0_4.setDisable(false); Case_0_5.setDisable(false); Case_1_0.setDisable(false); Case_1_1.setDisable(false); Case_1_2.setDisable(false); Case_1_3.setDisable(false);
+//			    Case_1_4.setDisable(false); Case_1_5.setDisable(false); Case_2_0.setDisable(false); Case_2_1.setDisable(false); Case_2_2.setDisable(false); Case_2_3.setDisable(false); Case_2_4.setDisable(false); Case_2_5.setDisable(false); Case_3_0.setDisable(false); Case_3_1.setDisable(false); Case_3_2.setDisable(false); Case_3_3.setDisable(false);
+//			    Case_3_4.setDisable(false); Case_3_5.setDisable(false); Case_4_0.setDisable(false); Case_4_1.setDisable(false); Case_4_2.setDisable(false); Case_4_3.setDisable(false); Case_4_4.setDisable(false); Case_4_5.setDisable(false); Case_5_0.setDisable(false); Case_5_1.setDisable(false); Case_5_2.setDisable(false);
+//			    Case_5_3.setDisable(false); Case_5_4.setDisable(false); Case_5_5.setDisable(false); Case_6_0.setDisable(false); Case_6_1.setDisable(false); Case_6_2.setDisable(false); Case_6_3.setDisable(false); Case_6_4.setDisable(false); Case_6_5.setDisable(false); Case_7_0.setDisable(false);
+//			    Case_7_1.setDisable(false); Case_7_2.setDisable(false); Case_7_3.setDisable(false); Case_7_4.setDisable(false); Case_7_5.setDisable(false);
+//			
+//			    Canal_0_3_v.setDisable(false); Canal_4_2_h.setDisable(false); Canal_6_6_v.setDisable(false); Canal_3_4_h.setDisable(false); Canal_4_2_v.setDisable(false); Canal_5_0_h.setDisable(false); Canal_8_1_v.setDisable(false); Canal_1_0_h.setDisable(false); Canal_2_6_v.setDisable(false);
+//			    Canal_6_5_v.setDisable(false); Canal_2_6_h.setDisable(false); Canal_0_4_v.setDisable(false); Canal_8_2_h.setDisable(false); Canal_4_1_v.setDisable(false); Canal_8_2_v.setDisable(false); Canal_7_4_h.setDisable(false); Canal_2_5_v.setDisable(false); Canal_6_6_h.setDisable(false); Canal_4_4_h.setDisable(false);
+//			    Canal_0_1_v.setDisable(false); Canal_3_6_h.setDisable(false); Canal_5_2_h.setDisable(false); Canal_4_4_v.setDisable(false); Canal_8_3_v.setDisable(false); Canal_8_4_v.setDisable(false); Canal_1_2_h.setDisable(false); Canal_2_0_h.setDisable(false); Canal_0_2_v.setDisable(false); Canal_8_4_h.setDisable(false);
+//			    Canal_4_3_v.setDisable(false); Canal_6_0_h.setDisable(false); Canal_8_5_v.setDisable(false); Canal_7_6_h.setDisable(false); Canal_3_0_h.setDisable(false); Canal_4_6_v.setDisable(false); Canal_5_4_h.setDisable(false); Canal_4_6_h.setDisable(false); Canal_8_6_v.setDisable(false); Canal_2_2_v.setDisable(false);
+//			    Canal_1_4_h.setDisable(false); Canal_6_1_v.setDisable(false); Canal_2_2_h.setDisable(false); Canal_8_6_h.setDisable(false); Canal_4_5_v.setDisable(false); Canal_6_2_h.setDisable(false); Canal_2_1_v.setDisable(false); Canal_7_0_h.setDisable(false); Canal_6_2_v.setDisable(false); Canal_4_0_h.setDisable(false);
+//			    Canal_3_2_h.setDisable(false);
 			}
 		});
 
