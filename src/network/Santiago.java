@@ -273,7 +273,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	/**
 	 * Fonction qui joute une tuile au plateau d'une partie
 	 */
-	public void metCanalEnEauAvecXY(String nomPartie, int x, int y) throws RemoteException{
+	public void metCanalEnEauAvecXY(String nomPartie, int x, int y, String position) throws RemoteException{
 		
 		Partie p = getPartieByName(nomPartie);
 		
@@ -281,8 +281,14 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			
 			if( ((canal.getCoordDebut().x == x) && (canal.getCoordDebut().y == y)) || (((canal.getCoordFin().x == x) && (canal.getCoordFin().y == y))) ){
 				
-				canal.metEnEau();
+				if(canal.canalEstVertical() && position.equals("v")){
 				
+					canal.metEnEau();
+				
+				} else if ((!canal.canalEstVertical()) && position.equals("h")){
+					
+					canal.metEnEau();
+				}
 			}
 		}
 

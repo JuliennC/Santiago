@@ -1195,7 +1195,7 @@
       </GridPane>
    </left>
    <bottom>
-      <GridPane prefHeight="170.0" prefWidth="1300.0" BorderPane.alignment="CENTER">
+      <GridPane prefHeight="94.0" prefWidth="1296.0" BorderPane.alignment="CENTER">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="460.0" minWidth="10.0" prefWidth="460.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />

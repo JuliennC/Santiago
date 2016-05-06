@@ -940,10 +940,27 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 		int x = Integer.parseInt(res[1]);
 		int y = Integer.parseInt(res[2]);
+		String position = res[3];
+		
+		//On prend le début du canal 
+		if(position.equals("h")){
+			
+			if(x%2 == 0){
+				x--;
+			}
+			
+		} else {
+			
+			if(y%2 == 0){
+				y--;
+			}
+			
+		}
         
         //On prévient du changmenet
-        serveur.metCanalEnEauAvecXY(name, x, y);
+        serveur.metCanalEnEauAvecXY(name, x, y, position);
 		
+
 	}
 	
 	
@@ -971,7 +988,7 @@ System.out.println("non term : "+partiesNonTerminees);
             	
         		//Premiere partie du canal
                 String id_1 = "#Canal_"+canal.getCoordFin().x+"_"+canal.getCoordFin().y+"_v";
-                
+                String id_2 = "#Canal_"+canal.getCoordFin().x+"_"+(canal.getCoordFin().y+1)+"_v";
                 
                 //On met l'image view
     			Scene scene = stage.getScene();
@@ -979,15 +996,17 @@ System.out.println("non term : "+partiesNonTerminees);
                 
             	String couleur = client.getJoueur().getCouleur();
             	couleur = "Jaune";
+            
             	try{
         		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Vertical.jpg"));
         		view.setImage(image);
         		
             	//Deuxieme partie du canal
-                String id_2 = "#Canal_"+canal.getCoordFin().x+"_"+(canal.getCoordFin().y+1)+"_v";
             	view = (ImageView) scene.lookup(id_2);
             	
             	couleur = client.getJoueur().getCouleur();
+            	couleur = "Jaune";
+
             	image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Vertical.jpg"));
         		view.setImage(image);
             	}catch(Exception e){
@@ -1002,16 +1021,10 @@ System.out.println("non term : "+partiesNonTerminees);
 	                String id_1="";
 	                String id_2="";
 
-	                if(canal.getCoordFin().x % 2 == 0){
 
-		                id_1 = "#Canal_"+canal.getCoordDebut().x+"_"+canal.getCoordDebut().y+"_h";
-		                id_2 = "#Canal_"+(canal.getCoordFin().x-1)+"_"+(canal.getCoordFin().y+1)+"_h";
-
-	                } else {
-	                	
-		                id_1 = "#Canal_"+canal.getCoordFin().x+"_"+canal.getCoordFin().y+"_h";
-		                id_2 = "#Canal_"+(canal.getCoordFin().x+1)+"_"+canal.getCoordFin().y+"_h";
-	                }
+                	id_1 = "#Canal_"+canal.getCoordFin().x+"_"+canal.getCoordFin().y+"_h";
+		            id_2 = "#Canal_"+(canal.getCoordFin().x+1)+"_"+canal.getCoordFin().y+"_h";
+			            
 	                                
 	                //On met l'image view
 	    			Scene scene = stage.getScene();
@@ -1027,8 +1040,11 @@ System.out.println("non term : "+partiesNonTerminees);
 	            	view = (ImageView) scene.lookup(id_2);
 	            	
 	            	couleur = client.getJoueur().getCouleur();
+	            	couleur = "Jaune";
+
 	            	image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Horizontal.jpg"));
 	        		view.setImage(image);
+            
             	}catch(Exception e){
             		e.printStackTrace();
             	}
