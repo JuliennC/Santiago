@@ -1019,32 +1019,6 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 	}
 	
-	public void afficherTexte(Partie partie) throws RemoteException {
-		Platform.runLater(() -> {
-			String thisLine;
-		     try {
-		    	 File file = new File("message.txt");
-		    	 if (file.exists()) {
-			         BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));         
-			         System.out.println("On lit dans le fichier message.txt");
-			         while ((thisLine = br.readLine()) != null) { 
-				         System.out.println("Message du serveur :" +thisLine);
-				         zoneTexte.appendText(thisLine);
-				         //Puis on efface le contenu (A faire lors des tests non local)
-				         BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
-				         bw.write("");
-				         bw.flush();
-			         } // end while 
-			        // br.close(); bw.close();
-		    	 }
-		     } catch (IOException e) {
-		    	   	System.out.println("Error: " + e);
-		     }			
-			
-		});
-
-	}
-	
 	public void afficheJoueur(Partie p) throws RemoteException{
 		Platform.runLater(() -> {
 			System.out.println("coucou");
@@ -1142,6 +1116,34 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 		zoneSaisie.clear();
 	}	
+	
+	public void afficherTexte(Partie partie) throws RemoteException {
+		Platform.runLater(() -> {
+			String thisLine;
+		     try {
+		    	 File file = new File(client.getJoueur().getPseudo());
+		    	 
+		    	 if (file.exists()) {
+			         BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));         
+			         System.out.println("On lit dans le fichier message.txt");
+			         
+			         while ((thisLine = br.readLine()) != null) { 
+				         System.out.println("Message du serveur :" +thisLine);
+				         zoneTexte.appendText(thisLine);
+				         //Puis on efface le contenu (A faire lors des tests non local)
+				         BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
+				         bw.write("");
+				         bw.flush();
+			         } // end while 
+			        // br.close(); bw.close();
+		    	 }
+		     } catch (IOException e) {
+		    	   	System.out.println("Error: " + e);
+		     }			
+			
+		});
+
+	}
 	
 	public static void main(String[] args) {
 		Application.launch(MainClientFxml.class,args);
