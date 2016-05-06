@@ -143,16 +143,16 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		this.verifieServer();
 		
-		System.out.println("'"+TYPE+"' analyse debute : " + voirParties());
+		System.out.println("'"+TYPE+"' analyse debute : " +nom);
 		
 		class SayHello extends TimerTask {
 
 			public void run() {
 				//System.out.println("a " + TYPE);
 
-				//Partie p = server.getPartieByName(nom);
+				Partie p = getPartieByName(nom);
 				
-				Partie p = listeParties.get(0);
+				//Partie p = listeParties.get(0);
 				
 				if(p == null){System.out.println(p+"Personne dans : "+listeParties); return;}
 				
@@ -686,7 +686,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					
 					try {
 						joueur.setSolde(joueur.getSolde() - coutCanalPerso - 1);
-						
+												
 						Canal c = poserCanalTemporaire(plateau, listeCanauxTemp);
 						plateau.metCanal(c);
 					} catch (JoueurException e) {

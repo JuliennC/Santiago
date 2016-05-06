@@ -88,7 +88,7 @@ public class MainClientFxml extends Application implements Initializable{
 	TitledPane titleEmpty;
 	
 	@FXML
-	Button createButton, loadButton, joinButton;
+	Button createButton, loadButton, joinButton, actualiserLesParties;
 	
 	@FXML
 	Text errorNomChargement;
@@ -347,7 +347,7 @@ System.out.println("non term : "+partiesNonTerminees);
 						int index = 0;
 						
 						while(true){
-							
+							try{
 							Partie partie = serveur.getPartieByName(p.getNomPartie());							
 
 							if(partie == null){ continue; }
@@ -370,7 +370,7 @@ System.out.println("non term : "+partiesNonTerminees);
 								if(modif.equals(Static.modificationJoueurs)){
 
 									//System.out.println("---- joueur");
-									//System.out.println("Nouveau joueur : "+p.getJoueursConnectes());
+									System.out.println("Nouveau joueur : ");
 								
 							        MainClientFxml.controller.changeText(partie);
 
@@ -381,7 +381,7 @@ System.out.println("non term : "+partiesNonTerminees);
 								} else if(modif.equals(Static.modificationPartieCommence)){
 							
 									MainClientFxml.controller.lancementPlateau(partie);
-										modifs.remove(0);
+									modifs.remove(0);
 							
 								} else if(modif.equals(Static.modificationJoueurDeconnection)){
 									
@@ -427,19 +427,34 @@ System.out.println("non term : "+partiesNonTerminees);
 									MainClientFxml.controller.metAJourAffichageCanaux();
 									modifs.remove(0);
 									
+									
+								} else if(modif.equals(Static.modificationSoldes)){
+
+									System.out.println("Modification des soldes");
+									MainClientFxml.controller.afficheJoueur(partie);
+									modifs.remove(0);
+									
+									
 								} else {
 
 									System.out.println("Modif non reconnue");
 								}
 							}
+							
+							}catch(Exception e){
+								e.printStackTrace();
+							}
 						}
 						
 					}
+						
+					
 			    };
 				
 			}
 			
 		};
+		
 		
 
 		updateSalle.start();
@@ -619,9 +634,17 @@ System.out.println("non term : "+partiesNonTerminees);
 	
 	
 	
-	public void skipPartiesEnCours(){
+	public void skipPartiesEnCours() throws IOException{
 		
-		
+		URL url = getClass().getResource("../view/ChoixPartie.fxml");
+		FXMLLoader fxmlLoader = new FXMLLoader(url);
+		BorderPane root = (BorderPane) fxmlLoader.load();
+		MainClientFxml controller = (MainClientFxml)fxmlLoader.getController();
+		controller.changeAccordion();
+		final Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.setTitle("Santiago");
+		stage.show();
 	}
 	
 	
@@ -1287,8 +1310,16 @@ System.out.println("non term : "+partiesNonTerminees);
 	}
 	
 	
-	
-	
+	/**
+	 * Fonction qui actualise la liste des parties que l'utilisateur peut rejoindre
+	 * @param args
+	 * @throws RemoteException 
+	 */
+	public void actualiserLesParties(ActionEvent e) throws RemoteException {
+		
+
+		changeAccordion();
+	}
 	
 	
 	
