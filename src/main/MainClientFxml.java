@@ -353,7 +353,7 @@ System.out.println("non term : "+partiesNonTerminees);
 								
 							        MainClientFxml.controller.changeText(partie);
 
-									MainClientFxml.controller.lancementPlateau(partie);
+									//MainClientFxml.controller.lancementPlateau(partie);
 									modifs.remove(0);
 
 							
@@ -743,7 +743,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	
 	public void lancementPlateau(Partie p) throws IOException{
 		System.out.println("Lanchement Plateau");
-		
+		try{
 		final URL url = getClass().getResource("../view/Plateau.fxml");
 
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -753,8 +753,11 @@ System.out.println("non term : "+partiesNonTerminees);
       
         MainClientFxml.controller = (MainClientFxml)fxmlLoader.getController();
 
-
         stage.getScene().setRoot(root);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void lancementScore(Partie partie) throws IOException{
