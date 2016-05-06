@@ -1,7 +1,11 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -304,23 +308,19 @@ System.out.println("non term : "+partiesNonTerminees);
 	 * Fonction qui va chercher les informations de la partie
 	 */
 	public void chercheInfoPartie(final Partie p) throws IOException{
-
-
 		Service<Void> updateSalle = new Service<Void>(){
 			protected Task<Void> createTask() {
 				return new Task<Void>(){
-					
 					@Override
 					protected Void call() throws Exception {
-
 						ArrayList<Integer> modifs = new ArrayList<>();
-						
+	
 						int index = 0;
 						
 						while(true){
 							
 							Partie partie = serveur.getPartieByName(p.getNomPartie());							
-
+							
 							if(partie == null){ continue; }
 						
 							if(partie.getListeModifications().size() > 0){
@@ -376,6 +376,8 @@ System.out.println("non term : "+partiesNonTerminees);
 									System.out.println("Modif non reconnue");
 								}
 							}
+							MainClientFxml.controller.afficherTexte(partie);
+							Thread.sleep(500);
 						}
 						
 					}
@@ -932,36 +934,30 @@ System.out.println("non term : "+partiesNonTerminees);
 	}
 	
 	public void afficherTexte(Partie partie) throws RemoteException {
-		System.out.println("JE SUIS JE SUIS JE SUIS .... ");
-		System.out.println(client.getJoueur().getPseudo());
-		
-		String contenu[] = partie.getListeMessages().get(indexMessage);
-		String pseudo = client.getJoueur().getPseudo();
-
-		//On parse 
-		String[] dest = contenu[1].split("_");
-
-		for(int i = 0; i < dest.length; i++) {
-			if(dest[i].equals(pseudo)) {
-				System.out.println("Je dois recevoir ce message!!");
-				System.out.println(contenu[0]);
-//				if(contenu[0].contains(pseudo)) {
-//					System.out.println("Ce message me concerne !!");
-//					String msg = contenu[0];
-//					msg.replace(pseudo+" a", "Vous avez");
-//					msg.replace(pseudo+" est", "Vous êtes");
-//					msg.replace(pseudo+" fait", "Vous devez faire");
-//					msg.replace(pseudo, "Vous");
-//					
-//					System.out.println(msg);
-//				} else {
-//					System.out.println("Ce message me concerne pas!!");
-//					System.out.println(contenu[0]);
-//				}
-				break;
-			}
-		}
-		//zoneTexte.insertText(0, partie.getTexte());
+		String thisLine;
+		System.out.println("1__________");
+	     try {
+	    	 System.out.println("2__________");
+	    	 //System.out.println("AfficherTexte de:" +client.getJoueur().getPseudo());
+	    	 File file = new File(client.getJoueur().getPseudo()+".txt");
+	    	 System.out.println("3__________");
+	    	 if (file.exists()) {
+	    		 System.out.println("4__________");
+		         BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));
+		         BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
+		         
+		         while ((thisLine = br.readLine()) != null) { 
+		        	 System.out.println("5__________");
+			           System.out.println("Info :" +thisLine);
+			           zoneTexte.appendText(thisLine);
+			           //Puis on efface le contenu (A faire lors des tests non local)
+			          // bw.write("");
+		         } // end while 
+		         br.close(); bw.close();
+	    	 }
+	     } catch (IOException e) {
+	    	   	System.out.println("Error: " + e);
+	     }
 	}
 	
 	public void afficheJoueur(Partie p) throws RemoteException{
