@@ -1149,7 +1149,13 @@ System.out.println("non term : "+partiesNonTerminees);
 				tourJoueur4.setImage(image);
 			} else if (j.getPseudo().equals(this.nomJoueur5.getText())) {
 				tourJoueur5.setImage(image);
-			}			
+			}	
+			
+			if(!j.getPseudo().equals(nomJoueur)) {
+				btnEnvoyer.setDisable(true);
+			} else {
+				btnEnvoyer.setDisable(false);
+			}
 		});
 
 		
