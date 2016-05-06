@@ -431,13 +431,20 @@ public class Partie implements Serializable{
 				client = getClientAGauche(client);
 			}
 			
-			joueurEnCours = null; addModification(Static.modificationJoueurEnCours);
+			joueurEnCours = null; 
+			
+			addModification(Static.modificationJoueurEnCours);
 			
 			//Une fois que tous les joueurs ont déposés un pot de vin (ou passer), on passe à la seconde partie de la phase 4:
 			propositionChoisie = constructeurDeCanal.choisirPotDeVin(plateau, listePropositions, listeCanauxTemp);
 			
+			this.addModification(Static.modificationSoldes);
+			
 			//Informer les joueurs
 			propositionChoisie.deduirePotDeVin(listePropositions, listeSoutiens, listePotsDeVin, constructeurDeCanal);
+
+			this.addModification(Static.modificationSoldes);
+
 		}
 		
 		/**
@@ -544,6 +551,8 @@ public class Partie implements Serializable{
 							int nouveauScore = nbMarqueur * nombreCase;
 							
 							joueur.setSolde(joueur.getSolde() + nouveauScore);
+							
+							this.addModification(Static.modificationSoldes);
 							
 						} catch(Exception e){
 							e.printStackTrace();
@@ -656,6 +665,7 @@ public class Partie implements Serializable{
 		for(SantiagoInterface client : this.listeClients){
 			int solde = client.getJoueur().getSolde() - listeOffres.get(client);
 			client.getJoueur().setSolde(solde);
+			this.addModification(Static.modificationSoldes);
 		}
 	}
 	

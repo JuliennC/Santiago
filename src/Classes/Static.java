@@ -23,5 +23,7 @@ public class Static {
 
 	public final static Integer modificationCannaux = 10;
 
+	public final static Integer modificationSoldes = 11;
+
 }
 
