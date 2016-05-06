@@ -29,9 +29,9 @@ public interface SantiagoInterface extends Remote{
 	public Partie initialiserPartie(Partie aPartie) throws RemoteException ;
 	public void enregistrePseudoEtMDP(String pseudo, String mdp) throws RemoteException;
 	public boolean pseudoEstDisponible(String pseudo) throws RemoteException;
-	public void testPartieEstPrete() throws PartieException, RemoteException, JoueurException;
+	public void testPartieEstPrete(Partie aP) throws PartieException, RemoteException, JoueurException;
 	public boolean listeContientPartie(ArrayList<Partie> liste, String nomPartie) throws RemoteException;
-	public void ajouterPartieListe(Partie p) throws RemoteException;
+	public void ajouterPartieListe(Partie p) throws RemoteException, InterruptedException;
 	public ArrayList<Partie> voirParties() throws RemoteException;
 	public void sauvegarder(Partie p) throws RemoteException, FileNotFoundException, IOException;
 	public Partie charger(String fileName) throws RemoteException, FileNotFoundException, IOException;

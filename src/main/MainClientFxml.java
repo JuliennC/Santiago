@@ -204,7 +204,7 @@ public class MainClientFxml extends Application implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
-			this.serveur = (SantiagoInterface)Naming.lookup("rmi://192.168.43.93:44000/ABC");
+			this.serveur = (SantiagoInterface)Naming.lookup("rmi://127.0.0.1:44000/ABC");
 		} 
 		catch (MalformedURLException | RemoteException | NotBoundException e) {
 			e.printStackTrace();
@@ -545,8 +545,10 @@ System.out.println("non term : "+partiesNonTerminees);
 	 * @param e
 	 * @throws RemoteException
 	 * @throws InterruptedException 
+	 * @throws JoueurException 
+	 * @throws PartieException 
 	 */
-	public void joinPartie(ActionEvent e) throws RemoteException, InterruptedException{
+	public void joinPartie(ActionEvent e) throws RemoteException, InterruptedException, PartieException, JoueurException{
 		TitledPane pane = this.listePartie.getExpandedPane();
 		
 		joinPartieSalleDAttente(e, pane);
@@ -555,7 +557,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	
 	
 
-	public void rejoindrePartieEnCours(ActionEvent e) throws InterruptedException{
+	public void rejoindrePartieEnCours(ActionEvent e) throws InterruptedException, PartieException, JoueurException{
 
 		TitledPane pane = this.accordeonPartiesCommencees.getExpandedPane();
 
@@ -571,7 +573,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	}
 	
 	
-	public void joinPartieSalleDAttente(ActionEvent e, TitledPane pane) throws InterruptedException{
+	public void joinPartieSalleDAttente(ActionEvent e, TitledPane pane) throws InterruptedException, PartieException, JoueurException{
 		
 		String nomPartie = pane.getText();
 		Partie pRejoint = null;
@@ -585,6 +587,8 @@ System.out.println("non term : "+partiesNonTerminees);
 		try {
 			Button b = (Button) e.getSource();
 			salleDAttente((Stage)b.getScene().getWindow(),pRejoint.getNomPartie());
+			
+			serveur.testPartieEstPrete(pRejoint);
 		}
 		catch (IOException e1) {
 			e1.printStackTrace();
@@ -1023,12 +1027,13 @@ System.out.println("non term : "+partiesNonTerminees);
 		    	 File file = new File("message.txt");
 		    	 if (file.exists()) {
 			         BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));
-			         BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
+			         
 			         
 			         while ((thisLine = br.readLine()) != null) { 
 				         System.out.println("Message du serveur :" +thisLine);
 				         zoneTexte.appendText(thisLine);
 				         //Puis on efface le contenu (A faire lors des tests non local)
+				         BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
 				         bw.write("");
 				         bw.flush();
 			         } // end while 
