@@ -20,16 +20,21 @@ public abstract class Tuile implements Serializable {
 	
 	public Tuile(int nbMarqueurs, String intituleDuChamps, String path) {
 		
-		nombreMarqueursNecessaires = nbMarqueurs;
+		this.nombreMarqueursNecessaires = nbMarqueurs;
 		this.intituleDuChamps = intituleDuChamps;
 		
 		if(nbMarqueurs == 1){
 			
 			this.path = path+"1.jpg";
 		
-		} else{
+		} else if(nbMarqueurs == 2){
 			
 			this.path = path+"2.jpg";
+		
+		} else {
+		
+			this.path = path+".jpg";
+			this.estDesert = true;
 		}
 	}
 

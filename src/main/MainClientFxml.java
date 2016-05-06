@@ -29,7 +29,11 @@ import Classes.Plateau.Canal;
 import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
 import Classes.Tuile.Tuile;
+import Classes.Tuile.TuileBanane;
+import Classes.Tuile.TuileCanne;
+import Classes.Tuile.TuileHaricot;
 import Classes.Tuile.TuilePiment;
+import Classes.Tuile.TuileRetournee;
 import Exception.JoueurException;
 import Exception.PartieException;
 import javafx.application.Application;
@@ -379,20 +383,18 @@ System.out.println("non term : "+partiesNonTerminees);
 
 								if(modif.equals(Static.modificationJoueurs)){
 
-									//System.out.println("---- joueur");
-									System.out.println("Nouveau joueur : ");
+									System.out.println("Nouveau joueur ");
 
 								
 							        MainClientFxml.controller.changeText(partie);
-
-									//MainClientFxml.controller.lancementPlateau(partie);
-									modifs.remove(0);
+							  		modifs.remove(0);
 
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
 									MainClientFxml.controller.lancementPlateau(partie);
 
 									modifs.remove(0);
+
 							
 								} else if(modif.equals(Static.modificationJoueurDeconnection)){
 									
@@ -431,12 +433,18 @@ System.out.println("non term : "+partiesNonTerminees);
 									System.out.println("Modification des canaux");
 									MainClientFxml.controller.metAJourAffichageCanaux();
 									modifs.remove(0);
-									
-									
+																		
 								} else if(modif.equals(Static.modificationSoldes)){
 
 									System.out.println("Modification des soldes");
 									MainClientFxml.controller.afficheJoueur(partie);
+									modifs.remove(0);
+
+				
+								}else if(modif.equals(Static.modificationTuilesRetournees)){
+									
+									System.out.println("Modification des tuiles retournées");
+									MainClientFxml.controller.afficheTuilesRetournees(partie);
 									modifs.remove(0);
 									
 								} else {
@@ -1045,8 +1053,139 @@ System.out.println("non term : "+partiesNonTerminees);
 	
 	public void afficheTuilesRetournees(Partie p){
 		
+		
+		
+		ArrayList<Tuile> liste = p.getPlateau().getListeTuilesRetournees();
+		if(p.getNombreJoueursRequis()==5){
+			Image image1 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(0).getPath()));
+			if(liste.get(0).estDesert()){ this.pioche1.setDisable(true); }
+
+			Image image2 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(1).getPath()));
+			if(liste.get(1).estDesert()){ this.pioche2.setDisable(true); }
+
+			Image image3 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(2).getPath()));
+			if(liste.get(3).estDesert()){ this.pioche3.setDisable(true); }
+
+			Image image4 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(3).getPath()));
+			if(liste.get(4).estDesert()){ this.pioche4.setDisable(true); }
+
+			Image image5 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(4).getPath()));
+			if(liste.get(5).estDesert()){ this.pioche5.setDisable(true); }
+
+			this.pioche1.setImage(image1);
+			this.pioche2.setImage(image2);
+			this.pioche3.setImage(image3);
+			this.pioche4.setImage(image4);
+			this.pioche5.setImage(image5);
+			
+		}
+		else{
+			try{
+				System.out.println(liste.get(0).getPath());
+				Image image1 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(0).getPath()));
+				if(liste.get(0).estDesert()){ this.pioche1.setDisable(true); }
+
+				Image image2 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(1).getPath()));
+				if(liste.get(1).estDesert()){ this.pioche2.setDisable(true); }
+
+				Image image3 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(2).getPath()));
+				if(liste.get(2).estDesert()){ this.pioche3.setDisable(true); }
+
+				Image image4 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(3).getPath()));
+				if(liste.get(3).estDesert()){ this.pioche4.setDisable(true); }
+				
+				this.pioche1.setImage(image1);
+				this.pioche2.setImage(image2);
+				this.pioche3.setImage(image3);
+				this.pioche4.setImage(image4);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+
+		}
 	}
 	
+	@FXML
+	public void clickTuile(MouseEvent e) throws RemoteException{
+		Partie p = serveur.getPartieByName(namePartie);
+		ImageView image =(ImageView)e.getSource();
+		
+				
+		Joueur j = getClient(nomJoueur, p.getNomPartie()).getJoueur();
+		if(j.getPseudo().equals(this.nomJoueur1.getText())){
+			this.tuile1.setImage(image.getImage());
+		}
+		else if(j.getPseudo().equals(this.nomJoueur2.getText())){
+			this.tuile2.setImage(image.getImage());
+		}
+		else if(j.getPseudo().equals(this.nomJoueur3.getText())){
+			this.tuile3.setImage(image.getImage());
+		}
+		else if(j.getPseudo().equals(this.nomJoueur4.getText())){
+			this.tuile4.setImage(image.getImage());	
+		}
+		else if(j.getPseudo().equals(this.nomJoueur5.getText())){
+			this.tuile5.setImage(image.getImage());
+		}
+
+
+		this.pioche1.setDisable(true);
+		this.pioche2.setDisable(true);
+		this.pioche3.setDisable(true);
+		this.pioche4.setDisable(true);
+		this.pioche5.setDisable(true);
+		
+		selectionTuile(p,image);
+
+	}
+	
+	public void selectionTuile(Partie p, ImageView image) throws RemoteException{
+		if(p.getNombreJoueursRequis()==5){
+			if(image == this.pioche1){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(0));
+				serveur.ajouteTuileRetourneAIndex(p, new TuileRetournee(), 0);
+			}
+			else if(image == this.pioche2){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(1));
+				serveur.ajouteTuileRetourneAIndex(p, new TuileRetournee(), 1);
+			}
+			else if(image == this.pioche3){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(2));
+				serveur.ajouteTuileRetourneAIndex(p, new TuileRetournee(), 2);
+			}
+			else if(image == this.pioche4){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(3));
+				serveur.ajouteTuileRetourneAIndex(p, new TuileRetournee(), 3);
+			}
+			else if(image == this.pioche5){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(4));
+				serveur.ajouteTuileRetourneAIndex(p, new TuileRetournee(), 4);
+			}
+		}
+		else{
+			if(image == this.pioche1){
+				System.out.println("TestTuile");
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(0));
+				serveur.ajouteTuileRetourneAIndex(p, new TuileRetournee(), 0);
+			}
+			else if(image == this.pioche2){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(1));
+				serveur.ajouteTuileRetourneAIndex(p, new TuileRetournee(), 1);
+			}
+			else if(image == this.pioche3){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(2));
+				serveur.ajouteTuileRetourneAIndex(p, new TuileRetournee(), 2);
+			}
+			else if(image == this.pioche4){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(3));
+				serveur.ajouteTuileRetourneAIndex(p, new TuileRetournee(), 3);
+			}
+
+		}
+		
+		serveur.addNotificationAPArtie(namePartie, Static.modificationTuilesRetournees);
+	}
 	
 	
 	/**
@@ -1055,6 +1194,11 @@ System.out.println("non term : "+partiesNonTerminees);
 	 */
 	public void selectionneCase(MouseEvent e) throws RemoteException{
 
+		//On vérifie que le joueur à une tuile selectionnée
+		Joueur j = getClient(nomJoueur, namePartie).getJoueur();
+		
+		if(j.getTuileSelectionee() == null){ return; }
+		
 		//On récupère l'imageview
 		ImageView view = (ImageView) e.getSource();
 
@@ -1069,12 +1213,8 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 		
 		//On dit au server d'ajouter la tuile
-        TuilePiment tuile = new TuilePiment(1);
-
-        MarqueurRouge m = new MarqueurRouge();
-
-        
-        tuile.addMarqueur(m);
+        Tuile tuile = j.getTuileSelectionee();
+        serveur.ajouteTuileAJoueur(namePartie, nomJoueur, null);
         
         //On prévient du changmenet
         serveur.poseTuileAvecXY(MainClientFxml.namePartie, tuile, x, y);

@@ -215,13 +215,14 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	
 	/*
 	 * Fonction qui avertie une partie d'une modification
-	 *
+	 */
 	public void addNotificationAPArtie(String nomPartie, int modif) throws RemoteException{
 		this.verifieServer();
 		
 		Partie p = getPartieByName(nomPartie);
 		p.addModification(modif);
-	}*/
+	}
+	
 
 	/**
 	 * Fonction qui récupère les parties pour un joueur donné 
@@ -1067,6 +1068,32 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		return false;
 
 	}
+	
+	public void ajouteTuileAJoueur(String nomPartie, String nomJoueur, Tuile t) throws RemoteException{
+		for(SantiagoInterface si : getPartieByName(nomPartie).getListeClients()){
+			if(si.getJoueur().getPseudo().equals(nomJoueur)){
+
+				Joueur j = si.getJoueur();
+				j.setTuileSelectionee(t);
+				
+				si.setJoueur(j);
+				
+			}
+		}
+	}
+	
+	
+	
+	
+	public void ajouteTuileRetourneAIndex(Partie partie, Tuile tuile, int index) throws RemoteException{
+	
+		Partie p = this.getPartieByName(partie.getNomPartie());
+		
+		p.getPlateau().getListeTuilesRetournees().set(index, tuile);
+		
+		
+	}
+	
 	
 	
 	

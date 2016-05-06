@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import Classes.Marqueurs.MarqueurVert;
 import Classes.Marqueurs.MarqueurViolet;
+import Classes.Tuile.Tuile;
 import Classes.Marqueurs.MarqueurRose;
 import Classes.Marqueurs.MarqueurOrange;
 import Classes.Marqueurs.MarqueurRendement;
@@ -23,7 +24,9 @@ public class Joueur implements Serializable{
 	private int solde;
 	private String couleur;
 	private ArrayList<MarqueurRendement> marqueurRestant;
-		
+	
+	private Tuile tuileSelectionee;
+
 	public Joueur() {}
 	
 	/**
@@ -196,6 +199,15 @@ public class Joueur implements Serializable{
 	
 	// --------------- GETTER et SETTER ---------------
 
+	
+	public Tuile getTuileSelectionee() {
+		return tuileSelectionee;
+	}
+
+	public void setTuileSelectionee(Tuile tuileSelectionee) {
+		this.tuileSelectionee = tuileSelectionee;
+	}
+	
 	/**
 	 * Fonction qui met le pseudo du joueur
 	 * 
