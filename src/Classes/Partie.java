@@ -141,32 +141,43 @@ public class Partie implements Serializable{
 				
 				// retourner les plantation et les mettre aux enchere
 				if(tousConnectes) {		
-					offres = phase1();					
+					offres = phase1();	
+					addModification(Static.modificationJoueurEnCours);
 				} else {
 					break;
 				}
 				
 				//changement du constructeur de canal
 				if(tousConnectes) {
-					phase2(offres);					
+					phase2(offres);	
+					addModification(Static.modificationJoueurEnCours);
 				} else {
 					break;
 				}
 				
 				//Choisir une plantation et la placer
 				if(tousConnectes) {
-					phase3(offres);				
+					phase3(offres);	
+					addModification(Static.modificationJoueurEnCours);
 				} else {
 					break;
 				}
 				
 				//Phase 4: Soudoyer le constructeur de canal
 				if(tousConnectes) {
-					phase4();					
+					phase4();	
+					addModification(Static.modificationJoueurEnCours);
 				} else {
 					break;
 				}
 
+				if(tousConnectes) {
+					phase6();	
+					addModification(Static.modificationJoueurEnCours);
+				} else {
+					break;
+				}
+				
 				if(tousConnectes) {
 					tourEnCours++;					
 				} else {
@@ -180,18 +191,6 @@ public class Partie implements Serializable{
 			finDePartie();
 			lancerSauvegarde();
 		}
-
-		//On lance la phase1
-		
-		HashMap<SantiagoInterface, Integer> offres = phase1();
-		
-		//Maintenant on peut gérer les offres
-		phase2(offres);
-		
-		
-		//Phase 4: Soudoyer le constructeur de canal :
-		phase4();
-		
 	}
 	
 	 
@@ -621,6 +620,7 @@ public class Partie implements Serializable{
 			listeTuilesChoisies.put(client, this.plateau.getListeTuilesRetournees().get(indexTuileChoisie));
 			this.plateau.getListeTuilesRetournees().remove(indexTuileChoisie);
 		}
+		
 		// si le nombre de joueur est de 3 on ajjoute la derniere tuile au joueur ayant fait la plus grande offre
 		return listeTuilesChoisies;
 	}
