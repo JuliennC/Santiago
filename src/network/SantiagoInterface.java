@@ -68,4 +68,6 @@ public interface SantiagoInterface extends Remote{
 	public boolean tic() throws RemoteException;
 	
 	public ArrayList<Partie> getListeParties() throws RemoteException;
+	
+	public String recevoirCommande() throws RemoteException;
 }

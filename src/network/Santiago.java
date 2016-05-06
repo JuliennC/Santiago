@@ -1,8 +1,10 @@
 package network;
 import java.awt.Point;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -425,21 +427,23 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			envoyerMessage("Vous devez faire une enchère : ");
 			System.out.println("Vous devez faire une enchère : ");
 			//On récupère l'offre
-			offre = scInt.nextInt();
+			int msg = Integer.parseInt(this.recevoirCommande());
+			System.out.println("01");
+			offre = msg;
+			System.out.println("02");
+			
+			//On regarde la conformité de l'offre
+			if (offre < 0) {
+				envoyerMessage("Vous ne pouvez pas faire une offre inférieur à 0");
+				System.out.println("Vous ne pouvez pas faire une offre inférieur à 0");
+		
+			} else if (offre > joueur.getSolde()) {
+				envoyerMessage("Vous ne pouvez pas faire une offre supérieur à votre solde : "+joueur.getSolde()+".");
+				System.out.println("Vous ne pouvez pas faire une offre supérieur à votre solde : "+joueur.getSolde()+".");
+			} else {
+				offreOk = true;
+			}		
 		}
-			
-			
-		//On regarde la conformité de l'offre
-		if (offre < 0) {
-			envoyerMessage("Vous ne pouvez pas faire une offre inférieur à 0");
-			System.out.println("Vous ne pouvez pas faire une offre inférieur à 0");
-	
-		} else if (offre > joueur.getSolde()) {
-			envoyerMessage("Vous ne pouvez pas faire une offre supérieur à votre solde : "+joueur.getSolde()+".");
-			System.out.println("Vous ne pouvez pas faire une offre supérieur à votre solde : "+joueur.getSolde()+".");
-		} else {
-			offreOk = true;
-		}		
 		return offre;
 	}
 
@@ -1063,7 +1067,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	}
 	
 	/**
-	 * Fonction qui écrit dans un fichier du nom du joueur
+	 * Fonction qui écrit dans un fichier les messages à envoyer aux clients
 	 */
 	public void envoyerMessage(String msg) {
 		try {
@@ -1072,7 +1076,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-			
+			System.out.println("On écrit dans le fichier message.txt");
 			FileWriter fw = new FileWriter(file.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(msg);
@@ -1083,4 +1087,37 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		}
 	}
 	
+	/**
+	 * Fonction appelée par le serveur pour recevoir les saisies des clients
+	 * Si String est à null, alors le serveur souhaite récupérer le contenu du fichier 
+	 * Si String contient du texte, alors le serveur envoit la commande du client
+	 * @return 
+	 */
+	public String recevoirCommande() throws RemoteException {
+		boolean reception = false;
+		while(!reception) {
+			String thisLine;
+			String cmd;
+		     try {
+		    	 File file = new File("messageEnvoye.txt");
+		    	 if (file.exists()) {
+			         BufferedReader breader = new BufferedReader(new FileReader(file.getAbsoluteFile()));         
+			         
+			         while ((thisLine = breader.readLine()) != null) { 
+			        	 System.out.println(thisLine);
+			        	 cmd = thisLine;
+				         //On efface le contenu:
+				         BufferedWriter bwritter = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
+				         bwritter.write("");
+				         bwritter.flush();
+				         return cmd;
+			         } // end while 
+			        // br.close(); bw.close();
+		    	 }
+		     } catch (IOException e) {
+		    	   	System.out.println("Error: " + e);
+		     }  
+		}		
+		return null;
+	}
 }

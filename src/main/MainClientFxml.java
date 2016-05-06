@@ -193,6 +193,12 @@ public class MainClientFxml extends Application implements Initializable{
     
     @FXML
     TextArea zoneTexte;
+    
+    @FXML
+    TextField zoneSaisie;
+    
+    @FXML
+    Button btnEnvoyer;	
 	/*------------------------------------------------------*/
 	
 	private static Stage stage;
@@ -374,10 +380,7 @@ System.out.println("non term : "+partiesNonTerminees);
 								} else if(modif.equals(Static.modificationJoueurEnCours)){
 									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
-								} else if(modif.equals(Static.modificationtexte)){
-									MainClientFxml.controller.afficherTexte(partie);
-									modifs.remove(0);
-								}else {
+								} else {
 									System.out.println("Modif non reconnue");
 								}
 							}
@@ -1023,7 +1026,7 @@ System.out.println("non term : "+partiesNonTerminees);
 		    	 File file = new File("message.txt");
 		    	 if (file.exists()) {
 			         BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));         
-			         
+			         System.out.println("On lit dans le fichier message.txt");
 			         while ((thisLine = br.readLine()) != null) { 
 				         System.out.println("Message du serveur :" +thisLine);
 				         zoneTexte.appendText(thisLine);
@@ -1117,6 +1120,28 @@ System.out.println("non term : "+partiesNonTerminees);
 		});
 	}
 	
+	public void envoyerMessage(MouseEvent event) throws RemoteException {
+		String cmd = zoneSaisie.getText();
+		//client.recevoirCommande(cmd);
+		
+		try {
+			File file = new File("messageEnvoye.txt");
+			
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			
+			FileWriter fwritter = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bwritter = new BufferedWriter(fwritter);
+			bwritter.write(cmd);
+			bwritter.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		zoneSaisie.clear();
+	}	
 	
 	public static void main(String[] args) {
 		Application.launch(MainClientFxml.class,args);

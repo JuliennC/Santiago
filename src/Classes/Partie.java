@@ -218,19 +218,6 @@ public class Partie implements Serializable{
 				joueurEnCours = client.getJoueur();
 				addModification(Static.modificationJoueurEnCours);
 				
-				String tabMessage[] = new String[2];
-				tabMessage[0] = client.getJoueur().getPseudo()+ " fait une offre...";
-				
-				for(Joueur j: listeDesJoueurs) {
-					if(tabMessage[1] != null) {
-						tabMessage[1] = tabMessage[1]+j.getPseudo()+"_";
-					} else {
-						tabMessage[1] = j.getPseudo()+"_";
-					}
-				}
-				listeMessages.add(tabMessage);
-				addModification(Static.modificationtexte);
-				
 				// Le joueur doit faire une offre
 				int offre = client.joueurFaitUneOffre();
 
@@ -252,7 +239,6 @@ public class Partie implements Serializable{
 					
 				}
 				//texte = client.getJoueur().getPseudo()+ "a proposé " +offre+ " Escudos !";
-				addModification(Static.modificationtexte);
 				
 				//On stocke les offres
 				listeOffres.put(client, offre);	
@@ -925,7 +911,6 @@ public class Partie implements Serializable{
 			}
 		}
 		listeMessages.add(tabMessage);
-		addModification(Static.modificationtexte);
 	}
 	
 	
