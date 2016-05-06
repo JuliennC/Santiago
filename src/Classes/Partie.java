@@ -121,7 +121,7 @@ public class Partie implements Serializable{
 			setPartieACommence(true);
 
 			while(! partiEstTerminee() ){			
-				lancerSauvegarde();
+				//lancerSauvegarde();
 				
 				HashMap<SantiagoInterface, Integer> offres;
 				
@@ -915,7 +915,7 @@ public class Partie implements Serializable{
 	
 	public void envoyerMessage(SantiagoInterface client) throws RemoteException {
 		String tabMessage[] = new String[2];
-		tabMessage[0] = client.getJoueur().getPseudo()+ " fait une offre...";
+		tabMessage[0] = "Bonjour";
 		
 		for(Joueur j: listeDesJoueurs) {
 			if(tabMessage[1] != null) {
