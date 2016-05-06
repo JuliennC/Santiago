@@ -68,8 +68,8 @@ import network.SantiagoInterface;
 
 public class MainClientFxml extends Application implements Initializable{
 
-	private static SantiagoInterface client;
 	private SantiagoInterface serveur;
+	
 
 	/*-------------Début attribut creation -------------*/
 	@FXML
@@ -199,8 +199,9 @@ public class MainClientFxml extends Application implements Initializable{
 	/*------------------------------------------------------*/
 	
 	private static Stage stage;
-	private static String name;
-	
+	private static String namePartie;
+	private static String nomJoueur;
+
 	private static MainClientFxml controller;
 	private static int indexMessage = 0;
 
@@ -239,8 +240,28 @@ public class MainClientFxml extends Application implements Initializable{
 	
 	
 	
+	/**
+	 * Fonction qui renvoie un client en fonction du nom du joueur et de la partie
+	 * @throws RemoteException 
+	 */
+	public SantiagoInterface getClient(String pseudo, String nomPartie) throws RemoteException{
+		
+		Partie partie = serveur.getPartieByName(nomPartie);
 	
-	
+		if(partie==null){System.out.println("ERREUR : aucune partie trouvée");};
+		
+		for(SantiagoInterface client : partie.getListeClients()){
+			
+			Joueur jiuh = client.getJoueur();
+			
+			if (pseudo.equals(client.getJoueur().getPseudo())){
+				return client;
+			}
+		}
+		
+
+		return null;
+	}
 	
 	
 	
@@ -255,9 +276,9 @@ public class MainClientFxml extends Application implements Initializable{
 	public void startChoixPartie(Stage primaryStage) throws IOException{
 		
 		
-		ArrayList<Partie> partiesNonTerminees = serveur.getPartiePourJoueur(client.getJoueur().getPseudo());
+		ArrayList<Partie> partiesNonTerminees = serveur.getPartiePourJoueur(MainClientFxml.nomJoueur);
 System.out.println("non term : "+partiesNonTerminees);
-		if( (partiesNonTerminees.size() > 0) && (serveur.joueurParticipeAUnePartie(client.getJoueur(), partiesNonTerminees)) ){
+		if( (partiesNonTerminees.size() > 0) && (serveur.joueurParticipeAUnePartie(MainClientFxml.nomJoueur, partiesNonTerminees)) ){
 			
 			URL url = getClass().getResource("../view/chargePartiesCommencees.fxml");
 			FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -353,7 +374,7 @@ System.out.println("non term : "+partiesNonTerminees);
 								
 							        MainClientFxml.controller.changeText(partie);
 
-									MainClientFxml.controller.lancementPlateau(partie);
+									//MainClientFxml.controller.lancementPlateau(partie);
 									modifs.remove(0);
 
 							
@@ -442,10 +463,9 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 		
 		if(!pseudo.isEmpty()&&pseudoEstDispo  || (serveur.connexionPseudoEtMDP(pseudo, mdp))){
-			Joueur joueur = new Joueur(pseudo,10);
-			client = new Santiago("client");
-			client.setJoueur(joueur);
-
+			
+			MainClientFxml.nomJoueur = pseudo;
+			
 			serveur.enregistrePseudoEtMDP(pseudo, mdp);
 			//parcoursListePartie();
 			startChoixPartie((Stage)this.valider.getScene().getWindow());
@@ -463,7 +483,7 @@ System.out.println("non term : "+partiesNonTerminees);
 			boolean b = false;
 			if(p.getListeDesJoueur() != null){
 				for(Joueur j : p.getListeDesJoueur()){
-					if(j.getPseudo().equals(client.getJoueur().getPseudo())){
+					if(j.getPseudo().equals(MainClientFxml.nomJoueur)){
 						b = true;
 						break;
 					}
@@ -504,10 +524,16 @@ System.out.println("non term : "+partiesNonTerminees);
 	public void createPartie(ActionEvent e) throws NumberFormatException, NotBoundException, PartieException, JoueurException, IOException, InterruptedException{
 		Button b = (Button)e.getSource();
 		RadioButton radio = (RadioButton)this.nbJoueur.getSelectedToggle();
-		name = this.nomPartie.getText();
-		Partie p = serveur.creerPartie(name ,Integer.parseInt(radio.getText()));
+		MainClientFxml.namePartie = this.nomPartie.getText();
+		Partie p = serveur.creerPartie(MainClientFxml.namePartie ,Integer.parseInt(radio.getText()));
 		
 		serveur.ajouterPartieListe(p);
+		
+		String couleur = p.getCouleurDispo();
+		
+		Joueur joueur = new Joueur(MainClientFxml.nomJoueur,10, couleur);
+		SantiagoInterface client = new Santiago("client");
+		client.setJoueur(joueur);
 
 		p = serveur.rejoindrePartie(this.nomPartie.getText(), client);
 		
@@ -529,7 +555,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	 */
 	public void chargerPartie(ActionEvent e) throws RemoteException, FileNotFoundException, IOException, PartieException, JoueurException, InterruptedException{
 		Button button = (Button) e.getSource();
-		Partie p = client.charger(this.nomPartieChargement.getText());
+		Partie p = serveur.charger(this.nomPartieChargement.getText());
 		if(p == null){
 			this.errorNomChargement.setText("La partie n'éxiste pas");
 		}
@@ -537,17 +563,24 @@ System.out.println("non term : "+partiesNonTerminees);
 			lancementScore(p);
 		}
 		else{
-			boolean b = false;
+			
+			Joueur joueurRes = null;
+			
 			ArrayList<Joueur> listeJoueur = p.getListeDesJoueur();
 			for(Joueur j : listeJoueur){
-				if(j.getPseudo().equals(client.getJoueur().getPseudo())){
-					b = true;
+				if(j.getPseudo().equals(MainClientFxml.nomJoueur)){
+					joueurRes = j;
 					break;
 				}
 			}
-			if(b){
+			if(joueurRes != null){
 				p.setPartieACommence(false);
+				
+				SantiagoInterface client = new Santiago("client");
+				client.setJoueur(joueurRes);
+				
 				p.addClient(client);
+				
 				this.serveur.ajouterPartieListe(p);
 				salleDAttente((Stage)button.getScene().getWindow(),p.getNomPartie());
 			}
@@ -594,10 +627,18 @@ System.out.println("non term : "+partiesNonTerminees);
 	
 	public void joinPartieSalleDAttente(ActionEvent e, TitledPane pane) throws InterruptedException{
 		
-		String nomPartie = pane.getText();
+		MainClientFxml.namePartie = pane.getText();
 		Partie pRejoint = null;
 		try{
-			pRejoint = serveur.rejoindrePartie(nomPartie, client);
+			
+			pRejoint = serveur.getPartieByName(MainClientFxml.namePartie);
+			String couleur = pRejoint.getCouleurDispo();
+			
+			Joueur joueur = new Joueur(MainClientFxml.nomJoueur, 10, couleur);
+			SantiagoInterface client = new Santiago("client");
+			client.setJoueur(joueur);
+			
+			pRejoint = serveur.rejoindrePartie(MainClientFxml.namePartie, client);
 			serveur.initialiserPartie(pRejoint);
 		}
         catch(RemoteException | PartieException | JoueurException e1){
@@ -747,7 +788,7 @@ System.out.println("non term : "+partiesNonTerminees);
 		final URL url = getClass().getResource("../view/Plateau.fxml");
 
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
-        
+        try{
         final BorderPane root = (BorderPane) fxmlLoader.load();
 
       
@@ -755,6 +796,9 @@ System.out.println("non term : "+partiesNonTerminees);
 
 
         stage.getScene().setRoot(root);
+        }catch(Exception e){
+        	e.printStackTrace();
+        }
 	}
 	
 	public void lancementScore(Partie partie) throws IOException{
@@ -973,7 +1017,7 @@ System.out.println("non term : "+partiesNonTerminees);
         tuile.addMarqueur(m);
         
         //On prévient du changmenet
-        serveur.poseTuileAvecXY(name, tuile, x, y);
+        serveur.poseTuileAvecXY(MainClientFxml.namePartie, tuile, x, y);
         
 	}
 	
@@ -985,7 +1029,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	public void metAJourAffichageTuiles() throws RemoteException{
 		
 		//On récupère la case
-        Partie p = serveur.getPartieByName(name);
+        Partie p = serveur.getPartieByName(MainClientFxml.namePartie);
         Case[][] tabCases = p.getPlateau().getTabPlateau();
         
         //On parcours les cases
@@ -1072,10 +1116,10 @@ System.out.println("non term : "+partiesNonTerminees);
 	
 	public void afficherTexte(Partie partie) throws RemoteException {
 		System.out.println("JE SUIS JE SUIS JE SUIS .... ");
-		System.out.println(client.getJoueur().getPseudo());
+		System.out.println(MainClientFxml.nomJoueur);
 		
 		String contenu[] = partie.getListeMessages().get(indexMessage);
-		String pseudo = client.getJoueur().getPseudo();
+		String pseudo = MainClientFxml.nomJoueur;
 
 		//On parse 
 		String[] dest = contenu[1].split("_");
@@ -1142,7 +1186,7 @@ System.out.println("non term : "+partiesNonTerminees);
 		}
         
         //On prévient du changmenet
-        serveur.metCanalEnEauAvecXY(name, x, y, position);
+        serveur.metCanalEnEauAvecXY(MainClientFxml.namePartie, x, y, position);
 		
 
 	}
@@ -1157,7 +1201,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	public void metAJourAffichageCanaux() throws RemoteException{
 		
 		//On récupère la case
-        Partie p = serveur.getPartieByName(name);
+        Partie p = serveur.getPartieByName(MainClientFxml.namePartie);
         ArrayList<Canal> listeCanaux = p.getPlateau().getListeCanaux();
         
      
@@ -1178,8 +1222,7 @@ System.out.println("non term : "+partiesNonTerminees);
     			Scene scene = stage.getScene();
     			ImageView view = (ImageView) scene.lookup(id_1);
                 
-            	String couleur = client.getJoueur().getCouleur();
-            	couleur = "Jaune";
+            	String couleur = getClient(MainClientFxml.nomJoueur, p.getNomPartie()).getJoueur().getCouleur();
             
             	try{
         		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Vertical.jpg"));
@@ -1188,8 +1231,7 @@ System.out.println("non term : "+partiesNonTerminees);
             	//Deuxieme partie du canal
             	view = (ImageView) scene.lookup(id_2);
             	
-            	couleur = client.getJoueur().getCouleur();
-            	couleur = "Jaune";
+            	couleur = getClient(MainClientFxml.nomJoueur, p.getNomPartie()).getJoueur().getCouleur();
 
             	image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Vertical.jpg"));
         		view.setImage(image);
@@ -1214,8 +1256,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	    			Scene scene = stage.getScene();
 	    			ImageView view = (ImageView) scene.lookup(id_1);
 	                
-	            	String couleur = client.getJoueur().getCouleur();
-	            	couleur = "Jaune";
+	            	String couleur = getClient(MainClientFxml.nomJoueur, p.getNomPartie()).getJoueur().getCouleur();
 
             		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Horizontal.jpg"));
 	        		view.setImage(image);
@@ -1223,8 +1264,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	            	//Deuxieme partie du canal
 	            	view = (ImageView) scene.lookup(id_2);
 	            	
-	            	couleur = client.getJoueur().getCouleur();
-	            	couleur = "Jaune";
+	            	couleur = getClient(MainClientFxml.nomJoueur, p.getNomPartie()).getJoueur().getCouleur();
 
 	            	image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Horizontal.jpg"));
 	        		view.setImage(image);

@@ -247,7 +247,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	/**
 	 * Fonction qui analyse si un client est dans la partie
 	 */
-	public boolean joueurParticipeAUnePartie(Joueur joueur, ArrayList<Partie> listeParties) throws RemoteException {
+	public boolean joueurParticipeAUnePartie(String pseudoJoueur, ArrayList<Partie> listeParties) throws RemoteException {
 		
 		this.verifieServer();
 		
@@ -258,7 +258,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			
 				for(SantiagoInterface c : p.getListeClients()){
 			
-					if(c.getJoueur().getPseudo().equals(joueur.getPseudo()));
+					if(c.getJoueur().getPseudo().equals(pseudoJoueur));
 						
 						return true;
 						
@@ -892,8 +892,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			if(aP.getNombreJoueursRequis() == aP.getNombreJoueurDansLaPartie()){
 				
 				if(! aP.getPartieACommence()){
-					
-					attributionDesCouleurs(aP);
+				
 					aP.lancePartie();
 					
 				}
@@ -901,32 +900,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		}
 	}
 	
-	public void attributionDesCouleurs(Partie partie){
 	
-		this.verifieServer();
-		
-		ArrayList<Joueur> listJoueur = partie.getListeJoueurs();
-		switch(partie.getNombreJoueurDansLaPartie()){
-		case 3:
-			listJoueur.get(0).setCouleur("Rouge");
-			listJoueur.get(1).setCouleur("Orange");
-			listJoueur.get(2).setCouleur("Rose");
-			break;
-		case 4:
-			listJoueur.get(0).setCouleur("Rouge");
-			listJoueur.get(1).setCouleur("Orange");
-			listJoueur.get(2).setCouleur("Rose");
-			listJoueur.get(3).setCouleur("Vert");
-			break;
-		case 5:
-			listJoueur.get(0).setCouleur("Rouge");
-			listJoueur.get(1).setCouleur("Orange");
-			listJoueur.get(2).setCouleur("Rose");
-			listJoueur.get(3).setCouleur("Vert");
-			listJoueur.get(3).setCouleur("Violet");
-			break;
-		}
-	}
 	
 	
 	
