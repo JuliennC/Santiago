@@ -44,7 +44,7 @@ public interface SantiagoInterface extends Remote{
 
 	public Joueur getJoueur() throws RemoteException;
 	
-	public String joueurFaitUneOffre() throws RemoteException;
+	public int joueurFaitUneOffre(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException;
 	
 	public int joueurChoisitTuile(int nbTuile) throws RemoteException;
 	
@@ -69,4 +69,6 @@ public interface SantiagoInterface extends Remote{
 	public boolean tic() throws RemoteException;
 	
 	public ArrayList<Partie> getListeParties() throws RemoteException;
+	
+	public String recevoirCommande() throws RemoteException;
 }
