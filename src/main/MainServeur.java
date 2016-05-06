@@ -28,10 +28,19 @@ public class MainServeur {
 
 		System.out.println("[System] Santiago remote object is ready");
 
-	
+		Semaphore sem = new Semaphore(1);
 
 		while (true) {
-			
+			try {
+				sem.acquire();
+				Thread.sleep(100);
+				server.testPartieEstPrete();
+				sem.release();
+
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

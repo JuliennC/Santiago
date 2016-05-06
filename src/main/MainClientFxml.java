@@ -545,10 +545,8 @@ System.out.println("non term : "+partiesNonTerminees);
 	 * @param e
 	 * @throws RemoteException
 	 * @throws InterruptedException 
-	 * @throws JoueurException 
-	 * @throws PartieException 
 	 */
-	public void joinPartie(ActionEvent e) throws RemoteException, InterruptedException, PartieException, JoueurException{
+	public void joinPartie(ActionEvent e) throws RemoteException, InterruptedException{
 		TitledPane pane = this.listePartie.getExpandedPane();
 		
 		joinPartieSalleDAttente(e, pane);
@@ -557,7 +555,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	
 	
 
-	public void rejoindrePartieEnCours(ActionEvent e) throws InterruptedException, PartieException, JoueurException{
+	public void rejoindrePartieEnCours(ActionEvent e) throws InterruptedException{
 
 		TitledPane pane = this.accordeonPartiesCommencees.getExpandedPane();
 
@@ -573,7 +571,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	}
 	
 	
-	public void joinPartieSalleDAttente(ActionEvent e, TitledPane pane) throws InterruptedException, PartieException, JoueurException{
+	public void joinPartieSalleDAttente(ActionEvent e, TitledPane pane) throws InterruptedException{
 		
 		String nomPartie = pane.getText();
 		Partie pRejoint = null;
@@ -587,8 +585,6 @@ System.out.println("non term : "+partiesNonTerminees);
 		try {
 			Button b = (Button) e.getSource();
 			salleDAttente((Stage)b.getScene().getWindow(),pRejoint.getNomPartie());
-			
-			serveur.testPartieEstPrete(pRejoint);
 		}
 		catch (IOException e1) {
 			e1.printStackTrace();
