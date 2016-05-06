@@ -419,12 +419,13 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	public int joueurFaitUneOffre() throws RemoteException{		
 		this.verifieClient();
 		
-		Scanner scInt = new Scanner(System.in);
 		int offre = 0;
 		boolean offreOk = false;
-		
+
 		while(! offreOk) {
-			envoyerMessage("Vous devez faire une enchère : ");
+			
+			this.envoyerMessage("Vous devez faire une enchère : \n");
+
 			System.out.println("Vous devez faire une enchère : ");
 			//On récupère l'offre
 			int msg = Integer.parseInt(this.recevoirCommande());
@@ -434,11 +435,11 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			
 			//On regarde la conformité de l'offre
 			if (offre < 0) {
-				envoyerMessage("Vous ne pouvez pas faire une offre inférieur à 0");
+				this.envoyerMessage("Vous ne pouvez pas faire une offre inférieur à 0 \n");
 				System.out.println("Vous ne pouvez pas faire une offre inférieur à 0");
 		
 			} else if (offre > joueur.getSolde()) {
-				envoyerMessage("Vous ne pouvez pas faire une offre supérieur à votre solde : "+joueur.getSolde()+".");
+				envoyerMessage("Vous ne pouvez pas faire une offre supérieur à votre solde : "+joueur.getSolde()+".\n");
 				System.out.println("Vous ne pouvez pas faire une offre supérieur à votre solde : "+joueur.getSolde()+".");
 			} else {
 				offreOk = true;
@@ -484,7 +485,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 
 	public int joueurChoisitTuile(int nbTuile){
 		this.verifieClient();
-		
+		envoyerMessage("Vous devez choisir une tuile à l'écran");
 		return this.joueur.joueurChoisitTuile(nbTuile);
 	}
 	
@@ -1069,19 +1070,18 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	/**
 	 * Fonction qui écrit dans un fichier les messages à envoyer aux clients
 	 */
-	public void envoyerMessage(String msg) {
+	public void envoyerMessage(String msg){
 		try {
-			File file = new File(this.getJoueur().getPseudo());
+			String nomFichier = this.getJoueur().getPseudo();
+			File file = new File(nomFichier);
 			
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-			
-			System.out.println("On écrit dans le fichier message.txt");
-			FileWriter fw2 = new FileWriter(file.getAbsoluteFile());
+			FileWriter fw2 = new FileWriter(file.getAbsoluteFile(), true);
 			BufferedWriter bw2 = new BufferedWriter(fw2);
 			bw2.write(msg);
-			bw2.flush();
+			bw2.flush(); bw2.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1110,7 +1110,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 				         //On efface le contenu:
 				         BufferedWriter bwritter = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
 				         bwritter.write("");
-				         bwritter.flush();
+				         bwritter.flush(); bwritter.close();
 				         return cmd;
 			         } // end while 
 			        // br.close(); bw.close();

@@ -399,6 +399,34 @@ System.out.println("non term : "+partiesNonTerminees);
 		updateSalle.start();
 	}
 	
+	
+	/**
+	 * Fonction qui va chercher les informations de la partie
+	 */
+	public void miseAjourTexte(final Partie p) throws IOException{
+		Service<Void> miseAjourTexte = new Service<Void>(){
+			protected Task<Void> createTask() {
+				return new Task<Void>(){
+					@Override
+					protected Void call() throws Exception {
+						Partie partie = serveur.getPartieByName(p.getNomPartie());
+						while(true){
+							MainClientFxml.controller.afficherTexte(partie);
+							Thread.sleep(500);
+						}
+
+						}
+						
+					
+			    };
+				
+			}
+			
+		};
+		miseAjourTexte.start();
+	}
+	
+	
 	/**
 	 *Cette méthode permet de valider un pseudo, de le verifier 
 	 * et de passer à la scène suivante si le pseudo est valide.
@@ -760,6 +788,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	        
 	        try {
 				chercheInfoPartie(partie);
+				miseAjourTexte(partie);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1121,21 +1150,24 @@ System.out.println("non term : "+partiesNonTerminees);
 		Platform.runLater(() -> {
 			String thisLine;
 		     try {
-		    	 File file = new File(client.getJoueur().getPseudo());
+		    	 String nomFichier = client.getJoueur().getPseudo();
+		    	 File file = new File(nomFichier);
 		    	 
 		    	 if (file.exists()) {
 			         BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));         
-			         System.out.println("On lit dans le fichier message.txt");
 			         
 			         while ((thisLine = br.readLine()) != null) { 
 				         System.out.println("Message du serveur :" +thisLine);
 				         zoneTexte.appendText(thisLine);
+				         String Newligne=System.getProperty("line.separator");
+				         zoneTexte.appendText(Newligne);
 				         //Puis on efface le contenu (A faire lors des tests non local)
-				         BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
-				         bw.write("");
-				         bw.flush();
+				         
 			         } // end while 
-			        // br.close(); bw.close();
+			         BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
+			         bw.write("");
+			         bw.flush(); bw.close();
+			         br.close(); 
 		    	 }
 		     } catch (IOException e) {
 		    	   	System.out.println("Error: " + e);
