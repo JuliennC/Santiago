@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -134,7 +135,7 @@ public class Partie implements Serializable{
 			setPartieACommence(true);
 
 			while(! partiEstTerminee() ){			
-				//lancerSauvegarde();
+				lancerSauvegarde();
 				
 				HashMap<SantiagoInterface, Integer> offres;
 				
@@ -233,7 +234,18 @@ public class Partie implements Serializable{
 				addModification(Static.modificationJoueurEnCours);
 
 				// Le joueur doit faire une offre
-				int offre = client.joueurFaitUneOffre(listeOffres);
+				boolean offreOk = false; 
+				int offre = 0;
+				while(!offreOk) {
+					try {
+						offre = client.joueurFaitUneOffre(listeOffres);
+						offreOk = true;
+					} catch(InputMismatchException e) {
+						System.out.println(e.getMessage());
+					}
+					
+				}
+				
 
 				//On stocke les offres
 				listeOffres.put(client, offre);	

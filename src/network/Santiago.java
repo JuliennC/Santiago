@@ -469,7 +469,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 
 			//On regarde la conformité de l'offre
 			if (offre < 0) {
-				this.envoyerMessage("Vous ne pouvez pas faire une offre inférieur à 0 \n");
+				envoyerMessage("Vous ne pouvez pas faire une offre inférieur à 0 \n");
 				System.out.println("Vous ne pouvez pas faire une offre inférieur à 0");
 		
 			} else if (offre > joueur.getSolde()) {
