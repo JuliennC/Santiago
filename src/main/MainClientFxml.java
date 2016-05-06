@@ -1591,7 +1591,7 @@ System.out.println("non term : "+partiesNonTerminees);
 		//client.recevoirCommande(cmd);
 		
 		try {
-			File file = new File("messageEnvoye.txt");
+			File file = new File("messageEnvoye.txt"+nomJoueur);
 			
 			if (!file.exists()) {
 				file.createNewFile();
@@ -1601,7 +1601,7 @@ System.out.println("non term : "+partiesNonTerminees);
 			BufferedWriter bwritter = new BufferedWriter(fwritter);
 			bwritter.write(cmd);
 			bwritter.flush();
-			bwritter.close();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

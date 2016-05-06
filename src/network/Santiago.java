@@ -1139,7 +1139,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			String thisLine;
 			String cmd;
 		     try {
-		    	 File file = new File("messageEnvoye.txt");
+		    	 File file = new File("messageEnvoye.txt"+joueur.getPseudo());
 		    	 if (file.exists()) {
 			         BufferedReader breader = new BufferedReader(new FileReader(file.getAbsoluteFile()));         
 			         
@@ -1152,7 +1152,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 				         bwritter.flush(); bwritter.close();
 				         return cmd;
 			         } // end while 
-			         breader.close();
+			        // br.close(); bw.close();
 		    	 }
 		     } catch (IOException e) {
 		    	   	System.out.println("Error: " + e);
