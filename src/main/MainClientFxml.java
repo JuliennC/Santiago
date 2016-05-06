@@ -939,7 +939,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	     try {
 	    	 System.out.println("2__________");
 	    	 //System.out.println("AfficherTexte de:" +client.getJoueur().getPseudo());
-	    	 File file = new File(client.getJoueur().getPseudo()+".txt");
+	    	 File file = new File("message.txt");
 	    	 System.out.println("3__________");
 	    	 if (file.exists()) {
 	    		 System.out.println("4__________");
@@ -948,10 +948,10 @@ System.out.println("non term : "+partiesNonTerminees);
 		         
 		         while ((thisLine = br.readLine()) != null) { 
 		        	 System.out.println("5__________");
-			           System.out.println("Info :" +thisLine);
-			           zoneTexte.appendText(thisLine);
-			           //Puis on efface le contenu (A faire lors des tests non local)
-			          // bw.write("");
+			         System.out.println("Info :" +thisLine);
+			         zoneTexte.appendText(thisLine);
+			         //Puis on efface le contenu (A faire lors des tests non local)
+			         bw.write("");
 		         } // end while 
 		         br.close(); bw.close();
 	    	 }

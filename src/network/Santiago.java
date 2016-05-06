@@ -1067,7 +1067,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 */
 	public void envoyerMessage(String msg) {
 		try {
-			File file = new File(this.getJoueur().getPseudo()+".txt");
+			File file = new File("message.txt");
 			
 			if (!file.exists()) {
 				file.createNewFile();
