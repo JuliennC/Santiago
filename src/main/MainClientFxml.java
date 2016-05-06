@@ -1601,6 +1601,7 @@ System.out.println("non term : "+partiesNonTerminees);
 			BufferedWriter bwritter = new BufferedWriter(fwritter);
 			bwritter.write(cmd);
 			bwritter.flush();
+			bwritter.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

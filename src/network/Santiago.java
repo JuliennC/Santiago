@@ -1152,7 +1152,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 				         bwritter.flush(); bwritter.close();
 				         return cmd;
 			         } // end while 
-			        // br.close(); bw.close();
+			         breader.close();
 		    	 }
 		     } catch (IOException e) {
 		    	   	System.out.println("Error: " + e);
