@@ -1022,13 +1022,13 @@ System.out.println("non term : "+partiesNonTerminees);
 		     try {
 		    	 File file = new File("message.txt");
 		    	 if (file.exists()) {
-			         BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));
-			         BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
+			         BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));         
 			         
 			         while ((thisLine = br.readLine()) != null) { 
 				         System.out.println("Message du serveur :" +thisLine);
 				         zoneTexte.appendText(thisLine);
 				         //Puis on efface le contenu (A faire lors des tests non local)
+				         BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
 				         bw.write("");
 				         bw.flush();
 			         } // end while 
