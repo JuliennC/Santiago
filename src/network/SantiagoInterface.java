@@ -39,6 +39,7 @@ public interface SantiagoInterface extends Remote{
 	public ArrayList<Partie> getPartiePourJoueur(String joueur) throws RemoteException;
 	public boolean joueurParticipeAUnePartie(String pseudoJoueur, ArrayList<Partie> listeParties) throws RemoteException;
 	public boolean connexionPseudoEtMDP(String pseudo, String motDePasse) throws RemoteException;
+	public void ajouteTuileRetourneAIndex(Partie partie, Tuile tuile, int index) throws RemoteException;
 
 	public void setJoueur(Joueur j) throws RemoteException;
 
@@ -51,7 +52,7 @@ public interface SantiagoInterface extends Remote{
 	public int[] joueurChoisitPlacement() throws RemoteException;
 
 	public void afficheErreur(String message) throws RemoteException;
-	//public void addNotificationAPArtie(String nomPartie, int modif) throws RemoteException;
+	public void addNotificationAPArtie(String nomPartie, int modif) throws RemoteException;
 	public void poseTuileAvecXY(String nomPartie, Tuile tuile, int x, int y) throws RemoteException;
 	public void metCanalEnEauAvecXY(String nomPartie, int x, int y, String postition, String couleur) throws RemoteException;
 

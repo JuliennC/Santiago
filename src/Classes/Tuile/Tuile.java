@@ -27,9 +27,14 @@ public abstract class Tuile implements Serializable {
 			
 			this.path = path+"1.jpg";
 		
-		} else{
+		} else if(nbMarqueurs == 2){
 			
 			this.path = path+"2.jpg";
+		
+		} else {
+		
+			this.path = path+".jpg";
+			this.estDesert = true;
 		}
 	}
 
