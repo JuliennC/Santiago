@@ -477,6 +477,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			}else {
 				if(!listeOffres.containsValue(offre)) {
 					offreOk = true;
+				} else{
+					envoyerMessage("Vous ne pouvez pas faire la même offre qu'un autre joueur");
 				}
 				
 			}		

@@ -241,6 +241,15 @@ public class Partie implements Serializable{
 				//On change de joueur
 				client = getClientAGauche(client);
 			}
+			
+			joueurEnCours = client.getJoueur();
+			addModification(Static.modificationJoueurEnCours);
+
+			// Le joueur doit faire une offre
+			int offre = client.joueurFaitUneOffre(listeOffres);
+
+			//On stocke les offres
+			listeOffres.put(client, offre);	
 
 			System.out.println("Les enchères sont terminées");
 			

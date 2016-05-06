@@ -378,9 +378,6 @@ System.out.println("non term : "+partiesNonTerminees);
 								System.out.println("Modif : "+modif);
 
 								if(modif.equals(Static.modificationJoueurs)){
-
-									//System.out.println("---- joueur");
-									//System.out.println("Nouveau joueur : "+p.getJoueursConnectes());
 								
 							        MainClientFxml.controller.changeText(partie);
 
@@ -389,9 +386,9 @@ System.out.println("non term : "+partiesNonTerminees);
 
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
-									System.out.println("COUCOU");
 									MainClientFxml.controller.lancementPlateau(partie);
-										modifs.remove(0);
+									
+									modifs.remove(0);
 							
 								} else if(modif.equals(Static.modificationJoueurDeconnection)){
 									
@@ -453,7 +450,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	/**
 	 * Fonction qui va chercher les informations de la partie
 	 */
-	public void miseAjourTexte(final Partie p) throws IOException{
+	public void miseAjourTexte(Partie p) throws IOException{
 		Service<Void> miseAjourTexte = new Service<Void>(){
 			protected Task<Void> createTask() {
 				return new Task<Void>(){
@@ -845,7 +842,7 @@ System.out.println("non term : "+partiesNonTerminees);
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        this.controller = (MainClientFxml)fxmlLoader.getController();
+			MainClientFxml.controller = (MainClientFxml)fxmlLoader.getController();
 	        try {
 				controller.changeText(partie);
 			} catch (Exception e) {
@@ -882,9 +879,9 @@ System.out.println("non term : "+partiesNonTerminees);
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        this.controller = (MainClientFxml)fxmlLoader.getController();
+			MainClientFxml.controller = (MainClientFxml)fxmlLoader.getController();
 	        try {
-				this.controller.afficheJoueur(p);
+	        	MainClientFxml.controller.afficheJoueur(p);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
