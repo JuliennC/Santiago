@@ -1199,6 +1199,7 @@ public class Partie implements Serializable{
 	static public String getCouleurDispoPourPartie(Partie p) throws RemoteException{
 	
 		ArrayList<String> liste_Copy = new ArrayList<>(p.listeCouleurs());
+		ArrayList<String> liste_Copy_bis = new ArrayList<>(p.listeCouleurs());
 		
 		for(SantiagoInterface client : p.listeClients){
 			
@@ -1206,7 +1207,7 @@ public class Partie implements Serializable{
 			
 			int index = 0;
 			
-			for (String couleur : p.listeCouleurs()){
+			for (String couleur : liste_Copy_bis){
 				
 				if(couleur.equals(j.getCouleur())){
 					liste_Copy.remove(index);
@@ -1216,9 +1217,10 @@ public class Partie implements Serializable{
 				index++;
 			}
 			
+			liste_Copy_bis = new ArrayList<>(liste_Copy);
 		}
 		
-		return liste_Copy.get(0);
+		return liste_Copy_bis.get(0);
 	}
 	
 	

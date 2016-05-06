@@ -648,6 +648,7 @@ System.out.println("non term : "+partiesNonTerminees);
 			Button b = (Button) e.getSource();
 			salleDAttente((Stage)b.getScene().getWindow(),pRejoint.getNomPartie());
 		}
+	
 		catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -785,6 +786,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	public void lancementPlateau(Partie p) throws IOException{
 		System.out.println("Lanchement Plateau");
 		
+
 		final URL url = getClass().getResource("../view/Plateau.fxml");
 
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -997,7 +999,7 @@ System.out.println("non term : "+partiesNonTerminees);
 
 		//On récupère l'imageview
 		ImageView view = (ImageView) e.getSource();
-		
+
 		//On récupère l'id de l'image
 		String id = view.getId();
 		
@@ -1185,11 +1187,11 @@ System.out.println("non term : "+partiesNonTerminees);
 			
 		}
 		
-		Partie p = serveur.getPartieByName(MainClientFxml.namePartie);
 		
+		SantiagoInterface client = getClient(MainClientFxml.nomJoueur , MainClientFxml.namePartie);
         
         //On prévient du changmenet
-        serveur.metCanalEnEauAvecXY(MainClientFxml.namePartie, x, y, position, "Bleu");
+        serveur.metCanalEnEauAvecXY(MainClientFxml.namePartie, x, y, position, client.getJoueur().getCouleur());
 		
 
 	}
@@ -1225,7 +1227,7 @@ System.out.println("non term : "+partiesNonTerminees);
     			Scene scene = stage.getScene();
     			ImageView view = (ImageView) scene.lookup(id_1);
                 
-            	String couleur = getClient(MainClientFxml.nomJoueur, p.getNomPartie()).getJoueur().getCouleur();
+            	String couleur = canal.getCouleur();
             
             	try{
         		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Vertical.jpg"));
@@ -1234,7 +1236,7 @@ System.out.println("non term : "+partiesNonTerminees);
             	//Deuxieme partie du canal
             	view = (ImageView) scene.lookup(id_2);
             	
-            	couleur = getClient(MainClientFxml.nomJoueur, p.getNomPartie()).getJoueur().getCouleur();
+            	couleur = canal.getCouleur();
 
             	image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Vertical.jpg"));
         		view.setImage(image);
@@ -1259,7 +1261,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	    			Scene scene = stage.getScene();
 	    			ImageView view = (ImageView) scene.lookup(id_1);
 	                
-	            	String couleur = getClient(MainClientFxml.nomJoueur, p.getNomPartie()).getJoueur().getCouleur();
+	            	String couleur = canal.getCouleur();
 
             		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Horizontal.jpg"));
 	        		view.setImage(image);
@@ -1267,7 +1269,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	            	//Deuxieme partie du canal
 	            	view = (ImageView) scene.lookup(id_2);
 	            	
-	            	couleur = getClient(MainClientFxml.nomJoueur, p.getNomPartie()).getJoueur().getCouleur();
+	            	couleur = canal.getCouleur();
 
 	            	image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Horizontal.jpg"));
 	        		view.setImage(image);
