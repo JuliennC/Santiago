@@ -1192,14 +1192,33 @@ public class Partie implements Serializable{
 		return listeMessages;
 	}
 
+	public ArrayList<String> listeCouleurs(){
+		return listeCouleursDispo;
+	}
 	
-	public String getCouleurDispo(){
+	static public String getCouleurDispoPourPartie(Partie p) throws RemoteException{
+	
+		ArrayList<String> liste_Copy = new ArrayList<>(p.listeCouleurs());
 		
-		String couleur = listeCouleursDispo.get(0);
+		for(SantiagoInterface client : p.listeClients){
+			
+			Joueur j = client.getJoueur();
+			
+			int index = 0;
+			
+			for (String couleur : p.listeCouleurs()){
+				
+				if(couleur.equals(j.getCouleur())){
+					liste_Copy.remove(index);
+					index--;
+				}
+				
+				index++;
+			}
+			
+		}
 		
-		listeCouleursDispo.remove(couleur);
-		
-		return couleur;
+		return liste_Copy.get(0);
 	}
 	
 	

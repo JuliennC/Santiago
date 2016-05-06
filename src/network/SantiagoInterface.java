@@ -53,7 +53,7 @@ public interface SantiagoInterface extends Remote{
 	public void afficheErreur(String message) throws RemoteException;
 	//public void addNotificationAPArtie(String nomPartie, int modif) throws RemoteException;
 	public void poseTuileAvecXY(String nomPartie, Tuile tuile, int x, int y) throws RemoteException;
-	public void metCanalEnEauAvecXY(String nomPartie, int x, int y, String postition) throws RemoteException;
+	public void metCanalEnEauAvecXY(String nomPartie, int x, int y, String postition, String couleur) throws RemoteException;
 
 		public int propositionPhase4() throws RemoteException;
 

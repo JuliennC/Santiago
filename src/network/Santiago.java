@@ -273,7 +273,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	/**
 	 * Fonction qui joute une tuile au plateau d'une partie
 	 */
-	public void metCanalEnEauAvecXY(String nomPartie, int x, int y, String position) throws RemoteException{
+	public void metCanalEnEauAvecXY(String nomPartie, int x, int y, String position, String couleur) throws RemoteException{
 		
 		Partie p = getPartieByName(nomPartie);
 		
@@ -761,7 +761,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		return propositionMax;
 	}
 	
-	/**
+	/*
 	 * Permet aux joueurs de poser un canal temporaire
 	 * Canal : Couleur du joueur
 	 * 		   Mise en eau = false

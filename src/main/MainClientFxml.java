@@ -529,7 +529,7 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 		serveur.ajouterPartieListe(p);
 		
-		String couleur = p.getCouleurDispo();
+		String couleur = Partie.getCouleurDispoPourPartie(p);
 		
 		Joueur joueur = new Joueur(MainClientFxml.nomJoueur,10, couleur);
 		SantiagoInterface client = new Santiago("client");
@@ -632,7 +632,7 @@ System.out.println("non term : "+partiesNonTerminees);
 		try{
 			
 			pRejoint = serveur.getPartieByName(MainClientFxml.namePartie);
-			String couleur = pRejoint.getCouleurDispo();
+			String couleur = Partie.getCouleurDispoPourPartie(pRejoint);
 			
 			Joueur joueur = new Joueur(MainClientFxml.nomJoueur, 10, couleur);
 			SantiagoInterface client = new Santiago("client");
@@ -674,20 +674,20 @@ System.out.println("non term : "+partiesNonTerminees);
 			case 3:
 
 				if(nbJoueurDansPartie == 1){
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo()+" | "+p.getJoueursConnectes().get(0).getCouleur());
 					this.joueur2.setText("Joueur 2 : En Attente");
 					this.joueur3.setText("Joueur 3 : En Attente");
 				}
 				else if(nbJoueurDansPartie == 2){
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo()+" | "+p.getJoueursConnectes().get(0).getCouleur());
+					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo()+" | "+p.getJoueursConnectes().get(1).getCouleur());
 					this.joueur3.setText("Joueur 3 : En Attente");
 					
 				}
 				else{
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
+					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo()+" | "+p.getJoueursConnectes().get(0).getCouleur());
+					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo()+" | "+p.getJoueursConnectes().get(1).getCouleur());
+					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo()+" | "+p.getJoueursConnectes().get(2).getCouleur());
 				}				
 				break;
 			case 4:
@@ -1184,9 +1184,12 @@ System.out.println("non term : "+partiesNonTerminees);
 			}
 			
 		}
+		
+		Partie p = serveur.getPartieByName(MainClientFxml.namePartie);
+		
         
         //On prévient du changmenet
-        serveur.metCanalEnEauAvecXY(MainClientFxml.namePartie, x, y, position);
+        serveur.metCanalEnEauAvecXY(MainClientFxml.namePartie, x, y, position, "Bleu");
 		
 
 	}
