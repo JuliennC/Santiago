@@ -1066,21 +1066,21 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * Fonction qui écrit dans un fichier du nom du joueur
 	 */
 	public void envoyerMessage(String msg) {
-//		try {
-//			File file = new File("message.txt");
-//			
-//			if (!file.exists()) {
-//				file.createNewFile();
-//			}
-//			
-//			FileWriter fw = new FileWriter(file.getAbsoluteFile());
-//			BufferedWriter bw = new BufferedWriter(fw);
-//			bw.write(msg);
-//			bw.close();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			File file = new File("message.txt");
+			
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(msg);
+			bw.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }
