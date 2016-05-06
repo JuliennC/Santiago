@@ -53,6 +53,8 @@ public class Partie implements Serializable{
 	
 	private ArrayList<Integer> listeModifications = new ArrayList<>();
 	
+	private ArrayList<String> listeCouleursDispo = new ArrayList<>();
+
 	private Joueur joueurEnCours = null;
 	
 	public Partie(String aNom, int nbJoueurs) throws PartieException{
@@ -62,6 +64,14 @@ public class Partie implements Serializable{
 		this.partieACommence = false;
 	
 		plateau = new Plateau();
+		
+		listeCouleursDispo.add("Rouge");
+		listeCouleursDispo.add("Orange");
+		listeCouleursDispo.add("Rose");
+		listeCouleursDispo.add("Vert");
+		listeCouleursDispo.add("Violet");
+
+
 	}
 	
 	private ArrayList<String []> listeMessages = new ArrayList<String []>();
@@ -104,6 +114,11 @@ public class Partie implements Serializable{
 	 */
 	public void lancePartie() throws PartieException, RemoteException, JoueurException {	
 		System.out.println("On lance la partie");
+		
+		//attributionDesCouleurs();
+		
+		Joueur j = listeClients.get(0).getJoueur();
+		
 		addModification(Static.modificationPartieCommence);
 		this.getPlateau().fabriqueTuiles();
 		
@@ -948,12 +963,47 @@ public class Partie implements Serializable{
 		ArrayList<Joueur> res = new ArrayList<>();
 		
 		for(SantiagoInterface c : listeClients){
-			
+			Joueur j = c.getJoueur();
 			res.add(c.getJoueur());
 		}
 		
 		return res;
 	}
+	
+	
+	
+	
+	public void attributionDesCouleurs() throws RemoteException{
+				
+		
+		switch(this.getNombreJoueurDansLaPartie()){
+		case 3:
+			listeClients.get(0).getJoueur().setCouleur("Rouge");
+			listeClients.get(1).getJoueur().setCouleur("Orange");
+			listeClients.get(2).getJoueur().setCouleur("Rose");
+			Joueur j = listeClients.get(0).getJoueur();
+
+			
+			
+			break;
+		case 4:
+			listeClients.get(0).getJoueur().setCouleur("Rouge");
+			listeClients.get(1).getJoueur().setCouleur("Orange");
+			listeClients.get(2).getJoueur().setCouleur("Rose");
+			listeClients.get(3).getJoueur().setCouleur("Vert");
+			break;
+		case 5:
+			listeClients.get(0).getJoueur().setCouleur("Rouge");
+			listeClients.get(1).getJoueur().setCouleur("Orange");
+			listeClients.get(2).getJoueur().setCouleur("Rose");
+			listeClients.get(3).getJoueur().setCouleur("Vert");
+			listeClients.get(4).getJoueur().setCouleur("Violet");
+			break;
+		}
+	}
+	
+	
+	
 	
 	
 
@@ -1142,8 +1192,34 @@ public class Partie implements Serializable{
 		return listeMessages;
 	}
 
-
+	public ArrayList<String> listeCouleurs(){
+		return listeCouleursDispo;
+	}
 	
+	static public String getCouleurDispoPourPartie(Partie p) throws RemoteException{
+	
+		ArrayList<String> liste_Copy = new ArrayList<>(p.listeCouleurs());
+		
+		for(SantiagoInterface client : p.listeClients){
+			
+			Joueur j = client.getJoueur();
+			
+			int index = 0;
+			
+			for (String couleur : p.listeCouleurs()){
+				
+				if(couleur.equals(j.getCouleur())){
+					liste_Copy.remove(index);
+					index--;
+				}
+				
+				index++;
+			}
+			
+		}
+		
+		return liste_Copy.get(0);
+	}
 	
 	
 }
