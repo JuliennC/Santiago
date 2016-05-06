@@ -1,6 +1,11 @@
 package network;
 import java.awt.Point;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -36,6 +41,8 @@ import Classes.Static;
 public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	Scanner scString = new Scanner(System.in);
 	Scanner scInt = new Scanner(System.in);
+	
+
 	
 	// Partie Server
 	private ArrayList<Partie> listeParties = new ArrayList<>();
@@ -441,29 +448,40 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	 * @param : void
 	 * @return : int --> l'offre
 	 */
-	public String joueurFaitUneOffre() throws RemoteException{		
+	public int joueurFaitUneOffre(HashMap<SantiagoInterface, Integer> listeOffres) throws RemoteException{		
 		this.verifieClient();
-		
-		Scanner scInt = new Scanner(System.in);
 		int offre = 0;
+		boolean offreOk = false;
 
-		//On récupère l'offre
-		System.out.println("["+joueur.getPseudo()+"] : Vous devez faire une enchère : ");
+		while(! offreOk) {
+			
+			envoyerMessage("Vous devez faire une enchère : \n");
+
+			System.out.println("Vous devez faire une enchère : ");
+			//On récupère l'offre
+			try {
+				offre = Integer.parseInt(this.recevoirCommande());
+			} catch(InputMismatchException e) {
+				envoyerMessage("Erreur dans la valeur \n");
+			}
+			
+
+			//On regarde la conformité de l'offre
+			if (offre < 0) {
+				this.envoyerMessage("Vous ne pouvez pas faire une offre inférieur à 0 \n");
+				System.out.println("Vous ne pouvez pas faire une offre inférieur à 0");
 		
-		try {
-			offre = scInt.nextInt();
-		} catch(InputMismatchException e) {
-			return "0_Votre offre est invalide";
+			} else if (offre > joueur.getSolde()) {
+				envoyerMessage("Vous ne pouvez pas faire une offre supérieur à votre solde : "+joueur.getSolde()+".\n");
+				System.out.println("Vous ne pouvez pas faire une offre supérieur à votre solde : "+joueur.getSolde()+".");
+			}else {
+				if(!listeOffres.containsValue(offre)) {
+					offreOk = true;
+				}
+				
+			}		
 		}
-		
-		//On regarde la conformité de l'offre
-		if (offre < 0) {
-			return "0_Vous ne pouvez pas faire une offre inférieur à 0";
-		} else if (offre > joueur.getSolde()) {
-			return "0_Vous ne pouvez pas faire une offre supérieur à votre solde : "+joueur.getSolde()+".";
-		} else {
-			return "1_"+offre;
-		}
+		return offre;
 	}
 
 	
@@ -480,7 +498,11 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		while(!choixValide) {
 			System.out.println("[1] Je souhaite proposer un pot de vin au constructeur de canal pour construire mon canal");
 			System.out.println("[2] Je souhaite soutenir la proposition de pot de vin d'un joueur");
-			System.out.println("[3] Je souhaite passer mon tour");		
+			System.out.println("[3] Je souhaite passer mon tour");	
+			
+			envoyerMessage("[1] Je souhaite proposer un pot de vin au constructeur de canal pour construire mon canal \n"
+					+ "[2] Je souhaite soutenir la proposition de pot de vin d'un joueur \n"
+					+ "[3] Je souhaite passer mon tour");
 			
 			try {
 				choix = scInt.nextInt();
@@ -490,6 +512,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 				}
 		    } catch (InputMismatchException ex) {
 		    	System.out.println("Erreur dans la valeur. \n");
+		    	envoyerMessage("Erreur dans la valeur. \n");
 		    } 		
 		}
 		return choix;
@@ -498,7 +521,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 
 	public int joueurChoisitTuile(int nbTuile){
 		this.verifieClient();
-		
+		envoyerMessage("Vous devez choisir une tuile à l'écran");
 		return this.joueur.joueurChoisitTuile(nbTuile);
 	}
 	
@@ -521,6 +544,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		while(!montantValide) {
 			System.out.println("Saisissez le montant de votre pot de vin:");
+			envoyerMessage("Saisissez le montant de votre pot de vin:");
 			
 			try {
 				montant = scInt.nextInt();
@@ -529,9 +553,11 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					montantValide = true;
 				} else {
 					System.out.println("Votre solde ne peut être inférieur à 0 ! Montant maximum accepté: " + joueur.getSolde() + " Escudos.");
+					envoyerMessage("Votre solde ne peut être inférieur à 0 ! Montant maximum accepté: " + joueur.getSolde() + " Escudos.");
 				}
 		    } catch (InputMismatchException ex) {
 		    	System.out.println("Erreur dans la valeur. \n");
+		    	envoyerMessage("Erreur dans la valeur. \n");
 		    } 
 		}
 		
@@ -548,6 +574,8 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		for(SantiagoInterface si : listePropositions.keySet()) {
 			System.out.println("Joueur : " +si.getJoueur().getPseudo() + " | Couleur : " + si.getJoueur().getCouleur() + 
+					" | Montant proposé: " +listePropositions.get(si));
+			envoyerMessage("Joueur : " +si.getJoueur().getPseudo() + " | Couleur : " + si.getJoueur().getCouleur() + 
 					" | Montant proposé: " +listePropositions.get(si));
 		}
 	}
@@ -566,15 +594,20 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		SantiagoInterface joueur = null;
 		
 		System.out.println("La liste des pots de vin: ");
+		envoyerMessage("La liste des pots de vin: ");
 		afficherPropositionsPotDeVin(listePropositions);
 		
 
 		while(!choixJoueur) {
 			if(choix.contains("")) {
 				System.out.println("Quel joueur voulez vous soutenir ?");
+				envoyerMessage("Quel joueur voulez vous soutenir ?");
 			} else {
 				System.out.println("Ce joueur n'est pas dans la liste des pots de vin.. Réessayez :");
 				System.out.println("Quel joueur voulez vous soutenir ?");
+				
+				envoyerMessage("Ce joueur n'est pas dans la liste des pots de vin.. Réessayez : \n"
+						+ "Quel joueur voulez vous soutenir ?");
 			}
 			
 			choix = scString.nextLine();			
@@ -609,6 +642,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		}
 		
 		System.out.println("Votre pot de vin a été cumulé au pot de vin de " + joueurSoutenu.getJoueur().getPseudo());
+		envoyerMessage("Votre pot de vin a été cumulé au pot de vin de " + joueurSoutenu.getJoueur().getPseudo());
 	}
 	
 	/**
@@ -641,15 +675,24 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 				System.out.println("[1] Choisir la proposition d'un joueur");
 				System.out.println("[2] Choisir de constuire son propre canal (Coût: Proposition la plus élevée + 1 Escudo");	
 				
+				envoyerMessage("Faites un choix: \n"
+						+ "[1] Choisir la proposition d'un joueur \n"
+						+ "[2] Choisir de constuire son propre canal (Coût: Proposition la plus élevée + 1 Escudo");
+				
 				try {
 					choixProposition = scInt.nextInt();
 				} catch (InputMismatchException e) {
 					System.out.println("Erreur dans la valeur. \n");
+					envoyerMessage("Erreur dans la valeur. \n");
 				}
 				
 			} else {
 				System.out.println("Vous n'avez pas un solde suffisant pour poser votre propre canal.");
 				System.out.println("Vous devez donc poser le canal d'un joueur :");
+				
+				envoyerMessage("Vous n'avez pas un solde suffisant pour poser votre propre canal. \n"
+						+ "Vous devez donc poser le canal d'un joueur :");
+				
 				choixProposition = 1;
 			}
 			
@@ -681,8 +724,10 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 				case 2:
 					choixOk = true;
 					System.out.println("Vous avez décidé de poser votre propre canal. Son coût est de " + (coutCanalPerso + 1) + " Escudos");
+					envoyerMessage("Vous avez décidé de poser votre propre canal. Son coût est de " + (coutCanalPerso + 1) + " Escudos");
 					joueurChoisi = this;
 					System.out.println("Choisir la position du canal:");
+					envoyerMessage("Choisir la position du canal:");
 					
 					try {
 						joueur.setSolde(joueur.getSolde() - coutCanalPerso - 1);
@@ -697,6 +742,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 					break;
 				default:
 					System.out.println("Le choix indiqué n'existe pas ...");
+					envoyerMessage("Le choix indiqué n'existe pas ...");
 			}	
 		}
 		return joueurChoisi;
@@ -775,6 +821,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		// TODO Auto-generated method stub
 		System.out.println("Positionnez votre canal temporaire sur le plateau...");
+		envoyerMessage("Positionnez votre canal temporaire sur le plateau...");
 		Canal canal = new Canal(joueur.getCouleur());
 		Point coordDebut = new Point();
 		Point coordFin = new Point();
@@ -813,8 +860,10 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 			
 			if(canalValide == true) {
 				System.out.println("Canal validé. Au tour des autres joueurs...");
+				envoyerMessage("Canal validé. Au tour des autres joueurs...");
 			} else {
 				System.out.println("Position invalide, réessayez...");
+				envoyerMessage("Position invalide, réessayez...");
 			}
 		}
 		return canal;
@@ -870,9 +919,6 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		
 		return listeComptes.get(pseudo).equals(motDePasse);
 	}
-	
-	
-	
 	
 	/**
 	 * Fonction qui test si une partie est prête à être lancée.
@@ -974,6 +1020,7 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 	public void sauvegarder(Partie p) throws RemoteException, FileNotFoundException, IOException {
 		this.verifieClient();
 		System.out.println("Sauvegarde");
+		envoyerMessage("Sauvegarde");
 		System.out.println("Sauvegarde de la partie " +p.getNomPartie());
 		XMLTools.encodeToFile(p, p.getNomPartie());
 		
@@ -1030,4 +1077,58 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 		return true;
 	}
 	
+	/**
+	 * Fonction qui écrit dans un fichier les messages à envoyer aux clients
+	 */
+	public void envoyerMessage(String msg){
+		try {
+			String nomFichier = this.getJoueur().getPseudo();
+			File file = new File(nomFichier);
+			
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			FileWriter fw2 = new FileWriter(file.getAbsoluteFile(), true);
+			BufferedWriter bw2 = new BufferedWriter(fw2);
+			bw2.write(msg);
+			bw2.flush(); bw2.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Fonction appelée par le serveur pour recevoir les saisies des clients
+	 * Si String est à null, alors le serveur souhaite récupérer le contenu du fichier 
+	 * Si String contient du texte, alors le serveur envoit la commande du client
+	 * @return 
+	 */
+	public String recevoirCommande() throws RemoteException {
+		boolean reception = false;
+		while(!reception) {
+			String thisLine;
+			String cmd;
+		     try {
+		    	 File file = new File("messageEnvoye.txt");
+		    	 if (file.exists()) {
+			         BufferedReader breader = new BufferedReader(new FileReader(file.getAbsoluteFile()));         
+			         
+			         while ((thisLine = breader.readLine()) != null) { 
+			        	 System.out.println(thisLine);
+			        	 cmd = thisLine;
+				         //On efface le contenu:
+				         BufferedWriter bwritter = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
+				         bwritter.write("");
+				         bwritter.flush(); bwritter.close();
+				         return cmd;
+			         } // end while 
+			        // br.close(); bw.close();
+		    	 }
+		     } catch (IOException e) {
+		    	   	System.out.println("Error: " + e);
+		     }  
+		}		
+		return null;
+	}
 }

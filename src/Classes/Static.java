@@ -19,8 +19,6 @@ public class Static {
 	
 	public final static Integer modificationRetourneTuile = 8;
 
-	public final static Integer modificationtexte = 9;
-
 	public final static Integer modificationCannaux = 10;
 
 }

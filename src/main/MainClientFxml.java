@@ -1,7 +1,11 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,6 +33,7 @@ import Classes.Tuile.TuilePiment;
 import Exception.JoueurException;
 import Exception.PartieException;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -196,6 +201,12 @@ public class MainClientFxml extends Application implements Initializable{
     
     @FXML
     TextArea zoneTexte;
+    
+    @FXML
+    TextField zoneSaisie;
+    
+    @FXML
+    Button btnEnvoyer;	
 	/*------------------------------------------------------*/
 	
 	private static Stage stage;
@@ -208,7 +219,7 @@ public class MainClientFxml extends Application implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
-			this.serveur = (SantiagoInterface)Naming.lookup("rmi://127.0.0.1:44000/ABC");
+			this.serveur = (SantiagoInterface)Naming.lookup("rmi://192.168.43.93:44000/ABC");
 		} 
 		catch (MalformedURLException | RemoteException | NotBoundException e) {
 			e.printStackTrace();
@@ -309,20 +320,24 @@ System.out.println("non term : "+partiesNonTerminees);
 	
 	
 	public void changeAccordionPartiesCommencees(ArrayList<Partie> partiesNonTerminees) throws RemoteException{
-		ObservableList<TitledPane> list = FXCollections.observableArrayList();
-		for(Partie p : partiesNonTerminees){
+		Platform.runLater(() -> {
+			ObservableList<TitledPane> list = FXCollections.observableArrayList();
+			for(Partie p : partiesNonTerminees){
+	
+					GridPane grid = new GridPane();
+					grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
+					grid.addRow(1,new Text("Nombre de Joueur dans la Partie: "+p.getNombreJoueurDansLaPartie()));
+					TitledPane pane = new TitledPane(p.getNomPartie(),grid);
+					list.add(pane);
+			}
+	
+			this.accordeonPartiesCommencees.getPanes().addAll(list);
+			if(!this.accordeonPartiesCommencees.getPanes().isEmpty()){
+				this.accordeonPartiesCommencees.setExpandedPane(this.accordeonPartiesCommencees.getPanes().get(0));
+			}			
+		});
+		
 
-				GridPane grid = new GridPane();
-				grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
-				grid.addRow(1,new Text("Nombre de Joueur dans la Partie: "+p.getNombreJoueurDansLaPartie()));
-				TitledPane pane = new TitledPane(p.getNomPartie(),grid);
-				list.add(pane);
-		}
-
-		this.accordeonPartiesCommencees.getPanes().addAll(list);
-		if(!this.accordeonPartiesCommencees.getPanes().isEmpty()){
-			this.accordeonPartiesCommencees.setExpandedPane(this.accordeonPartiesCommencees.getPanes().get(0));
-		}
 	}
 
 	
@@ -333,27 +348,22 @@ System.out.println("non term : "+partiesNonTerminees);
 	 * Fonction qui va chercher les informations de la partie
 	 */
 	public void chercheInfoPartie(final Partie p) throws IOException{
-
-
 		Service<Void> updateSalle = new Service<Void>(){
 			protected Task<Void> createTask() {
 				return new Task<Void>(){
-					
 					@Override
 					protected Void call() throws Exception {
-
 						ArrayList<Integer> modifs = new ArrayList<>();
-						
+	
 						int index = 0;
 						
 						while(true){
 							
 							Partie partie = serveur.getPartieByName(p.getNomPartie());							
-
+							
 							if(partie == null){ continue; }
 						
 							if(partie.getListeModifications().size() > 0){
-								
 								//On ajoute les éléments suivants
 								for(int i = index; i < partie.getListeModifications().size(); i++){
 									
@@ -379,7 +389,7 @@ System.out.println("non term : "+partiesNonTerminees);
 
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
-							
+									System.out.println("COUCOU");
 									MainClientFxml.controller.lancementPlateau(partie);
 										modifs.remove(0);
 							
@@ -405,15 +415,9 @@ System.out.println("non term : "+partiesNonTerminees);
 								
 									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
-								
 								} else if(modif.equals(Static.modificationRetourneTuile)){
 									
 									MainClientFxml.controller.afficheTuilesRetournees(partie);
-									modifs.remove(0);
-								
-								} else if(modif.equals(Static.modificationtexte)){
-								
-									MainClientFxml.controller.afficherTexte(partie);
 									modifs.remove(0);
 								
 								} else if(modif.equals(Static.modificationConstructeurDeCanal)){
@@ -426,12 +430,12 @@ System.out.println("non term : "+partiesNonTerminees);
 									System.out.println("Modification des canaux");
 									MainClientFxml.controller.metAJourAffichageCanaux();
 									modifs.remove(0);
-									
 								} else {
-
 									System.out.println("Modif non reconnue");
 								}
 							}
+							MainClientFxml.controller.afficherTexte(partie);
+							Thread.sleep(500);
 						}
 						
 					}
@@ -444,6 +448,34 @@ System.out.println("non term : "+partiesNonTerminees);
 
 		updateSalle.start();
 	}
+	
+	
+	/**
+	 * Fonction qui va chercher les informations de la partie
+	 */
+	public void miseAjourTexte(final Partie p) throws IOException{
+		Service<Void> miseAjourTexte = new Service<Void>(){
+			protected Task<Void> createTask() {
+				return new Task<Void>(){
+					@Override
+					protected Void call() throws Exception {
+						Partie partie = serveur.getPartieByName(p.getNomPartie());
+						while(true){
+							MainClientFxml.controller.afficherTexte(partie);
+							Thread.sleep(500);
+						}
+
+						}
+						
+					
+			    };
+				
+			}
+			
+		};
+		miseAjourTexte.start();
+	}
+	
 	
 	/**
 	 *Cette méthode permet de valider un pseudo, de le verifier 
@@ -477,38 +509,46 @@ System.out.println("non term : "+partiesNonTerminees);
 	}
 	
 	public void changeAccordion() throws RemoteException{
-		ObservableList<TitledPane> list = FXCollections.observableArrayList();
-		
-		for(Partie p : serveur.voirParties()){
-			boolean b = false;
-			if(p.getListeDesJoueur() != null){
-				for(Joueur j : p.getListeDesJoueur()){
-					if(j.getPseudo().equals(MainClientFxml.nomJoueur)){
-						b = true;
-						break;
+		Platform.runLater(() -> {
+			ObservableList<TitledPane> list = FXCollections.observableArrayList();
+			
+			try {
+				for(Partie p : serveur.voirParties()){
+					boolean b = false;
+					if(p.getListeDesJoueur() != null){
+						for(Joueur j : p.getListeDesJoueur()){
+							if(j.getPseudo().equals(nomJoueur)){
+								b = true;
+								break;
+							}
+						}
+					}
+					if(b){
+						GridPane grid = new GridPane();
+						grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
+						grid.addRow(1,new Text("Nombre de Joueur dans la Partie: "+p.getNombreJoueurDansLaPartie()));
+						TitledPane pane = new TitledPane(p.getNomPartie(),grid);
+						pane.textFillProperty().set(Color.RED);;
+						list.add(pane);
+					}
+					else if(p.getNombreJoueurDansLaPartie()!=p.getNombreJoueursRequis()){
+						GridPane grid = new GridPane();
+						grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
+						grid.addRow(1,new Text("Nombre de Joueur dans la Partie: "+p.getNombreJoueurDansLaPartie()));
+						TitledPane pane = new TitledPane(p.getNomPartie(),grid);
+						list.add(pane);
 					}
 				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			if(b){
-				GridPane grid = new GridPane();
-				grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
-				grid.addRow(1,new Text("Nombre de Joueur dans la Partie: "+p.getNombreJoueurDansLaPartie()));
-				TitledPane pane = new TitledPane(p.getNomPartie(),grid);
-				pane.textFillProperty().set(Color.RED);;
-				list.add(pane);
-			}
-			else if(p.getNombreJoueurDansLaPartie()!=p.getNombreJoueursRequis()){
-				GridPane grid = new GridPane();
-				grid.addRow(0,new Text("Nombre de Joueur Requis: "+p.getNombreJoueursRequis()));
-				grid.addRow(1,new Text("Nombre de Joueur dans la Partie: "+p.getNombreJoueurDansLaPartie()));
-				TitledPane pane = new TitledPane(p.getNomPartie(),grid);
-				list.add(pane);
-			}
-		}
-		this.listePartie.getPanes().addAll(list);
-		if(!this.listePartie.getPanes().isEmpty()){
-			this.listePartie.setExpandedPane(this.listePartie.getPanes().get(0));
-		}
+			this.listePartie.getPanes().addAll(list);
+			if(!this.listePartie.getPanes().isEmpty()){
+				this.listePartie.setExpandedPane(this.listePartie.getPanes().get(0));
+			}			
+		});
+
 	}
 
 	/**
@@ -665,96 +705,117 @@ System.out.println("non term : "+partiesNonTerminees);
 	 * @throws RemoteException 
 	 */
 	public void changeText(Partie p) throws RemoteException{
-		int nbJoueurRequis = p.getNombreJoueursRequis();
-		int nbJoueurDansPartie = p.getNombreJoueurDansLaPartie();
 		
+		Platform.runLater(() -> {
+			int nbJoueurRequis = p.getNombreJoueursRequis();
+			int nbJoueurDansPartie = p.getNombreJoueurDansLaPartie();
+			
 
 
-		
-		switch(nbJoueurRequis){
-			case 3:
+			
+			switch(nbJoueurRequis){
+				case 3:
+					try {
+						if(nbJoueurDansPartie == 1){
+							this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+							this.joueur2.setText("Joueur 2 : En Attente");
+							this.joueur3.setText("Joueur 3 : En Attente");
+						}
+						else if(nbJoueurDansPartie == 2){
+							this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+							this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+							this.joueur3.setText("Joueur 3 : En Attente");
+							
+						}
+						else{
+							this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+							this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+							this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
+						}				
+						break;						
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
-				if(nbJoueurDansPartie == 1){
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo()+" | "+p.getJoueursConnectes().get(0).getCouleur());
-					this.joueur2.setText("Joueur 2 : En Attente");
-					this.joueur3.setText("Joueur 3 : En Attente");
-				}
-				else if(nbJoueurDansPartie == 2){
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo()+" | "+p.getJoueursConnectes().get(0).getCouleur());
-					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo()+" | "+p.getJoueursConnectes().get(1).getCouleur());
-					this.joueur3.setText("Joueur 3 : En Attente");
-					
-				}
-				else{
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo()+" | "+p.getJoueursConnectes().get(0).getCouleur());
-					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo()+" | "+p.getJoueursConnectes().get(1).getCouleur());
-					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo()+" | "+p.getJoueursConnectes().get(2).getCouleur());
-				}				
-				break;
-			case 4:
-				if(nbJoueurDansPartie == 1){
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : En Attente");
-					this.joueur3.setText("Joueur 3 : En Attente");
-					this.joueur4.setText("Joueur 4 : En Attente");
-				}
-				else if(nbJoueurDansPartie == 2){
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : En Attente");
-					this.joueur4.setText("Joueur 4 : En Attente");
-				}
-				else if(nbJoueurDansPartie == 3){
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
-					this.joueur4.setText("Joueur 4 : En Attente");
-				}
-				else{
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
-					this.joueur4.setText("Joueur 4 : "+p.getJoueursConnectes().get(3).getPseudo());
-				}
-				break;
-			case 5:
-				if(nbJoueurDansPartie == 1){
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : En Attente");
-					this.joueur3.setText("Joueur 3 : En Attente");
-					this.joueur4.setText("Joueur 4 : En Attente");
-					this.joueur5.setText("Joueur 5 : En Attente");
-				}
-				else if(nbJoueurDansPartie == 2){
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : En Attente");
-					this.joueur4.setText("Joueur 4 : En Attente");
-					this.joueur5.setText("Joueur 5 : En Attente");
-				}
-				else if(nbJoueurDansPartie == 3){
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
-					this.joueur4.setText("Joueur 4 : En Attente");
-					this.joueur5.setText("Joueur 5 : En Attente");
-				}
-				else if(nbJoueurDansPartie == 4){
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
-					this.joueur4.setText("Joueur 4 : "+p.getJoueursConnectes().get(3).getPseudo());
-					this.joueur5.setText("Joueur 5 : En Attente");
-				}
-				else {
-					this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
-					this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
-					this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
-					this.joueur4.setText("Joueur 4 : "+p.getJoueursConnectes().get(3).getPseudo());
-					this.joueur5.setText("Joueur 5 : "+p.getJoueursConnectes().get(4).getPseudo());
-				}
-				break;
-		}
+				case 4:
+					try {
+						if(nbJoueurDansPartie == 1){
+							this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+							this.joueur2.setText("Joueur 2 : En Attente");
+							this.joueur3.setText("Joueur 3 : En Attente");
+							this.joueur4.setText("Joueur 4 : En Attente");
+						}
+						else if(nbJoueurDansPartie == 2){
+							this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+							this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+							this.joueur3.setText("Joueur 3 : En Attente");
+							this.joueur4.setText("Joueur 4 : En Attente");
+						}
+						else if(nbJoueurDansPartie == 3){
+							this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+							this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+							this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
+							this.joueur4.setText("Joueur 4 : En Attente");
+						}
+						else{
+							this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+							this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+							this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
+							this.joueur4.setText("Joueur 4 : "+p.getJoueursConnectes().get(3).getPseudo());
+						}
+						break;						
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				case 5:
+					try {
+							if(nbJoueurDansPartie == 1){
+							this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+							this.joueur2.setText("Joueur 2 : En Attente");
+							this.joueur3.setText("Joueur 3 : En Attente");
+							this.joueur4.setText("Joueur 4 : En Attente");
+							this.joueur5.setText("Joueur 5 : En Attente");
+						}
+						else if(nbJoueurDansPartie == 2){
+							this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+							this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+							this.joueur3.setText("Joueur 3 : En Attente");
+							this.joueur4.setText("Joueur 4 : En Attente");
+							this.joueur5.setText("Joueur 5 : En Attente");
+						}
+						else if(nbJoueurDansPartie == 3){
+							this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+							this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+							this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
+							this.joueur4.setText("Joueur 4 : En Attente");
+							this.joueur5.setText("Joueur 5 : En Attente");
+						}
+						else if(nbJoueurDansPartie == 4){
+							this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+							this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+							this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
+							this.joueur4.setText("Joueur 4 : "+p.getJoueursConnectes().get(3).getPseudo());
+							this.joueur5.setText("Joueur 5 : En Attente");
+						}
+						else {
+							this.joueur1.setText("Joueur 1 : "+p.getJoueursConnectes().get(0).getPseudo());
+							this.joueur2.setText("Joueur 2 : "+p.getJoueursConnectes().get(1).getPseudo());
+							this.joueur3.setText("Joueur 3 : "+p.getJoueursConnectes().get(2).getPseudo());
+							this.joueur4.setText("Joueur 4 : "+p.getJoueursConnectes().get(3).getPseudo());
+							this.joueur5.setText("Joueur 5 : "+p.getJoueursConnectes().get(4).getPseudo());
+						}
+						break;					
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+			}
+			
+		});
 	}
 	
 	/**
@@ -766,34 +827,70 @@ System.out.println("non term : "+partiesNonTerminees);
 	 * @throws InterruptedException 
 	 */
 	public void salleDAttente(Stage primaryStage,final String nomPartie) throws IOException, InterruptedException{
-		Partie partie = serveur.getPartieByName(nomPartie);
-		URL url = getClass().getResource("../view/SalleDAttente.fxml");
-        final FXMLLoader fxmlLoader = new FXMLLoader(url);
-        
-        BorderPane root = (BorderPane) fxmlLoader.load();
-        MainClientFxml.controller = (MainClientFxml)fxmlLoader.getController();
-        controller.changeText(partie);
-        final Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Santiago");
-        stage.show();
-        
-        chercheInfoPartie(partie);
-
-        
+		Platform.runLater(() -> {
+			Partie partie = null;
+			try {
+				partie = serveur.getPartieByName(nomPartie);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			URL url = getClass().getResource("../view/SalleDAttente.fxml");
+	        final FXMLLoader fxmlLoader = new FXMLLoader(url);
+	        
+	        BorderPane root = null;
+			try {
+				root = (BorderPane) fxmlLoader.load();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        this.controller = (MainClientFxml)fxmlLoader.getController();
+	        try {
+				controller.changeText(partie);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        final Scene scene = new Scene(root);
+	        stage.setScene(scene);
+	        stage.setTitle("Santiago");
+	        stage.show();
+	        
+	        try {
+				chercheInfoPartie(partie);
+				miseAjourTexte(partie);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		});       
 	}
 	
 	public void lancementPlateau(Partie p) throws IOException{
-		System.out.println("Lanchement Plateau");
-
-		final URL url = getClass().getResource("../view/Plateau.fxml");
-
-        final FXMLLoader fxmlLoader = new FXMLLoader(url);
-	    final BorderPane root = (BorderPane) fxmlLoader.load();
+		Platform.runLater(() -> {
+			System.out.println("Lanchement Plateau");
+			
+			final URL url = getClass().getResource("../view/Plateau.fxml");
 	
-	    MainClientFxml.controller = (MainClientFxml)fxmlLoader.getController();
-	    MainClientFxml.controller.afficheJoueur(p);
-	    stage.getScene().setRoot(root);
+	        final FXMLLoader fxmlLoader = new FXMLLoader(url);
+	        
+	        BorderPane root = null;
+			try {
+				root = (BorderPane) fxmlLoader.load();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        this.controller = (MainClientFxml)fxmlLoader.getController();
+	        try {
+				this.controller.afficheJoueur(p);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        stage.getScene().setRoot(root);			
+		});
 	}
 	
 	public void lancementScore(Partie partie) throws IOException{
@@ -835,79 +932,6 @@ System.out.println("non term : "+partiesNonTerminees);
 				this.cinquieme.setText("Le cinquième est : " + j.getPseudo() + " avec un score de : " + j.getSolde());
 			}
 			i++;
-		}
-	}
-	
-	public void afficheJoueur(Partie p) throws RemoteException{
-		switch(p.getNombreJoueurDansLaPartie()){
-			case 3:
-				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
-				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
-				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
-				
-				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
-				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
-				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
-				
-				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
-				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
-				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
-				
-				this.soldeJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
-				this.soldeJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
-				this.soldeJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
-				
-				break;
-			case 4:
-				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
-				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
-				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
-				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
-				
-				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
-				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
-				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
-				this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
-				
-				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
-				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
-				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
-				this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
-				
-				this.soldeJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
-				this.soldeJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
-				this.soldeJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
-				this.soldeJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
-				
-				break;
-			case 5:
-				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
-				this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
-				this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
-				this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
-				this.nomJoueur5.setText(p.getJoueursConnectes().get(4).getPseudo());
-				
-				this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
-				this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
-				this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
-				this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
-				this.nomJoueur5.setFill(Color.web(p.getJoueursConnectes().get(4).getCodeCouleur()));
-				
-				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
-				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
-				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
-				this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
-				this.soldeJoueur5.setText(""+p.getJoueursConnectes().get(4).getSolde());
-				
-				this.soldeJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
-				this.soldeJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
-				this.soldeJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
-				this.soldeJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
-				this.soldeJoueur5.setFill(Color.web(p.getJoueursConnectes().get(4).getCodeCouleur()));
-				
-				this.pioche5.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Dos_Tuiles.jpg")));
-				
-				break;
 		}
 	}
 	
@@ -1039,126 +1063,192 @@ System.out.println("non term : "+partiesNonTerminees);
 	 * @throws RemoteException 
 	 */
 	public void metAJourAffichageTuiles() throws RemoteException{
-		
-		//On récupère la case
-        Partie p = serveur.getPartieByName(MainClientFxml.namePartie);
-        Case[][] tabCases = p.getPlateau().getTabPlateau();
-        
-        //On parcours les cases
-        for(int y=0 ; y < tabCases.length ; y++){
-        	
-        	Case[] ligne = tabCases[y];
-        	
-        	for(int x=0 ; x < tabCases[y].length ; x++){
-        		
-        		Case c = ligne[x];
-        		
-        		Tuile tuile = c.getContientTuile();
-        	
-        		if(tuile != null){
-        			
-        			//On construit l'id de l'imageview que l'on veut
-        			String idCase = "#Case_"+x+"_"+y;
-        			
-        			//On met l'image view
-        			Scene scene = stage.getScene();
-        			ImageView view = (ImageView) scene.lookup(idCase);
-        			
-        			try{
-        				Image image = new Image(MainClientFxml.class.getResourceAsStream(tuile.getPath()));
-        				view.setImage(image);
+		Platform.runLater(() -> {
+			//On récupère la case
+	        Partie p = null;
+			try {
+				p = serveur.getPartieByName(MainClientFxml.namePartie);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	        Case[][] tabCases = p.getPlateau().getTabPlateau();
+	        
+	        //On parcours les cases
+	        for(int y=0 ; y < tabCases.length ; y++){
+	        	
+	        	Case[] ligne = tabCases[y];
+	        	
+	        	for(int x=0 ; x < tabCases[y].length ; x++){
+	        		
+	        		Case c = ligne[x];
+	        		
+	        		Tuile tuile = c.getContientTuile();
+	        	
+	        		if(tuile != null){
+	        			
+	        			//On construit l'id de l'imageview que l'on veut
+	        			String idCase = "#Case_"+x+"_"+y;
+	        			
+	        			//On met l'image view
+	        			Scene scene = stage.getScene();
+	        			ImageView view = (ImageView) scene.lookup(idCase);
+	        			
+	        			try{
+	        				//Image image = new Image(MainClientFxml.class.getResourceAsStream(tuile.getPath()));
+	        				//view.setImage(image);
+	        			}catch(Exception e){
+	        				e.printStackTrace();
+	        			}
+	        			
+	        			
+	        			//L'index du marqueurs
+	        			int index = 0;
+	        			
+	        			//On s'occupe des marqueurs
+	        			for(MarqueurRendement mr : tuile.getMarqueursActuels()){
+	        				
+	        				index++;
+	        				
+	        				//On construit l'id de l'imageview que l'on veut
+	            			String idMarqueur = "#MarqueurC"+x+"_"+y+"_"+index;
+	            			
+	            			ImageView viewMarqueurs = (ImageView) scene.lookup(idMarqueur);
+	            			
+	            			try{
+	            				Image image = new Image(MainClientFxml.class.getResourceAsStream( "../view/Images/single-cubeOrange.png" /*mr.getPath()*/));
+	            				viewMarqueurs.setImage(image);
 
-        			}catch(Exception e){
-        				e.printStackTrace();
-        			}
-        			
-        			
-        			//L'index du marqueurs
-        			int index = 0;
-        			
-        			//On s'occupe des marqueurs
-        			for(MarqueurRendement mr : tuile.getMarqueursActuels()){
-        				
-        				index++;
-        				
-        				//On construit l'id de l'imageview que l'on veut
-            			String idMarqueur = "#MarqueurC"+x+"_"+y+"_"+index;
-            			
-            			ImageView viewMarqueurs = (ImageView) scene.lookup(idMarqueur);
-            			
-            			try{
-            				Image image = new Image(MainClientFxml.class.getResourceAsStream( "../view/Images/single-cubeOrange.png" /*mr.getPath()*/));
-            				viewMarqueurs.setImage(image);
-
-            			}catch(Exception e){
-            				e.printStackTrace();
-            			}
-        			
-        			}
-        			
-        			
-        		}
-        		
-        	}        	
-        }
-		
+	            			}catch(Exception e){
+	            				e.printStackTrace();
+	            			}
+	            			
+	        			}
+	        			
+	        			
+	        		}
+	        		
+	        	}        	
+	        }			
+		});
 	}
 	
 
 	public void afficherJoueurEnCours(Partie partie) {
-		Joueur j = partie.getJoueurEnCours();
-		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/fleche.png"));
+		Platform.runLater(() -> {
+			Joueur j = partie.getJoueurEnCours();
+			Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/fleche.png"));
+	
+			tourJoueur1.setImage(null); tourJoueur2.setImage(null); tourJoueur3.setImage(null);
+			tourJoueur4.setImage(null); tourJoueur5.setImage(null);
+			
+			if(j.getPseudo().equals(this.nomJoueur1.getText())) {
+				tourJoueur1.setImage(image);
+			} else if (j.getPseudo().equals(this.nomJoueur2.getText())) {
+				tourJoueur2.setImage(image);
+			} else if (j.getPseudo().equals(this.nomJoueur3.getText())) {
+				tourJoueur3.setImage(image);
+			} else if (j.getPseudo().equals(this.nomJoueur4.getText())) {
+				tourJoueur4.setImage(image);
+			} else if (j.getPseudo().equals(this.nomJoueur5.getText())) {
+				tourJoueur5.setImage(image);
+			}			
+		});
 
-		tourJoueur1.setImage(null); tourJoueur2.setImage(null); tourJoueur3.setImage(null);
-		tourJoueur4.setImage(null); tourJoueur5.setImage(null);
-		
-		if(j.getPseudo().equals(this.nomJoueur1.getText())) {
-			tourJoueur1.setImage(image);
-		} else if (j.getPseudo().equals(this.nomJoueur2.getText())) {
-			tourJoueur2.setImage(image);
-		} else if (j.getPseudo().equals(this.nomJoueur3.getText())) {
-			tourJoueur3.setImage(image);
-		} else if (j.getPseudo().equals(this.nomJoueur4.getText())) {
-			tourJoueur4.setImage(image);
-		} else if (j.getPseudo().equals(this.nomJoueur5.getText())) {
-			tourJoueur5.setImage(image);
-		}
 		
 	}
 	
-	public void afficherTexte(Partie partie) throws RemoteException {
-		System.out.println("JE SUIS JE SUIS JE SUIS .... ");
-		System.out.println(MainClientFxml.nomJoueur);
-		
-		String contenu[] = partie.getListeMessages().get(indexMessage);
-		String pseudo = MainClientFxml.nomJoueur;
-
-		//On parse 
-		String[] dest = contenu[1].split("_");
-
-		for(int i = 0; i < dest.length; i++) {
-			if(dest[i].equals(pseudo)) {
-				System.out.println("Je dois recevoir ce message!!");
-				System.out.println(contenu[0]);
-//				if(contenu[0].contains(pseudo)) {
-//					System.out.println("Ce message me concerne !!");
-//					String msg = contenu[0];
-//					msg.replace(pseudo+" a", "Vous avez");
-//					msg.replace(pseudo+" est", "Vous êtes");
-//					msg.replace(pseudo+" fait", "Vous devez faire");
-//					msg.replace(pseudo, "Vous");
-//					
-//					System.out.println(msg);
-//				} else {
-//					System.out.println("Ce message me concerne pas!!");
-//					System.out.println(contenu[0]);
-//				}
-				break;
-			}
-		}
-		//zoneTexte.insertText(0, partie.getTexte());
+	public void afficheJoueur(Partie p) throws RemoteException{
+		Platform.runLater(() -> {
+			System.out.println("coucou");
+			switch(p.getNombreJoueurDansLaPartie()){
+				case 3:
+					try {
+						this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
+						this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
+						this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
+						
+						this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+						this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+						this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+						
+						this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
+						this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
+						this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
+						
+						this.soldeJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+						this.soldeJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+						this.soldeJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+						
+						break;
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				case 4:
+					try {
+						this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
+						this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
+						this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
+						this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
+						
+						this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+						this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+						this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+						this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
+						
+						this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
+						this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
+						this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
+						this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
+						
+						this.soldeJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+						this.soldeJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+						this.soldeJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+						this.soldeJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
+						
+						break;					
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				case 5:
+					try {
+						this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
+						this.nomJoueur2.setText(p.getJoueursConnectes().get(1).getPseudo());
+						this.nomJoueur3.setText(p.getJoueursConnectes().get(2).getPseudo());
+						this.nomJoueur4.setText(p.getJoueursConnectes().get(3).getPseudo());
+						this.nomJoueur5.setText(p.getJoueursConnectes().get(4).getPseudo());
+						
+						this.nomJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+						this.nomJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+						this.nomJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+						this.nomJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
+						this.nomJoueur5.setFill(Color.web(p.getJoueursConnectes().get(4).getCodeCouleur()));
+						
+						this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
+						this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
+						this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
+						this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
+						this.soldeJoueur5.setText(""+p.getJoueursConnectes().get(4).getSolde());
+						
+						this.soldeJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+						this.soldeJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+						this.soldeJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+						this.soldeJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
+						this.soldeJoueur5.setFill(Color.web(p.getJoueursConnectes().get(4).getCodeCouleur()));
+						
+						this.pioche5.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Dos_Tuiles.jpg")));
+						
+						break;					
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}			
+		});
 	}
-	
+
 
 	
 	
@@ -1295,7 +1385,60 @@ System.out.println("non term : "+partiesNonTerminees);
         }
         		
 	}
+
+	public void envoyerMessage(MouseEvent event) throws RemoteException {
+		String cmd = zoneSaisie.getText();
+		//client.recevoirCommande(cmd);
+		
+		try {
+			File file = new File("messageEnvoye.txt");
+			
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			
+			FileWriter fwritter = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bwritter = new BufferedWriter(fwritter);
+			bwritter.write(cmd);
+			bwritter.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		zoneSaisie.clear();
+	}	
 	
+	public void afficherTexte(Partie partie) throws RemoteException {
+		Platform.runLater(() -> {
+			String thisLine;
+		     try {
+		    	 String nomFichier = nomJoueur;
+		    	 File file = new File(nomFichier);
+		    	 
+		    	 if (file.exists()) {
+			         BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));         
+			         
+			         while ((thisLine = br.readLine()) != null) { 
+				         System.out.println("Message du serveur :" +thisLine);
+				         zoneTexte.appendText(thisLine);
+				         String Newligne=System.getProperty("line.separator");
+				         zoneTexte.appendText(Newligne);
+				         //Puis on efface le contenu (A faire lors des tests non local)
+				         
+			         } // end while 
+			         BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
+			         bw.write("");
+			         bw.flush(); bw.close();
+			         br.close(); 
+		    	 }
+		     } catch (IOException e) {
+		    	   	System.out.println("Error: " + e);
+		     }			
+			
+		});
+
+	}
 	
 	
 	
