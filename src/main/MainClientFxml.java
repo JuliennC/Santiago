@@ -1019,25 +1019,20 @@ System.out.println("non term : "+partiesNonTerminees);
 	public void afficherTexte(Partie partie) throws RemoteException {
 		Platform.runLater(() -> {
 			String thisLine;
-			System.out.println("1__________");
 		     try {
-		    	 System.out.println("2__________");
-		    	 //System.out.println("AfficherTexte de:" +client.getJoueur().getPseudo());
 		    	 File file = new File("message.txt");
-		    	 System.out.println("3__________");
 		    	 if (file.exists()) {
-		    		 System.out.println("4__________");
 			         BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));
 			         BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
 			         
 			         while ((thisLine = br.readLine()) != null) { 
-			        	 System.out.println("5__________");
-				         System.out.println("Info :" +thisLine);
+				         System.out.println("Message du serveur :" +thisLine);
 				         zoneTexte.appendText(thisLine);
 				         //Puis on efface le contenu (A faire lors des tests non local)
 				         bw.write("");
+				         bw.flush();
 			         } // end while 
-			         br.close(); bw.close();
+			        // br.close(); bw.close();
 		    	 }
 		     } catch (IOException e) {
 		    	   	System.out.println("Error: " + e);
