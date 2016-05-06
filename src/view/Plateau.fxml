@@ -59,15 +59,6 @@
             <Insets left="250.0" right="250.0" top="50.0" />
          </BorderPane.margin>
          <children>
-<<<<<<< HEAD
-            <ImageView fx:id="Case_1_1" onMouseClicked="#selectionneCase" GridPane.columnIndex="1" GridPane.rowIndex="1">
-            	<image>
-                  <Image url="@Images/Case_Plateau_Vide.jpg" />
-               </image>
-            </ImageView>
-=======
-
->>>>>>> origin/master
             <ImageView fx:id="Case_0_0" onMouseClicked="#selectionneCase" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />

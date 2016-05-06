@@ -790,7 +790,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	    final BorderPane root = (BorderPane) fxmlLoader.load();
 	
 	    MainClientFxml.controller = (MainClientFxml)fxmlLoader.getController();
-	
+	    MainClientFxml.controller.afficheJoueur(p);
 	    stage.getScene().setRoot(root);
 	}
 	
@@ -850,6 +850,11 @@ System.out.println("non term : "+partiesNonTerminees);
 				this.soldeJoueur1.setText(""+p.getJoueursConnectes().get(0).getSolde());
 				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
 				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
+				
+				this.soldeJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+				this.soldeJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+				this.soldeJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+				
 				break;
 			case 4:
 				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
@@ -866,6 +871,12 @@ System.out.println("non term : "+partiesNonTerminees);
 				this.soldeJoueur2.setText(""+p.getJoueursConnectes().get(1).getSolde());
 				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
 				this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
+				
+				this.soldeJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+				this.soldeJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+				this.soldeJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+				this.soldeJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
+				
 				break;
 			case 5:
 				this.nomJoueur1.setText(p.getJoueursConnectes().get(0).getPseudo());
@@ -885,6 +896,12 @@ System.out.println("non term : "+partiesNonTerminees);
 				this.soldeJoueur3.setText(""+p.getJoueursConnectes().get(2).getSolde());
 				this.soldeJoueur4.setText(""+p.getJoueursConnectes().get(3).getSolde());
 				this.soldeJoueur5.setText(""+p.getJoueursConnectes().get(4).getSolde());
+				
+				this.soldeJoueur1.setFill(Color.web(p.getJoueursConnectes().get(0).getCodeCouleur()));
+				this.soldeJoueur2.setFill(Color.web(p.getJoueursConnectes().get(1).getCodeCouleur()));
+				this.soldeJoueur3.setFill(Color.web(p.getJoueursConnectes().get(2).getCodeCouleur()));
+				this.soldeJoueur4.setFill(Color.web(p.getJoueursConnectes().get(3).getCodeCouleur()));
+				this.soldeJoueur5.setFill(Color.web(p.getJoueursConnectes().get(4).getCodeCouleur()));
 				
 				this.pioche5.setImage(new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Dos_Tuiles.jpg")));
 				
