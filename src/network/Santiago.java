@@ -284,10 +284,13 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 				if(canal.canalEstVertical() && position.equals("v")){
 				
 					canal.metEnEau();
+					canal.setCouleur(couleur);
 				
 				} else if ((!canal.canalEstVertical()) && position.equals("h")){
 					
 					canal.metEnEau();
+					canal.setCouleur(couleur);
+					
 				}
 			}
 		}
