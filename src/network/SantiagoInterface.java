@@ -69,4 +69,6 @@ public interface SantiagoInterface extends Remote{
 	public boolean tic() throws RemoteException;
 	
 	public ArrayList<Partie> getListeParties() throws RemoteException;
+	
+	public void ajouteTuileAJoueur(String nomPartie, String nomJoueur, Tuile t) throws RemoteException;
 }

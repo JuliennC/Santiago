@@ -25,6 +25,9 @@ import Classes.Plateau.Canal;
 import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
 import Classes.Tuile.Tuile;
+import Classes.Tuile.TuileBanane;
+import Classes.Tuile.TuileCanne;
+import Classes.Tuile.TuileHaricot;
 import Classes.Tuile.TuilePiment;
 import Exception.JoueurException;
 import Exception.PartieException;
@@ -373,14 +376,15 @@ System.out.println("non term : "+partiesNonTerminees);
 									//System.out.println("Nouveau joueur : "+p.getJoueursConnectes());
 								
 							        MainClientFxml.controller.changeText(partie);
-
+							        
+							       
 									//MainClientFxml.controller.lancementPlateau(partie);
 									modifs.remove(0);
 
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
 							
-									MainClientFxml.controller.lancementPlateau(partie);
+									 MainClientFxml.controller.lancementPlateau(partie);
 										modifs.remove(0);
 							
 								} else if(modif.equals(Static.modificationJoueurDeconnection)){
@@ -995,8 +999,117 @@ System.out.println("non term : "+partiesNonTerminees);
 	
 	public void afficheTuilesRetournees(Partie p){
 		
+		
+		
+		ArrayList<Tuile> liste = p.getPlateau().getListeTuilesRetournees();
+		if(p.getNombreJoueursRequis()==5){
+			Image image1 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(0).getPath()));
+			Image image2 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(1).getPath()));
+			Image image3 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(2).getPath()));
+			Image image4 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(3).getPath()));
+			Image image5 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(4).getPath()));
+			this.pioche1.setImage(image1);
+			this.pioche2.setImage(image2);
+			this.pioche3.setImage(image3);
+			this.pioche4.setImage(image4);
+			this.pioche5.setImage(image5);
+			
+		}
+		else{
+			try{
+				Image image1 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(0).getPath()));
+				Image image2 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(1).getPath()));
+				Image image3 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(2).getPath()));
+				Image image4 = new Image(MainClientFxml.class.getResourceAsStream(liste.get(3).getPath()));
+				
+				this.pioche1.setImage(image1);
+				this.pioche2.setImage(image2);
+				this.pioche3.setImage(image3);
+				this.pioche4.setImage(image4);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+
+		}
 	}
 	
+	@FXML
+	public void clickTuile(MouseEvent e) throws RemoteException{
+		Partie p = serveur.getPartieByName(namePartie);
+		ImageView image =(ImageView)e.getSource();
+		
+		selectionTuile(p,image);
+		
+		Joueur j = getClient(nomJoueur, p.getNomPartie()).getJoueur();
+		if(j.getPseudo().equals(this.nomJoueur1.getText())){
+			this.tuile1.setImage(image.getImage());
+		}
+		else if(j.getPseudo().equals(this.nomJoueur2.getText())){
+			this.tuile2.setImage(image.getImage());
+		}
+		else if(j.getPseudo().equals(this.nomJoueur3.getText())){
+			this.tuile3.setImage(image.getImage());
+		}
+		else if(j.getPseudo().equals(this.nomJoueur4.getText())){
+			this.tuile4.setImage(image.getImage());	
+		}
+		else if(j.getPseudo().equals(this.nomJoueur5.getText())){
+			this.tuile5.setImage(image.getImage());
+		}
+		Image image1 = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Dos_Tuiles.JPG"));
+		image.setImage(image1);
+		this.pioche1.setDisable(true);
+		this.pioche2.setDisable(true);
+		this.pioche3.setDisable(true);
+		this.pioche4.setDisable(true);
+		this.pioche5.setDisable(true);
+	}
+	
+	public void selectionTuile(Partie p, ImageView image) throws RemoteException{
+		if(p.getNombreJoueursRequis()==5){
+			if(image == this.pioche1){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(0));
+				p.getPlateau().getListeTuilesRetournees().set(0,null);
+			}
+			else if(image == this.pioche2){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(1));
+				p.getPlateau().getListeTuilesRetournees().set(1,null);
+			}
+			else if(image == this.pioche3){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(2));
+				p.getPlateau().getListeTuilesRetournees().set(2,null);
+			}
+			else if(image == this.pioche4){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(3));
+				p.getPlateau().getListeTuilesRetournees().set(3,null);
+			}
+			else if(image == this.pioche5){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(4));
+				p.getPlateau().getListeTuilesRetournees().set(4,null);
+			}
+		}
+		else{
+			if(image == this.pioche1){
+				System.out.println("TestTuile");
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(0));
+				p.getPlateau().getListeTuilesRetournees().set(0,null);
+			}
+			else if(image == this.pioche2){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(1));
+				p.getPlateau().getListeTuilesRetournees().set(1,null);
+			}
+			else if(image == this.pioche3){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(2));
+				p.getPlateau().getListeTuilesRetournees().set(2,null);
+			}
+			else if(image == this.pioche4){
+				serveur.ajouteTuileAJoueur(p.getNomPartie(),nomJoueur,p.getPlateau().getListeTuilesRetournees().get(3));
+				p.getPlateau().getListeTuilesRetournees().set(3,null);
+			}
+			System.out.println(getClient(nomJoueur, p.getNomPartie()).getJoueur().getTuileSelectionee());
+		}
+	}
 	
 	
 	/**

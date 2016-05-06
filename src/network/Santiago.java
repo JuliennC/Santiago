@@ -1016,6 +1016,13 @@ public class Santiago extends UnicastRemoteObject implements SantiagoInterface {
 
 	}
 	
+	public void ajouteTuileAJoueur(String nomPartie, String nomJoueur, Tuile t) throws RemoteException{
+		for(SantiagoInterface si : getPartieByName(nomPartie).getListeClients()){
+			if(si.getJoueur().getPseudo().equals(nomJoueur)){
+				si.getJoueur().setTuileSelectionee(t);
+			}
+		}
+	}
 	
 	
 	/**
