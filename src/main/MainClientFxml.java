@@ -223,7 +223,7 @@ public class MainClientFxml extends Application implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
-			this.serveur = (SantiagoInterface)Naming.lookup("rmi://192.168.43.93:44000/ABC");
+			this.serveur = (SantiagoInterface)Naming.lookup("rmi://127.0.0.1:44000/ABC");
 		} 
 		catch (MalformedURLException | RemoteException | NotBoundException e) {
 			e.printStackTrace();
@@ -567,6 +567,8 @@ System.out.println("non term : "+partiesNonTerminees);
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		
+
 			this.listePartie.getPanes().addAll(list);
 			if(!this.listePartie.getPanes().isEmpty()){
 				this.listePartie.setExpandedPane(this.listePartie.getPanes().get(0));
@@ -1236,6 +1238,9 @@ System.out.println("non term : "+partiesNonTerminees);
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			
+			if(p == null){ return;}
+			
 	        Case[][] tabCases = p.getPlateau().getTabPlateau();
 	        
 	        //On parcours les cases
@@ -1259,8 +1264,9 @@ System.out.println("non term : "+partiesNonTerminees);
 	        			ImageView view = (ImageView) scene.lookup(idCase);
 	        			
 	        			try{
-	        				//Image image = new Image(MainClientFxml.class.getResourceAsStream(tuile.getPath()));
-	        				//view.setImage(image);
+	        				Image image = new Image(MainClientFxml.class.getResourceAsStream(tuile.getPath()));
+	        				view.setImage(image);
+
 	        			}catch(Exception e){
 	        				e.printStackTrace();
 	        			}
@@ -1286,14 +1292,14 @@ System.out.println("non term : "+partiesNonTerminees);
 	            			}catch(Exception e){
 	            				e.printStackTrace();
 	            			}
-	            			
+	        			
 	        			}
 	        			
 	        			
 	        		}
 	        		
 	        	}        	
-	        }			
+	        }
 		});
 	}
 	
