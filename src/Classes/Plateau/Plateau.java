@@ -179,7 +179,7 @@ public class Plateau implements Serializable {
 		//Les canaux horyiontaux
 		for (int i=0 ; i<=nombreDeLignes ; i+=2){
 			
-			for(int j=0 ; j<nombreDeColonnes-2 ; j+=2){
+			for(int j=0 ; j<nombreDeColonnes ; j+=2){
 				
 				Canal c1 = new Canal();
 				c1.setCoordDebut(j, i);
@@ -192,9 +192,9 @@ public class Plateau implements Serializable {
 		
 		
 		//Les canaux verticaux
-		for (int i=0 ; i<nombreDeColonnes ; i+=2){
+		for (int i=0 ; i<=nombreDeColonnes ; i+=2){
 					
-			for(int j=0 ; j< nombreDeLignes ; j+=2){
+			for(int j=0 ; j<nombreDeLignes ; j+=2){
 				
 				Canal c1 = new Canal();
 				c1.setCoordDebut(i, j);

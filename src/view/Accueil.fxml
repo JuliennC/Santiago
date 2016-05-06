@@ -51,7 +51,7 @@
                   <Font name="Arial Bold" size="36.0" />
                </font>
             </Button>
-            <Text fx:id="pseudoError" fill="#c30000" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Text fx:id="pseudoError" fill="#c30000" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="951.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>

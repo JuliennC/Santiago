@@ -14,7 +14,6 @@ import Exception.PartieException;
 import network.Santiago;
 import network.SantiagoInterface;
 
-
 public class MainServeur {
 	
 	public static void main (String args[]) throws RemoteException, MalformedURLException, PartieException, JoueurException

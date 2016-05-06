@@ -20,6 +20,8 @@ import Classes.Static;
 import Classes.Marqueurs.MarqueurRouge;
 import Classes.Marqueurs.MarqueurRendement;
 import Classes.Marqueurs.MarqueurRouge;
+import Classes.Marqueurs.MarqueurRendement;
+import Classes.Plateau.Canal;
 import Classes.Plateau.Case;
 import Classes.Plateau.Plateau;
 import Classes.Tuile.Tuile;
@@ -142,15 +144,21 @@ public class MainClientFxml extends Application implements Initializable{
     Case_3_4, Case_3_5, Case_4_0, Case_4_1, Case_4_2, Case_4_3, Case_4_4, Case_4_5, Case_5_0, Case_5_1, Case_5_2,
     Case_5_3, Case_5_4, Case_5_5, Case_6_0, Case_6_1, Case_6_2, Case_6_3, Case_6_4, Case_6_5, Case_7_0,
     Case_7_1, Case_7_2, Case_7_3, Case_7_4, Case_7_5;
-    
-    HashMap<String, ImageView> caseMap = new HashMap<>();
+
     
     @FXML
-    ImageView Canal_1_0, Canal_2_0, Canal_6_2, Canal_5_2, Canal_4_2, Canal_3_2, Canal_2_2, Canal_1_2, Canal_8_0, Canal_7_0,
-    Canal_6_0, Canal_5_0, Canal_4_0, Canal_3_0, Canal_2_6, Canal_1_6, Canal_8_4, Canal_7_4, Canal_6_4, Canal_5_4, Canal_4_4,
-    Canal_3_4, Canal_2_4, Canal_1_4, Canal_8_2, Canal_8_6, Canal_7_6, Canal_6_6, Canal_5_6, Canal_4_6, Canal_3_6, Canal_6_1,
-    Canal_6_5, Canal_8_5, Canal_2_3, Canal_4_3, Canal_6_3, Canal_8_3, Canal_8_1, Canal_4_1, Canal_2_1, Canal_0_1, Canal_0_2,
-    Canal_0_3, Canal_0_4, Canal_0_5, Canal_0_6, Canal_2_5, Canal_4_5;
+    private ImageView Canal_0_3_v, Canal_4_2_h, Canal_6_6_v, Canal_3_4_h, Canal_4_2_v, Canal_5_0_h, Canal_8_1_v, Canal_1_0_h, Canal_2_6_v,
+    Canal_6_5_v, Canal_2_6_h, Canal_0_4_v, Canal_8_2_h, Canal_4_1_v, Canal_8_2_v, Canal_7_4_h, Canal_2_5_v, Canal_6_6_h, Canal_4_4_h,
+    Canal_0_1_v, Canal_3_6_h, Canal_5_2_h, Canal_4_4_v, Canal_8_3_v, Canal_8_4_v, Canal_1_2_h, Canal_2_0_h, Canal_0_2_v, Canal_8_4_h,
+    Canal_4_3_v, Canal_6_0_h, Canal_8_5_v, Canal_7_6_h, Canal_3_0_h, Canal_4_6_v, Canal_5_4_h, Canal_4_6_h, Canal_8_6_v, Canal_2_2_v,
+    Canal_1_4_h, Canal_6_1_v, Canal_2_2_h, Canal_8_6_h, Canal_4_5_v, Canal_6_2_h, Canal_2_1_v, Canal_7_0_h, Canal_6_2_v, Canal_4_0_h,
+    Canal_3_2_h;
+
+
+    
+    
+    
+    
     
     @FXML
     ImageView constructeur1,constructeur2,constructeur3,constructeur4,constructeur5;
@@ -345,6 +353,7 @@ System.out.println("non term : "+partiesNonTerminees);
 								
 							        MainClientFxml.controller.changeText(partie);
 
+									MainClientFxml.controller.lancementPlateau(partie);
 									modifs.remove(0);
 
 							
@@ -359,6 +368,7 @@ System.out.println("non term : "+partiesNonTerminees);
 									
 							        controller.changeText(partie);
 									modifs.remove(0);
+									
 								} else if(modif.equals(Static.modificationTuiles)){
 
 									System.out.println("Modification des tuiles");
@@ -366,19 +376,38 @@ System.out.println("non term : "+partiesNonTerminees);
 									modifs.remove(0);
 									
 								}else if(modif.equals(Static.modificationConstructeurDeCanal)){
+
 									MainClientFxml.controller.modifierConstructeur(partie);
 									modifs.remove(0);
+
 								} else if(modif.equals(Static.modificationJoueurEnCours)){
+								
 									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
-								}
-								else if(modif.equals(Static.modificationRetourneTuile)){
+								
+								} else if(modif.equals(Static.modificationRetourneTuile)){
+									
 									MainClientFxml.controller.afficheTuilesRetournees(partie);
 									modifs.remove(0);
+								
 								} else if(modif.equals(Static.modificationtexte)){
+								
 									MainClientFxml.controller.afficherTexte(partie);
 									modifs.remove(0);
-								}else {
+								
+								} else if(modif.equals(Static.modificationConstructeurDeCanal)){
+									
+									MainClientFxml.controller.modifierConstructeur(partie);
+									modifs.remove(0);
+									
+								} else if(modif.equals(Static.modificationCannaux)){
+
+									System.out.println("Modification des canaux");
+									MainClientFxml.controller.metAJourAffichageCanaux();
+									modifs.remove(0);
+									
+								} else {
+
 									System.out.println("Modif non reconnue");
 								}
 							}
@@ -420,8 +449,9 @@ System.out.println("non term : "+partiesNonTerminees);
 			serveur.enregistrePseudoEtMDP(pseudo, mdp);
 			//parcoursListePartie();
 			startChoixPartie((Stage)this.valider.getScene().getWindow());
-		}
-		else{
+		
+		} else {
+
 			this.pseudoError.setText("Pseudo invalide ou mot de passe incorrecte.");
 		}
 	}
@@ -699,7 +729,7 @@ System.out.println("non term : "+partiesNonTerminees);
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
         
         BorderPane root = (BorderPane) fxmlLoader.load();
-        this.controller = (MainClientFxml)fxmlLoader.getController();
+        MainClientFxml.controller = (MainClientFxml)fxmlLoader.getController();
         controller.changeText(partie);
         final Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -719,8 +749,11 @@ System.out.println("non term : "+partiesNonTerminees);
         final FXMLLoader fxmlLoader = new FXMLLoader(url);
         
         final BorderPane root = (BorderPane) fxmlLoader.load();
-        this.controller = (MainClientFxml)fxmlLoader.getController();
-        this.controller.
+
+      
+        MainClientFxml.controller = (MainClientFxml)fxmlLoader.getController();
+
+
         stage.getScene().setRoot(root);
 	}
 	
@@ -903,6 +936,8 @@ System.out.println("non term : "+partiesNonTerminees);
 		//System.out.println("Case 3:" +this.Case_1_1);
 		
 	}*/
+
+
 	
 	public void afficheTuilesRetournees(Partie p){
 		
@@ -915,7 +950,7 @@ System.out.println("non term : "+partiesNonTerminees);
 	 * @throws RemoteException 
 	 */
 	public void selectionneCase(MouseEvent e) throws RemoteException{
-		System.out.println("Tile pressed ");
+
 		//On récupère l'imageview
 		ImageView view = (ImageView) e.getSource();
 		
@@ -931,14 +966,15 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 		//On dit au server d'ajouter la tuile
         TuilePiment tuile = new TuilePiment(1);
+
         MarqueurRouge m = new MarqueurRouge();
+
         
         tuile.addMarqueur(m);
         
         //On prévient du changmenet
         serveur.poseTuileAvecXY(name, tuile, x, y);
         
-
 	}
 	
 	
@@ -973,8 +1009,8 @@ System.out.println("non term : "+partiesNonTerminees);
         			ImageView view = (ImageView) scene.lookup(idCase);
         			
         			try{
-        				//Image image = new Image(MainClientFxml.class.getResourceAsStream(tuile.getPath()));
-        				//view.setImage(image);
+        				Image image = new Image(MainClientFxml.class.getResourceAsStream(tuile.getPath()));
+        				view.setImage(image);
 
         			}catch(Exception e){
         				e.printStackTrace();
@@ -1001,7 +1037,7 @@ System.out.println("non term : "+partiesNonTerminees);
             			}catch(Exception e){
             				e.printStackTrace();
             			}
-            			
+        			
         			}
         			
         			
@@ -1012,6 +1048,7 @@ System.out.println("non term : "+partiesNonTerminees);
 		
 	}
 	
+
 	public void afficherJoueurEnCours(Partie partie) {
 		Joueur j = partie.getJoueurEnCours();
 		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/fleche.png"));
@@ -1065,6 +1102,150 @@ System.out.println("non term : "+partiesNonTerminees);
 		}
 		//zoneTexte.insertText(0, partie.getTexte());
 	}
+	
+
+	
+	
+	/**
+	 * Fonction appelé lorsque l'utilisateur clique sur une case pour poser une tuile
+	 * @throws RemoteException 
+	 */
+	public void selectionneCanal(MouseEvent e) throws RemoteException{
+		
+		System.out.println("Canal pressed ");
+		//On récupère l'imageview
+		ImageView view = (ImageView) e.getSource();
+		
+		//On récupère l'id de l'image
+		String id = view.getId();
+		
+		//On parse l'id pour obtenir les coordonées de la case
+		String[] res = id.split("_");
+		
+		int x = Integer.parseInt(res[1]);
+		int y = Integer.parseInt(res[2]);
+		String position = res[3];
+		
+		//On prend le début du canal 
+		if(position.equals("h")){
+			
+			if(x%2 == 0){
+				x--;
+			}
+			
+		} else {
+			
+			if(y%2 == 0){
+				y--;
+			}
+			
+		}
+        
+        //On prévient du changmenet
+        serveur.metCanalEnEauAvecXY(name, x, y, position);
+		
+
+	}
+	
+	
+	
+	
+	/**
+	 * Fonction qui met à jour le plateau en fonction des canaux
+	 * @throws RemoteException 
+	 */
+	public void metAJourAffichageCanaux() throws RemoteException{
+		
+		//On récupère la case
+        Partie p = serveur.getPartieByName(name);
+        ArrayList<Canal> listeCanaux = p.getPlateau().getListeCanaux();
+        
+     
+    	
+    	
+        //On parcours les cases
+        for(Canal canal : listeCanaux){
+        	
+        	if(! canal.estEnEau()) { continue; }
+        	
+        	if(canal.canalEstVertical()){
+            	
+        		//Premiere partie du canal
+                String id_1 = "#Canal_"+canal.getCoordFin().x+"_"+canal.getCoordFin().y+"_v";
+                String id_2 = "#Canal_"+canal.getCoordFin().x+"_"+(canal.getCoordFin().y+1)+"_v";
+                
+                //On met l'image view
+    			Scene scene = stage.getScene();
+    			ImageView view = (ImageView) scene.lookup(id_1);
+                
+            	String couleur = client.getJoueur().getCouleur();
+            	couleur = "Jaune";
+            
+            	try{
+        		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Vertical.jpg"));
+        		view.setImage(image);
+        		
+            	//Deuxieme partie du canal
+            	view = (ImageView) scene.lookup(id_2);
+            	
+            	couleur = client.getJoueur().getCouleur();
+            	couleur = "Jaune";
+
+            	image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Vertical.jpg"));
+        		view.setImage(image);
+            	}catch(Exception e){
+            		e.printStackTrace();
+            	}
+        	
+        	} else {
+        		
+            	try{
+            		
+	        		//Premiere partie du canal
+	                String id_1="";
+	                String id_2="";
+
+
+                	id_1 = "#Canal_"+canal.getCoordFin().x+"_"+canal.getCoordFin().y+"_h";
+		            id_2 = "#Canal_"+(canal.getCoordFin().x+1)+"_"+canal.getCoordFin().y+"_h";
+			            
+	                                
+	                //On met l'image view
+	    			Scene scene = stage.getScene();
+	    			ImageView view = (ImageView) scene.lookup(id_1);
+	                
+	            	String couleur = client.getJoueur().getCouleur();
+	            	couleur = "Jaune";
+
+            		Image image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Horizontal.jpg"));
+	        		view.setImage(image);
+	        		
+	            	//Deuxieme partie du canal
+	            	view = (ImageView) scene.lookup(id_2);
+	            	
+	            	couleur = client.getJoueur().getCouleur();
+	            	couleur = "Jaune";
+
+	            	image = new Image(MainClientFxml.class.getResourceAsStream("../view/Images/Canal_"+couleur+"_Horizontal.jpg"));
+	        		view.setImage(image);
+            
+            	}catch(Exception e){
+            		e.printStackTrace();
+            	}
+            	
+        	}
+        	
+        	
+        	
+        }
+        		
+	}
+	
+	
+	
+	
+	
+	
 	
 	public static void main(String[] args) {
 		Application.launch(MainClientFxml.class,args);

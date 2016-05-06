@@ -3,13 +3,13 @@ package Classes.Tuile;
 
 public class TuilePiment extends Tuile {
 
-	public TuilePiment() {}
 	
 	public TuilePiment(int nbMarqueurs){
 		
-		super(nbMarqueurs);
+		super(nbMarqueurs, "Champs de piment", "../view/Images/Piments");
 		
-		intituleDuChamps = "Champs de piment";
+		
+		
 	}
 	
 }

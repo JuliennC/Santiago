@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
@@ -7,6 +13,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -52,557 +59,561 @@
             <Insets left="250.0" right="250.0" top="50.0" />
          </BorderPane.margin>
          <children>
+<<<<<<< HEAD
             <ImageView fx:id="Case_1_1" onMouseClicked="#selectionneCase" GridPane.columnIndex="1" GridPane.rowIndex="1">
             	<image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
             <ImageView fx:id="Case_0_0" onMouseClicked="#test" GridPane.columnIndex="1" GridPane.rowIndex="1">
+=======
+            <ImageView fx:id="Case_0_0" onMouseClicked="#selectionneCase" GridPane.columnIndex="1" GridPane.rowIndex="1">
+>>>>>>> Interface
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_0_1" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <ImageView fx:id="Case_0_1" onMouseClicked="#selectionneCase" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_0_2" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <ImageView fx:id="Case_0_2" onMouseClicked="#selectionneCase" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_0_3" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <ImageView fx:id="Case_0_3" onMouseClicked="#selectionneCase" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_0_4" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <ImageView fx:id="Case_0_4" onMouseClicked="#selectionneCase" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_0_5" GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <ImageView fx:id="Case_0_5" onMouseClicked="#selectionneCase" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_1_0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <ImageView fx:id="Case_1_0" onMouseClicked="#selectionneCase" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_1_5" GridPane.columnIndex="2" GridPane.rowIndex="8">
+            <ImageView fx:id="Case_1_5" onMouseClicked="#selectionneCase" GridPane.columnIndex="2" GridPane.rowIndex="8">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_1_4" GridPane.columnIndex="2" GridPane.rowIndex="7">
+            <ImageView fx:id="Case_1_4" onMouseClicked="#selectionneCase" GridPane.columnIndex="2" GridPane.rowIndex="7">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_1_3" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <ImageView fx:id="Case_1_3" onMouseClicked="#selectionneCase" GridPane.columnIndex="2" GridPane.rowIndex="5">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_1_1" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <ImageView fx:id="Case_1_1" onMouseClicked="#selectionneCase" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_1_2" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <ImageView fx:id="Case_1_2" onMouseClicked="#selectionneCase" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_2_0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+            <ImageView fx:id="Case_2_0" onMouseClicked="#selectionneCase" GridPane.columnIndex="4" GridPane.rowIndex="1">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_2_5" GridPane.columnIndex="4" GridPane.rowIndex="8">
+            <ImageView fx:id="Case_2_5" onMouseClicked="#selectionneCase" GridPane.columnIndex="4" GridPane.rowIndex="8">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_2_4" GridPane.columnIndex="4" GridPane.rowIndex="7">
+            <ImageView fx:id="Case_2_4" onMouseClicked="#selectionneCase" GridPane.columnIndex="4" GridPane.rowIndex="7">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_2_3" GridPane.columnIndex="4" GridPane.rowIndex="5">
+            <ImageView fx:id="Case_2_3" onMouseClicked="#selectionneCase" GridPane.columnIndex="4" GridPane.rowIndex="5">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_2_2" GridPane.columnIndex="4" GridPane.rowIndex="4">
+            <ImageView fx:id="Case_2_2" onMouseClicked="#selectionneCase" GridPane.columnIndex="4" GridPane.rowIndex="4">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_2_1" GridPane.columnIndex="4" GridPane.rowIndex="2">
+            <ImageView fx:id="Case_2_1" onMouseClicked="#selectionneCase" GridPane.columnIndex="4" GridPane.rowIndex="2">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_3_0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+            <ImageView fx:id="Case_3_0" onMouseClicked="#selectionneCase" GridPane.columnIndex="5" GridPane.rowIndex="1">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_3_5" GridPane.columnIndex="5" GridPane.rowIndex="8">
+            <ImageView fx:id="Case_3_5" onMouseClicked="#selectionneCase" GridPane.columnIndex="5" GridPane.rowIndex="8">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_3_4" GridPane.columnIndex="5" GridPane.rowIndex="7">
+            <ImageView fx:id="Case_3_4" onMouseClicked="#selectionneCase" GridPane.columnIndex="5" GridPane.rowIndex="7">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_3_3" GridPane.columnIndex="5" GridPane.rowIndex="5">
+            <ImageView fx:id="Case_3_3" onMouseClicked="#selectionneCase" GridPane.columnIndex="5" GridPane.rowIndex="5">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_3_2" GridPane.columnIndex="5" GridPane.rowIndex="4">
+            <ImageView fx:id="Case_3_2" onMouseClicked="#selectionneCase" GridPane.columnIndex="5" GridPane.rowIndex="4">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_3_1" GridPane.columnIndex="5" GridPane.rowIndex="2">
+            <ImageView fx:id="Case_3_1" onMouseClicked="#selectionneCase" GridPane.columnIndex="5" GridPane.rowIndex="2">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_4_4" GridPane.columnIndex="7" GridPane.rowIndex="7">
+            <ImageView fx:id="Case_4_4" onMouseClicked="#selectionneCase" GridPane.columnIndex="7" GridPane.rowIndex="7">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_4_3" GridPane.columnIndex="7" GridPane.rowIndex="5">
+            <ImageView fx:id="Case_4_3" onMouseClicked="#selectionneCase" GridPane.columnIndex="7" GridPane.rowIndex="5">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_4_2" GridPane.columnIndex="7" GridPane.rowIndex="4">
+            <ImageView fx:id="Case_4_2" onMouseClicked="#selectionneCase" GridPane.columnIndex="7" GridPane.rowIndex="4">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_4_1" GridPane.columnIndex="7" GridPane.rowIndex="2">
+            <ImageView fx:id="Case_4_1" onMouseClicked="#selectionneCase" GridPane.columnIndex="7" GridPane.rowIndex="2">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_4_0" GridPane.columnIndex="7" GridPane.rowIndex="1">
+            <ImageView fx:id="Case_4_0" onMouseClicked="#selectionneCase" GridPane.columnIndex="7" GridPane.rowIndex="1">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_4_5" GridPane.columnIndex="7" GridPane.rowIndex="8">
+            <ImageView fx:id="Case_4_5" onMouseClicked="#selectionneCase" GridPane.columnIndex="7" GridPane.rowIndex="8">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_5_0" GridPane.columnIndex="8" GridPane.rowIndex="1">
+            <ImageView fx:id="Case_5_0" onMouseClicked="#selectionneCase" GridPane.columnIndex="8" GridPane.rowIndex="1">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_5_5" GridPane.columnIndex="8" GridPane.rowIndex="8">
+            <ImageView fx:id="Case_5_5" onMouseClicked="#selectionneCase" GridPane.columnIndex="8" GridPane.rowIndex="8">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_5_4" GridPane.columnIndex="8" GridPane.rowIndex="7">
+            <ImageView fx:id="Case_5_4" onMouseClicked="#selectionneCase" GridPane.columnIndex="8" GridPane.rowIndex="7">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_5_3" GridPane.columnIndex="8" GridPane.rowIndex="5">
+            <ImageView fx:id="Case_5_3" onMouseClicked="#selectionneCase" GridPane.columnIndex="8" GridPane.rowIndex="5">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_5_2" GridPane.columnIndex="8" GridPane.rowIndex="4">
+            <ImageView fx:id="Case_5_2" onMouseClicked="#selectionneCase" GridPane.columnIndex="8" GridPane.rowIndex="4">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_5_1" GridPane.columnIndex="8" GridPane.rowIndex="2">
+            <ImageView fx:id="Case_5_1" onMouseClicked="#selectionneCase" GridPane.columnIndex="8" GridPane.rowIndex="2">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_6_0" GridPane.columnIndex="10" GridPane.rowIndex="1">
+            <ImageView fx:id="Case_6_0" onMouseClicked="#selectionneCase" GridPane.columnIndex="10" GridPane.rowIndex="1">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_6_5" GridPane.columnIndex="10" GridPane.rowIndex="8">
+            <ImageView fx:id="Case_6_5" onMouseClicked="#selectionneCase" GridPane.columnIndex="10" GridPane.rowIndex="8">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_6_4" GridPane.columnIndex="10" GridPane.rowIndex="7">
+            <ImageView fx:id="Case_6_4" onMouseClicked="#selectionneCase" GridPane.columnIndex="10" GridPane.rowIndex="7">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_6_3" GridPane.columnIndex="10" GridPane.rowIndex="5">
+            <ImageView fx:id="Case_6_3" onMouseClicked="#selectionneCase" GridPane.columnIndex="10" GridPane.rowIndex="5">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_6_2" GridPane.columnIndex="10" GridPane.rowIndex="4">
+            <ImageView fx:id="Case_6_2" onMouseClicked="#selectionneCase" GridPane.columnIndex="10" GridPane.rowIndex="4">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_6_1" GridPane.columnIndex="10" GridPane.rowIndex="2">
+            <ImageView fx:id="Case_6_1" onMouseClicked="#selectionneCase" GridPane.columnIndex="10" GridPane.rowIndex="2">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_7_0" GridPane.columnIndex="11" GridPane.rowIndex="1">
+            <ImageView fx:id="Case_7_0" onMouseClicked="#selectionneCase" GridPane.columnIndex="11" GridPane.rowIndex="1">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_7_5" GridPane.columnIndex="11" GridPane.rowIndex="8">
+            <ImageView fx:id="Case_7_5" onMouseClicked="#selectionneCase" GridPane.columnIndex="11" GridPane.rowIndex="8">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_7_4" GridPane.columnIndex="11" GridPane.rowIndex="7">
+            <ImageView fx:id="Case_7_4" onMouseClicked="#selectionneCase" GridPane.columnIndex="11" GridPane.rowIndex="7">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_7_3" GridPane.columnIndex="11" GridPane.rowIndex="5">
+            <ImageView fx:id="Case_7_3" onMouseClicked="#selectionneCase" GridPane.columnIndex="11" GridPane.rowIndex="5">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_7_2" GridPane.columnIndex="11" GridPane.rowIndex="4">
+            <ImageView fx:id="Case_7_2" onMouseClicked="#selectionneCase" GridPane.columnIndex="11" GridPane.rowIndex="4">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Case_7_1" GridPane.columnIndex="11" GridPane.rowIndex="2">
+            <ImageView fx:id="Case_7_1" onMouseClicked="#selectionneCase" GridPane.columnIndex="11" GridPane.rowIndex="2">
                <image>
                   <Image url="@Images/Case_Plateau_Vide.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_7_2" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="10" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_7_2_h" fitHeight="12.0" fitWidth="91.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="10" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_1_0" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+            <ImageView fx:id="Canal_1_0_h" fitHeight="12.0" fitWidth="91.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_0" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="2">
+            <ImageView fx:id="Canal_2_0_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="2">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_2" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_6_2_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_5_2" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_5_2_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_2" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_4_2_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_3_2" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_3_2_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_2" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_2_2_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_1_2" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_1_2_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_0" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="11" GridPane.halignment="LEFT">
+            <ImageView fx:id="Canal_8_0_h" fitHeight="12.0" fitWidth="91.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="11" GridPane.halignment="LEFT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_7_0" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="10" GridPane.halignment="RIGHT">
+            <ImageView fx:id="Canal_7_0_h" fitHeight="12.0" fitWidth="91.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="10" GridPane.halignment="RIGHT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_0" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="8" GridPane.halignment="LEFT">
+            <ImageView fx:id="Canal_6_0_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="8" GridPane.halignment="LEFT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_5_0" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="7" GridPane.halignment="RIGHT">
+            <ImageView fx:id="Canal_5_0_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="7" GridPane.halignment="RIGHT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_0" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="5" GridPane.halignment="LEFT">
+            <ImageView fx:id="Canal_4_0_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="5" GridPane.halignment="LEFT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_3_0" fitHeight="12.0" fitWidth="93.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT">
+            <ImageView fx:id="Canal_3_0_h" fitHeight="12.0" fitWidth="93.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="4" GridPane.halignment="RIGHT">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_6" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_2_6_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_1_6" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_1_6_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_4" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="11" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_8_4_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="11" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_7_4" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="10" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_7_4_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="10" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_4" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_6_4_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_5_4" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_5_4_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_4" fitHeight="12.0" fitWidth="93.0" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_4_4_h" fitHeight="12.0" fitWidth="93.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_3_4" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_3_4_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_4" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_2_4_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_1_4" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+            <ImageView fx:id="Canal_1_4_h" fitHeight="12.0" fitWidth="91.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_2" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="11" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+            <ImageView fx:id="Canal_8_2_h" fitHeight="12.0" fitWidth="91.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="11" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_6" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="11" GridPane.halignment="LEFT" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_8_6_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="11" GridPane.halignment="LEFT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_7_6" fitHeight="12.0" fitWidth="91.0" GridPane.columnIndex="10" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_7_6_h" fitHeight="12.0" fitWidth="91.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="10" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_6" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_6_6_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_5_6" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_5_6_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_6" fitHeight="12.0" fitWidth="93.0" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_4_6_h" fitHeight="12.0" fitWidth="93.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_3_6" fitHeight="12.0" fitWidth="92.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+            <ImageView fx:id="Canal_3_6_h" fitHeight="12.0" fitWidth="92.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
                <image>
                   <Image url="@Images/canalHvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_1" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="9" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_6_1_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="9" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_5" fitHeight="91.0" fitWidth="12.0" GridPane.columnIndex="9" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_6_5_v" fitHeight="91.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="9" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_6" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="12" GridPane.rowIndex="8" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_8_6_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="12" GridPane.rowIndex="8" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_5" fitHeight="91.0" fitWidth="12.0" GridPane.columnIndex="12" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_8_5_v" fitHeight="91.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="12" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_4" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="3" GridPane.rowIndex="5" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_2_4_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="3" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_4" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="6" GridPane.rowIndex="5" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_4_4_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="6" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_4" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="9" GridPane.rowIndex="5" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_6_4_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="9" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_4" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="12" GridPane.rowIndex="5" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_8_4_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="12" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_3" fitHeight="91.0" fitWidth="12.0" GridPane.columnIndex="3" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_2_3_v" fitHeight="91.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="3" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_3" fitHeight="91.0" fitWidth="12.0" GridPane.columnIndex="6" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_4_3_v" fitHeight="91.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="6" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_3" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="9" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_6_3_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="9" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_3" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="12" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_8_3_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="12" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_2" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="12" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_8_2_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="12" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_8_1" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="12" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_8_1_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="12" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_2" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_2_2_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_2" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="6" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_4_2_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="6" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_2" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="9" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_6_2_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="9" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_1" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="6" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_4_1_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="6" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_1" fitHeight="93.0" fitWidth="12.0" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_2_1_v" fitHeight="93.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_0_1" fitHeight="92.0" fitWidth="12.0" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_0_1_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_0_2" fitHeight="92.0" fitWidth="12.0" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_0_2_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_0_3" fitHeight="91.0" fitWidth="12.0" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_0_3_v" fitHeight="91.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_0_4" fitHeight="92.0" fitWidth="12.0" GridPane.rowIndex="5" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_0_4_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_0_5" fitHeight="91.0" fitWidth="12.0" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_0_5_v" fitHeight="91.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_0_6" fitHeight="92.0" fitWidth="12.0" GridPane.rowIndex="8" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_0_6_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.rowIndex="8" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_6" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="3" GridPane.rowIndex="8" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_2_6_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="3" GridPane.rowIndex="8" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_2_5" fitHeight="91.0" fitWidth="12.0" GridPane.columnIndex="3" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_2_5_v" fitHeight="91.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="3" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_6" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="6" GridPane.rowIndex="8" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_4_6_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="6" GridPane.rowIndex="8" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_4_5" fitHeight="91.0" fitWidth="12.0" GridPane.columnIndex="6" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="Canal_4_5_v" fitHeight="91.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="6" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Canal_6_6" fitHeight="92.0" fitWidth="12.0" GridPane.columnIndex="9" GridPane.rowIndex="8" GridPane.valignment="TOP">
+            <ImageView fx:id="Canal_6_6_v" fitHeight="92.0" fitWidth="12.0" onMouseClicked="#selectionneCanal" GridPane.columnIndex="9" GridPane.rowIndex="8" GridPane.valignment="TOP">
                <image>
                   <Image url="@Images/canalVvide.png" />
                </image>
@@ -1194,7 +1205,7 @@
       </GridPane>
    </left>
    <bottom>
-      <GridPane prefHeight="170.0" prefWidth="1300.0" BorderPane.alignment="CENTER">
+      <GridPane prefHeight="94.0" prefWidth="1296.0" BorderPane.alignment="CENTER">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="460.0" minWidth="10.0" prefWidth="460.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />

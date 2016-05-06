@@ -13,7 +13,8 @@ public abstract class MarqueurRendement implements Serializable{
 	 * ATTENTION devra être remplacé par le lien de l'image du marqueur
 	 */
 	private String couleur;
-
+	
+	public MarqueurRendement(){}
 	
 	public MarqueurRendement(String c, String p){
 		
