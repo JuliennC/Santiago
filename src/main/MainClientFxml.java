@@ -385,14 +385,15 @@ System.out.println("non term : "+partiesNonTerminees);
 
 									System.out.println("Nouveau joueur ");
 
-								
+									
 							        MainClientFxml.controller.changeText(partie);
+							        MainClientFxml.controller.afficherJoueurEnCours(partie);
 							  		modifs.remove(0);
 
 							
 								} else if(modif.equals(Static.modificationPartieCommence)){
 									MainClientFxml.controller.lancementPlateau(partie);
-
+									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 
 							
@@ -407,11 +408,13 @@ System.out.println("non term : "+partiesNonTerminees);
 
 									System.out.println("Modification des tuiles");
 									MainClientFxml.controller.metAJourAffichageTuiles();
+									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 									
 								}else if(modif.equals(Static.modificationConstructeurDeCanal)){
 
 									MainClientFxml.controller.modifierConstructeur(partie);
+									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 
 								} else if(modif.equals(Static.modificationJoueurEnCours)){
@@ -421,23 +424,27 @@ System.out.println("non term : "+partiesNonTerminees);
 								} else if(modif.equals(Static.modificationRetourneTuile)){
 									
 									MainClientFxml.controller.afficheTuilesRetournees(partie);
+									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 								
 								} else if(modif.equals(Static.modificationConstructeurDeCanal)){
 									
 									MainClientFxml.controller.modifierConstructeur(partie);
+									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 									
 								} else if(modif.equals(Static.modificationCannaux)){
 
 									System.out.println("Modification des canaux");
 									MainClientFxml.controller.metAJourAffichageCanaux();
+									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 																		
 								} else if(modif.equals(Static.modificationSoldes)){
 
 									System.out.println("Modification des soldes");
 									MainClientFxml.controller.afficheJoueur(partie);
+									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 
 				
@@ -445,6 +452,7 @@ System.out.println("non term : "+partiesNonTerminees);
 									
 									System.out.println("Modification des tuiles retournées");
 									MainClientFxml.controller.afficheTuilesRetournees(partie);
+									MainClientFxml.controller.afficherJoueurEnCours(partie);
 									modifs.remove(0);
 									
 								} else {
@@ -486,6 +494,7 @@ System.out.println("non term : "+partiesNonTerminees);
 						Partie partie = serveur.getPartieByName(p.getNomPartie());
 						while(true){
 							MainClientFxml.controller.afficherTexte(partie);
+							MainClientFxml.controller.afficherJoueurEnCours(partie);
 							Thread.sleep(500);
 						}
 

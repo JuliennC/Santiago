@@ -265,7 +265,6 @@ public class Partie implements Serializable{
 			System.out.println("Les enchères sont terminées");
 			
 			//Le joueur en cours est à null (La flèche disparait de l'interface)
-			joueurEnCours = null;
 			addModification(Static.modificationJoueurEnCours);
 			return listeOffres;
 		}
@@ -423,8 +422,6 @@ public class Partie implements Serializable{
 				//On change de joueur
 				client = getClientAGauche(client);
 			}
-			
-			joueurEnCours = null; 
 			
 			addModification(Static.modificationJoueurEnCours);
 			
@@ -647,7 +644,6 @@ public class Partie implements Serializable{
 			tuile.setMarqueursActuels(listeMarqueurs);
 			setPositionTuile(client,tuile);
 		}
-		joueurEnCours = null; addModification(Static.modificationJoueurEnCours);
 		
 		if(this.nombreDeJoueurs == 3){
 			setPositionTuile(listeClients.get(0),this.plateau.getListeTuilesRetournees().get(0));
